@@ -15,7 +15,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: tpc_backend
-    restart: unless-stopped
+    restart: always
     ports:
       - "5000:5000"
     environment:
