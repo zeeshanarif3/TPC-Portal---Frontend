@@ -3,6 +3,8 @@ const Contract = require('../models/Contract');
 const Schedule = require('../models/Schedule');
 const Course = require('../models/Course');
 const Session = require('../models/Session');
+const College = require('../models/College');
+const User = require('../models/User');
 
 // Get upcoming classes for a trainer (based on active contracts)
 exports.getUpcomingClasses = async (req, res) => {
@@ -48,8 +50,8 @@ exports.getUpcomingClasses = async (req, res) => {
   }
 };
 
-// Mark attendance for a session on a date
-exports.markAttendance = async (req, res) => {
+// Create attendance record (if not exists)
+exports.createAttendance = async (req, res) => {
   try {
     const { courseId, sessionId, date, startTime, endTime, presentStudents } = req.body;
 
@@ -66,26 +68,21 @@ exports.markAttendance = async (req, res) => {
     }
 
     // Check if attendance already exists for this course, session, and date
-    let attendance = await Attendance.findOne({ courseId, sessionId, date });
-
-    if (attendance) {
-      // Update existing attendance
-      attendance.startTime = startTime;
-      attendance.endTime = endTime;
-      attendance.presentStudents = presentStudents;
-      attendance.headCount = presentStudents.length;
-    } else {
-      // Create new attendance
-      attendance = new Attendance({
-        courseId,
-        sessionId,
-        date,
-        startTime,
-        endTime,
-        presentStudents,
-        headCount: presentStudents.length
-      });
+    const existingAttendance = await Attendance.findOne({ courseId, sessionId, date });
+    if (existingAttendance) {
+      return res.status(400).json({ message: 'Attendance record already exists for this course, session, and date' });
     }
+
+    // Create new attendance
+    const attendance = new Attendance({
+      courseId,
+      sessionId,
+      date,
+      startTime,
+      endTime,
+      presentStudents,
+      headCount: presentStudents.length
+    });
 
     await attendance.save();
     res.status(201).json(attendance);
@@ -94,32 +91,43 @@ exports.markAttendance = async (req, res) => {
   }
 };
 
-// Update attendance by ID
+// Update attendance record (must exist)
 exports.updateAttendance = async (req, res) => {
   try {
-    const { startTime, endTime, presentStudents } = req.body;
+    const { courseId, sessionId, date, startTime, endTime, presentStudents } = req.body;
 
-    const attendance = await Attendance.findByIdAndUpdate(
-      req.params.id,
-      { 
-        startTime, 
-        endTime, 
-        presentStudents,
-        headCount: presentStudents.length
-      },
-      { new: true, runValidators: true }
-    );
-
-    if (!attendance) {
-      return res.status(404).json({ message: 'Attendance record not found' });
+    // Verify that the course exists
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(400).json({ message: 'Course not found' });
     }
+
+    // Verify that the session exists
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(400).json({ message: 'Session not found' });
+    }
+
+    // Find the attendance record for this course, session, and date
+    const attendance = await Attendance.findOne({ courseId, sessionId, date });
+    if (!attendance) {
+      return res.status(404).json({ message: 'Attendance record not found for the given course, session, and date' });
+    }
+
+    // Update the attendance record
+    attendance.startTime = startTime;
+    attendance.endTime = endTime;
+    attendance.presentStudents = presentStudents;
+    attendance.headCount = presentStudents.length;
+
+    await attendance.save();
     res.status(200).json(attendance);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get attendance by ID
+// Get attendance by ID (for admin/moderator if needed)
 exports.getAttendanceById = async (req, res) => {
   try {
     const attendance = await Attendance.findById(req.params.id)
@@ -151,6 +159,68 @@ exports.getAttendanceBySessionAndDate = async (req, res) => {
       return res.status(404).json({ message: 'Attendance record not found for the given session and date' });
     }
     res.status(200).json(attendance);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get analytics/overview for a moderator's college
+exports.getAnalytics = async (req, res) => {
+  try {
+    const moderatorId = req.user.id; // The logged-in moderator's user ID
+
+    // Find the college where this user is the moderator
+    const college = await College.findOne({ moderatorId });
+    if (!college) {
+      return res.status(404).json({ message: 'College not found for this moderator' });
+    }
+
+    // Get all sessions for this college
+    const sessions = await Session.find({ collegeId: college._id });
+
+    // Get all courses for this college (via sessions or directly? We can get courses via collegeId in Course model)
+    const courses = await Course.find({ collegeId: college._id });
+
+    // Get all trainers for this college? Not directly linked, but we can get trainers who have contracts in sessions of this college.
+    // For simplicity, we'll get:
+    // - Total sessions
+    // - Total courses
+    // - Total students (via courses)
+    // - Total attendance records (for sessions in this college)
+
+    // Total students: sum of students in each course of this college
+    let totalStudents = 0;
+    for (const course of courses) {
+      const studentCount = await Student.countDocuments({ courseId: course._id });
+      totalStudents += studentCount;
+    }
+
+    // Total attendance records for sessions in this college
+    const sessionIds = sessions.map(s => s._id);
+    const totalAttendanceRecords = await Attendance.countDocuments({ sessionId: { $in: sessionIds } });
+
+    // We can also get:
+    // - Number of active contracts in this college's sessions
+    const activeContracts = await Contract.countDocuments({
+      sessionId: { $in: sessionIds },
+      status: 'active'
+    });
+
+    res.status(200).json({
+      college: {
+        _id: college._id,
+        name: college.name,
+        pointOfContact: college.pointOfContact,
+        location: college.location
+      },
+      statistics: {
+        totalSessions: sessions.length,
+        totalCourses: courses.length,
+        totalStudents,
+        totalAttendanceRecords,
+        totalActiveContracts: activeContracts
+      }
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

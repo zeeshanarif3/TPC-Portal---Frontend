@@ -21,9 +21,25 @@ mongoose.connect(process.env.MONGO_URI)
 // Routes
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
+const collegeRoutes = require('./routes/colleges');
+const trainerRoutes = require('./routes/trainers');
+const courseRoutes = require('./routes/courses');
+const studentRoutes = require('./routes/students');
+const sessionRoutes = require('./routes/sessions');
+const contractRoutes = require('./routes/contracts');
+const scheduleRoutes = require('./routes/schedules');
+const attendanceRoutes = require('./routes/attendance');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/colleges', collegeRoutes);
+app.use('/api/trainers', trainerRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/api/sessions', sessionRoutes);
+app.use('/api/contracts', contractRoutes);
+app.use('/api/schedules', scheduleRoutes);
+app.use('/api/attendance', attendanceRoutes);
 
 // Test route
 app.get('/', (req, res) => {
