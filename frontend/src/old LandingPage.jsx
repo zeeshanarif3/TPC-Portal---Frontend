@@ -101,85 +101,87 @@ function LandingPage() {
   };
 
   return (
-    <>
-      <div className="lp-root">
-        <div className="lp-logo">
-          <span className="lp-logo-icon">⬛</span>
-          <span className="lp-logo-text">LOGO , company</span>
-        </div>
-        {/* Top-left logo */}
+    <div className="landing-page" onClick={handleOutsideClick}>
+      <div className="landing-page-content">
+        {/* Show user info if logged in */}
+        {user && token ? (
+          <div className="user-info-bar">
+            <span>Welcome, {user.name}! Role: {user.role}</span>
+            <button className="logout-button" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        ) : null}
 
-        {/* Centered card */}
-        <div className="lp-card">
-          {user && token ? (
-            <div className="lp-logged-in">
-              <p className="lp-welcome-back">Welcome Back!</p>
-              <p className="lp-sub">You are signed in as <strong>{user.name}</strong> ({user.role})</p>
-              <button className="lp-btn-primary" onClick={handleLogout}>Log out</button>
+        {isLoginOpen ? (
+          <div className="login-modal-backdrop" onClick={e => e.stopPropagation()}>
+            <div className="login-card" onClick={e => e.stopPropagation()}>
+              <div className="login-header">
+                <h2>TPC Global Login</h2>
+                <button className="close-button" onClick={handleCloseLogin}>
+                  ×
+                </button>
+              </div>
+              <form onSubmit={handleSubmit} className="login-form">
+                <div className="form-group">
+                  <label htmlFor="username">Username (Email)</label>
+                  <input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+                <button type="submit" className="login-button">
+                  Login
+                </button>
+                <p className="login-note">
+                  Logging in to the backend API...
+                </p>
+              </form>
             </div>
-          ) : (
-            <>
-              <div className="lp-title" >
-                <h1>Welcome Back !</h1>
-                <p className="lp-subtitle">Please enter your details</p>
+          </div>
+        ) : (
+          <div className="two-columns">
+            <div className="left-column">
+              {/* Logo Placeholder */}
+              <div className="logo-placeholder">
+                <div className="logo-box">
+                  <div className="logo-text">TPC Global Logo</div>
+                </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="lp-form">
-                <div className="lp-field">
-                  <label className="lp-label" htmlFor="email">Email</label>
-                  <input
-                    className="lp-input"
-                    id="email"
-                    type="text"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                    placeholder=""
-                    required
-                  />
-                </div>
+              {/* Title */}
+              <h1 className="hero-title">TPC Global Session Manager</h1>
+            </div>
 
-                <div className="lp-field">
-                  <label className="lp-label" htmlFor="password">Password</label>
-                  <input
-                    className="lp-input"
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    placeholder=""
-                    required
-                  />
-                </div>
-
-                <button type="submit" className="lp-btn-primary">Sign up</button>
-              </form>
-              {/* <div className="lowerpart">
-
-
-
-                <div className="lp-divider">
-                  <span className="lp-divider-line"></span>
-                  <span className="lp-divider-label">Access Quickly</span>
-                  <span className="lp-divider-line"></span>
-                </div>
-
-                <div className="lp-social">
-                  <button className="lp-social-btn">Google</button>
-                  <button className="lp-social-btn">LinkedIn</button>
-                  <button className="lp-social-btn">Other</button>
-                </div>
-              </div> */}
-            </>
-          )}
-        </div>
-
-        {/* Bottom footer */}
-        {/* <div className="lp-footer">
-          <span>Didn't have an account ?</span>
-          <button className="lp-link-btn">Sign up</button>
-        </div> */}
+            <div className="right-column">
+              {/* Description */}
+              <p className="hero-description">
+                Streamline your enterprise workflows. Monitor, secure, and manage active global sessions from a single unified workspace.
+              </p>
+              {/* CTA Button */}
+              <button className="cta-button" onClick={handleLoginClick}>
+                Head to Login
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
