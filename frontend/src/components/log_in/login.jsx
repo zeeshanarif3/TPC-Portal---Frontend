@@ -1,7 +1,7 @@
-import './LandingPage.css';
+import './login.css';
 import { useState, useEffect } from 'react';
 
-function LandingPage() {
+function Login() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -183,4 +183,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default Login;
