@@ -51,7 +51,7 @@ function LandingPage() {
         });
         // optionally store in localStorage
         localStorage.setItem('tpctoken', data.token);
-        localStorage.setItem('tpcuser', JSON.stringify(data.user));
+        localStorage.set_tpcuser, JSON.stringify(data.user);
         handleCloseLogin();
         alert('Login successful!');
       } else {
