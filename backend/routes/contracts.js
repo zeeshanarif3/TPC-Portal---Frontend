@@ -7,7 +7,8 @@ const {
   getAllContracts,
   getContractById,
   updateContract,
-  deleteContract
+  deleteContract,
+  getContractExpiryByCollege
 } = require('../controllers/contractController');
 
 // Admin middleware
@@ -19,5 +20,7 @@ router.get('/', verifyToken, adminMiddleware, getAllContracts);
 router.get('/:id', verifyToken, adminMiddleware, getContractById);
 router.put('/:id', verifyToken, adminMiddleware, updateContract);
 router.delete('/:id', verifyToken, adminMiddleware, deleteContract);
+// New route for contract expiry by college
+router.get('/expiry', verifyToken, adminMiddleware, getContractExpiryByCollege);
 
 module.exports = router;

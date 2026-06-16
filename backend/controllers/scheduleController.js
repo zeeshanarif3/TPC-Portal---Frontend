@@ -104,3 +104,55 @@ exports.deleteSchedule = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// Get upcoming schedule for a college (sessions that are not ended)
+exports.getUpcomingScheduleByCollege = async (req, res) => {
+  try {
+    const { collegeId } = req.query;
+    if (!collegeId) {
+      return res.status(400).json({ message: 'College ID is required' });
+    }
+
+    // Verify college exists
+    const college = await College.findById(collegeId);
+    if (!college) {
+      return res.status(404).json({ message: 'College not found' });
+    }
+
+    // Get sessions that are not ended (endDate >= today) or ongoing/upcoming
+    const today = new Date();
+    const sessions = await Session.find({ 
+      collegeId,
+      endDate: { $gte: today } // sessions that have not ended yet
+    });
+
+    // Get schedules for these sessions
+    const schedules = await Schedule.find({ 
+      sessionId: { $in: sessions.map(s => s._id) }
+    }).populate({
+      path: 'courseId',
+      select: 'courseCode'
+    }).populate({
+      path: 'sessionId',
+      select: 'startDate endDate'
+    });
+
+    // Format the response
+    const upcomingSchedule = schedules.map(schedule => ({
+      _id: schedule._id,
+      course: {
+        _id: schedule.courseId._id,
+        courseCode: schedule.courseId.courseCode
+      },
+      session: {
+        _id: schedule.sessionId._id,
+        startDate: schedule.sessionId.startDate,
+        endDate: schedule.sessionId.endDate
+      },
+      slots: schedule.slots
+    }));
+
+    res.status(200).json(upcomingSchedule);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

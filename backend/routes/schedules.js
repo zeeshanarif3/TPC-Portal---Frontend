@@ -7,7 +7,8 @@ const {
   getAllSchedules,
   getScheduleById,
   updateSchedule,
-  deleteSchedule
+  deleteSchedule,
+  getUpcomingScheduleByCollege
 } = require('../controllers/scheduleController');
 
 // Admin middleware
@@ -19,5 +20,7 @@ router.get('/', verifyToken, adminMiddleware, getAllSchedules);
 router.get('/:id', verifyToken, adminMiddleware, getScheduleById);
 router.put('/:id', verifyToken, adminMiddleware, updateSchedule);
 router.delete('/:id', verifyToken, adminMiddleware, deleteSchedule);
+// New route for upcoming schedule by college
+router.get('/upcoming', verifyToken, adminMiddleware, getUpcomingScheduleByCollege);
 
 module.exports = router;

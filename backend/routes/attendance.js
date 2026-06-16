@@ -6,7 +6,9 @@ const {
   createAttendance,
   updateAttendance,
   getAnalytics,
-  getUpcomingClasses
+  getUpcomingClasses,
+  getAttendanceChartByCollege,
+  getSubjectDistributionByCollege
 } = require('../controllers/attendanceController');
 
 // Trainer middleware
@@ -21,5 +23,10 @@ router.get('/upcoming-classes', verifyToken, trainerMiddleware, getUpcomingClass
 
 // Moderator Route for Analytics
 router.get('/analytics', verifyToken, moderatorMiddleware, getAnalytics);
+
+// New routes for college-specific data (accessible by admin and moderator)
+const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
+router.get('/attendance/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
+router.get('/subjects/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
 
 module.exports = router;

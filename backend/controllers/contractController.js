@@ -129,3 +129,71 @@ exports.deleteContract = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// Get contract expiry information for a college
+exports.getContractExpiryByCollege = async (req, res) => {
+  try {
+    const { collegeId } = req.query;
+    if (!collegeId) {
+      return res.status(400).json({ message: 'College ID is required' });
+    }
+
+    // Verify college exists
+    const college = await College.findById(collegeId);
+    if (!college) {
+      return res.status(404).json({ message: 'College not found' });
+    }
+
+    // Get sessions for this college
+    const sessions = await Session.find({ collegeId });
+    const sessionIds = sessions.map(s => s._id);
+
+    // Get active contracts for these sessions
+    const contracts = await Contract.find({ 
+      sessionId: { $in: sessionIds },
+      status: 'active'
+    }).populate({
+      path: 'trainerId',
+      populate: { path: 'userId', select: 'name email' }
+    }).populate({
+      path: 'sessionId',
+      select: 'startDate endDate'
+    });
+
+    // Format the response with expiry info
+    const today = new Date();
+    const contractExpiry = contracts.map(contract => {
+      const endDate = contract.sessionId.endDate || contract.endDate;
+      const daysUntilExpiry = endDate ? Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)) : null;
+
+      return {
+        _id: contract._id,
+        trainer: {
+          _id: contract.trainerId._id,
+          name: contract.trainerId.name,
+          speciality: contract.trainerId.speciality,
+          user: {
+            _id: contract.trainerId.userId._id,
+            name: contract.trainerId.userId.name,
+            email: contract.trainerId.userId.email
+          }
+        },
+        session: {
+          _id: contract.sessionId._id,
+          startDate: contract.sessionId.startDate,
+          endDate: contract.sessionId.endDate
+        },
+        contractDates: {
+          startDate: contract.startDate,
+          endDate: contract.endDate
+        },
+        status: contract.status,
+        daysUntilExpiry: daysUntilExpiry,
+        isExpired: daysUntilExpiry !== null && daysUntilExpiry < 0
+      };
+    });
+
+    res.status(200).json(contractExpiry);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

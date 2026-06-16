@@ -225,3 +225,93 @@ exports.getAnalytics = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// Get attendance chart data (attendance over time) for a college
+exports.getAttendanceChartByCollege = async (req, res) => {
+  try {
+    const { collegeId } = req.query;
+    if (!collegeId) {
+      return res.status(400).json({ message: 'College ID is required' });
+    }
+
+    // Verify college exists
+    const college = await College.findById(collegeId);
+    if (!college) {
+      return res.status(404).json({ message: 'College not found' });
+    }
+
+    // Get sessions for this college
+    const sessions = await Session.find({ collegeId });
+    const sessionIds = sessions.map(s => s._id);
+
+    // Get attendance records for these sessions, grouped by date
+    // We'll aggregate by date and sum the headCount
+    const attendanceData = await Attendance.aggregate([
+      { $match: { sessionId: { $in: sessionIds } } },
+      { 
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
+          totalHeadCount: { $sum: '$headCount' },
+          recordCount: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Format for chart: array of { date, count } where count is totalHeadCount
+    const chartData = attendanceData.map(item => ({
+      date: item._id,
+      count: item.totalHeadCount
+    }));
+
+    res.status(200).json(chartData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get distribution of trainer specialities for a college
+exports.getSubjectDistributionByCollege = async (req, res) => {
+  try {
+    const { collegeId } = req.query;
+    if (!collegeId) {
+      return res.status(400).json({ message: 'College ID is required' });
+    }
+
+    // Verify college exists
+    const college = await College.findById(collegeId);
+    if (!college) {
+      return res.status(404).json({ message: 'College not found' });
+    }
+
+    // Get sessions for this college
+    const sessions = await Session.find({ collegeId });
+    const sessionIds = sessions.map(s => s._id);
+
+    // Get active contracts for these sessions
+    const contracts = await Contract.find({ 
+      sessionId: { $in: sessionIds },
+      status: 'active'
+    }).populate({
+      path: 'trainerId',
+      select: 'speciality'
+    });
+
+    // Group by speciality
+    const distributionMap = new Map();
+    contracts.forEach(contract => {
+      const speciality = contract.trainerId.speciality || 'Unspecified';
+      const count = distributionMap.get(speciality) || 0;
+      distributionMap.set(speciality, count + 1);
+    });
+
+    // Convert to array of objects
+    const distribution = Array.from(distributionMap.entries()).map(([speciality, count]) => ({
+      subject: speciality,
+      count
+    }));
+
+    res.status(200).json(distribution);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

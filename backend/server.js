@@ -29,6 +29,7 @@ const sessionRoutes = require('./routes/sessions');
 const contractRoutes = require('./routes/contracts');
 const scheduleRoutes = require('./routes/schedules');
 const attendanceRoutes = require('./routes/attendance');
+const dashboardRoutes = require('./routes/dashboard');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
@@ -40,6 +41,7 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/contracts', contractRoutes);
 app.use('/api/schedules', scheduleRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Test route
 app.get('/', (req, res) => {
