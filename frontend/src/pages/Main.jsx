@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import Sidebar from "./sidebar/sidebar";
 
 import './Main.css'
+import useLenis from "../hooks/useLenis";
 
 function Main() {
+    // useLenis()
 
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null); // {name, email, role}
@@ -49,13 +51,8 @@ function Main() {
                         handleLogout={handleLogout}
                     />
                     <main className="app-content">
-                        <Dashboard token={token} page={page} />
-                        <button
-                            className="lp-btn-primary"
-                            onClick={handleLogout}
-                        >
-                            Log out
-                        </button>
+                        {page === "dashboard" && <Dashboard token={token} />}
+
                     </main>
                 </div>
             ) : (

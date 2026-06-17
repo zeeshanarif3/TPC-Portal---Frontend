@@ -1,96 +1,177 @@
-.schedule-card {
-
-
-    min-height:350px;
-
-
+* {
+    box-sizing: border-box;
 }
 
+/* ==========================================
+                CARD
+========================================== */
 
+.schedule-card {
+    height: 420px;
 
+    display: flex;
+    flex-direction: column;
+
+    background: #fff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+
+    overflow: hidden;
+}
+
+/* ==========================================
+            SCROLL AREA
+========================================== */
+
+.upcoming-schedule {
+    flex: 1;
+
+    overflow-y: auto;
+    overflow-x: auto;
+
+    /* min-height: 0; */
+}
+
+/* ==========================================
+                TABLE
+========================================== */
 
 .upcoming-schedule table {
-
-
-    width:100%;
-
-
-    border-collapse:collapse;
-
-
+    width: 100%;
+    border-collapse: collapse;
 }
 
+/* ==========================================
+                HEADER
+========================================== */
 
+.upcoming-schedule thead {
+    position: sticky;
+    top: 0;
 
-.upcoming-schedule td,
+    z-index: 10;
+
+    background: #ffffff;
+}
+
 .upcoming-schedule th {
+    padding: 1rem 1.25rem;
 
+    text-align: left;
 
-    padding:12px 0;
+    font-size: 0.75rem;
+    font-weight: 700;
 
-    border-bottom:1px solid #f0f1f3;
+    text-transform: uppercase;
+    letter-spacing: .06em;
 
+    color: #6b7280;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
 }
 
+/* ==========================================
+                ROWS
+========================================== */
 
+.upcoming-schedule tbody tr {
+    transition:
+        background-color .2s ease,
+        transform .2s ease;
+}
 
+.upcoming-schedule tbody tr:hover {
+    background: #f8fafc;
+}
 
+/* ==========================================
+                CELLS
+========================================== */
 
+.upcoming-schedule td {
+    padding: 1rem 1.25rem;
 
+    font-size: 0.9rem;
+    color: #111827;
 
+    border-bottom: 1px solid #f1f5f9;
+}
 
+.upcoming-schedule td:first-child {
+    font-weight: 600;
+}
 
-
-/* Status */
-
+/* ==========================================
+                STATUS
+========================================== */
 
 .status-badge {
+    display: inline-flex;
 
+    align-items: center;
+    justify-content: center;
 
-    padding:5px 10px;
+    padding: 0.45rem 0.85rem;
 
+    border-radius: 999px;
 
-    border-radius:8px;
-
-
-    font-size:11px;
-
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 
-
-
-
+/* Confirmed */
 
 .status-badge--confirmed {
-
-    background:#dcfce7;
-
-    color:#15803d;
-
+    background: #dcfce7;
+    color: #166534;
 }
 
-
+/* Pending */
 
 .status-badge--pending {
-
-
-    background:#fef3c7;
-
-    color:#b45309;
-
-
+    background: #fef3c7;
+    color: #92400e;
 }
 
-
+/* Cancelled */
 
 .status-badge--cancelled {
-
-
-    background:#fee2e2;
-
-    color:#b91c1c;
-
-
+    background: #fee2e2;
+    color: #991b1b;
 }
 
+/* ==========================================
+                SCROLLBAR
+========================================== */
 
+.upcoming-schedule::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.upcoming-schedule::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .15);
+    border-radius: 999px;
+}
+
+.upcoming-schedule::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ==========================================
+                MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+    .schedule-card {
+        height: 360px;
+    }
+
+    .upcoming-schedule th,
+    .upcoming-schedule td {
+        padding: 0.85rem;
+    }
+}

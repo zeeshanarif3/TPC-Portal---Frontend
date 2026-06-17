@@ -87,9 +87,13 @@ export default function AttendanceChart({ data }) {
       </div>
 
       <div className="attendance-chart__bars">
+        
         {data.map((d) => (
           <div key={d.day} className="attendance-chart__bar-group">
             <div className="attendance-chart__bar-wrap">
+                <span className="attendance-chart__value">
+                  {d.value}
+                </span>
               <div
                 className="attendance-chart__bar"
                 style={{ height: `${(d.value / max) * 100}%` }}

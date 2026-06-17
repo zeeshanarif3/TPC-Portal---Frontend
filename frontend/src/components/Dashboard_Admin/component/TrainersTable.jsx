@@ -1,11 +1,13 @@
 import './TrainersTable.css';
 
-
-// TrainersTable.jsx
 export default function TrainersTable({ trainers }) {
   return (
     <div className="trainers-table">
-      <h3 className="trainers-table__title">Trainers</h3>
+      <div className="trainers-table__header">
+        <h3 className="trainers-table__title">Trainers</h3>
+
+        
+      </div>
 
       <table className="trainers-table__table">
         <thead>
@@ -17,15 +19,27 @@ export default function TrainersTable({ trainers }) {
             <th>Status</th>
           </tr>
         </thead>
+
         <tbody>
           {trainers.map((t) => (
             <tr key={t.id}>
-              <td>{t.name}</td>
+              <td className="trainer-name">{t.name}</td>
+
               <td>{t.subject}</td>
+
               <td>{t.contract}</td>
-              <td>{t.sessions}</td>
+
               <td>
-                <span className={`status-badge status-badge--${t.status.toLowerCase()}`}>
+                <span className="session-pill">
+                  {t.sessions}
+                </span>
+              </td>
+
+              <td>
+                <span
+                  className={`status-badge status-badge--${t.status.toLowerCase()}`}
+                >
+                  <span className="status-dot" />
                   {t.status}
                 </span>
               </td>

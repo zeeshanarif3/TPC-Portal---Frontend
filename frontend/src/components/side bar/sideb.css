@@ -14,7 +14,7 @@
 
   --sb-accent: #c89b6d;
 
-
+  position: sticky;
   display: flex;
   flex-direction: column;
   width: 10%;

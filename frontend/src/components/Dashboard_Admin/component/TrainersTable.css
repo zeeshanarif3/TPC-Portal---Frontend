@@ -1,59 +1,321 @@
+* {
+    box-sizing: border-box;
+}
 
-
-/* Trainers */
-
+/* ==========================================
+                TRAINERS CARD
+========================================== */
 
 .trainers-card {
+    position: relative;
 
+    min-height: 380px;
 
-    min-height:380px;
+    display: flex;
+    flex-direction: column;
 
-
+    overflow: scroll;
 }
 
-
+/* ==========================================
+                TABLE WRAPPER
+========================================== */
 
 .trainers-table {
+    width: 100%;
+    overflow-x: scroll;
 
-
-    width:100%;
-
+    margin-top: 0.5rem;
 }
 
-
+/* ==========================================
+                TABLE
+========================================== */
 
 .trainers-table table {
+    width: 95%;
 
-
-    width:100%;
-
-    border-collapse:collapse;
-
+    border-collapse: separate;
+    border-spacing: 0 8px;
 }
 
+/* ==========================================
+                HEADER
+========================================== */
 
+.trainers-table thead {
+    position: sticky;
+    top: 0;
+
+    background: white;
+
+    z-index: 2;
+}
 
 .trainers-table th {
+    text-align: left;
 
+    padding: 0.75rem 1rem;
 
-    text-align:left;
+    font-size: 0.75rem;
+    font-weight: 700;
 
-    color:#6b7280;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 
-    font-size:13px;
-
+    color: #6b7280;
 }
 
+/* ==========================================
+                ROWS
+========================================== */
 
+.trainers-table tbody tr {
+    background: white;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-radius .25s ease;
+
+    animation: trainerRowEnter .5s ease;
+}
+
+.trainers-table tbody tr:hover {
+    transform: translateX(6px);
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.05);
+}
+
+/* ==========================================
+                CELLS
+========================================== */
 
 .trainers-table td {
+    padding: 1rem;
 
+    font-size: 0.88rem;
 
-    padding:12px 0;
-
-    border-top:1px solid #f0f1f3;
-
-    font-size:13px;
-
+    border-top: 1px solid #f0f1f3;
+    border-bottom: 1px solid #f0f1f3;
 }
 
+/* rounded row effect */
+
+.trainers-table td:first-child {
+    border-left: 1px solid #f0f1f3;
+
+    border-radius: 12px 0 0 12px;
+}
+
+.trainers-table td:last-child {
+    border-right: 1px solid #f0f1f3;
+
+    border-radius: 0 12px 12px 0;
+}
+
+/* ==========================================
+                FIRST COLUMN
+========================================== */
+
+.trainers-table td:first-child {
+    font-weight: 600;
+}
+
+/* ==========================================
+                SCROLLBAR
+========================================== */
+
+.trainers-table::-webkit-scrollbar {
+    height: 8px;
+}
+
+.trainers-table::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.trainers-table::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.15);
+    border-radius: 999px;
+}
+
+.trainers-table::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.25);
+}
+
+/* ==========================================
+                ENTRANCE
+========================================== */
+
+@keyframes trainerRowEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .trainers-table th,
+    .trainers-table td {
+        padding: 0.8rem;
+    }
+
+    .trainers-table td {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+
+
+/* ==========================================
+                HEADER
+========================================== */
+
+.trainers-table__header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 1.25rem;
+}
+
+.trainers-table__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.trainers-table__count {
+    padding: 0.45rem 0.8rem;
+
+    border-radius: 999px;
+
+    border: 1px solid #e5e7eb;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ==========================================
+                NAME
+========================================== */
+
+.trainer-name {
+    font-weight: 600;
+}
+
+/* ==========================================
+                SESSION PILL
+========================================== */
+
+.session-pill {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 40px;
+
+    padding: 0.35rem 0.7rem;
+
+    border-radius: 999px;
+
+    border: 1px solid #e5e7eb;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ==========================================
+                STATUS
+========================================== */
+
+.status-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    padding: 0.45rem 0.8rem;
+
+    border-radius: 999px;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    border: 1px solid #e5e7eb;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.status-badge:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 14px rgba(0,0,0,.05);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+}
+
+/* ==========================================
+                ACTIVE
+========================================== */
+
+.status-badge--active {
+    background: #111827;
+    color: white;
+
+    border-color: #111827;
+}
+
+.status-badge--active .status-dot {
+    background: white;
+}
+
+/* ==========================================
+                INACTIVE
+========================================== */
+
+.status-badge--inactive {
+    background: white;
+    color: #111827;
+}
+
+.status-badge--inactive .status-dot {
+    background: #111827;
+}
+
+/* ==========================================
+                PENDING
+========================================== */
+
+.status-badge--pending {
+    background: #f9fafb;
+}
+
+.status-badge--pending .status-dot {
+    background: #111827;
+}

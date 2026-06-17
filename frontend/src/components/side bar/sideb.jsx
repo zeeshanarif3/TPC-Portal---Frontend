@@ -156,6 +156,7 @@ export default function Sideb({
                 onLogout={() => {
                     handleLogout();
                 }}
+                collapsed={collapsed}
                 />
             ):(null)};
 

@@ -9,7 +9,7 @@ function getInitials(name) {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-export default function UserInfo({ user, role, onLogout }) {
+export default function UserInfo({ user, role, onLogout, collapsed }) {
     const [open, setOpen] = useState(false);
     const [coords, setCoords] = useState({ top: 0, left: 0 });
     const triggerRef = useRef();
@@ -20,22 +20,22 @@ export default function UserInfo({ user, role, onLogout }) {
     // button regardless of where that button sits in the layout (sidebar,
     // header, wherever) and regardless of any ancestor's overflow/scroll.
 
-useLayoutEffect(() => {
-    if (!open) return;
+    useLayoutEffect(() => {
+        if (!open) return;
 
-    const trigger = document.querySelector(".user-trigger");
-    const menu = document.querySelector(".user-menu");
+        const trigger = document.querySelector(".user-trigger");
+        const menu = document.querySelector(".user-menu");
 
-    if (!trigger || !menu) return;
+        if (!trigger || !menu) return;
 
-    const triggerRect = trigger.getBoundingClientRect();
-    const menuRect = menu.getBoundingClientRect();
+        const triggerRect = trigger.getBoundingClientRect();
+        const menuRect = menu.getBoundingClientRect();
 
-    setCoords({
-        top: triggerRect.top - menuRect.height - 16,
-        left: triggerRect.left,
-    });
-}, [open]);
+        setCoords({
+            top: triggerRect.top - menuRect.height - 16,
+            left: triggerRect.left,
+        });
+    }, [open]);
 
     // useLayoutEffect(() => {
     //     if (!open || !triggerRef.current) return;
@@ -87,12 +87,18 @@ useLayoutEffect(() => {
                 aria-expanded={open}
             >
                 <div className="user-avatar">{initials}</div>
-                <span className="user-role">{role?.role}</span>
-                <span className={`user-trigger-caret ${open ? "open" : ""}`}>
-                    <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
-                        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </span>
+                {(collapsed) ? (null) : (
+                    <div className="user-info-text">
+
+                        <span className="user-role">{role?.role}</span>
+                        <span className={`user-trigger-caret ${open ? "open" : ""}`}>
+                            <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
+                                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </span>
+
+                    </div>
+                )}
             </div>
 
             {open &&

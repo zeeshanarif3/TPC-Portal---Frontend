@@ -1,132 +1,293 @@
-.college-selector{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 1rem 2rem;
-
-    border-radius: 20px;
-    gap: 3rem;
-    
-    width: 25vw;
-
+* {
+    box-sizing: border-box;
 }
 
-.parts{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2.2rem;
-    width: 100%;
-}
-
-
-/* .college-selector__search{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-} */
-
-
-.college-selector__pills{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.college-selector__pill{
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    background-color: white;
-}
-
-
-
-
-/* College selector */
-
+/* ==========================================
+            COLLEGE SELECTOR
+========================================== */
 
 .college-selector {
-    background:white;
-    border:1px solid #e3e5e8;
-    border-radius:16px;
-    padding:20px;
+    position: relative;
 
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 2rem;
+
+    width: 100%;
+    max-width: 420px;
+
+    padding: 1.75rem;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.03),
+        0 20px 40px rgba(0,0,0,.04);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+    animation: selectorEnter .6s cubic-bezier(.16,1,.3,1);
 }
 
+.college-selector:hover {
+    transform: translateY(-6px);
 
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.06),
+        0 30px 60px rgba(0,0,0,.06);
+}
+
+/* subtle moving shine */
+
+.college-selector::before {
+    content: "";
+
+    position: absolute;
+
+    top: -150%;
+    left: -150%;
+
+    width: 300%;
+    height: 300%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 45%,
+            rgba(255,255,255,.7) 50%,
+            transparent 55%
+        );
+
+    opacity: 0;
+
+    transition: opacity .3s ease;
+}
+/* 
+.college-selector:hover::before {
+    opacity: 1;
+
+    animation: selectorShine 1.2s ease;
+} */
+/* 
+@keyframes selectorShine {
+    from {
+        transform: translateX(-25%);
+    }
+
+    to {
+        transform: translateX(25%);
+    }
+} */
+
+@keyframes selectorEnter {
+    from {
+        opacity: 0;
+        transform:
+            translateY(20px)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* ==========================================
+                TOP SECTION
+========================================== */
+
+.parts {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+
+    width: 100%;
+}
+
+/* ==========================================
+                SEARCH
+========================================== */
 
 .college-selector__search {
+    display: flex;
+    align-items: center;
 
+    gap: 12px;
 
-    background:#f3f4f6;
+    width: 100%;
 
-    border-radius:20px;
+    padding: 12px 16px;
 
-    padding:8px 15px;
+    background: #f3f4f6;
 
+    border: 1px solid transparent;
+    border-radius: 16px;
 
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
+    transition:
+        border-color .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
 }
 
+.college-selector__search:focus-within {
+    border-color: #d1d5db;
 
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.06);
+}
 
 .college-selector__search input {
+    width: 100%;
 
+    border: none;
+    outline: none;
 
-    width:100%;
+    background: transparent;
 
-    border:none;
-
-    outline:none;
-
-    background:transparent;
-
+    font-size: 0.95rem;
 }
 
+.college-selector__search input::placeholder {
+    color: #9ca3af;
+}
 
+/* ==========================================
+                PILLS WRAPPER
+========================================== */
 
+.college-selector__pills,
 .college-selector__list {
+    display: flex;
 
+    gap: 12px;
 
-    display:flex;
-
-    gap:10px;
-
+    width: 100%;
 }
 
+/* ==========================================
+                PILLS
+========================================== */
 
-
+.college-selector__pill,
 .college-pill {
+    position: relative;
 
+    flex: 1;
 
-    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    padding:10px;
+    padding: 12px 16px;
 
-    border-radius:12px;
+    border-radius: 14px;
 
-    border:1px solid #d1d5db;
+    border: 1px solid #d1d5db;
 
-    background:white;
+    background: white;
 
-    cursor:pointer;
+    cursor: pointer;
 
+    font-weight: 500;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
 }
 
+.college-selector__pill:hover,
+.college-pill:hover {
+    transform: translateY(-2px);
 
+    border-color: #9ca3af;
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.05);
+}
+
+.college-selector__pill:active,
+.college-pill:active {
+    transform: scale(.98);
+}
+
+/* ==========================================
+            ACTIVE PILL
+========================================== */
 
 .college-pill--active {
+    background: #111827;
+    color: white;
 
-    background:#111827;
+    border-color: #111827;
 
-    color:white;
+    box-shadow:
+        0 10px 25px rgba(17,24,39,.18);
 
+    animation: activePulse 2s ease infinite;
+}
+
+@keyframes activePulse {
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+}
+
+/* ==========================================
+            RESPONSIVE
+========================================== */
+
+@media (max-width: 1200px) {
+
+    .college-selector {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .college-selector {
+        padding: 1.25rem;
+        border-radius: 18px;
+    }
+
+    .college-selector__list,
+    .college-selector__pills {
+        flex-direction: column;
+    }
+
+    .parts {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .college-pill,
+    .college-selector__pill {
+        width: 100%;
+    }
 }

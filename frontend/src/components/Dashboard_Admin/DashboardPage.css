@@ -4,16 +4,21 @@
     padding: 0;
 }
 
-/* ================= Dashboard ================= */
+/* ==========================================
+                DASHBOARD
+========================================== */
 
 .dashboard {
+    position: relative;
+
     min-height: 100vh;
 
-    padding: 24px;
+    padding: 32px;
 
     display: flex;
     flex-direction: column;
-    gap: 24px;
+
+    gap: 28px;
 
     background: #ffffff;
 
@@ -23,108 +28,311 @@
         Inter,
         "Segoe UI",
         sans-serif;
+
+    overflow: scroll;
 }
 
-/* ================= Cards ================= */
+/* Premium animated background */
+
+.dashboard::before,
+.dashboard::after {
+    content: "";
+
+    position: fixed;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    opacity: 0.03;
+
+    background: #000;
+}
+
+.dashboard::before {
+    width: 600px;
+    height: 600px;
+
+    top: -250px;
+    left: -200px;
+
+    animation: blob1 16s ease-in-out infinite;
+}
+
+.dashboard::after {
+    width: 500px;
+    height: 500px;
+
+    bottom: -200px;
+    right: -150px;
+
+    animation: blob2 20s ease-in-out infinite;
+}
+
+@keyframes blob1 {
+    0%,100% {
+        transform: translate(0,0) scale(1);
+    }
+
+    50% {
+        transform: translate(80px,60px) scale(1.25);
+    }
+}
+
+@keyframes blob2 {
+    0%,100% {
+        transform: translate(0,0) scale(1);
+    }
+
+    50% {
+        transform: translate(-70px,-50px) scale(1.2);
+    }
+}
+
+/* ==========================================
+                CARDS
+========================================== */
 
 .dashboard-card,
 .panel {
+    position: relative;
+
+    z-index: 2;
+
     background: #ffffff;
 
     border: 1px solid #e5e7eb;
 
-    border-radius: 10px;
+    border-radius: 20px;
 
-    padding: 24px;
+    padding: 28px;
 
     overflow: hidden;
 
+    backdrop-filter: blur(10px);
+
     box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.04),
-        0 8px 24px rgba(0, 0, 0, 0.03);
+        0 1px 2px rgba(0,0,0,0.04),
+        0 10px 40px rgba(0,0,0,0.05);
 
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease,
+        border-radius .35s ease;
+
+    animation: cardAppear .7s cubic-bezier(.16,1,.3,1);
 }
+
+/* subtle animated shine */
+
+/* .dashboard-card::before,
+.panel::before {
+    content: "";
+
+    position: absolute;
+
+    width: 200%;
+    height: 200%;
+
+    top: -50%;
+    left: -50%;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 40%,
+            rgba(255,255,255,.7) 50%,
+            transparent 60%
+        );
+
+    transform: rotate(20deg);
+
+    transition: opacity .4s ease;
+} */
 
 .dashboard-card:hover,
 .panel:hover {
+    /* transform: translateY(-8px); */
+
+    border-radius: 24px;
+
     border-color: #d1d5db;
 
     box-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.05),
-        0 12px 30px rgba(0, 0, 0, 0.05);
+        0 15px 35px rgba(0,0,0,0.08),
+        0 40px 80px rgba(0,0,0,0.06);
+}
+/* 
+.dashboard-card:hover::before,
+.panel:hover::before {
+    opacity: 1;
+
+    animation: shineMove 1.2s ease;
+} */
+/* 
+@keyframes shineMove {
+    from {
+        transform:
+            translateX(-40%)
+            rotate(20deg);
+    }
+
+    to {
+        transform:
+            translateX(40%)
+            rotate(20deg);
+    }
+} */
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform:
+            translateY(30px)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
 }
 
-/* ================= Error ================= */
+/* ==========================================
+                ERROR
+========================================== */
 
 .dashboard__error {
+    position: relative;
+
+    z-index: 2;
+
     background: #fff;
 
     border: 1px solid #fecaca;
 
     color: #991b1b;
 
-    border-radius: 10px;
+    border-radius: 16px;
 
-    padding: 16px 20px;
+    padding: 18px 22px;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.04);
 }
 
-/* =================================================
-                    TOP ROW
-================================================= */
+/* ==========================================
+                TOP ROW
+========================================== */
 
 .dashboard__top-row {
+    position: relative;
+    z-index: 2;
+
     display: grid;
 
     grid-template-columns: 1.3fr 1fr;
 
-    gap: 24px;
+    gap: 28px;
 
-    min-height: 220px;
+    min-height: 240px;
 }
 
 .dashboard__top-row .left,
 .dashboard__top-row .right {
     display: flex;
-    gap: 24px;
+
+    gap: 28px;
+
     min-width: 0;
 }
 
-/* =================================================
-                    MID ROW
-================================================= */
+/* ==========================================
+                MID ROW
+========================================== */
 
 .dashboard__mid-row {
+    position: relative;
+    z-index: 2;
+
     display: grid;
 
     grid-template-columns: 1.5fr 1fr;
 
-    gap: 24px;
+    gap: 28px;
+
+    min-height: 420px;
+}
+
+/* ==========================================
+                BOTTOM ROW
+========================================== */
+
+.dashboard__bottom-row {
+    position: relative;
+    z-index: 2;
+
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr;
+
+    gap: 28px;
 
     min-height: 380px;
 }
 
-/* =================================================
-                    BOTTOM ROW
-================================================= */
+/* ==========================================
+             PREMIUM SCROLLBAR
+========================================== */
 
-.dashboard__bottom-row {
-    display: grid;
-
-    grid-template-columns: 1.5fr 1fr;
-
-    gap: 24px;
-
-    min-height: 350px;
+::-webkit-scrollbar {
+    width: 10px;
 }
 
-/* =================================================
-                    RESPONSIVE
-================================================= */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.15);
+
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.25);
+}
+
+/* ==========================================
+             RESPONSIVE
+========================================== */
+
+@media (max-width: 1200px) {
+
+    .dashboard {
+        padding: 24px;
+    }
+
+    .dashboard__top-row,
+    .dashboard__mid-row,
+    .dashboard__bottom-row {
+        gap: 20px;
+    }
+}
 
 @media (max-width: 1000px) {
+
+    .dashboard {
+        padding: 18px;
+    }
+
     .dashboard__top-row,
     .dashboard__mid-row,
     .dashboard__bottom-row {
@@ -134,5 +342,23 @@
     .dashboard__top-row .left,
     .dashboard__top-row .right {
         flex-direction: column;
+    }
+
+    .dashboard-card,
+    .panel {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .dashboard {
+        padding: 14px;
+    }
+
+    .dashboard-card,
+    .panel {
+        border-radius: 16px;
+        padding: 18px;
     }
 }

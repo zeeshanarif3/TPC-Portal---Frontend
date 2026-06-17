@@ -36,10 +36,10 @@ export default function DashboardPage({ token }) {
 
             {/* ── Row 1: stats + college selector + attendance chart ── */}
             <div className="dashboard__top-row">
-                <div className="left">
+                <div className="left dashboard-card">
                     <StatsCards stats={stats} />
                 </div>
-                <div className="right">
+                <div className="right dashboard-card">
                     <CollegeSelector
                         colleges={colleges}
                         selected={selectedCollege}
