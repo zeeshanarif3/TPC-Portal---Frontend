@@ -1,15 +1,15 @@
+
+
+
 import DashboardPage from "../../components/Dashboard_Admin/DashboardPage";
-// import Login from "../../components/log_in/login";
 
 
-function Dashboard() {
+
+function Dashboard({ token }) {
     return (
         <>
-            {/* <Login /> */}
-            <DashboardPage/>
-
+            <DashboardPage token={token} />
         </>
     );
 }
-
 export default Dashboard;

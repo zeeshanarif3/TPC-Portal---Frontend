@@ -1,195 +1,450 @@
-.lp-root{
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* ==========================
+   ROOT
+========================== */
+
+.lp-root {
+    position: relative;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    height: 100vh;  
+
+    min-height: 100vh;
+
     letter-spacing: 0.08em;
     white-space: nowrap;
-    width: 100vw;
+
+    overflow: hidden;
 }
 
-.lp-logo{
+/* Floating premium background */
+
+.lp-root::before,
+.lp-root::after {
+    content: "";
+
+    position: absolute;
+    border-radius: 50%;
+
+    pointer-events: none;
+    z-index: 0;
+
+    background: black;
+    opacity: 0.04;
+}
+
+.lp-root::before {
+    width: 550px;
+    height: 550px;
+
+    top: -200px;
+    left: -180px;
+
+    animation: blobOne 14s ease-in-out infinite;
+}
+
+.lp-root::after {
+    width: 450px;
+    height: 450px;
+
+    bottom: -180px;
+    right: -150px;
+
+    animation: blobTwo 18s ease-in-out infinite;
+}
+
+@keyframes blobOne {
+    0%,100% {
+        transform: translate(0,0) scale(1);
+    }
+    50% {
+        transform: translate(90px,70px) scale(1.25);
+    }
+}
+
+@keyframes blobTwo {
+    0%,100% {
+        transform: translate(0,0) scale(1);
+    }
+    50% {
+        transform: translate(-70px,-60px) scale(1.2);
+    }
+}
+
+/* ==========================
+   LOGO
+========================== */
+
+.lp-logo {
+    position: relative;
+    z-index: 5;
+
     padding: 2rem;
     align-self: flex-start;
-      letter-spacing: 0.08em;
-  white-space: nowrap;
+
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+
+    animation: fadeInDown .8s ease;
 }
 
-.lp-card{
+/* ==========================
+   CARD
+========================== */
+
+.lp-card {
+    position: relative;
+    z-index: 5;
+
     display: flex;
     flex-direction: column;
-    border: 4px solid black;
-    border-radius: 20px;
+
     width: 35%;
 
     align-items: center;
     justify-content: start;
-    padding: 2rem;
+
+    padding: 2.5rem;
+
+    border: 4px solid black;
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    background: white;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.06),
+        0 30px 80px rgba(0,0,0,0.08);
+
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease,
+        border-radius .4s ease;
+
+    animation: cardEnter .9s cubic-bezier(.16,1,.3,1);
 }
 
+.lp-card:hover {
+    /* transform: translateY(-8px); */
 
-.lp-title{
+    border-radius: 32px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.08),
+        0 40px 90px rgba(0,0,0,0.12);
+}
+
+/* animated border light */
+
+.lp-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 200%;
+    height: 200%;
+
+    top: -50%;
+    left: -50%;
+
+    background:
+        conic-gradient(
+            transparent,
+            rgba(0,0,0,0.12),
+            transparent,
+            transparent
+        );
+
+    animation: spinBorder 10s linear infinite;
+}
+
+.lp-card::after {
+    content: "";
+
+    position: absolute;
+    inset: 4px;
+
+    background: white;
+    border-radius: 20px;
+}
+
+.lp-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes spinBorder {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================
+   LOGIN SUCCESS
+========================== */
+
+.lp-card.logged-in {
+    border-color: hsl(120, 100%, 35%);
+
+    animation:
+        successPulse 1.4s ease infinite;
+}
+
+@keyframes successPulse {
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.015);
+    }
+}
+
+/* ==========================
+   TITLE
+========================== */
+
+.lp-title {
     display: flex;
+    flex-direction: column;
+
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    gap: 0.3rem;
-      letter-spacing: 0.08em;
-  white-space: nowrap;
+
+    gap: 0.4rem;
+
+    letter-spacing: 0.08em;
 }
 
-.lp-title h1{
+.lp-title h1 {
+    margin: 0;
+
     font-size: 45px;
+    font-weight: 700;
+
+    animation: floatTitle 5s ease-in-out infinite;
 }
 
+@keyframes floatTitle {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* ==========================
+   FORM
+========================== */
 
 .lp-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2.6rem;
-  width: 90%;
-  /* height: 50%; */
-  padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+
+    gap: 2.6rem;
+
+    width: 90%;
+
+    padding: 3rem 2rem;
 }
- 
+
 .lp-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    transition: transform .3s ease;
 }
- 
+
+.lp-field:focus-within {
+    transform: translateX(6px);
+}
+
 .lp-label {
-  font-size: 15px;
-  /* color: #aaa; */
-  letter-spacing: 0.02em;
+    font-size: 15px;
+    letter-spacing: .02em;
+
+    transition:
+        transform .3s ease,
+        opacity .3s ease;
 }
- 
+
+.lp-field:focus-within .lp-label {
+    transform: translateY(-2px);
+    opacity: .7;
+}
+
+/* ==========================
+   INPUTS
+========================== */
+
 .lp-input {
-  /* background: transparent; */
-  border: none;
-  border-bottom: 1px solid #555;
-  /* color: #e0e0e0; */
-  font-size: 25px;
-  padding: 6px 0;
-  outline: none;
-  transition: border-color 0.2s;
+    border: none;
+    border-bottom: 1px solid #555;
+
+    font-size: 25px;
+
+    padding: 10px 0;
+
+    outline: none;
+
+    transition:
+        border-color .3s ease,
+        transform .3s ease,
+        padding-left .3s ease;
 }
- 
+
 .lp-input:focus {
-  border-bottom-color: #999;
+    border-bottom: 3px solid #555;
+
+    transform: scale(1.02);
+
+    padding-left: 10px;
 }
 
+/* ==========================
+   BUTTON
+========================== */
 
+.lp-btn-primary {
+    position: relative;
 
-.lp-btn-primary{
     padding: 1rem;
 
-    border-radius: 8px;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
 }
 
+.lp-btn-primary:hover {
+    transform: translateY(-3px);
 
-/* Divider */
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.12);
+}
+
+.lp-btn-primary:active {
+    transform: scale(.97);
+}
+
+/* ==========================
+   DIVIDER
+========================== */
+
 .lp-divider {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  margin: 2rem 0;
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+
+    width: 100%;
+    margin: 2rem 0;
 }
 
 .lp-divider-line {
-  flex: 1;
-  height: 2px;
-  border-radius: 999px;
-  background: currentColor;
-  opacity: 0.4;
+    flex: 1;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: currentColor;
+    opacity: .4;
 }
 
 .lp-divider-label {
-  white-space: nowrap;
-  font-size: 0.95rem;
-  font-weight: 500;
+    font-size: .95rem;
+    font-weight: 500;
+
+    white-space: nowrap;
 }
 
-/* Social buttons row */
-/* .lp-social {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  width: 100%;
-  margin-top: 1rem;
+/* ==========================
+   ANIMATIONS
+========================== */
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.lp-social-btn {
-  min-width: 110px;
-  height: 52px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: transparent;
-
-  border: 2px solid currentColor;
-  border-radius: 12px;
-
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-
-  padding: 1.2rem 0.8rem;
-  width: 30%;
-  transition: transform 0.2s ease;
-}
-
-.lp-social-btn:hover {
-  transform: translateY(-2px);
-}
-.lowerpart{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
-} */
-
-/* Footer */
-
-
-
+/* ==========================
+   MOBILE
+========================== */
 
 @media (max-width: 1050px) {
 
-.lp-card{
-    gap: 0rem;
-    padding: 1.5rem 2rem;
-    /* height: 70%; */
-    width: 80%;
-}
-.lp-title{
+    .lp-card {
+        width: 90%;
+        padding: 2rem 1.5rem;
+    }
 
-    font-size: 0.8rem;
-}
+    .lp-title {
+        font-size: .8rem;
+    }
 
+    .lp-title h1 {
+        font-size: 2rem;
+    }
 
-.lp-title h1{
-    font-size: 2rem;
-}
+    .lp-form {
+        width: 100%;
+        padding: 2rem 0;
+    }
 
+    .lp-input {
+        font-size: 1rem;
+    }
 
-.lp-form {
-  gap: 2.6rem;
-  width: 120%;
-  height: 50%;
-  /* padding: 3rem 2rem; */
-}
- .lp-input {
+    .lp-root::before {
+        width: 300px;
+        height: 300px;
+    }
 
-  font-size: 0.8rem;
-
-}
- 
-
+    .lp-root::after {
+        width: 250px;
+        height: 250px;
+    }
 }

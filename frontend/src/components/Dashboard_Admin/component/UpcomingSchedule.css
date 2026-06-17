@@ -1,0 +1,96 @@
+.schedule-card {
+
+
+    min-height:350px;
+
+
+}
+
+
+
+
+.upcoming-schedule table {
+
+
+    width:100%;
+
+
+    border-collapse:collapse;
+
+
+}
+
+
+
+.upcoming-schedule td,
+.upcoming-schedule th {
+
+
+    padding:12px 0;
+
+    border-bottom:1px solid #f0f1f3;
+
+}
+
+
+
+
+
+
+
+
+
+
+/* Status */
+
+
+.status-badge {
+
+
+    padding:5px 10px;
+
+
+    border-radius:8px;
+
+
+    font-size:11px;
+
+}
+
+
+
+
+
+.status-badge--confirmed {
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+
+
+.status-badge--pending {
+
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+
+}
+
+
+
+.status-badge--cancelled {
+
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+
+}
+
+

@@ -1,0 +1,59 @@
+
+
+/* Trainers */
+
+
+.trainers-card {
+
+
+    min-height:380px;
+
+
+}
+
+
+
+.trainers-table {
+
+
+    width:100%;
+
+}
+
+
+
+.trainers-table table {
+
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+.trainers-table th {
+
+
+    text-align:left;
+
+    color:#6b7280;
+
+    font-size:13px;
+
+}
+
+
+
+.trainers-table td {
+
+
+    padding:12px 0;
+
+    border-top:1px solid #f0f1f3;
+
+    font-size:13px;
+
+}
+

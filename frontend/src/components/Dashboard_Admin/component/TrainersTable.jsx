@@ -1,3 +1,6 @@
+import './TrainersTable.css';
+
+
 // TrainersTable.jsx
 export default function TrainersTable({ trainers }) {
   return (

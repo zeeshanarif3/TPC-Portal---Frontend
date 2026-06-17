@@ -1,12 +1,16 @@
+
+import './UpcomingSchedule.css';
+
+
 // UpcomingSchedule.jsx
 export default function UpcomingSchedule({ schedule, onViewAll }) {
   return (
     <div className="upcoming-schedule">
       <div className="upcoming-schedule__header">
         <h3 className="upcoming-schedule__title">Upcoming schedule</h3>
-        <button className="upcoming-schedule__view-all" onClick={onViewAll}>
+        {/* <button className="upcoming-schedule__view-all" onClick={onViewAll}>
           View all
-        </button>
+        </button> */}
       </div>
 
       <table className="upcoming-schedule__table">

@@ -1,0 +1,138 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ================= Dashboard ================= */
+
+.dashboard {
+    min-height: 100vh;
+
+    padding: 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        sans-serif;
+}
+
+/* ================= Cards ================= */
+
+.dashboard-card,
+.panel {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 24px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.03);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover,
+.panel:hover {
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.05),
+        0 12px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* ================= Error ================= */
+
+.dashboard__error {
+    background: #fff;
+
+    border: 1px solid #fecaca;
+
+    color: #991b1b;
+
+    border-radius: 10px;
+
+    padding: 16px 20px;
+}
+
+/* =================================================
+                    TOP ROW
+================================================= */
+
+.dashboard__top-row {
+    display: grid;
+
+    grid-template-columns: 1.3fr 1fr;
+
+    gap: 24px;
+
+    min-height: 220px;
+}
+
+.dashboard__top-row .left,
+.dashboard__top-row .right {
+    display: flex;
+    gap: 24px;
+    min-width: 0;
+}
+
+/* =================================================
+                    MID ROW
+================================================= */
+
+.dashboard__mid-row {
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr;
+
+    gap: 24px;
+
+    min-height: 380px;
+}
+
+/* =================================================
+                    BOTTOM ROW
+================================================= */
+
+.dashboard__bottom-row {
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr;
+
+    gap: 24px;
+
+    min-height: 350px;
+}
+
+/* =================================================
+                    RESPONSIVE
+================================================= */
+
+@media (max-width: 1000px) {
+    .dashboard__top-row,
+    .dashboard__mid-row,
+    .dashboard__bottom-row {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard__top-row .left,
+    .dashboard__top-row .right {
+        flex-direction: column;
+    }
+}

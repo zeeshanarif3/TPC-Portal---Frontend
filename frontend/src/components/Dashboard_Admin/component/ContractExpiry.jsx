@@ -1,3 +1,6 @@
+
+import './ContractExpiry.css';
+
 // ContractExpiry.jsx
 export default function ContractExpiry({ contracts }) {
   if (!contracts || contracts.length === 0) return null;

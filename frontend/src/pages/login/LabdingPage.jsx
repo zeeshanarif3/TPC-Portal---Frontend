@@ -1,13 +1,15 @@
 import Login from "../../components/log_in/login";
 
 
-function LandingPage() {
+function LandingPage({handleLogout, setUser, setToken, user, token }) {
     return (
-        <>
-            <Login />
-
-        </>
+        <Login
+            setUser={setUser}
+            setToken={setToken}
+            user={user}
+            token={token}
+            handleLogout={handleLogout}
+        />
     );
 }
-
 export default LandingPage;
