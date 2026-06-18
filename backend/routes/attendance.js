@@ -26,7 +26,7 @@ router.get('/analytics', verifyToken, moderatorMiddleware, getAnalytics);
 
 // New routes for college-specific data (accessible by admin and moderator)
 const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
-router.get('/attendance/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
-router.get('/subjects/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
+router.get('/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
+router.get('/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
 
 module.exports = router;

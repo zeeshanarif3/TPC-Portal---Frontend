@@ -11,7 +11,8 @@ const Contract = require('../models/Contract');
  */
 exports.getDashboardStats = async (req, res) => {
   try {
-    const { collegeId } = req.query;
+    // const { collegeId } = req.query;
+    const { college: collegeId } = req.query
     if (!collegeId) {
       return res.status(400).json({ message: 'College ID is required' });
     }
@@ -64,7 +65,7 @@ exports.getDashboardStats = async (req, res) => {
         totalCourses: courses.length,
         totalStudents,
         totalAttendanceRecords,
-        totalActiveContracts,
+        activeContracts,
         totalTrainers
       }
     });
