@@ -15,8 +15,7 @@ app.use(express.json());
 
 
 
-mongoose.connect("mongodb+srv://jaspreet99100_db_user:jaspreet2020@cluster0.ejvtolp.mongodb.net/?appName=Cluster0")    //delete this as soon as possible
-// mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
 
 
 .then(async () => {
