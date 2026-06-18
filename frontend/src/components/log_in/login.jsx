@@ -5,17 +5,16 @@ function Login({ handleLogout, setUser, setToken, user, token }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // // Restore session on refresh
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem('tpctoken');
-  //   const storedUser = localStorage.getItem('tpcuser');
+  // Restore session on refresh
+  useEffect(() => {
+    const storedToken = localStorage.getItem('tpctoken');
+    const storedUser = localStorage.getItem('tpcuser');
 
-  //   if (storedToken && storedUser) {
-  //     setToken(storedToken);
-  //     setUser(JSON.parse(storedUser));
-  //     setPass(true);
-  //   }
-  // }, [setPass, setToken, setUser]);
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
+    }
+  }, [setToken, setUser]);
 
 
 

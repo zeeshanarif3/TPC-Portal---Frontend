@@ -1,33 +1,40 @@
-import Dashboard from "./admin/Dash";
+import Admin_portal from "./admin/Admin_portal";
 import LandingPage from "./login/LabdingPage";
 import { useState, useEffect } from 'react';
-import Sidebar from "./sidebar/sidebar";
-
-import './Main.css'
 import useLenis from "../hooks/useLenis";
 
+import './Main.css'
+import Anim from "../anim/anim";
+
 function Main() {
+
+    // for smooth scrolling , for future components, currently not used
     // useLenis()
 
+
+
+
+    // main states
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null); // {name, email, role}
-    
-    const [page, setPage] = useState("dashboard");
+    const [ready, setReady] = useState(false);
 
 
-
+    // reset states
     const handleLogout = () => {
         setUser(null);
         setToken(null);
 
-        // localStorage.removeItem('tpctoken');
-        // localStorage.removeItem('tpcuser');
+        localStorage.removeItem('tpctoken');
+        localStorage.removeItem('tpcuser');
 
         // alert('Logged out');
     };
 
-    const [ready, setReady] = useState(false);
 
+
+
+    // 1 sec break
     useEffect(() => {
         if (user && token) {
             const timer = setTimeout(() => {
@@ -40,21 +47,49 @@ function Main() {
         }
     }, [user, token]);
 
+
+
+
+
+
+
+
+    ////////// for animation ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    const [animDone, setAnimDone] = useState(false);
+
+useEffect(() => {
+    const timer = setTimeout(() => {
+        console.log("setting true");
+        setAnimDone(true);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+}, []);
+
+useEffect(() => {
+    console.log("animDone =", animDone);
+}, [animDone]);
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return (
         <>
-            {ready ? (
-                <div className="app-layout">
-                    <Sidebar
-                        activeItem={page}
-                        onNavigate={setPage}
-                        role={user}
-                        handleLogout={handleLogout}
-                    />
-                    <main className="app-content">
-                        {page === "dashboard" && <Dashboard token={token} />}
+            {!animDone ? (
 
-                    </main>
-                </div>
+                <Anim />
+            ) : (ready && user ? (
+                <main>
+                    {user.role === "admin" && (
+                        <Admin_portal
+                            token={token}
+                            user={user}
+                            handleLogout={handleLogout}
+                        />
+                    )}
+                </main>
             ) : (
                 <LandingPage
                     setUser={setUser}
@@ -63,9 +98,36 @@ function Main() {
                     token={token}
                     handleLogout={handleLogout}
                 />
-            )}
+            ))}
         </>
     );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -107,7 +169,7 @@ function Main() {
 
 
 
-            {/* {(pass == true) ? (
+    {/* {(pass == true) ? (
                 <div>
                     <Dashboard token={token} />
                     <button
@@ -128,11 +190,11 @@ function Main() {
                 />
             )} */}
 
-            {/* <Sidebar
+    {/* <Sidebar
                 activeItem={page}
                 onNavigate={setPage}
                 // defaultCollapsed={defaultCollapsed} */}
-            {/* /> */}
+    {/* /> */ }
 
 
 

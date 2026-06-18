@@ -11,7 +11,7 @@ import {
     ChevronsLeft,
     ChevronsRight,
 } from "lucide-react";
-import "./sideb.css";
+import "./sidebar.css";
 import UserInfo from "./component/userinfo";
 
 /**
@@ -46,7 +46,7 @@ const NAV_ITEMS = [
     //   },
 ];
 
-export default function Sideb({
+export default function Sidebar({
     activeItem: activeItemProp,
     onNavigate,
     defaultCollapsed = false,

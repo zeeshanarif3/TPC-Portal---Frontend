@@ -1,0 +1,166 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+#anim{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    height: 100vh;
+    width: 100vw;
+}
+/* SVG */
+
+svg{
+    width:100px;
+    overflow:visible;
+    /* position: absolute; */
+    /* top: 50vh; */
+    /* left: 1vw;  */
+}
+
+/* Logo */
+
+.j-logo{
+    fill:none;
+    stroke:#6699ee;
+    stroke-width:12;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+
+    stroke-dasharray:1600;
+    stroke-dashoffset:1600;
+
+    filter:drop-shadow(0 8px 20px rgba(0,0,0,0.08));
+
+    animation:
+        draw 2.5s cubic-bezier(.65,.05,.36,1) infinite
+        /* float 5s ease-in-out infinite; */
+}
+
+/* Draw + Erase Loop */
+
+@keyframes loading{
+
+    /* Hidden */
+    0%{
+        stroke-dashoffset:1600;
+        opacity:0;
+    }
+
+    /* Fade in */
+    5%{
+        opacity:1;
+    }
+
+    /* Draw smoothly */
+    35%{
+        stroke-dashoffset:0;
+        opacity:1;
+    }
+
+    /* Hold */
+    50%{
+        stroke-dashoffset:0;
+        opacity:1;
+    }
+
+    /* Reverse erase */
+    85%{
+        stroke-dashoffset:-1600;
+        opacity:1;
+    }
+
+    /* Fully gone */
+    100%{
+        stroke-dashoffset:-1600;
+        opacity:0;
+    }
+}
+
+/* Floating Motion */
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0px) scale(1);
+    }
+
+    50%{
+        transform:translateY(-8px) scale(1.01);
+    }
+
+    100%{
+        transform:translateY(0px) scale(1);
+    }
+}
+@keyframes draw{
+    0%{
+        stroke-dashoffset:1600;
+        opacity:0;
+    }
+
+    8%{
+        opacity:1;
+    }
+
+    100%{
+        stroke-dashoffset:0;
+        opacity:1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* #anim{
+    width:380px;
+    height:320px;
+} */
+
+
+.tpc-logo{
+
+    /* font-family: "Times New Roman", serif; */
+    /* font-family: "Bodoni 72", "Didot", "Times New Roman", serif; */
+    font-family: "Bodoni Moda", serif;
+
+
+    font-weight:400;
+
+    font-size:400px;
+
+    font-weight:400;
+
+    fill:#b9a49a;
+    fill:none;
+    stroke:#b9a49a;
+    stroke-width:12;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+
+    stroke-dasharray:1600;
+    stroke-dashoffset:1600;
+
+    filter:drop-shadow(0 8px 20px rgba(0,0,0,0.08));
+
+    animation:
+        draw 2.5s cubic-bezier(.65,.05,.36,1) infinite
+        /* float 5s ease-in-out infinite; */
+}
+
+
+
+
+
+
