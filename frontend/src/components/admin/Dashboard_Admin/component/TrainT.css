@@ -1,58 +1,85 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 /* ==========================================
-                TRAINERS CARD
+                TABLE CONTAINER
 ========================================== */
 
-.trainers-card {
-    position: relative;
-
-    min-height: 380px;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: scroll;
-}
-
-/* ==========================================
-                TABLE WRAPPER
-========================================== */
-
-.trainers-table {
+.train-table {
     width: 100%;
-    overflow-x: scroll;
 
-    margin-top: 0.5rem;
-}
+    height: 380px;
 
-/* ==========================================
-                TABLE
-========================================== */
+    overflow-y: auto;
+    overflow-x: hidden;
 
-.trainers-table table {
-    width: 95%;
-
-    border-collapse: separate;
-    border-spacing: 0 8px;
+    padding-right: 4px;
 }
 
 /* ==========================================
                 HEADER
 ========================================== */
 
-.trainers-table thead {
+.train-table__header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 1rem;
+
     position: sticky;
     top: 0;
 
     background: white;
 
-    z-index: 2;
+    z-index: 20;
+
+    padding-bottom: 0.75rem;
 }
 
-.trainers-table th {
+.train-table__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.train-table__count {
+    padding: 0.45rem 0.8rem;
+
+    border-radius: 999px;
+
+    border: 1px solid #e5e7eb;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ==========================================
+                TABLE
+========================================== */
+
+.train-table__table {
+    width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+/* ==========================================
+                TABLE HEADER
+========================================== */
+
+.train-table__table thead th {
+    position: sticky;
+    top: 56px;
+
+    background: white;
+
+    z-index: 10;
+
     text-align: left;
 
     padding: 0.75rem 1rem;
@@ -70,152 +97,57 @@
                 ROWS
 ========================================== */
 
-.trainers-table tbody tr {
+.train-table__table tbody tr {
     background: white;
 
     transition:
         transform .25s ease,
-        box-shadow .25s ease,
-        border-radius .25s ease;
+        box-shadow .25s ease;
 
-    animation: trainerRowEnter .5s ease;
+    animation: trainRowEnter .5s ease;
 }
 
-.trainers-table tbody tr:hover {
+.train-table__table tbody tr:hover {
     transform: translateX(6px);
 
     box-shadow:
-        0 8px 24px rgba(0,0,0,.05);
+        0 8px 24px rgba(0, 0, 0, .05);
 }
 
 /* ==========================================
                 CELLS
 ========================================== */
 
-.trainers-table td {
+.train-table__table td {
     padding: 1rem;
 
     font-size: 0.88rem;
 
     border-top: 1px solid #f0f1f3;
     border-bottom: 1px solid #f0f1f3;
+
+    background: white;
 }
 
-/* rounded row effect */
-
-.trainers-table td:first-child {
+.train-table__table td:first-child {
     border-left: 1px solid #f0f1f3;
 
     border-radius: 12px 0 0 12px;
+
+    font-weight: 600;
 }
 
-.trainers-table td:last-child {
+.train-table__table td:last-child {
     border-right: 1px solid #f0f1f3;
 
     border-radius: 0 12px 12px 0;
 }
 
 /* ==========================================
-                FIRST COLUMN
-========================================== */
-
-.trainers-table td:first-child {
-    font-weight: 600;
-}
-
-/* ==========================================
-                SCROLLBAR
-========================================== */
-
-.trainers-table::-webkit-scrollbar {
-    height: 8px;
-}
-
-.trainers-table::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.trainers-table::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.15);
-    border-radius: 999px;
-}
-
-.trainers-table::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,.25);
-}
-
-/* ==========================================
-                ENTRANCE
-========================================== */
-
-@keyframes trainerRowEnter {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ==========================================
-                RESPONSIVE
-========================================== */
-
-@media (max-width: 768px) {
-
-    .trainers-table th,
-    .trainers-table td {
-        padding: 0.8rem;
-    }
-
-    .trainers-table td {
-        font-size: 0.8rem;
-    }
-}
-
-
-
-
-
-
-
-/* ==========================================
-                HEADER
-========================================== */
-
-.trainers-table__header {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 1.25rem;
-}
-
-.trainers-table__title {
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.trainers-table__count {
-    padding: 0.45rem 0.8rem;
-
-    border-radius: 999px;
-
-    border: 1px solid #e5e7eb;
-
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-/* ==========================================
                 NAME
 ========================================== */
 
-.trainer-name {
+.train-name {
     font-weight: 600;
 }
 
@@ -270,7 +202,7 @@
     transform: translateY(-1px);
 
     box-shadow:
-        0 6px 14px rgba(0,0,0,.05);
+        0 6px 14px rgba(0, 0, 0, .05);
 }
 
 .status-dot {
@@ -287,7 +219,6 @@
 .status-badge--active {
     background: #111827;
     color: white;
-
     border-color: #111827;
 }
 
@@ -318,4 +249,57 @@
 
 .status-badge--pending .status-dot {
     background: #111827;
+}
+
+/* ==========================================
+                SCROLLBAR
+========================================== */
+
+.train-table::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.train-table::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.train-table::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .15);
+    border-radius: 999px;
+}
+
+.train-table::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, .25);
+}
+
+/* ==========================================
+                ANIMATION
+========================================== */
+
+@keyframes trainRowEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+    .train-table__table th,
+    .train-table__table td {
+        padding: 0.8rem;
+    }
+
+    .train-table__table td {
+        font-size: 0.8rem;
+    }
 }

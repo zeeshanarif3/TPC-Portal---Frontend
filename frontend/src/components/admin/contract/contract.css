@@ -1,0 +1,284 @@
+/* ==========================================
+                PAGE
+========================================== */
+
+.contracts-page {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+
+    padding: 1.5rem;
+}
+
+/* ==========================================
+                HEADER
+========================================== */
+
+.contracts-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.contracts-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+
+    color: #111827;
+
+    margin-bottom: 0.25rem;
+}
+
+.contracts-header p {
+    color: #6b7280;
+
+    font-size: 0.95rem;
+}
+
+/* ==========================================
+                NEW CONTRACT BUTTON
+========================================== */
+
+.btn-new-contract {
+    border: none;
+
+    background: #111827;
+    color: white;
+
+    padding: 0.9rem 1.25rem;
+
+    border-radius: 14px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.btn-new-contract:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(17,24,39,.18);
+}
+
+.btn-new-contract:active {
+    transform: translateY(0);
+}
+
+/* ==========================================
+                FILTER BAR
+========================================== */
+
+.contracts-filters {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1rem 1.25rem;
+
+    background: white;
+
+    border: 1px solid #eef0f3;
+    border-radius: 20px;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 10px 30px rgba(0,0,0,.03);
+}
+
+/* ==========================================
+                SEARCH
+========================================== */
+
+.search-box {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+
+    padding: 0.85rem 1rem;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    background: #fafafa;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.search-box:focus-within {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 4px rgba(17,24,39,.05);
+}
+
+.search-icon {
+    opacity: 0.6;
+
+    font-size: 0.95rem;
+}
+
+.search-box input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 0.95rem;
+}
+
+.search-box input::placeholder {
+    color: #9ca3af;
+}
+
+/* ==========================================
+                SELECT
+========================================== */
+
+.status-filter {
+    min-width: 180px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    background: white;
+
+    padding: 0.85rem 1rem;
+
+    font-size: 0.9rem;
+
+    cursor: pointer;
+
+    outline: none;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.status-filter:focus {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 4px rgba(17,24,39,.05);
+}
+
+/* ==========================================
+                EXPORT BUTTON
+========================================== */
+
+.btn-export-csv {
+    border: 1px solid #e5e7eb;
+
+    background: white;
+    color: #111827;
+
+    padding: 0.85rem 1.15rem;
+
+    border-radius: 14px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.btn-export-csv:hover {
+    background: #f9fafb;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.05);
+}
+
+/* ==========================================
+                LOADING / ERROR
+========================================== */
+
+.loading,
+.error {
+    padding: 1rem 1.25rem;
+
+    border-radius: 16px;
+
+    font-weight: 600;
+}
+
+.loading {
+    background: #f9fafb;
+
+    color: #6b7280;
+}
+
+.error {
+    background: rgba(239,68,68,.08);
+
+    color: #dc2626;
+
+    border: 1px solid rgba(239,68,68,.15);
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 900px) {
+
+    .contracts-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-new-contract {
+        width: 100%;
+    }
+
+    .contracts-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-filter,
+    .btn-export-csv {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .contracts-page {
+        padding: 1rem;
+    }
+
+    .contracts-header h1 {
+        font-size: 1.6rem;
+    }
+}

@@ -5,7 +5,9 @@
 /* ==========================================
                 CARD
 ========================================== */
-
+.upcoming-schedule__title{
+    margin-bottom: 1.8rem;
+}
 .schedule-card {
     height: 420px;
 

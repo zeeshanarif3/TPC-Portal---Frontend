@@ -1,17 +1,21 @@
 
 
 
-import DashboardPage from "../../components/Dashboard_Admin/DashboardPage";
+import DashboardPage from "../../components/admin/Dashboard_Admin/DashboardPage";
 
 
 import { useState, useEffect } from 'react';
-import Sidebar from "../../components/side bar/admin/sidebar";
+import Sidebar from "../../components/admin/side bar/sidebar";
+import CollegePage from "../../components/admin/colledge/colledge";
+import TrainersPage from "../../components/admin/trainer/trainer";
+import ContractsPage from "../../components/admin/contract/contract";
 
 
 
 function Admin_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("dashboard");
+    // const [page, setPage] = useState("dashboard"); //Default
+    const [page, setPage] = useState("contracts");
 
 
     return (
@@ -25,6 +29,9 @@ function Admin_portal({ token, user, handleLogout }) {
                 />
                 <main className="app-content">
                     {page === "dashboard" && <DashboardPage token={token} />}
+                    {page === "college" && <CollegePage token={token} />}
+                    {page === "trainer" && <TrainersPage token={token} />}
+                    {page === "contracts" && <ContractsPage token={token} />}
 
                 </main>
             </div>

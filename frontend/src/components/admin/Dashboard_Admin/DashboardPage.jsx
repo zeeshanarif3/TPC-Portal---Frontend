@@ -2,7 +2,7 @@
 import { useDashboard } from './hooks/useDashboard';
 import StatsCards from './component/StatsCards';
 import CollegeSelector from './component/CollegeSelector';
-import TrainersTable from './component/TrainersTable';
+import TrainT from './component/TrainT';
 import UpcomingSchedule from './component/UpcomingSchedule';
 import AttendanceChart from './component/AttendanceChart';
 import SubjectDistribution from './component/SubjectDistribution';
@@ -70,7 +70,7 @@ export default function DashboardPage({ token }) {
             <div className="dashboard__mid-row">
 
                 <div className="dashboard-card trainers-card">
-                    <TrainersTable
+                    <TrainT
                         trainers={loading ? [] : trainers}
                     />
                 </div>

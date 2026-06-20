@@ -1,16 +1,16 @@
-import './TrainersTable.css';
+import './TrainT.css';
 
-export default function TrainersTable({ trainers }) {
+export default function TrainT({ trainers }) {
   return (
-    <div className="trainers-table">
-      <div className="trainers-table__header">
-        <h3 className="trainers-table__title">Trainers</h3>
+    <div className="train-table">
+      <div className="train-table__header">
+        <h3 className="train-table__title">Trainers</h3>
 
         
       </div>
 
-      <table className="trainers-table__table">
-        <thead>
+      <table className="train-table__table">
+        <thead className='train-tablelabel'>
           <tr>
             <th>Name</th>
             <th>Subject</th>
@@ -23,7 +23,7 @@ export default function TrainersTable({ trainers }) {
         <tbody>
           {trainers.map((t) => (
             <tr key={t.id}>
-              <td className="trainer-name">{t.name}</td>
+              <td className="train-name">{t.name}</td>
 
               <td>{t.subject}</td>
 

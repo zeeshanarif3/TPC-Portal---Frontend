@@ -17,7 +17,7 @@
   position: sticky;
   display: flex;
   flex-direction: column;
-  width: 10%;
+  width: 12%;
   height: 100vh;
   background: var(--sb-bg);
   border-right: 1px solid var(--sb-border);
@@ -29,7 +29,7 @@
 }
 
 .sb--collapsed {
-  width: var(--sb-width-collapsed);
+  max-width: 5%;
 }
 
 /* ---------- Brand ---------- */

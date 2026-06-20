@@ -1,0 +1,191 @@
+/* ==========================================
+                CONTAINER
+========================================== */
+
+.contract-expiry {
+    background: #ffffff;
+
+    border: 1px solid #eef0f3;
+    border-radius: 20px;
+
+    padding: 1.4rem;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 12px 32px rgba(0,0,0,.03);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.contract-expiry:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.04),
+        0 24px 60px rgba(0,0,0,.06);
+}
+
+/* ==========================================
+                TITLE
+========================================== */
+
+.contract-expiry__title {
+    font-size: 1rem;
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 1.25rem;
+}
+
+/* ==========================================
+                LIST
+========================================== */
+
+.contract-expiry__list {
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.75rem;
+}
+
+/* ==========================================
+                ITEM
+========================================== */
+
+.contract-expiry__item {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid #f1f3f5;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.contract-expiry__item:hover {
+    transform: translateX(4px);
+
+    border-color: #e5e7eb;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.04);
+}
+
+/* ==========================================
+                INFO
+========================================== */
+
+.contract-expiry__info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.25rem;
+}
+
+.contract-expiry__name {
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    color: #111827;
+}
+
+.contract-expiry__date {
+    font-size: 0.78rem;
+
+    color: #6b7280;
+}
+
+/* ==========================================
+                BADGES
+========================================== */
+
+.contract-expiry__badge {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 90px;
+
+    padding: 0.45rem 0.85rem;
+
+    border-radius: 999px;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.contract-expiry__badge:hover {
+    transform: scale(1.04);
+}
+
+/* ==========================================
+                HIGH URGENCY
+========================================== */
+
+.contract-expiry__badge--high {
+    background: rgba(239, 68, 68, 0.12);
+
+    color: #dc2626;
+
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* ==========================================
+                MEDIUM URGENCY
+========================================== */
+
+.contract-expiry__badge--medium {
+    background: rgba(245, 158, 11, 0.12);
+
+    color: #d97706;
+
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+/* ==========================================
+                LOW URGENCY
+========================================== */
+
+.contract-expiry__badge--low {
+    background: rgba(34, 197, 94, 0.12);
+
+    color: #15803d;
+
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 640px) {
+    .contract-expiry__item {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 0.75rem;
+    }
+
+    .contract-expiry__badge {
+        width: 100%;
+    }
+}
