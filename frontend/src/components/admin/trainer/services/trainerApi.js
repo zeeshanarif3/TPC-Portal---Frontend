@@ -1,4 +1,8 @@
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000/api';
+
+
+
+// const USE_MOCK = false; //flip this to true to use mock data . Set to false to use real API calls.
 const USE_MOCK = true; //flip this to true to use mock data . Set to false to use real API calls.
 
 const MOCK_TRAINERS = [

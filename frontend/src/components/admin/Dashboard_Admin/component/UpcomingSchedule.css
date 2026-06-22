@@ -5,10 +5,10 @@
 /* ==========================================
                 CARD
 ========================================== */
-.upcoming-schedule__title{
+.upcoming-Schedulle__title{
     margin-bottom: 1.8rem;
 }
-.schedule-card {
+.Schedulle-card {
     height: 420px;
 
     display: flex;
@@ -26,7 +26,7 @@
             SCROLL AREA
 ========================================== */
 
-.upcoming-schedule {
+.upcoming-Schedulle {
     flex: 1;
 
     overflow-y: auto;
@@ -39,7 +39,7 @@
                 TABLE
 ========================================== */
 
-.upcoming-schedule table {
+.upcoming-Schedulle table {
     width: 100%;
     border-collapse: collapse;
 }
@@ -48,7 +48,7 @@
                 HEADER
 ========================================== */
 
-.upcoming-schedule thead {
+.upcoming-Schedulle thead {
     position: sticky;
     top: 0;
 
@@ -57,7 +57,7 @@
     background: #ffffff;
 }
 
-.upcoming-schedule th {
+.upcoming-Schedulle th {
     padding: 1rem 1.25rem;
 
     text-align: left;
@@ -79,13 +79,13 @@
                 ROWS
 ========================================== */
 
-.upcoming-schedule tbody tr {
+.upcoming-Schedulle tbody tr {
     transition:
         background-color .2s ease,
         transform .2s ease;
 }
 
-.upcoming-schedule tbody tr:hover {
+.upcoming-Schedulle tbody tr:hover {
     background: #f8fafc;
 }
 
@@ -93,7 +93,7 @@
                 CELLS
 ========================================== */
 
-.upcoming-schedule td {
+.upcoming-Schedulle td {
     padding: 1rem 1.25rem;
 
     font-size: 0.9rem;
@@ -102,7 +102,7 @@
     border-bottom: 1px solid #f1f5f9;
 }
 
-.upcoming-schedule td:first-child {
+.upcoming-Schedulle td:first-child {
     font-weight: 600;
 }
 
@@ -149,17 +149,17 @@
                 SCROLLBAR
 ========================================== */
 
-.upcoming-schedule::-webkit-scrollbar {
+.upcoming-Schedulle::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
-.upcoming-schedule::-webkit-scrollbar-thumb {
+.upcoming-Schedulle::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, .15);
     border-radius: 999px;
 }
 
-.upcoming-schedule::-webkit-scrollbar-track {
+.upcoming-Schedulle::-webkit-scrollbar-track {
     background: transparent;
 }
 
@@ -168,12 +168,12 @@
 ========================================== */
 
 @media (max-width: 768px) {
-    .schedule-card {
+    .Schedulle-card {
         height: 360px;
     }
 
-    .upcoming-schedule th,
-    .upcoming-schedule td {
+    .upcoming-Schedulle th,
+    .upcoming-Schedulle td {
         padding: 0.85rem;
     }
 }

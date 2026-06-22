@@ -11,10 +11,30 @@ import {
     fetchContractExpiry,
 } from '../services/dashboardapi';
 
+
+
+
+
+
+// ─── Config ───────────────────────────────────────────────────────────────────
+
+// const USE_MOCK = false; // flip to true to use mock data
+const USE_MOCK = true; // flip to true to use mock data
+
+// ─── Hook ─────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
+
+
+
 const MOCK_COLLEGES = [
-    { id: 'aup', label: 'AUP' },
+    { id: '1', label: 'AUP' },
     { id: 'thapar', label: 'Thapar' },
     { id: 'nit', label: 'NIT Jalandhar' },
 ];
@@ -89,15 +109,9 @@ const MOCK_CONTRACT_EXPIRY = [
     { id: 3, name: 'Dev Anand', expiresLabel: 'Expires Aug 1', daysLeft: 29, urgency: 'low' },
 ];
 
-// ─── Config ───────────────────────────────────────────────────────────────────
-
-// const USE_MOCK = false; // flip to true to use mock data
-const USE_MOCK = true; // flip to true to use mock data
-
-// ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useDashboard(token) {
-    const [selectedCollege, setSelectedCollege] = useState('aup');
+    const [selectedCollege, setSelectedCollege] = useState('6852a4e89d5e7f3f7a123456');
     const [colleges, setColleges] = useState([]);
     const [stats, setStats] = useState(null);
     const [trainers, setTrainers] = useState([]);

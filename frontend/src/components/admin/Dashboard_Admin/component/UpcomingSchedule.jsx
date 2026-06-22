@@ -5,15 +5,15 @@ import './UpcomingSchedule.css';
 // UpcomingSchedule.jsx
 export default function UpcomingSchedule({ schedule, onViewAll }) {
   return (
-    <div className="upcoming-schedule">
-      <div className="upcoming-schedule__header">
-        <h3 className="upcoming-schedule__title">Upcoming schedule</h3>
-        {/* <button className="upcoming-schedule__view-all" onClick={onViewAll}>
+    <div className="upcoming-Schedulle">
+      <div className="upcoming-Schedulle__header">
+        <h3 className="upcoming-Schedulle__title">Upcoming schedule</h3>
+        {/* <button className="upcoming-Schedulle__view-all" onClick={onViewAll}>
           View all
         </button> */}
       </div>
 
-      <table className="upcoming-schedule__table">
+      <table className="upcoming-Schedulle__table">
         <thead>
           <tr>
             <th>Trainer</th>

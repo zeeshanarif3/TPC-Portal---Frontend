@@ -1,3 +1,5 @@
+
+
 .user-info {
     position: relative;
     display: flex;
@@ -226,6 +228,6 @@
 }
 
 .logout-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 0px;
+    /* height: 16px; */
 }

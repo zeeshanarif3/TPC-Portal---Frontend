@@ -1,0 +1,388 @@
+/* ==========================================
+                LAYOUT
+========================================== */
+
+.Schedulees-calendar-container {
+    display: grid;
+
+    grid-template-columns: 1fr 320px;
+
+    gap: 1.5rem;
+
+    align-items: start;
+    max-height: 100vh;
+    overflow: scroll;
+}
+
+/* ==========================================
+                MAIN CALENDAR
+========================================== */
+
+.calendar-main {
+    background: white;
+
+    border: 1px solid #eef0f3;
+    border-radius: 24px;
+
+    overflow: auto;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 20px 40px rgba(0,0,0,.04);
+}
+
+/* ==========================================
+                GRID
+========================================== */
+
+.calendar-grid {
+    min-width: 100%;
+}
+
+/* ==========================================
+                HEADER
+========================================== */
+
+.grid-header {
+    display: grid;
+
+    grid-template-columns: 90px repeat(5, 1fr);
+
+    position: sticky;
+    top: 0;
+
+    background: white;
+
+    z-index: 20;
+
+    border-bottom: 1px solid #edf0f2;
+}
+
+.day-header,
+.time-label {
+    padding: 1rem;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .05em;
+
+    color: #6b7280;
+}
+
+.day-header {
+    text-align: center;
+}
+
+/* ==========================================
+                ROWS
+========================================== */
+
+.time-row {
+    display: grid;
+
+    grid-template-columns: 90px repeat(5, 1fr);
+
+    min-height: 90px;
+}
+
+.time-row:not(:last-child) {
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.time-row .time-label {
+    border-right: 1px solid #f3f4f6;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding-top: 1rem;
+}
+
+/* ==========================================
+                SLOT
+========================================== */
+
+.time-slot {
+    position: relative;
+
+    padding: 0.5rem;
+
+    border-right: 1px solid #f3f4f6;
+
+    transition: background .25s ease;
+}
+
+.time-slot:hover {
+    background: #fafafa;
+}
+
+/* ==========================================
+                Schedulee CARD
+========================================== */
+
+.Schedulee-card {
+    position: relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1f2937
+        );
+
+    color: white;
+
+    border-radius: 14px;
+
+    padding: 0.75rem;
+
+    margin-bottom: 0.5rem;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+    cursor: pointer;
+    height: auto;
+}
+
+.Schedulee-card:hover,
+.Schedulee-card.hovered {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 24px rgba(17,24,39,.18);
+}
+
+.card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    margin-bottom: 0.25rem;
+}
+
+.card-trainer {
+    font-size: 0.75rem;
+
+    opacity: .8;
+}
+
+/* ==========================================
+                DELETE BUTTON
+========================================== */
+
+.btn-delete-card {
+    position: absolute;
+
+    top: 8px;
+    right: 8px;
+
+    width: 22px;
+    height: 22px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.18);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: background .2s ease;
+}
+
+.btn-delete-card:hover {
+    background: rgba(255,255,255,.30);
+}
+
+/* ==========================================
+                MINI CALENDAR
+========================================== */
+
+.mini-calendar {
+    background: white;
+
+    border: 1px solid #eef0f3;
+    border-radius: 24px;
+
+    padding: 1.25rem;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 20px 40px rgba(0,0,0,.04);
+
+    position: sticky;
+    top: 1rem;
+}
+
+/* ==========================================
+                NAVIGATION
+========================================== */
+
+.calendar-nav {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 1.5rem;
+}
+
+.calendar-nav button {
+    width: 34px;
+    /* height: 34px; */
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #f3f4f6;
+
+    cursor: pointer;
+
+    font-size: 1rem;
+
+    transition: all .2s ease;
+}
+
+.calendar-nav button:hover {
+    background: #e5e7eb;
+
+    transform: translateY(-1px);
+}
+
+.calendar-month {
+    font-weight: 700;
+
+    color: #111827;
+}
+
+/* ==========================================
+                WEEKDAYS
+========================================== */
+
+.calendar-weekdays {
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    margin-bottom: 0.75rem;
+}
+
+.weekday {
+    text-align: center;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    color: #9ca3af;
+}
+
+/* ==========================================
+                DATES
+========================================== */
+
+.calendar-dates {
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    gap: 4px;
+}
+
+.date {
+    aspect-ratio: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-size: 0.85rem;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.date:hover {
+    background: #f3f4f6;
+
+    transform: scale(1.05);
+}
+
+.date.empty {
+    cursor: default;
+}
+
+.date.today {
+    background: #111827;
+
+    color: white;
+
+    font-weight: 700;
+}
+
+.date.selected {
+    background: #e5e7eb;
+
+    color: #111827;
+
+    font-weight: 700;
+}
+
+.date.today.selected {
+    background: #111827;
+    color: white;
+}
+
+/* ==========================================
+                TODAY LABEL
+========================================== */
+
+.calendar-today {
+    margin-top: 1.25rem;
+
+    text-align: center;
+
+    padding: 0.75rem;
+
+    border-radius: 12px;
+
+    background: #f9fafb;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    color: #6b7280;
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 1200px) {
+
+    .Schedulees-calendar-container {
+        grid-template-columns: 1fr;
+    }
+
+    .mini-calendar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .calendar-grid {
+        min-width: 800px;
+    }
+}

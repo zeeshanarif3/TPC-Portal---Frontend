@@ -1,0 +1,326 @@
+/* ==========================================
+                PAGE
+========================================== */
+
+.attendance-page {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+
+    padding: 1.5rem;
+}
+
+/* ==========================================
+                HEADER
+========================================== */
+
+.attendance-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.attendance-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+
+    color: #111827;
+
+    margin-bottom: 0.25rem;
+
+    letter-spacing: -0.03em;
+}
+
+.attendance-header p {
+    font-size: 0.95rem;
+
+    color: #6b7280;
+}
+
+/* ==========================================
+                PRIMARY BUTTON
+========================================== */
+
+.btn-take-attendance {
+    border: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1f2937
+        );
+
+    color: white;
+
+    padding: 0.95rem 1.35rem;
+
+    border-radius: 14px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.btn-take-attendance:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 30px rgba(17,24,39,.18);
+}
+
+.btn-take-attendance:active {
+    transform: translateY(0);
+}
+
+/* ==========================================
+                FILTER BAR
+========================================== */
+
+.attendance-filters {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1rem 1.25rem;
+
+    background: white;
+
+    border: 1px solid #eef0f3;
+    border-radius: 22px;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 15px 35px rgba(0,0,0,.03);
+}
+
+/* ==========================================
+                SEARCH
+========================================== */
+
+.search-box {
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.75rem;
+
+    padding: 0.9rem 1rem;
+
+    background: #fafafa;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.search-box:focus-within {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 4px rgba(17,24,39,.05);
+}
+
+.search-icon {
+    color: #9ca3af;
+}
+
+.search-box input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 0.95rem;
+
+    color: #111827;
+}
+
+.search-box input::placeholder {
+    color: #9ca3af;
+}
+
+/* ==========================================
+                DATE FILTER
+========================================== */
+
+.date-filter {
+    min-width: 180px;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    background: white;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.date-filter:focus {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 4px rgba(17,24,39,.05);
+}
+
+/* ==========================================
+                EXPORT BUTTON
+========================================== */
+
+.btn-export-csv {
+    border: 1px solid #e5e7eb;
+
+    background: white;
+
+    color: #111827;
+
+    padding: 0.9rem 1.2rem;
+
+    border-radius: 14px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.btn-export-csv:hover {
+    background: #f9fafb;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.05);
+}
+
+/* ==========================================
+                LOADING
+========================================== */
+
+.loading {
+    padding: 1rem 1.25rem;
+
+    border-radius: 18px;
+
+    background: white;
+
+    border: 1px solid #eef0f3;
+
+    color: #6b7280;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 10px 20px rgba(0,0,0,.03);
+}
+
+/* ==========================================
+                ERROR
+========================================== */
+
+.error {
+    padding: 1rem 1.25rem;
+
+    border-radius: 18px;
+
+    background: rgba(239,68,68,.08);
+
+    border: 1px solid rgba(239,68,68,.15);
+
+    color: #dc2626;
+
+    font-weight: 600;
+}
+
+/* ==========================================
+                SECTION ANIMATION
+========================================== */
+
+.attendance-page > * {
+    animation: attendanceFade .35s ease;
+}
+
+@keyframes attendanceFade {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+
+    .attendance-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .btn-take-attendance {
+        width: 100%;
+    }
+
+    .attendance-filters {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .date-filter,
+    .btn-export-csv {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .attendance-page {
+        padding: 1rem;
+    }
+
+    .attendance-header h1 {
+        font-size: 1.6rem;
+    }
+}

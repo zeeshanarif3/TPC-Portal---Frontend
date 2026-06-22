@@ -9,13 +9,14 @@ import Sidebar from "../../components/admin/side bar/sidebar";
 import CollegePage from "../../components/admin/colledge/colledge";
 import TrainersPage from "../../components/admin/trainer/trainer";
 import ContractsPage from "../../components/admin/contract/contract";
-
-
+import SessionsPage from "../../components/admin/session/sessions";
+import SchedulesPage from "../../components/admin/schedules/schedules";
+import AttendancePage from "../../components/admin/attendance/attendance";
 
 function Admin_portal({ token, user, handleLogout }) {
 
     // const [page, setPage] = useState("dashboard"); //Default
-    const [page, setPage] = useState("contracts");
+    const [page, setPage] = useState("attendance");
 
 
     return (
@@ -32,6 +33,10 @@ function Admin_portal({ token, user, handleLogout }) {
                     {page === "college" && <CollegePage token={token} />}
                     {page === "trainer" && <TrainersPage token={token} />}
                     {page === "contracts" && <ContractsPage token={token} />}
+                    {page === "sessions" && <SessionsPage token={token} />}
+                    {page === "schedule" && <SchedulesPage token={token} />}
+                    {page === "attendance" && <AttendancePage token={token} />}
+
 
                 </main>
             </div>

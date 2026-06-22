@@ -107,6 +107,7 @@ function Anim() {
             <section id="anim">
 
                 <svg
+                    className='svgg'
                     viewBox="0 0 380 320"
                     xmlns="http://www.w3.org/2000/svg"
                 >

@@ -1,0 +1,290 @@
+/* ==========================================
+                PAGE
+========================================== */
+
+.sessions-page {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+
+    padding: 1.5rem;
+    min-height: 100vh;
+
+}
+
+/* ==========================================
+                HEADER
+========================================== */
+
+.sessions-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.sessions-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+
+    color: #111827;
+
+    margin-bottom: 0.25rem;
+}
+
+.sessions-header p {
+    font-size: 0.95rem;
+
+    color: #6b7280;
+}
+
+/* ==========================================
+                NEW SESSION BUTTON
+========================================== */
+
+.btn-new-session {
+    border: none;
+
+    background: #111827;
+    color: white;
+
+    padding: 0.9rem 1.25rem;
+
+    border-radius: 14px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.btn-new-session:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(17,24,39,.18);
+}
+
+.btn-new-session:active {
+    transform: translateY(0);
+}
+
+/* ==========================================
+                FILTER BAR
+========================================== */
+
+.sessions-filters {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1rem 1.25rem;
+
+    background: white;
+
+    border: 1px solid #eef0f3;
+    border-radius: 20px;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 10px 30px rgba(0,0,0,.03);
+}
+
+/* ==========================================
+                SEARCH
+========================================== */
+
+.search-box {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+
+    padding: 0.85rem 1rem;
+
+    background: #fafafa;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.search-box:focus-within {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 4px rgba(17,24,39,.05);
+}
+
+.search-icon {
+    opacity: 0.6;
+}
+
+.search-box input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 0.95rem;
+}
+
+.search-box input::placeholder {
+    color: #9ca3af;
+}
+
+/* ==========================================
+                FILTER SELECT
+========================================== */
+
+.status-filter {
+    min-width: 180px;
+
+    padding: 0.85rem 1rem;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    background: white;
+
+    font-size: 0.9rem;
+
+    cursor: pointer;
+
+    outline: none;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.status-filter:focus {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 4px rgba(17,24,39,.05);
+}
+
+/* ==========================================
+                EXPORT BUTTON
+========================================== */
+
+.btn-export-csv {
+    border: 1px solid #e5e7eb;
+
+    background: white;
+
+    color: #111827;
+
+    padding: 0.85rem 1.15rem;
+
+    border-radius: 14px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.btn-export-csv:hover {
+    background: #f9fafb;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.05);
+}
+
+/* ==========================================
+                LOADING
+========================================== */
+
+.loading {
+    padding: 1rem 1.25rem;
+
+    border-radius: 16px;
+
+    background: #f9fafb;
+
+    color: #6b7280;
+
+    font-weight: 600;
+}
+
+/* ==========================================
+                ERROR
+========================================== */
+
+.error {
+    padding: 1rem 1.25rem;
+
+    border-radius: 16px;
+
+    background: rgba(239,68,68,.08);
+
+    border: 1px solid rgba(239,68,68,.15);
+
+    color: #dc2626;
+
+    font-weight: 600;
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 900px) {
+
+    .sessions-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-new-session {
+        width: 100%;
+    }
+
+    .sessions-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-filter,
+    .btn-export-csv {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .sessions-page {
+        padding: 1rem;
+    }
+
+    .sessions-header h1 {
+        font-size: 1.6rem;
+    }
+}

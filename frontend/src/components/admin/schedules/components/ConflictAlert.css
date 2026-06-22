@@ -1,0 +1,209 @@
+/* ==========================================
+                CONTAINER
+========================================== */
+
+.conflict-alert-container {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+/* ==========================================
+                ALERT CARD
+========================================== */
+
+.conflict-alert {
+    position: relative;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1.1rem 1.25rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(245,158,11,.08),
+            rgba(255,255,255,1)
+        );
+
+    border: 1px solid rgba(245,158,11,.18);
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.02),
+        0 12px 30px rgba(0,0,0,.03);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.conflict-alert:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(245,158,11,.3);
+
+    box-shadow:
+        0 12px 30px rgba(245,158,11,.08),
+        0 25px 60px rgba(0,0,0,.05);
+}
+
+/* ==========================================
+                LEFT ACCENT
+========================================== */
+
+.conflict-alert::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 5px;
+    height: 100%;
+
+    background: #f59e0b;
+}
+
+/* ==========================================
+                CONTENT
+========================================== */
+
+.conflict-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    flex: 1;
+}
+
+/* ==========================================
+                ICON
+========================================== */
+
+.conflict-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: rgba(245,158,11,.12);
+
+    font-size: 1.15rem;
+}
+
+/* ==========================================
+                TEXT
+========================================== */
+
+.conflict-text {
+    color: #374151;
+
+    font-size: 0.92rem;
+
+    line-height: 1.5;
+}
+
+.conflict-text strong {
+    color: #92400e;
+
+    font-weight: 700;
+}
+
+/* ==========================================
+                RESOLVE BUTTON
+========================================== */
+
+.btn-resolve {
+    border: none;
+
+    background: #111827;
+    color: white;
+
+    padding: 0.8rem 1.15rem;
+
+    border-radius: 12px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.btn-resolve:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 24px rgba(17,24,39,.18);
+}
+
+.btn-resolve:active {
+    transform: translateY(0);
+}
+
+/* ==========================================
+                ENTRY ANIMATION
+========================================== */
+
+.conflict-alert {
+    animation: conflictSlide .35s ease;
+}
+
+@keyframes conflictSlide {
+
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .conflict-alert {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .btn-resolve {
+        width: 100%;
+    }
+
+    .conflict-content {
+        width: 100%;
+    }
+}
