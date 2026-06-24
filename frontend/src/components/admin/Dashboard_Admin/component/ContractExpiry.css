@@ -3,20 +3,30 @@
 ========================================== */
 
 .contract-expiry {
+   /* max-height: 20vh; */
+    min-width: 30vw;
+    height:stretch;
+    width: stretch;
+    /* min-height: 100vh; */
+    padding: 1.2rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2.5rem;
+    overflow: scroll;
+    border-radius: 18px;
+    
     background: #ffffff;
-
-    border: 1px solid #eef0f3;
-    border-radius: 20px;
-
-    padding: 1.4rem;
-
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 12px 32px rgba(0,0,0,.03);
-
+    color: #111827;
+      box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 8px 24px rgba(0,0,0,.05);
     transition:
-        transform .3s ease,
-        box-shadow .3s ease;
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+
 }
 
 .contract-expiry:hover {

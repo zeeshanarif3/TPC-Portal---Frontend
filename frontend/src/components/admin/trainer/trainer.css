@@ -27,31 +27,21 @@ PAGE
 ========================================== */
 
 .trainers-page {
-position: relative;
-
-     
-display: flex;
-flex-direction: column;
-
-gap: 28px;
-
-width: 100%;
-min-height: 100vh;
-
-padding: 12px;
-
-overflow: hidden;
-
-background:
-    linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #fafbfc 45%,
-        #f6f8fb 100%
-    );
-
-animation: pageFade .6s ease;
-     
+    height:stretch;
+    width: stretch;
+    /* min-height: 100vh; */
+    padding: 2.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    overflow: scroll;
+    border-radius: 18px;
+    
+    background: #ffffff;
+    color: #111827;
+      box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 8px 24px rgba(0,0,0,.05);
 
 }
 

@@ -1,369 +1,55 @@
-* {
-    box-sizing: border-box;
-}
-
-/* ==========================================
-            ATTENDANCE CHART
-========================================== */
-
 .attendance-chart {
-    position: relative;
-
-    width: 100%;
-    max-width: 420px;
-    min-width: 320px;
-
-    padding: 1.5rem;
-
-    background: white;
-
-    border: 1px solid #e5e7eb;
-    border-radius: 24px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.03),
-        0 18px 40px rgba(0,0,0,.04);
-
+   /* max-height: 20vh; */
+    min-width: 30vw;
+    height:stretch;
+    width: stretch;
+    /* min-height: 100vh; */
+    padding: 1.2rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2.5rem;
+    overflow: scroll;
+    border-radius: 18px;
+    
+    background: #ffffff;
+    color: #111827;
+      box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 8px 24px rgba(0,0,0,.05);
     transition:
         transform .35s ease,
         box-shadow .35s ease,
-        border-color .35s ease,
-        border-radius .35s ease;
+        border-color .35s ease;
 
-    animation: attendanceEnter .7s cubic-bezier(.16,1,.3,1);
+
 }
 
 .attendance-chart:hover {
-    transform: translateY(-8px);
-
-    border-radius: 28px;
+    transform: translateY(-6px);
 
     border-color: #d1d5db;
 
     box-shadow:
-        0 15px 35px rgba(0,0,0,.07),
-        0 35px 70px rgba(0,0,0,.06);
+        0 12px 30px rgba(0,0,0,.06),
+        0 30px 60px rgba(0,0,0,.06);
 }
 
-/* subtle premium shine */
-
-.attendance-chart::before {
-    content: "";
-
-    position: absolute;
-
-    top: -200%;
-    left: -200%;
-
-    width: 400%;
-    height: 400%;
-
-    background:
-        linear-gradient(
-            120deg,
-            transparent 45%,
-            rgba(255,255,255,.8) 50%,
-            transparent 55%
-        );
-
-    opacity: 0;
-}
-
-/* .attendance-chart:hover::before {
-    opacity: 1;
-
-    animation: chartShine 1.2s ease;
-} */
-
-/* @keyframes chartShine {
-    from {
-        transform: translateX(-20%);
-    }
-
-    to {
-        transform: translateX(20%);
-    }
-} */
-
-/* ==========================================
-                HEADER
-========================================== */
 
 .attendance-chart__header {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-bottom: 1rem; */
 }
 
 .attendance-chart__title {
-    font-size: 1.05rem;
-    font-weight: 700;
-
-    letter-spacing: -0.02em;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
 }
 
-/* ==========================================
-                ACTION BUTTON
-========================================== */
-
-.attendance-chart__action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0.55rem 0.9rem;
-
-    border: 1px solid black;
-    border-radius: 12px;
-
-    background: white;
-
-    cursor: pointer;
-
-    font-weight: 500;
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-}
-
-.attendance-chart__action:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 18px rgba(0,0,0,.08);
-}
-
-.attendance-chart__action:active {
-    transform: scale(.97);
-}
-
-/* ==========================================
-                BARS AREA
-========================================== */
-
-.attendance-chart__bars {
-    position: relative;
-
-    height: 100px;
-
-    display: flex;
-
-    align-items: flex-end;
-    justify-content: space-between;
-
-    gap: 0.9rem;
-
-    padding-top: 10px;
-}
-
-/* subtle baseline */
-
-.attendance-chart__bars::after {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    bottom: 28px;
-
-    height: 1px;
-
-    background: rgba(0,0,0,.08);
-}
-
-/* ==========================================
-                BAR GROUP
-========================================== */
-
-.attendance-chart__bar-group {
-    flex: 1;
-
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-
-    transition: transform .25s ease;
-}
-
-.attendance-chart__bar-group:hover {
-    transform: translateY(-4px);
-}
-
-/* ==========================================
-                BAR WRAP
-========================================== */
-
-/* .attendance-chart__bar-wrap {
-    flex: 1;
-
-    width: 100%;
-
-    display: flex;
-
-    align-items: flex-end;
-    justify-content: center;
-} */
-
-/* ==========================================
-                BAR
-========================================== */
-
-.attendance-chart__bar {
-    width: 80%;
-    max-width: 42px;
-
-    background: black;
-
-    border-radius: 12px 12px 0 0;
-
-    transform-origin: bottom;
-
-    animation:
-        growBar .8s cubic-bezier(.16,1,.3,1);
-
-    transition:
-        transform .25s ease,
-        filter .25s ease,
-        height .4s ease;
-}
-
-.attendance-chart__bar:hover {
-    transform: scaleY(1.05);
-
-    filter: brightness(1.15);
-}
-
-@keyframes growBar {
-    from {
-        height: 0 !important;
-    }
-
-    to {
-        height: inherit;
-    }
-}
-
-/* ==========================================
-                DAY LABEL
-========================================== */
-
-.attendance-chart__day {
-    margin-top: 0.8rem;
-
-    font-size: 0.85rem;
-    font-weight: 600;
-
-    opacity: .8;
-
-    transition: opacity .25s ease;
-}
-
-.attendance-chart__bar-group:hover
-.attendance-chart__day {
-    opacity: 1;
-}
-
-/* ==========================================
-                ENTRANCE
-========================================== */
-
-@keyframes attendanceEnter {
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(25px)
-            scale(.97);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-/* ==========================================
-                RESPONSIVE
-========================================== */
-
-@media (max-width: 1000px) {
-
-    .attendance-chart {
-        max-width: 100%;
-        min-width: unset;
-    }
-}
-
-@media (max-width: 768px) {
-
-    .attendance-chart {
-        padding: 1.25rem;
-    }
-
-    .attendance-chart__bars {
-        height: 150px;
-        gap: 0.6rem;
-    }
-
-    .attendance-chart__bar {
-        max-width: 30px;
-    }
-
-    .attendance-chart__title {
-        font-size: 1rem;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-.attendance-chart__bar-wrap {
-    flex: 1;
-
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: flex-end;
-    align-items: center;
-
-    gap: 8px;
-}
-
-.attendance-chart__value {
-    font-size: 0.8rem;
-    font-weight: 700;
-
-    line-height: 1;
-
-    opacity: 0.8;
-
-    transition:
-        transform .25s ease,
-        opacity .25s ease;
-}
-
-.attendance-chart__bar-group:hover .attendance-chart__value {
-    opacity: 1;
-    transform: translateY(-2px);
+.attendance-chart__content {
+  width: 100%;
+  height: 220px;
 }

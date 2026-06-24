@@ -49,7 +49,7 @@ const NAV_ITEMS = [
 export default function Sidebar({
     activeItem: activeItemProp,
     onNavigate,
-    defaultCollapsed = false,
+    defaultCollapsed = true,
     role,
     handleLogout,
 }) {
@@ -76,91 +76,91 @@ export default function Sidebar({
 
     return (
         <aside className={`sb ${collapsed ? "sb--collapsed" : ""}`}>
-            <div className="sb__brand">
-                <div className="sb__brand-mark">IC</div>
-                {!collapsed && (
-                    <div className="sb__brand-text">
-                        <span className="sb__brand-line">ICON /</span>
-                        <span className="sb__brand-line">COMPANY</span>
-                    </div>
-                )}
-            </div>
+            <div className="sb_cont">
 
-            <nav className="sb__nav">
-                {NAV_ITEMS.map((item) => {
-                    const Icon = item.icon;
-                    const hasChildren = Boolean(item.children);
-                    const isActive = activeItem === item.key;
-                    const isExpanded = expandedKey === item.key && !collapsed;
+                <div className="sb__brand">
+                    <div className="sb__brand-mark">IC</div>
+                    {!collapsed && (
+                        <div className="sb__brand-text">
+                            <span className="sb__brand-line">ICON /</span>
+                            <span className="sb__brand-line">COMPANY</span>
+                        </div>
+                    )}
+                </div>
 
-                    return (
-                        <div key={item.key} className="sb__group">
-                            <button
-                                type="button"
-                                className={`sb__item ${isActive ? "sb__item--active" : ""}`}
-                                onClick={() => handleSelect(item.key, hasChildren)}
-                                title={collapsed ? item.label : undefined}
-                                aria-current={isActive ? "page" : undefined}
-                                aria-expanded={hasChildren ? isExpanded : undefined}
-                            >
-                                <span className="sb__item-icon">
-                                    <Icon size={18} strokeWidth={1.75} />
-                                </span>
-                                {!collapsed && (
-                                    <span className="sb__item-label">{item.label}</span>
-                                )}
-                                {!collapsed && hasChildren && (
-                                    <ChevronRight
-                                        size={14}
-                                        className={`sb__chevron ${isExpanded ? "sb__chevron--open" : ""
-                                            }`}
-                                    />
-                                )}
-                            </button>
+                <nav className="sb__nav">
+                    {NAV_ITEMS.map((item) => {
+                        const Icon = item.icon;
+                        const hasChildren = Boolean(item.children);
+                        const isActive = activeItem === item.key;
+                        const isExpanded = expandedKey === item.key && !collapsed;
 
-                            {hasChildren && isExpanded && (
-                                <div className="sb__submenu">
-                                    {item.children.map((child) => (
-                                        <button
-                                            key={child.key}
-                                            type="button"
-                                            className={`sb__subitem ${activeItem === child.key
+                        return (
+                            <div key={item.key} className="sb__group">
+                                <button
+                                    type="button"
+                                    className={`sb__item ${isActive ? "sb__item--active" : ""}`}
+                                    onClick={() => handleSelect(item.key, hasChildren)}
+                                    title={collapsed ? item.label : undefined}
+                                    aria-current={isActive ? "page" : undefined}
+                                    aria-expanded={hasChildren ? isExpanded : undefined}
+                                >
+                                    <span className="sb__item-icon">
+                                        <Icon size={18} strokeWidth={1.75} />
+                                    </span>
+                                    {!collapsed && (
+                                        <span className="sb__item-label">{item.label}</span>
+                                    )}
+                                    {!collapsed && hasChildren && (
+                                        <ChevronRight
+                                            size={14}
+                                            className={`sb__chevron ${isExpanded ? "sb__chevron--open" : ""
+                                                }`}
+                                        />
+                                    )}
+                                </button>
+
+                                {hasChildren && isExpanded && (
+                                    <div className="sb__submenu">
+                                        {item.children.map((child) => (
+                                            <button
+                                                key={child.key}
+                                                type="button"
+                                                className={`sb__subitem ${activeItem === child.key
                                                     ? "sb__subitem--active"
                                                     : ""
-                                                }`}
-                                            onClick={() => handleSelect(child.key, false)}
-                                        >
-                                            {child.label}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
-            </nav>
-            {/* <div className="role">
+                                                    }`}
+                                                onClick={() => handleSelect(child.key, false)}
+                                            >
+                                                {child.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </nav>
+                {/* <div className="role">
         {role.name}
-      </div>
+        </div>
+        
+        <UserInfo></UserInfo> */}
+                {
+                    (role) ? (
 
-      <UserInfo></UserInfo> */}
-            {
-            (role)?(
-
-            <UserInfo
-                user={{
-                    name: role.name,
-                    email: role.email,
-                }}
-                role={{ role: role.role }}
-                onLogout={() => {
-                    handleLogout();
-                }}
-                collapsed={collapsed}
-                />
-            ):(null)};
-
-
+                        <UserInfo
+                            user={{
+                                name: role.name,
+                                email: role.email,
+                            }}
+                            role={{ role: role.role }}
+                            onLogout={() => {
+                                handleLogout();
+                            }}
+                            collapsed={collapsed}
+                        />
+                    ) : (null)}
 
 
 
@@ -178,22 +178,25 @@ export default function Sidebar({
 
 
 
-            <button
-                type="button"
-                className="sb__collapse-toggle"
-                onClick={() => setCollapsed((c) => !c)}
-                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-                {collapsed ? (
-                    <ChevronsRight size={16} strokeWidth={1.75} />
-                ) : (
-                    <>
-                        <ChevronsLeft size={16} strokeWidth={1.75} />
-                        <span>Collapse</span>
-                    </>
-                )}
-            </button>
+
+
+                <button
+                    type="button"
+                    className="sb__collapse-toggle"
+                    onClick={() => setCollapsed((c) => !c)}
+                    aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                >
+                    {collapsed ? (
+                        <ChevronsRight size={16} strokeWidth={1.75} />
+                    ) : (
+                        <>
+                            <ChevronsLeft size={16} strokeWidth={1.75} />
+                            <span>Collapse</span>
+                        </>
+                    )}
+                </button>
+            </div>
         </aside>
     );
 }

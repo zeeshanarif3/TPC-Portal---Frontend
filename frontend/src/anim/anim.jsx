@@ -114,7 +114,7 @@ function Anim() {
 
 
                     <text
-                        x="-125"
+                        x="-35"
                         y="85"
                         className="tpc-logo"
                     >
@@ -124,7 +124,7 @@ function Anim() {
 
   
                     <text
-                        x="80"
+                        x="170"
                         y="295"
                         className="tpc-logo"
                     >
@@ -134,7 +134,7 @@ function Anim() {
 
 
                     <text
-                        x="-155"
+                        x="-65"
                         y="450"
                         className="tpc-logo"
                     >

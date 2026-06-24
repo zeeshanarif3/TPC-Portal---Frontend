@@ -1,11 +1,41 @@
 .subject-distribution {
-    height: 100%;
-    background: #fff;
-    border-radius: 16px;
-    padding: 22px;
+   /* max-height: 20vh; */
+    min-width: 30vw;
+    height:stretch;
+    width: stretch;
+    /* min-height: 100vh; */
+    padding: 1.2rem 1.2rem;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    gap: 2.5rem;
+    overflow: scroll;
+    border-radius: 18px;
+    
+    background: #ffffff;
+    color: #111827;
+      box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 8px 24px rgba(0,0,0,.05);
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+
 }
+
+
+.subject-distribution:hover {
+    transform: translateY(-6px);
+
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.06),
+        0 30px 60px rgba(0,0,0,.06);
+}
+
 
 .subject-distribution__header {
     display: flex;

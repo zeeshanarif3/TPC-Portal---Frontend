@@ -8,8 +8,12 @@ import Anim from "../anim/anim";
 
 function Main() {
 
-    // for smooth scrolling , for future components, currently not used
+
+    ////////// for smooth scrolling , for future components, currently not used ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // useLenis()
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -20,7 +24,7 @@ function Main() {
     const [ready, setReady] = useState(false);
 
 
-    // reset states
+    // main func states
     const handleLogout = () => {
         setUser(null);
         setToken(null);
@@ -31,6 +35,10 @@ function Main() {
         // alert('Logged out');
     };
 
+
+
+
+    ///////////////////// 1 sec break for login/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -49,9 +57,7 @@ function Main() {
 
 
 
-
-
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     ////////// for animation ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,29 +65,30 @@ function Main() {
 
     const [animDone, setAnimDone] = useState(false);
 
-useEffect(() => {
-    const timer = setTimeout(() => {
-        console.log("setting true");
-        setAnimDone(true);
-    }, 2500);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            // console.log("setting true");
+            setAnimDone(true);
+        }, 2500);
 
-    return () => clearTimeout(timer);
-}, []);
+        return () => clearTimeout(timer);
+    }, []);
 
-useEffect(() => {
-    console.log("animDone =", animDone);
-}, [animDone]);
+    useEffect(() => {
+        console.log("animDone =", animDone);
+    }, [animDone]);
 
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return (
         <>
+        <div className="app-layout">
             {!animDone ? (
 
                 <Anim />
             ) : (ready && user ? (
-                <main>
+                <>
                     {user.role === "admin" && (
                         <Admin_portal
                             token={token}
@@ -89,7 +96,7 @@ useEffect(() => {
                             handleLogout={handleLogout}
                         />
                     )}
-                </main>
+                </>
             ) : (
                 <LandingPage
                     setUser={setUser}
@@ -99,108 +106,12 @@ useEffect(() => {
                     handleLogout={handleLogout}
                 />
             ))}
+
+        </div>
         </>
     );
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // return (
-    //     <>
-
-
-    //     {(user && token) ? (
-    //         <div className="app-layout">
-    //             <Sidebar
-    //                 activeItem={page}
-    //                 onNavigate={setPage}
-    //                 role={user}
-    //                 handleLogout={handleLogout}
-    //             />
-    //             <main className="app-content">
-    //                 <Dashboard token={token} page={page} />
-    //                 <button
-    //                     className="lp-btn-primary"
-    //                     onClick={handleLogout}
-    //                 >
-    //                     Log out
-    //                 </button>
-    //             </main>
-    //         </div>
-    //     ) : (
-    //         <LandingPage
-    //             setUser={setUser}
-    //             setToken={setToken}
-    //             user={user}
-    //             token={token}
-    //             handleLogout={handleLogout}
-    //         />
-    //     )}
-
-
-
-
-
-
-
-    {/* {(pass == true) ? (
-                <div>
-                    <Dashboard token={token} />
-                    <button
-                        className="lp-btn-primary"
-                        onClick={handleLogout}
-                    >
-                        Log out {token}
-                    </button>
-                </div>
-            ) : (
-                <LandingPage
-                    setPass={setPass}
-                    setUser={setUser}
-                    setToken={setToken}
-                    user={user}
-                    token={token}
-                    handleLogout={handleLogout}
-                />
-            )} */}
-
-    {/* <Sidebar
-                activeItem={page}
-                onNavigate={setPage}
-                // defaultCollapsed={defaultCollapsed} */}
-    {/* /> */ }
-
-
-
-
-    //     </>
-    // );
 }
 
 export default Main;

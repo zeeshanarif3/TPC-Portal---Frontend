@@ -1,3 +1,90 @@
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  Tooltip,
+} from 'recharts';
+
+import './AttendanceChart.css';
+
+export default function AttendanceChart({ data }) {
+  if (!data?.length) return null;
+
+  return (
+    <div className="attendance-chart">
+      <div className="attendance-chart__header">
+        <span className="attendance-chart__title">
+          Daily Attendance
+        </span>
+      </div>
+
+      <div className="attendance-chart__content">
+        <ResponsiveContainer width="100%" height={220}>
+          <AreaChart
+            data={data}
+            margin={{
+              top: 10,
+              right: 0,
+              left: -20,
+              bottom: 0,
+            }}
+          >
+            <defs>
+              <linearGradient
+                id="attendanceGradient"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop
+                  offset="0%"
+                  stopColor="#644f38"
+                  stopOpacity={0.18}
+                />
+                <stop
+                  offset="100%"
+                  stopColor="#644f38"
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
+
+            <XAxis
+              dataKey="day"
+              axisLine={false}
+              tickLine={false}
+              tick={{
+                fontSize: 12,
+                fill: '#64748B',
+              }}
+            />
+
+            <Tooltip
+              cursor={false}
+              contentStyle={{
+                border: 'none',
+                borderRadius: '12px',
+                boxShadow:
+                  '0 10px 30px rgba(0,0,0,0.08)',
+              }}
+            />
+
+            <Area
+              type="monotone"
+              dataKey="value"
+              stroke="#644f38"
+              strokeWidth={3}
+              fill="url(#attendanceGradient)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
+
 // import './AttendanceChart.css';
 
 // export default function AttendanceChart({
@@ -72,37 +159,37 @@
 // AttendanceChart.jsx
 // Lightweight bar chart — no external chart library needed.
 // Swap for Recharts/Chart.js if you prefer.
-import './AttendanceChart.css';
+// import './AttendanceChart.css';
 
-export default function AttendanceChart({ data }) {
-  if (!data || data.length === 0) return null;
+// export default function AttendanceChart({ data }) {
+//   if (!data || data.length === 0) return null;
 
-  const max = Math.max(...data.map((d) => d.value));
+//   const max = Math.max(...data.map((d) => d.value));
 
-  return (
-    <div className="attendance-chart">
-      <div className="attendance-chart__header">
-        <span className="attendance-chart__title">Daily Attendance</span>
-        {/* <button className="attendance-chart__action">Btech</button> */}
-      </div>
+//   return (
+//     <div className="attendance-chart">
+//       <div className="attendance-chart__header">
+//         <span className="attendance-chart__title">Daily Attendance</span>
+//         {/* <button className="attendance-chart__action">Btech</button> */}
+//       </div>
 
-      <div className="attendance-chart__bars">
+//       <div className="attendance-chart__bars">
         
-        {data.map((d) => (
-          <div key={d.day} className="attendance-chart__bar-group">
-            <div className="attendance-chart__bar-wrap">
-                <span className="attendance-chart__value">
-                  {d.value}
-                </span>
-              <div
-                className="attendance-chart__bar"
-                style={{ height: `${(d.value / max) * 100}%` }}
-              />
-            </div>
-            <span className="attendance-chart__day">{d.day}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+//         {data.map((d) => (
+//           <div key={d.day} className="attendance-chart__bar-group">
+//             <div className="attendance-chart__bar-wrap">
+//                 <span className="attendance-chart__value">
+//                   {d.value}
+//                 </span>
+//               <div
+//                 className="attendance-chart__bar"
+//                 style={{ height: `${(d.value / max) * 100}%` }}
+//               />
+//             </div>
+//             <span className="attendance-chart__day">{d.day}</span>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }

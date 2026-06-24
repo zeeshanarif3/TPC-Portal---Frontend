@@ -1,61 +1,35 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 /* ==========================================
                 TABLE CONTAINER
 ========================================== */
-
+.train-table__title{
+    margin-bottom: 1.8rem;
+}
 .train-table {
-    width: 100%;
-
-    height: 380px;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    padding-right: 4px;
-}
-
-/* ==========================================
-                HEADER
-========================================== */
-
-.train-table__header {
+    max-height: 33vh;
+    min-width: 30vw;
+    height:stretch;
+    width: stretch;
+    /* min-height: 100vh; */
+    padding: 1.2rem 1.2rem;
     display: flex;
-
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    gap: 2.5rem;
+    overflow: scroll;
+    border-radius: 18px;
+    
+    background: #ffffff;
+    color: #111827;
+      box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 8px 24px rgba(0,0,0,.05);
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
 
-    margin-bottom: 1rem;
-
-    position: sticky;
-    top: 0;
-
-    background: white;
-
-    z-index: 20;
-
-    padding-bottom: 0.75rem;
 }
 
-.train-table__title {
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.train-table__count {
-    padding: 0.45rem 0.8rem;
-
-    border-radius: 999px;
-
-    border: 1px solid #e5e7eb;
-
-    font-size: 0.75rem;
-    font-weight: 600;
-}
 
 /* ==========================================
                 TABLE
@@ -63,34 +37,38 @@
 
 .train-table__table {
     width: 100%;
-
-    border-collapse: separate;
-    border-spacing: 0 8px;
+    border-collapse: collapse;
 }
 
 /* ==========================================
                 TABLE HEADER
 ========================================== */
 
-.train-table__table thead th {
+.train-table__table thead {
     position: sticky;
-    top: 56px;
-
-    background: white;
+    top: -20;
 
     z-index: 10;
 
-    text-align: left;
+    background: #ffffff;
+}
 
-    padding: 0.75rem 1rem;
+.train-table__table th {
+    padding: 1rem 1.25rem;
+
+    text-align: left;
 
     font-size: 0.75rem;
     font-weight: 700;
 
-    letter-spacing: 0.06em;
     text-transform: uppercase;
+    letter-spacing: .06em;
 
     color: #6b7280;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
 }
 
 /* ==========================================
@@ -98,20 +76,13 @@
 ========================================== */
 
 .train-table__table tbody tr {
-    background: white;
-
     transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-
-    animation: trainRowEnter .5s ease;
+        background-color .2s ease,
+        transform .2s ease;
 }
 
 .train-table__table tbody tr:hover {
-    transform: translateX(6px);
-
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, .05);
+    background: #f8fafc;
 }
 
 /* ==========================================
@@ -119,28 +90,20 @@
 ========================================== */
 
 .train-table__table td {
-    padding: 1rem;
+    padding: 1rem 1.25rem;
 
-    font-size: 0.88rem;
+    font-size: 0.9rem;
+    color: #111827;
 
-    border-top: 1px solid #f0f1f3;
-    border-bottom: 1px solid #f0f1f3;
-
-    background: white;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .train-table__table td:first-child {
-    border-left: 1px solid #f0f1f3;
-
-    border-radius: 12px 0 0 12px;
-
     font-weight: 600;
 }
 
 .train-table__table td:last-child {
-    border-right: 1px solid #f0f1f3;
-
-    border-radius: 0 12px 12px 0;
+    font-weight: 600;
 }
 
 /* ==========================================
@@ -217,7 +180,7 @@
 ========================================== */
 
 .status-badge--active {
-    background: #111827;
+    background: #644f38;
     color: white;
     border-color: #111827;
 }
@@ -231,8 +194,8 @@
 ========================================== */
 
 .status-badge--inactive {
-    background: white;
-    color: #111827;
+    background: hsl(0, 0%, 0%);
+    color: hsl(0, 0%, 100%);
 }
 
 .status-badge--inactive .status-dot {
@@ -294,6 +257,7 @@
 ========================================== */
 
 @media (max-width: 768px) {
+
     .train-table__table th,
     .train-table__table td {
         padding: 0.8rem;

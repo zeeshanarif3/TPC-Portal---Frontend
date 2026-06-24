@@ -34,64 +34,36 @@ export default function DashboardPage({ token }) {
     return (
         <div className="dashboard">
 
-            {/* ── Row 1: stats + college selector + attendance chart ── */}
             <div className="dashboard__top-row">
-                <div className="left dashboard-card">
+                <div className="left  ">
                     <StatsCards stats={stats} />
+                    <div className="  disp_cont">
+
+                        <SubjectDistribution
+                            data={loading ? [] : courseDist}
+                        />
+
+                        <ContractExpiry
+                            contracts={loading ? [] : contractExpiry}
+                        />
+
+
+                    </div>
                 </div>
-                <div className="right dashboard-card">
+                <div className="right  ">
                     <CollegeSelector
                         colleges={colleges}
                         selected={selectedCollege}
                         onSelect={setSelectedCollege}
                     />
                     <AttendanceChart data={attendance} />
-
-
                 </div>
 
             </div>
-
-            {/* ── Row 2: trainers table + subject distribution ──
-            <div className="dashboard__mid-row">
-                <TrainersTable trainers={loading ? [] : trainers} />
-                <SubjectDistribution data={loading ? [] : courseDist} />
-            </div>
-
-            ── Row 3: upcoming schedule + contract expiry ──
-            <div className="dashboard__bottom-row">
-                <UpcomingSchedule
-                    schedule={loading ? [] : schedule}
-                    onViewAll={() => {}}
-                />
-                <ContractExpiry contracts={loading ? [] : contractExpiry} />
-            </div> */}
 
             <div className="dashboard__mid-row">
 
-                <div className="dashboard-card trainers-card">
-                    <TrainT
-                        trainers={loading ? [] : trainers}
-                    />
-                </div>
-
-
-                <div className="dashboard-card subject-card">
-
-                    <SubjectDistribution
-                        data={loading ? [] : courseDist}
-                    />
-
-                </div>
-
-            </div>
-
-
-
-            <div className="dashboard__bottom-row">
-
-
-                <div className="dashboard-card schedule-card">
+                <div className="Schedulle-card">
 
                     <UpcomingSchedule
                         schedule={loading ? [] : schedule}
@@ -100,14 +72,20 @@ export default function DashboardPage({ token }) {
 
                 </div>
 
+            </div>
 
-                <div className="dashboard-card expiry-card">
 
-                    <ContractExpiry
-                        contracts={loading ? [] : contractExpiry}
-                    />
 
-                </div>
+            <div className="dashboard__bottom-row">
+
+
+
+
+                <TrainT
+                    trainers={loading ? [] : trainers}
+                />
+
+
 
 
             </div>
