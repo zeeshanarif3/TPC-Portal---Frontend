@@ -1,5 +1,14 @@
 import "./SubjectDistribution.css";
 
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+} from "recharts";
+
 export default function SubjectDistribution({ data }) {
   if (!data || data.length === 0) {
     return (
@@ -15,11 +24,19 @@ export default function SubjectDistribution({ data }) {
     );
   }
 
-  const total = data.reduce((sum, item) => sum + item.count, 0);
+  const total = data.reduce(
+    (sum, item) => sum + item.count,
+    0
+  );
+
+  const chartData = data.map((item) => ({
+    name: item.subject,
+    value: item.count,
+    color: item.color || "#6366f1",
+  }));
 
   return (
     <div className="subject-distribution">
-
       <div className="subject-distribution__header">
         <h3 className="subject-distribution__title">
           Subject Distribution
@@ -30,47 +47,33 @@ export default function SubjectDistribution({ data }) {
         </span>
       </div>
 
-      <div className="subject-distribution__content">
-        {data.map((item) => {
-          const percent = ((item.count / total) * 100).toFixed(1);
-
-          return (
-            <div
-              key={item.subject}
-              className="subject-distribution__row"
+      <div className="subject-distribution__chart">
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={chartData}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={75}
+              outerRadius={110}
+              paddingAngle={3}
             >
-              <div className="subject-distribution__top">
-                <div className="subject-distribution__subject">
-                  <span
-                    className="subject-distribution__dot"
-                    style={{
-                      backgroundColor:
-                        item.color || "#4f46e5",
-                    }}
-                  />
-
-                  {item.subject}
-                </div>
-
-                <div className="subject-distribution__stats">
-                  <span>{item.count}</span>
-                  <span>{percent}%</span>
-                </div>
-              </div>
-
-              <div className="subject-distribution__track">
-                <div
-                  className="subject-distribution__fill"
-                  style={{
-                    width: `${percent}%`,
-                    backgroundColor:
-                      item.color || "#4f46e5",
-                  }}
+              {chartData.map((entry, index) => (
+                <Cell
+                  key={index}
+                  fill={entry.color}
                 />
-              </div>
-            </div>
-          );
-        })}
+              ))}
+            </Pie>
+
+            <Tooltip />
+
+            <Legend
+              verticalAlign="bottom"
+              iconType="circle"
+            />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
