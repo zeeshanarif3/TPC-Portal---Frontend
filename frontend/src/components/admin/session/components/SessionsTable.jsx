@@ -1,12 +1,22 @@
+import "./SessionsTable.css";
 
+import {
+  Eye,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 
-
-import './SessionsTable.css'
-
-
-export default function SessionsTable({ sessions, onDelete, onRefresh }) {
+export default function SessionsTable({
+  sessions,
+  onDelete,
+  onRefresh,
+}) {
   const handleDelete = async (sessionId) => {
-    if (window.confirm('Are you sure you want to delete this session?')) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this session?"
+      )
+    ) {
       await onDelete(sessionId);
       onRefresh();
     }
@@ -23,50 +33,84 @@ export default function SessionsTable({ sessions, onDelete, onRefresh }) {
             <th>END DATE</th>
             <th>COURSES</th>
             <th>STATUS</th>
-            <th>ACTIONS</th>
+            <th className="actions-column">
+              ACTIONS
+            </th>
           </tr>
         </thead>
+
         <tbody>
           {sessions.map((session) => (
             <tr key={session.id}>
-              <td className="session-id">{session.id}</td>
-              <td className="session-college">{session.college}</td>
-              <td className="session-start">{session.startDate}</td>
-              <td className="session-end">{session.endDate}</td>
-              <td className="session-courses">{session.courses}</td>
+              <td className="session-id">
+                {session.id}
+              </td>
+
+              <td className="session-college">
+                {session.college}
+              </td>
+
               <td>
-                <span className={`status-badge status-${session.status.toLowerCase()}`}>
+                {session.startDate}
+              </td>
+
+              <td>
+                {session.endDate}
+              </td>
+
+              <td>
+                {session.courses}
+              </td>
+
+              <td>
+                <span
+                  className={`status-badge status-${session.status.toLowerCase()}`}
+                >
                   {session.status}
                 </span>
               </td>
+
               <td className="session-actions">
                 <button
                   className="btn-action btn-view"
-                  onClick={() => window.location.href = `/sessions/${session.id}`}
-                  title="View"
+                  title="View Session"
+                  onClick={() =>
+                    (window.location.href = `/sessions/${session.id}`)
+                  }
                 >
-                  👁️
+                  <Eye />
                 </button>
+
                 <button
                   className="btn-action btn-edit"
-                  onClick={() => window.location.href = `/sessions/${session.id}/edit`}
-                  title="Edit"
+                  title="Edit Session"
+                  onClick={() =>
+                    (window.location.href = `/sessions/${session.id}/edit`)
+                  }
                 >
-                  ✏️
+                  <Pencil />
                 </button>
+
                 <button
                   className="btn-action btn-delete"
-                  onClick={() => handleDelete(session.id)}
-                  title="Delete"
+                  title="Delete Session"
+                  onClick={() =>
+                    handleDelete(session.id)
+                  }
                 >
-                  🗑️
+                  <Trash2 />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {sessions.length === 0 && <p className="no-data">No sessions found</p>}
+
+      {sessions.length === 0 && (
+        <div className="no-data">
+          No sessions found
+        </div>
+      )}
     </div>
   );
 }

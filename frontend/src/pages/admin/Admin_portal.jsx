@@ -15,7 +15,8 @@ import AttendancePage from "../../components/admin/attendance/attendance";
 
 function Admin_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("dashboard"); //Default
+    // const [page, setPage] = useState("dashboard"); //Default
+    const [page, setPage] = useState("trainer"); //Default
 
 
     return (

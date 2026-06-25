@@ -1,200 +1,259 @@
 /* ==========================================
-                PAGE
+PAGE
 ========================================== */
 
 .Schedulees-page {
-    height:stretch;
+    height: stretch;
     width: stretch;
-    /* min-height: 100vh; */
-    padding: 2.5rem 2.5rem;
+
+    padding: 2.5rem;
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
+
     overflow: scroll;
     border-radius: 18px;
-    
+
     background: #ffffff;
     color: #111827;
-      box-shadow:
-    0 1px 2px rgba(0,0,0,.04),
-    0 8px 24px rgba(0,0,0,.05);
+
+    box-shadow:
+        0 1px 2px rgba(0,0,0,.04),
+        0 8px 24px rgba(0,0,0,.05);
+
+    --shadow:
+        0 2px 4px rgba(0,0,0,.03),
+        0 20px 40px rgba(0,0,0,.04);
+
+    --shadow-hover:
+        0 12px 30px rgba(0,0,0,.06),
+        0 40px 80px rgba(0,0,0,.08);
+
+    --border: #eceef2;
+    --text: #111827;
+    --muted: #6b7280;
 }
+
 /* ==========================================
-                HEADER
+HEADER
 ========================================== */
 
 .Schedulees-header {
-    display: flex;
+    position: relative;
 
+    display: flex;
     justify-content: space-between;
     align-items: center;
 
-    gap: 1.5rem;
-}
-
-.Schedulees-header h1 {
-    font-size: 2rem;
-    font-weight: 800;
-
-    color: #111827;
-
-    margin-bottom: 0.25rem;
-
-    letter-spacing: -0.03em;
-}
-
-.Schedulees-header p {
-    color: #6b7280;
-
-    font-size: 0.95rem;
-}
-
-/* ==========================================
-                CONTROLS
-========================================== */
-
-.Schedulees-controls {
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.75rem;
-
-    padding: 0.5rem;
+    padding: 2.5rem;
 
     background: white;
 
-    border: 1px solid #eef0f3;
-    border-radius: 18px;
+    border-radius: 28px;
 
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 10px 30px rgba(0,0,0,.03);
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
+}
+
+.Schedulees-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+
+    color: var(--text);
+
+    margin: 0 0 6px;
+
+    letter-spacing: -.05em;
+}
+
+.Schedulees-header p {
+    color: var(--muted);
+
+    font-size: .95rem;
+
+    margin: 0;
 }
 
 /* ==========================================
-                VIEW TOGGLES
+CONTROLS
+========================================== */
+
+.Schedulees-controls {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    background: white;
+
+    border-radius: 24px;
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
+}
+
+/* ==========================================
+VIEW TOGGLES
 ========================================== */
 
 .btn-view-toggle {
+    position: relative;
+
+    overflow: hidden;
+
     border: none;
 
-    background: transparent;
+    background: white;
 
-    padding: 0.8rem 1.2rem;
+    border-radius: 16px;
 
-    border-radius: 12px;
+    padding: 13px 20px;
 
-    font-size: 0.9rem;
+    font-size: .9rem;
     font-weight: 600;
 
-    color: #6b7280;
+    color: var(--muted);
 
     cursor: pointer;
 
+    box-shadow: var(--shadow);
+
     transition:
-        background .25s ease,
-        color .25s ease,
-        transform .25s ease;
+        transform .25s ease,
+        box-shadow .25s ease,
+        color .25s ease;
+}
+
+.btn-view-toggle::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -150%;
+
+    width: 60%;
+    height: 100%;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,.65),
+        transparent
+    );
 }
 
 .btn-view-toggle:hover {
-    background: #f9fafb;
+    transform: translateY(-3px);
 
-    color: #111827;
+    color: var(--text);
+
+    box-shadow: var(--shadow-hover);
 }
 
 .btn-view-toggle.active {
-    background: #111827;
+    color: var(--text);
 
-    color: white;
+    border: 1px solid var(--border);
 
-    box-shadow:
-        0 8px 20px rgba(17,24,39,.18);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-view-toggle:active {
+    transform: scale(.97);
 }
 
 /* ==========================================
-                ADD SLOT BUTTON
+ADD SLOT BUTTON
 ========================================== */
 
 .btn-add-slot {
+    position: relative;
+
+    overflow: hidden;
+
     border: none;
 
-    background: linear-gradient(
-        135deg,
-        #111827,
-        #1f2937
-    );
+    background: white;
 
-    color: white;
+    border-radius: 16px;
 
-    padding: 0.85rem 1.3rem;
+    padding: 13px 20px;
 
-    border-radius: 14px;
-
-    font-size: 0.9rem;
+    font-size: .9rem;
     font-weight: 600;
 
     cursor: pointer;
+
+    box-shadow: var(--shadow);
 
     transition:
         transform .25s ease,
         box-shadow .25s ease;
 }
 
-.btn-add-slot:hover {
-    transform: translateY(-2px);
+.btn-add-slot::before {
+    content: "";
 
-    box-shadow:
-        0 14px 30px rgba(17,24,39,.20);
+    position: absolute;
+
+    top: 0;
+    left: -150%;
+
+    width: 60%;
+    height: 100%;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,.65),
+        transparent
+    );
+}
+
+.btn-add-slot:hover {
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow-hover);
 }
 
 .btn-add-slot:active {
-    transform: translateY(0);
+    transform: scale(.97);
 }
 
 /* ==========================================
-                LOADING
+LOADING / ERROR
 ========================================== */
 
-.loading {
-    padding: 1rem 1.25rem;
-
-    border-radius: 18px;
-
+.loading,
+.error {
     background: white;
 
-    border: 1px solid #eef0f3;
+    border-radius: 24px;
 
-    color: #6b7280;
+    padding: 28px;
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
+
+    text-align: center;
 
     font-weight: 600;
-
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 10px 20px rgba(0,0,0,.03);
 }
-
-/* ==========================================
-                ERROR
-========================================== */
 
 .error {
-    padding: 1rem 1.25rem;
-
-    border-radius: 18px;
-
-    background: rgba(239,68,68,.08);
-
-    border: 1px solid rgba(239,68,68,.15);
-
-    color: #dc2626;
-
-    font-weight: 600;
+    border-color: #fecaca;
 }
 
 /* ==========================================
-                CONTENT WRAPPER
+CONTENT ANIMATION
 ========================================== */
 
 .Schedulees-page > *:not(.Schedulees-header) {
@@ -214,48 +273,33 @@
 }
 
 /* ==========================================
-                RESPONSIVE
+RESPONSIVE
 ========================================== */
 
-@media (max-width: 900px) {
-
-    .Schedulees-header {
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
-
+@media (max-width: 1100px) {
     .Schedulees-controls {
-        width: 100%;
-
         flex-wrap: wrap;
-    }
-
-    .btn-view-toggle {
-        flex: 1;
-    }
-
-    .btn-add-slot {
-        width: 100%;
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
-    .Schedulees-page {
-        padding: 1rem;
-    }
-
-    .Schedulees-header h1 {
-        font-size: 1.6rem;
+    .Schedulees-header {
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .Schedulees-controls {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .btn-view-toggle,
     .btn-add-slot {
         width: 100%;
+    }
+
+    .Schedulees-header h1 {
+        font-size: 1.75rem;
     }
 }

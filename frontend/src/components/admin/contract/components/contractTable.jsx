@@ -1,20 +1,35 @@
+import "./contractTable.css";
 
+import {
+  Eye,
+  Pencil,
+  CircleStop,
+  Trash2,
+} from "lucide-react";
 
-import './contractTable.css';
-
-
-
-
-export default function ContractsTable({ contracts, onEnd, onDelete, onRefresh }) {
+export default function ContractsTable({
+  contracts,
+  onEnd,
+  onDelete,
+  onRefresh,
+}) {
   const handleEnd = async (contractId) => {
-    if (window.confirm('Are you sure you want to end this contract?')) {
+    if (
+      window.confirm(
+        "Are you sure you want to end this contract?"
+      )
+    ) {
       await onEnd(contractId);
       onRefresh();
     }
   };
 
   const handleDelete = async (contractId) => {
-    if (window.confirm('Are you sure you want to delete this contract?')) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this contract?"
+      )
+    ) {
       await onDelete(contractId);
       onRefresh();
     }
@@ -32,51 +47,100 @@ export default function ContractsTable({ contracts, onEnd, onDelete, onRefresh }
             <th>STATUS</th>
             <th>START</th>
             <th>END</th>
-            <th>ACTIONS</th>
+            <th className="actions-column">
+              ACTIONS
+            </th>
           </tr>
         </thead>
+
         <tbody>
           {contracts.map((contract) => (
             <tr key={contract.id}>
-              <td className="contract-id">{contract.id}</td>
-              <td className="contract-trainer">{contract.trainer}</td>
-              <td className="contract-college">{contract.college}</td>
-              <td className="contract-session">{contract.session}</td>
+              <td className="contract-id">
+                {contract.id}
+              </td>
+
+              <td className="contract-trainer">
+                {contract.trainer}
+              </td>
+
+              <td className="contract-college">
+                {contract.college}
+              </td>
+
               <td>
-                <span className={`status-badge status-${contract.status.toLowerCase().replace(' ', '-')}`}>
+                {contract.session}
+              </td>
+
+              <td>
+                <span
+                  className={`status-badge status-${contract.status
+                    .toLowerCase()
+                    .replace(" ", "-")}`}
+                >
                   {contract.status}
                 </span>
               </td>
-              <td className="contract-start">{contract.startDate}</td>
-              <td className="contract-end">{contract.endDate}</td>
+
+              <td>
+                {contract.startDate}
+              </td>
+
+              <td>
+                {contract.endDate}
+              </td>
+
               <td className="contract-actions">
                 <button
                   className="btn-action btn-view"
-                  onClick={() => window.location.href = `/contracts/${contract.id}`}
-                  title="View"
+                  title="View Contract"
+                  onClick={() =>
+                    (window.location.href = `/contracts/${contract.id}`)
+                  }
                 >
-                  👁️
+                  <Eye />
                 </button>
+
                 <button
                   className="btn-action btn-edit"
-                  onClick={() => window.location.href = `/contracts/${contract.id}/edit`}
-                  title="Edit"
+                  title="Edit Contract"
+                  onClick={() =>
+                    (window.location.href = `/contracts/${contract.id}/edit`)
+                  }
                 >
-                  ✏️
+                  <Pencil />
                 </button>
+
                 <button
                   className="btn-action btn-end"
-                  onClick={() => handleEnd(contract.id)}
                   title="End Contract"
+                  onClick={() =>
+                    handleEnd(contract.id)
+                  }
                 >
-                  End
+                  <CircleStop />
+                </button>
+
+                <button
+                  className="btn-action btn-delete"
+                  title="Delete Contract"
+                  onClick={() =>
+                    handleDelete(contract.id)
+                  }
+                >
+                  <Trash2 />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {contracts.length === 0 && <p className="no-data">No contracts found</p>}
+
+      {contracts.length === 0 && (
+        <div className="no-data">
+          No contracts found
+        </div>
+      )}
     </div>
   );
 }

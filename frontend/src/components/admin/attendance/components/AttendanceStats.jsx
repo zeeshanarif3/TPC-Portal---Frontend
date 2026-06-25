@@ -1,34 +1,74 @@
-import './AttendanceStats.css'
-
+import "./AttendanceStats.css";
+import {
+  Users,
+  TrendingUp,
+  TriangleAlert,
+} from "lucide-react";
 
 export default function AttendanceStats({ stats }) {
   return (
-    <div className="attendance-stats">
-      <div className="stat-card stat-headcount">
-        <div className="stat-icon">✓</div>
-        <div className="stat-info">
-          <div className="stat-number">{stats.todayHeadcount}</div>
-          <div className="stat-label">Today's Headcount</div>
-          <div className="stat-detail">Across {stats.sessionsToday} sessions</div>
+    <section className="attendance-stats">
+
+      <div className="attendance-card attendance-card--primary">
+        <div className="attendance-card__header">
+          <div className="attendance-card__icon">
+            <Users size={18} />
+          </div>
+
+          <span className="attendance-card__title">
+            Attendance Today
+          </span>
+        </div>
+
+        <div className="attendance-card__value">
+          {stats.todayHeadcount}
+        </div>
+
+        <div className="attendance-card__meta">
+          {stats.sessionsToday} Sessions
         </div>
       </div>
 
-      <div className="stat-card stat-average">
-        <div className="stat-icon">📈</div>
-        <div className="stat-info">
-          <div className="stat-number">{stats.weeklyAverage}%</div>
-          <div className="stat-label">Weekly Average</div>
+      <div className="attendance-card">
+        <div className="attendance-card__header">
+          <div className="attendance-card__icon">
+            <TrendingUp size={18} />
+          </div>
+
+          <span className="attendance-card__title">
+            Weekly Average
+          </span>
+        </div>
+
+        <div className="attendance-card__value">
+          {stats.weeklyAverage}%
+        </div>
+
+        <div className="attendance-card__meta">
+          Last 7 Days
         </div>
       </div>
 
-      <div className="stat-card stat-alert">
-        <div className="stat-icon">⚠️</div>
-        <div className="stat-info">
-          <div className="stat-number">{stats.belowThreshold}</div>
-          <div className="stat-label">Below 75%</div>
-          <div className="stat-detail">courses need attention</div>
+      <div className="attendance-card">
+        <div className="attendance-card__header">
+          <div className="attendance-card__icon">
+            <TriangleAlert size={18} />
+          </div>
+
+          <span className="attendance-card__title">
+            At Risk Subjects
+          </span>
+        </div>
+
+        <div className="attendance-card__value">
+          {stats.belowThreshold}
+        </div>
+
+        <div className="attendance-card__meta">
+          Below 75%
         </div>
       </div>
-    </div>
+
+    </section>
   );
 }

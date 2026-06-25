@@ -18,6 +18,30 @@
       box-shadow:
     0 1px 2px rgba(0,0,0,.04),
     0 8px 24px rgba(0,0,0,.05);
+
+
+
+
+
+
+
+
+--shadow:
+0 2px 4px rgba(0,0,0,.03),
+0 20px 40px rgba(0,0,0,.04);
+
+     
+--shadow-hover:
+    0 12px 30px rgba(0,0,0,.06),
+    0 40px 80px rgba(0,0,0,.08);
+
+--border: #eceef2;
+--text: #111827;
+--muted: #6b7280;
+
+
+
+
 }
 
 /* ==========================================
@@ -25,27 +49,48 @@
 ========================================== */
 
 .contracts-header {
-    display: flex;
+position: relative;
 
-    justify-content: space-between;
-    align-items: center;
+ 
+display: flex;
 
-    gap: 1rem;
+justify-content: space-between;
+align-items: center;
+
+
+padding: 2.5rem;
+
+background: white;
+
+border-radius: 28px;
+
+border: 1px solid var(--border);
+
+box-shadow: var(--shadow);
+
 }
 
 .contracts-header h1 {
-    font-size: 2rem;
-    font-weight: 800;
+font-size: 2.2rem;
+font-weight: 800;
 
-    color: #111827;
+ 
+color: var(--text);
 
-    margin-bottom: 0.25rem;
+margin: 0 0 6px;
+
+letter-spacing: -.05em;
+ 
 }
 
 .contracts-header p {
-    color: #6b7280;
+color: var(--muted);
 
-    font-size: 0.95rem;
+ 
+font-size: .95rem;
+
+margin: 0;
+ 
 }
 
 /* ==========================================
@@ -53,31 +98,37 @@
 ========================================== */
 
 .btn-new-contract {
-    border: none;
+position: relative;
 
-    background: #111827;
-    color: white;
+ 
+overflow: hidden;
 
-    padding: 0.9rem 1.25rem;
+border: none;
 
-    border-radius: 14px;
+background: white;
 
-    font-size: 0.9rem;
-    font-weight: 600;
+border-radius: 16px;
 
-    cursor: pointer;
+padding: 13px 20px;
 
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        background .25s ease;
+font-size: .9rem;
+font-weight: 600;
+
+cursor: pointer;
+
+box-shadow: var(--shadow);
+
+transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+ 
 }
 
 .btn-new-contract:hover {
-    transform: translateY(-2px);
+transform: translateY(-3px);
 
-    box-shadow:
-        0 12px 30px rgba(17,24,39,.18);
+ 
+box-shadow: var(--shadow-hover);
 }
 
 .btn-new-contract:active {
@@ -89,22 +140,26 @@
 ========================================== */
 
 .contracts-filters {
-    display: flex;
+position: relative;
 
-    align-items: center;
+ 
+display: flex;
 
-    gap: 1rem;
+align-items: center;
 
-    padding: 1rem 1.25rem;
+gap: 16px;
 
-    background: white;
+padding: 22px;
 
-    border: 1px solid #eef0f3;
-    border-radius: 20px;
+background: white;
 
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 10px 30px rgba(0,0,0,.03);
+border-radius: 24px;
+
+border: 1px solid var(--border);
+
+box-shadow: var(--shadow);
+
+
 }
 
 /* ==========================================

@@ -1,301 +1,210 @@
 /* ==========================================
-                TABLE CONTAINER
+   TABLE CONTAINER
 ========================================== */
 
 .schedules-table-container {
-    background: #ffffff;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
 
-    border: 1px solid #eef0f3;
-    border-radius: 24px;
+  background: #ffffff;
 
-    overflow: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
 
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 20px 40px rgba(0,0,0,.04);
+  overflow: auto;
 
-    transition:
-        box-shadow .3s ease,
-        transform .3s ease;
-}
-
-.schedules-table-container:hover {
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.05),
-        0 35px 70px rgba(0,0,0,.08);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 12px 32px rgba(15, 23, 42, 0.05);
 }
 
 /* ==========================================
-                TABLE
+   TABLE
 ========================================== */
 
 .schedules-table {
-    width: 100%;
-
-    min-width: 1100px;
-
-    border-collapse: separate;
-    border-spacing: 0;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-/* ==========================================
-                HEADER
-========================================== */
-
-.schedules-table thead th {
-    position: sticky;
-    top: 0;
-
-    z-index: 10;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #ffffff,
-            #fafafa
-        );
-
-    text-align: left;
-
-    padding: 1rem 1.25rem;
-
-    font-size: 0.72rem;
-    font-weight: 700;
-
-    letter-spacing: .08em;
-    text-transform: uppercase;
-
-    color: #6b7280;
-
-    border-bottom: 1px solid #edf0f2;
+.schedules-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-/* ==========================================
-                ROWS
-========================================== */
+.schedules-table th {
+  padding: 1rem 1.5rem;
+
+  background: #fafafa;
+
+  text-align: left;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  color: #64748b;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  white-space: nowrap;
+}
+
+.schedules-table td {
+  padding: 1.25rem 1.5rem;
+
+  font-size: 0.92rem;
+  font-weight: 500;
+
+  color: #0f172a;
+
+  border-bottom: 1px solid #f1f5f9;
+
+  vertical-align: middle;
+}
 
 .schedules-table tbody tr {
-    transition:
-        background .25s ease,
-        transform .25s ease,
-        box-shadow .25s ease;
+  transition: background-color 0.2s ease;
 }
 
 .schedules-table tbody tr:hover {
-    background: #fafafa;
-
-    transform: translateX(4px);
+  background: #fafafa;
 }
 
-.schedules-table tbody tr:not(:last-child) td {
-    border-bottom: 1px solid #f1f3f5;
-}
-
-/* ==========================================
-                CELLS
-========================================== */
-
-.schedules-table td {
-    padding: 1rem 1.25rem;
-
-    font-size: 0.9rem;
-
-    color: #374151;
-
-    white-space: nowrap;
+.schedules-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 /* ==========================================
-                COURSE
+   COLUMN STYLES
 ========================================== */
 
 .schedule-course {
-    font-weight: 700;
-
-    color: #111827;
+  font-weight: 600;
+  color: #0f172a;
 }
-
-/* ==========================================
-                TRAINER
-========================================== */
 
 .schedule-trainer {
-    font-weight: 600;
-
-    color: #111827;
+  font-weight: 500;
+  color: #334155;
 }
-
-/* ==========================================
-                DAY
-========================================== */
 
 .schedule-day {
-    font-weight: 600;
-
-    color: #4b5563;
+  color: #475569;
 }
-
-/* ==========================================
-                TIME SLOT
-========================================== */
 
 .schedule-time {
-    display: inline-flex;
-
-    align-items: center;
-
-    padding: 0.45rem 0.85rem;
-
-    border-radius: 999px;
-
-    background: #f3f4f6;
-
-    color: #111827;
-
-    font-size: 0.8rem;
-    font-weight: 600;
+  font-family: monospace;
+  color: #64748b;
 }
-
-/* ==========================================
-                SESSION
-========================================== */
-
-.schedule-session {
-    color: #4b5563;
-
-    font-weight: 500;
-}
-
-/* ==========================================
-                COLLEGE
-========================================== */
 
 .schedule-college {
-    color: #374151;
+  color: #334155;
+}
+
+.actions-column {
+  width: 120px;
 }
 
 /* ==========================================
-                ACTIONS
+   ACTIONS
 ========================================== */
 
 .schedule-actions {
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-/* ==========================================
-                BUTTONS
-========================================== */
-
 .btn-action {
-    width: 38px;
-    height: 38px;
+  width: 2.25rem;
+  height: 2.25rem;
 
-    border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    border-radius: 12px;
+  border: none;
+  border-radius: 10px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: transparent;
 
-    cursor: pointer;
+  color: #64748b;
 
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        background .25s ease;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.btn-action svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 2;
 }
 
 .btn-action:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 10px 20px rgba(0,0,0,.08);
+  transform: translateY(-1px);
 }
 
-/* ==========================================
-                EDIT
-========================================== */
-
-.btn-edit {
-    background: #eff6ff;
-
-    color: #2563eb;
+.btn-action:active {
+  transform: scale(0.96);
 }
 
 .btn-edit:hover {
-    background: #dbeafe;
-}
-
-/* ==========================================
-                DELETE
-========================================== */
-
-.btn-delete {
-    background: rgba(239,68,68,.10);
-
-    color: #dc2626;
+  background: rgba(139, 92, 246, 0.08);
+  color: #7c3aed;
 }
 
 .btn-delete:hover {
-    background: rgba(239,68,68,.16);
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
 }
 
 /* ==========================================
-                EMPTY STATE
+   EMPTY STATE
 ========================================== */
 
 .no-data {
-    padding: 4rem 2rem;
+  padding: 4rem 2rem;
 
-    text-align: center;
+  text-align: center;
 
-    color: #6b7280;
+  color: #64748b;
 
-    font-size: 0.95rem;
-    font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 /* ==========================================
-                SCROLLBAR
+   SCROLLBAR
 ========================================== */
 
 .schedules-table-container::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.schedules-table-container::-webkit-scrollbar-track {
-    background: transparent;
+  width: 10px;
+  height: 10px;
 }
 
 .schedules-table-container::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.15);
-
-    border-radius: 999px;
+  background: #d1d5db;
+  border-radius: 999px;
 }
 
-.schedules-table-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,.25);
+.schedules-table-container::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* ==========================================
-                RESPONSIVE
+   RESPONSIVE
 ========================================== */
 
-@media (max-width: 900px) {
-
-    .schedules-table td,
-    .schedules-table th {
-        padding: 0.9rem;
-    }
-
-    .btn-action {
-        width: 34px;
-        height: 34px;
-    }
+@media (max-width: 1200px) {
+  .schedules-table {
+    min-width: 900px;
+  }
 }

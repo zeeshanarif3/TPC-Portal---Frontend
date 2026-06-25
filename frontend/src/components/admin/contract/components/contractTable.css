@@ -1,330 +1,246 @@
 /* ==========================================
-                TABLE CONTAINER
+   TABLE CONTAINER
 ========================================== */
 
 .contracts-table-container {
-    background: white;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
 
-    border: 1px solid #eef0f3;
-    border-radius: 24px;
+  background: #ffffff;
 
-    overflow: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
 
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 15px 40px rgba(0,0,0,.03);
+  overflow: auto;
+
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 12px 32px rgba(15, 23, 42, 0.05);
 }
 
 /* ==========================================
-                TABLE
+   TABLE
 ========================================== */
 
 .contracts-table {
-    width: 100%;
-
-    min-width: 1100px;
-
-    border-collapse: separate;
-    border-spacing: 0;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-/* ==========================================
-                HEADER
-========================================== */
-
-.contracts-table thead th {
-    position: sticky;
-    top: 0;
-
-    background: #fafafa;
-
-    z-index: 5;
-
-    text-align: left;
-
-    padding: 1rem 1.25rem;
-
-    font-size: 0.72rem;
-    font-weight: 700;
-
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-
-    color: #6b7280;
-
-    border-bottom: 1px solid #edf0f2;
+.contracts-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-/* ==========================================
-                ROWS
-========================================== */
+.contracts-table th {
+  padding: 1rem 1.5rem;
+
+  background: #fafafa;
+
+  text-align: left;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  color: #64748b;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  white-space: nowrap;
+}
+
+.contracts-table td {
+  padding: 1.25rem 1.5rem;
+
+  font-size: 0.92rem;
+  font-weight: 500;
+
+  color: #0f172a;
+
+  border-bottom: 1px solid #f1f5f9;
+
+  vertical-align: middle;
+}
 
 .contracts-table tbody tr {
-    transition:
-        background .25s ease,
-        transform .25s ease,
-        box-shadow .25s ease;
+  transition: background-color 0.2s ease;
 }
 
 .contracts-table tbody tr:hover {
-    background: #fafafa;
+  background: #fafafa;
 }
 
-.contracts-table tbody tr:not(:last-child) td {
-    border-bottom: 1px solid #f1f3f5;
-}
-
-/* ==========================================
-                CELLS
-========================================== */
-
-.contracts-table td {
-    padding: 1rem 1.25rem;
-
-    font-size: 0.9rem;
-
-    color: #374151;
-
-    white-space: nowrap;
+.contracts-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 /* ==========================================
-                CONTRACT ID
+   COLUMN STYLES
 ========================================== */
 
 .contract-id {
-    font-weight: 700;
-
-    color: #111827;
-
-    font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        monospace;
+  font-family: monospace;
+  color: #64748b;
 }
 
-/* ==========================================
-                TRAINER
-========================================== */
-
-.contract-trainer {
-    font-weight: 600;
-
-    color: #111827;
-}
-
-/* ==========================================
-                COLLEGE
-========================================== */
-
+.contract-trainer,
 .contract-college {
-    color: #4b5563;
+  font-weight: 600;
+}
+
+.actions-column {
+  width: 190px;
 }
 
 /* ==========================================
-                SESSION
-========================================== */
-
-.contract-session {
-    font-weight: 600;
-
-    color: #374151;
-}
-
-/* ==========================================
-                STATUS BADGE
+   STATUS BADGES
 ========================================== */
 
 .status-badge {
-    display: inline-flex;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-    align-items: center;
-    justify-content: center;
+  padding: 0.4rem 0.8rem;
 
-    padding: 0.45rem 0.85rem;
+  border-radius: 999px;
 
-    border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
 
-    font-size: 0.75rem;
-    font-weight: 700;
-
-    border: 1px solid transparent;
+  white-space: nowrap;
 }
-
-/* ==========================================
-                ACTIVE
-========================================== */
 
 .status-active {
-    background: rgba(34,197,94,.10);
-
-    color: #15803d;
-
-    border-color: rgba(34,197,94,.15);
+  background: #dcfce7;
+  color: #166534;
 }
 
-/* ==========================================
-                EXPIRING
-========================================== */
-
-.status-expiring-soon {
-    background: rgba(245,158,11,.10);
-
-    color: #d97706;
-
-    border-color: rgba(245,158,11,.15);
+.status-ended {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
-/* ==========================================
-                EXPIRED
-========================================== */
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
 
 .status-expired {
-    background: rgba(239,68,68,.10);
-
-    color: #dc2626;
-
-    border-color: rgba(239,68,68,.15);
+  background: #e2e8f0;
+  color: #475569;
 }
 
 /* ==========================================
-                DATES
-========================================== */
-
-.contract-start,
-.contract-end {
-    color: #6b7280;
-
-    font-size: 0.85rem;
-}
-
-/* ==========================================
-                ACTIONS
+   ACTIONS
 ========================================== */
 
 .contract-actions {
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-/* ==========================================
-                ACTION BUTTONS
-========================================== */
-
 .btn-action {
-    border: none;
+  width: 2.25rem;
+  height: 2.25rem;
 
-    width: 36px;
-    height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    border-radius: 10px;
+  border: none;
+  border-radius: 10px;
 
-    cursor: pointer;
+  background: transparent;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  color: #64748b;
 
-    font-size: 0.9rem;
+  cursor: pointer;
 
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.btn-action svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 2;
 }
 
 .btn-action:hover {
-    transform: translateY(-2px);
+  transform: translateY(-1px);
+}
 
-    box-shadow:
-        0 8px 18px rgba(0,0,0,.08);
+.btn-action:active {
+  transform: scale(0.96);
+}
+
+.btn-view:hover {
+  background: rgba(59, 130, 246, 0.08);
+  color: #2563eb;
+}
+
+.btn-edit:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: #7c3aed;
+}
+
+.btn-end:hover {
+  background: rgba(245, 158, 11, 0.08);
+  color: #d97706;
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
 }
 
 /* ==========================================
-                VIEW
-========================================== */
-
-.btn-view {
-    background: #f3f4f6;
-}
-
-/* ==========================================
-                EDIT
-========================================== */
-
-.btn-edit {
-    background: #eff6ff;
-}
-
-/* ==========================================
-                END
-========================================== */
-
-.btn-end {
-    width: auto;
-
-    padding: 0 0.9rem;
-
-    background: #111827;
-    color: white;
-
-    font-size: 0.78rem;
-    font-weight: 600;
-}
-
-/* ==========================================
-                EMPTY STATE
+   EMPTY STATE
 ========================================== */
 
 .no-data {
-    padding: 3rem 1rem;
+  padding: 4rem 2rem;
 
-    text-align: center;
+  text-align: center;
 
-    color: #6b7280;
+  color: #64748b;
 
-    font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 /* ==========================================
-                SCROLLBAR
+   SCROLLBAR
 ========================================== */
 
 .contracts-table-container::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.contracts-table-container::-webkit-scrollbar-track {
-    background: transparent;
+  width: 10px;
+  height: 10px;
 }
 
 .contracts-table-container::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.15);
-
-    border-radius: 999px;
+  background: #d1d5db;
+  border-radius: 999px;
 }
 
-.contracts-table-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,.25);
+.contracts-table-container::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* ==========================================
-                RESPONSIVE
+   RESPONSIVE
 ========================================== */
 
-@media (max-width: 900px) {
-
-    .contracts-table td,
-    .contracts-table th {
-        padding: 0.9rem;
-    }
-
-    .btn-end {
-        padding: 0 0.75rem;
-    }
+@media (max-width: 1200px) {
+  .contracts-table {
+    min-width: 1050px;
+  }
 }

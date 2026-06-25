@@ -1,446 +1,246 @@
 /* ==========================================
-TABLE CONTAINER
+   TABLE CONTAINER
 ========================================== */
 
 .trainers-table-container {
-position: relative;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
 
-    
-background: white;
+  background: #ffffff;
 
-border-radius: 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
 
-overflow-x: auto;
-overflow-y: hidden;
+  overflow: auto;
 
-box-shadow:
-    0 2px 4px rgba(0,0,0,.03),
-    0 20px 40px rgba(0,0,0,.04);
-
-animation: tableEnter .6s ease;
-    
-
-}
-
-.trainers-table-container::before {
-content: "";
-
-    
-position: absolute;
-
-top: 0;
-left: 0;
-
-width: 100%;
-height: 2px;
-
-background:
-    linear-gradient(
-        90deg,
-        transparent,
-        #6366f1,
-        #8b5cf6,
-        transparent
-    );
-
-z-index: 20;
-    
-
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 12px 32px rgba(15, 23, 42, 0.05);
 }
 
 /* ==========================================
-TABLE
+   TABLE
 ========================================== */
 
 .trainers-table {
-width: 100%;
-
-    
-min-width: 1200px;
-
-border-collapse: separate;
-border-spacing: 0 10px;
-
-padding: 10px;
-    
-
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-/* ==========================================
-HEADER
-========================================== */
-
 .trainers-table thead {
-position: sticky;
-top: 0;
-
-    
-z-index: 15;
-
-backdrop-filter: blur(14px);
-
-background:
-    rgba(255,255,255,.92);
-    
-
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .trainers-table th {
-padding: 20px 22px;
+  padding: 1rem 1.5rem;
 
-    
-text-align: left;
+  background: #fafafa;
 
-font-size: .72rem;
-font-weight: 700;
+  text-align: left;
 
-letter-spacing: .12em;
-text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 
-color: #8b93a5;
+  color: #64748b;
 
-border: none;
-    
+  border-bottom: 1px solid #e5e7eb;
 
+  white-space: nowrap;
 }
 
-/* ==========================================
-ROWS
-========================================== */
+.trainers-table td {
+  padding: 1.25rem 1.5rem;
+
+  font-size: 0.92rem;
+  font-weight: 500;
+
+  color: #0f172a;
+
+  border-bottom: 1px solid #f1f5f9;
+
+  vertical-align: middle;
+}
 
 .trainers-table tbody tr {
-background: white;
-
-    
-box-shadow:
-    0 1px 2px rgba(0,0,0,.02),
-    0 8px 20px rgba(0,0,0,.03);
-
-transition:
-    transform .28s ease,
-    box-shadow .28s ease,
-    background .28s ease;
-    
-
+  transition: background-color 0.2s ease;
 }
 
 .trainers-table tbody tr:hover {
-transform:
-translateY(-3px)
-scale(1.002);
-
-    
-background:
-    linear-gradient(
-        180deg,
-        #ffffff,
-        #fcfcfd
-    );
-
-box-shadow:
-    0 10px 30px rgba(0,0,0,.06),
-    0 20px 50px rgba(0,0,0,.05);
-    
-
+  background: #fafafa;
 }
 
-.trainers-table tbody tr td:first-child {
-border-radius: 18px 0 0 18px;
-}
-
-.trainers-table tbody tr td:last-child {
-border-radius: 0 18px 18px 0;
+.trainers-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 /* ==========================================
-CELLS
-========================================== */
-
-.trainers-table td {
-padding: 20px 22px;
-
-    
-border: none;
-
-font-size: .93rem;
-
-vertical-align: middle;
-    
-
-}
-
-/* ==========================================
-TRAINER NAME
+   COLUMNS
 ========================================== */
 
 .trainer-name {
-display: flex;
-
-    
-align-items: center;
-
-gap: 14px;
-
-font-weight: 700;
-
-color: #111827;
-
-font-size: .96rem;
-    
-
+  font-weight: 600;
+  color: #0f172a;
 }
 
-/* optional avatar */
+.trainer-id {
+  font-family: monospace;
+  color: #64748b;
+}
 
-.trainer-avatar {
-width: 38px;
-height: 38px;
-
-    
-border-radius: 50%;
-
-display: flex;
-align-items: center;
-justify-content: center;
-
-background:
-    linear-gradient(
-        135deg,
-        #6366f1,
-        #8b5cf6
-    );
-
-color: white;
-
-font-weight: 700;
-
-font-size: .85rem;
-
-box-shadow:
-    0 8px 18px rgba(99,102,241,.25);
-    
-
+.actions-column {
+  width: 180px;
 }
 
 /* ==========================================
-SECONDARY DATA
-========================================== */
-
-.trainer-email,
-.trainer-phone,
-.trainer-specialization,
-.trainer-contract {
-color: #6b7280;
-
-    
-font-weight: 500;
-    
-
-}
-
-/* ==========================================
-STATUS BADGES
+   CONTRACT BADGES
 ========================================== */
 
 .contract-badge {
-display: inline-flex;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-    
-align-items: center;
-justify-content: center;
+  padding: 0.4rem 0.8rem;
 
-padding: 8px 14px;
+  border-radius: 999px;
 
-border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
 
-font-size: .75rem;
-font-weight: 700;
-    
-
+  white-space: nowrap;
 }
 
 .contract-active {
-background:
-rgba(34,197,94,.12);
-
-    
-color:
-    #15803d;
-
-border:
-    1px solid rgba(34,197,94,.15);
-    
-
-}
-
-.contract-expiring {
-background:
-rgba(245,158,11,.12);
-
-    
-color:
-    #b45309;
-
-border:
-    1px solid rgba(245,158,11,.15);
-    
-
+  background: #dcfce7;
+  color: #166534;
 }
 
 .contract-expired {
-background:
-rgba(239,68,68,.10);
+  background: #fee2e2;
+  color: #991b1b;
+}
 
-    
-color:
-    #b91c1c;
+.contract-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
 
-border:
-    1px solid rgba(239,68,68,.12);
-    
-
+.contract-not-assigned {
+  background: #e2e8f0;
+  color: #475569;
 }
 
 /* ==========================================
-ACTIONS
+   ACTIONS
 ========================================== */
 
 .trainer-actions {
-display: flex;
-
-    
-align-items: center;
-
-gap: 10px;
-    
-
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .btn-action {
-width: 40px;
-height: 40px;
+  width: 2.25rem;
+  height: 2.25rem;
 
-    
-display: flex;
-align-items: center;
-justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-border: none;
+  border: none;
+  border-radius: 10px;
 
-border-radius: 14px;
+  background: transparent;
 
-background: #fafafa;
+  color: #64748b;
 
-cursor: pointer;
+  cursor: pointer;
 
-box-shadow:
-    0 1px 2px rgba(0,0,0,.03);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
 
-transition:
-    transform .25s ease,
-    background .25s ease,
-    box-shadow .25s ease;
-    
-
+.btn-action svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 2;
 }
 
 .btn-action:hover {
-transform: translateY(-2px);
-
-    
-background: white;
-
-box-shadow:
-    0 10px 24px rgba(0,0,0,.08);
-    
-
+  transform: translateY(-1px);
 }
 
 .btn-action:active {
-transform: scale(.95);
+  transform: scale(0.96);
+}
+
+.btn-view:hover {
+  background: rgba(59, 130, 246, 0.08);
+  color: #2563eb;
+}
+
+.btn-edit:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: #7c3aed;
+}
+
+.btn-contract:hover {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
 }
 
 /* ==========================================
-EMPTY STATE
+   EMPTY STATE
 ========================================== */
 
-.no-trainers {
-padding: 90px 20px;
+.no-data {
+  padding: 4rem 2rem;
 
-    
-text-align: center;
+  text-align: center;
 
-color: #6b7280;
+  color: #64748b;
 
-font-size: 1rem;
-
-font-weight: 500;
-    
-
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 /* ==========================================
-SCROLLBAR
+   SCROLLBAR
 ========================================== */
 
 .trainers-table-container::-webkit-scrollbar {
-height: 10px;
-}
-
-.trainers-table-container::-webkit-scrollbar-track {
-background: transparent;
+  width: 10px;
+  height: 10px;
 }
 
 .trainers-table-container::-webkit-scrollbar-thumb {
-border-radius: 999px;
-
-    
-background:
-    rgba(0,0,0,.12);
-    
-
+  background: #d1d5db;
+  border-radius: 999px;
 }
 
-.trainers-table-container::-webkit-scrollbar-thumb:hover {
-background:
-rgba(0,0,0,.2);
+.trainers-table-container::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* ==========================================
-ANIMATION
+   RESPONSIVE
 ========================================== */
 
-@keyframes tableEnter {
-from {
-opacity: 0;
-transform: translateY(18px);
-}
-
-    
-to {
-    opacity: 1;
-    transform: translateY(0);
-}
-    
-
-}
-
-/* ==========================================
-RESPONSIVE
-========================================== */
-
-@media (max-width:1000px) {
-
-    
-.trainers-table th,
-.trainers-table td {
-    padding: 16px 18px;
-}
-
-.btn-action {
-    width: 36px;
-    height: 36px;
-}
-    
-
+@media (max-width: 1200px) {
+  .trainers-table {
+    min-width: 1000px;
+  }
 }
