@@ -48,14 +48,14 @@ export default function SubjectDistribution({ data }) {
       </div>
 
       <div className="subject-distribution__chart">
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={250}>
           <PieChart>
             <Pie
               data={chartData}
               dataKey="value"
               nameKey="name"
-              innerRadius={75}
-              outerRadius={110}
+              innerRadius={45}
+              outerRadius={80}
               paddingAngle={3}
             >
               {chartData.map((entry, index) => (

@@ -13,9 +13,10 @@ Dark admin sidebar with collapse-to-icons behavior
   height: 100vh;
 
   overflow: hidden;
-
+  /* background:hsl(0, 0%, 95%) ; */
   transition:
-    width 0.35s cubic-bezier(0.22, 1, 0.36, 1)
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  
 }
 
 .sb--collapsed {
@@ -30,7 +31,7 @@ Dark admin sidebar with collapse-to-icons behavior
 }
 
 .sb_cont {
-  --sb-bg:  hsl(0, 0%, 100%);
+  /* --sb-bg:  hsl(0, 0%, 100%); */
   --sb-bg-active: #f1f5f9;
 
   --sb-text: #1f2937;
@@ -47,16 +48,16 @@ Dark admin sidebar with collapse-to-icons behavior
   position: sticky;
 
   border-radius: 14px;
-  border: 1px solid #e5e7eb;
+  /* border: 1px solid #e5e7eb; */
 
   background: var(--sb-bg);
   color: var(--sb-text);
 
   overflow: hidden;
 
-  box-shadow:
+  /* box-shadow:
     0 1px 2px rgba(0,0,0,.04),
-    0 8px 24px rgba(0,0,0,.05);
+    0 8px 24px rgba(0,0,0,.05); */
 
   font-family:
     Inter,
@@ -65,6 +66,7 @@ Dark admin sidebar with collapse-to-icons behavior
     "Segoe UI",
     Roboto,
     sans-serif;
+
 }
 
 
