@@ -1,6 +1,7 @@
 const Contract = require('../models/Contract');
 const Trainer = require('../models/Trainer');
 const Session = require('../models/Session');
+const College = require('../models/College');
 
 // Create a new contract
 exports.createContract = async (req, res) => {

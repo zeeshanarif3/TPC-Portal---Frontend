@@ -5,15 +5,48 @@ const Course = require('../models/Course');
 const Session = require('../models/Session');
 const College = require('../models/College');
 const User = require('../models/User');
+const Student = require('../models/Student');
+const Trainer = require('../models/Trainer');
+
+const validateCourseSessionRelationship = (course, session) => {
+  if (course.collegeId.toString() !== session.collegeId.toString()) {
+    return 'Course and session must belong to the same college';
+  }
+
+  const isCourseInSession = session.courseIds.some(
+    courseId => courseId.toString() === course._id.toString()
+  );
+
+  if (!isCourseInSession) {
+    return 'Course is not assigned to this session';
+  }
+
+  return null;
+};
+
+const getLoggedInTrainer = async (userId) => {
+  return Trainer.findOne({ userId });
+};
+
+const trainerHasActiveSessionContract = async (trainerId, sessionId) => {
+  return Contract.exists({
+    trainerId,
+    sessionId,
+    status: 'active'
+  });
+};
 
 // Get upcoming classes for a trainer (based on active contracts)
 exports.getUpcomingClasses = async (req, res) => {
   try {
-    const trainerId = req.user.id; // Assuming req.user is set by auth middleware
+    const trainer = await getLoggedInTrainer(req.user.id);
+    if (!trainer) {
+      return res.status(404).json({ message: 'Trainer profile not found for this user' });
+    }
 
     // Find active contracts for the trainer
     const activeContracts = await Contract.find({
-      trainerId,
+      trainerId: trainer._id,
       status: 'active'
     }).populate('sessionId');
 
@@ -54,6 +87,7 @@ exports.getUpcomingClasses = async (req, res) => {
 exports.createAttendance = async (req, res) => {
   try {
     const { courseId, sessionId, date, startTime, endTime, presentStudents } = req.body;
+    const presentStudentList = Array.isArray(presentStudents) ? presentStudents : [];
 
     // Verify that the course exists
     const course = await Course.findById(courseId);
@@ -65,6 +99,21 @@ exports.createAttendance = async (req, res) => {
     const session = await Session.findById(sessionId);
     if (!session) {
       return res.status(400).json({ message: 'Session not found' });
+    }
+
+    const relationshipError = validateCourseSessionRelationship(course, session);
+    if (relationshipError) {
+      return res.status(400).json({ message: relationshipError });
+    }
+
+    const trainer = await getLoggedInTrainer(req.user.id);
+    if (!trainer) {
+      return res.status(404).json({ message: 'Trainer profile not found for this user' });
+    }
+
+    const hasActiveContract = await trainerHasActiveSessionContract(trainer._id, sessionId);
+    if (!hasActiveContract) {
+      return res.status(403).json({ message: 'Trainer does not have an active contract for this session' });
     }
 
     // Check if attendance already exists for this course, session, and date
@@ -80,8 +129,8 @@ exports.createAttendance = async (req, res) => {
       date,
       startTime,
       endTime,
-      presentStudents,
-      headCount: presentStudents.length
+      presentStudents: presentStudentList,
+      headCount: presentStudentList.length
     });
 
     await attendance.save();
@@ -95,6 +144,7 @@ exports.createAttendance = async (req, res) => {
 exports.updateAttendance = async (req, res) => {
   try {
     const { courseId, sessionId, date, startTime, endTime, presentStudents } = req.body;
+    const presentStudentList = Array.isArray(presentStudents) ? presentStudents : [];
 
     // Verify that the course exists
     const course = await Course.findById(courseId);
@@ -108,6 +158,21 @@ exports.updateAttendance = async (req, res) => {
       return res.status(400).json({ message: 'Session not found' });
     }
 
+    const relationshipError = validateCourseSessionRelationship(course, session);
+    if (relationshipError) {
+      return res.status(400).json({ message: relationshipError });
+    }
+
+    const trainer = await getLoggedInTrainer(req.user.id);
+    if (!trainer) {
+      return res.status(404).json({ message: 'Trainer profile not found for this user' });
+    }
+
+    const hasActiveContract = await trainerHasActiveSessionContract(trainer._id, sessionId);
+    if (!hasActiveContract) {
+      return res.status(403).json({ message: 'Trainer does not have an active contract for this session' });
+    }
+
     // Find the attendance record for this course, session, and date
     const attendance = await Attendance.findOne({ courseId, sessionId, date });
     if (!attendance) {
@@ -117,8 +182,8 @@ exports.updateAttendance = async (req, res) => {
     // Update the attendance record
     attendance.startTime = startTime;
     attendance.endTime = endTime;
-    attendance.presentStudents = presentStudents;
-    attendance.headCount = presentStudents.length;
+    attendance.presentStudents = presentStudentList;
+    attendance.headCount = presentStudentList.length;
 
     await attendance.save();
     res.status(200).json(attendance);

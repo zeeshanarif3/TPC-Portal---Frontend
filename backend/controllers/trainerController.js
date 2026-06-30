@@ -2,6 +2,7 @@ const Trainer = require('../models/Trainer');
 const College = require('../models/College');
 const Session = require('../models/Session');
 const User = require('../models/User');
+const Contract = require('../models/Contract');
 const bcrypt = require('bcryptjs');
 
 // Create a new trainer (also creates the user account)
@@ -133,6 +134,8 @@ exports.getTrainersByCollege = async (req, res) => {
     // Extract trainer details (avoid duplicates)
     const trainerMap = new Map();
     contracts.forEach(contract => {
+      if (!contract.trainerId || !contract.trainerId.userId) return;
+
       const trainerId = contract.trainerId._id.toString();
       if (!trainerMap.has(trainerId)) {
         trainerMap.set(trainerId, {

@@ -3,6 +3,22 @@ const Course = require('../models/Course');
 const Session = require('../models/Session');
 const College = require('../models/College');
 
+const validateCourseSessionRelationship = (course, session) => {
+  if (course.collegeId.toString() !== session.collegeId.toString()) {
+    return 'Course and session must belong to the same college';
+  }
+
+  const isCourseInSession = session.courseIds.some(
+    courseId => courseId.toString() === course._id.toString()
+  );
+
+  if (!isCourseInSession) {
+    return 'Course is not assigned to this session';
+  }
+
+  return null;
+};
+
 // Create a new schedule
 exports.createSchedule = async (req, res) => {
   try {
@@ -18,6 +34,11 @@ exports.createSchedule = async (req, res) => {
     const session = await Session.findById(sessionId);
     if (!session) {
       return res.status(400).json({ message: 'Session not found' });
+    }
+
+    const relationshipError = validateCourseSessionRelationship(course, session);
+    if (relationshipError) {
+      return res.status(400).json({ message: relationshipError });
     }
 
     const schedule = new Schedule({ courseId, sessionId, slots });
@@ -59,21 +80,31 @@ exports.getScheduleById = async (req, res) => {
 exports.updateSchedule = async (req, res) => {
   try {
     const { courseId, sessionId, slots } = req.body;
+    const existingSchedule = await Schedule.findById(req.params.id);
+    if (!existingSchedule) {
+      return res.status(404).json({ message: 'Schedule not found' });
+    }
+
+    const effectiveCourseId = courseId || existingSchedule.courseId;
+    const effectiveSessionId = sessionId || existingSchedule.sessionId;
+    let course;
+    let session;
 
     // If courseId is provided, verify it exists
-    if (courseId) {
-      const course = await Course.findById(courseId);
-      if (!course) {
-        return res.status(400).json({ message: 'Course not found' });
-      }
+    course = await Course.findById(effectiveCourseId);
+    if (!course) {
+      return res.status(400).json({ message: 'Course not found' });
     }
 
     // If sessionId is provided, verify it exists
-    if (sessionId) {
-      const session = await Session.findById(sessionId);
-      if (!session) {
-        return res.status(400).json({ message: 'Session not found' });
-      }
+    session = await Session.findById(effectiveSessionId);
+    if (!session) {
+      return res.status(400).json({ message: 'Session not found' });
+    }
+
+    const relationshipError = validateCourseSessionRelationship(course, session);
+    if (relationshipError) {
+      return res.status(400).json({ message: relationshipError });
     }
 
     const schedule = await Schedule.findByIdAndUpdate(
@@ -84,9 +115,6 @@ exports.updateSchedule = async (req, res) => {
     .populate('courseId', 'courseCode')
     .populate('sessionId', 'startDate endDate');
 
-    if (!schedule) {
-      return res.status(404).json({ message: 'Schedule not found' });
-    }
     res.status(200).json(schedule);
   } catch (error) {
     res.status(500).json({ message: error.message });
