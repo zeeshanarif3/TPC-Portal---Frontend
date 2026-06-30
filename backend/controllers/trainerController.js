@@ -1,4 +1,6 @@
 const Trainer = require('../models/Trainer');
+const College = require('../models/College');
+const Session = require('../models/Session');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 

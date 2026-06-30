@@ -1,6 +1,7 @@
 const Schedule = require('../models/Schedule');
 const Course = require('../models/Course');
 const Session = require('../models/Session');
+const College = require('../models/College');
 
 // Create a new schedule
 exports.createSchedule = async (req, res) => {

@@ -6,7 +6,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo-data:/data/db
+      - ./mongo-data:/data/db
     networks:
       - mern-network
 
@@ -22,7 +22,7 @@ services:
       - NODE_ENV=production
       - PORT=5000
       - MONGO_URI=mongodb://database:27017/mern-db 
-      - JWT_SECRET=authoristion-token-stuff-to-randomize
+      - JWT_SECRET=${JWT_SECRET}
     networks:
       - mern-network
     depends_on:

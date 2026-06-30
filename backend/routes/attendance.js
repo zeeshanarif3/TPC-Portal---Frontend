@@ -8,7 +8,8 @@ const {
   getAnalytics,
   getUpcomingClasses,
   getAttendanceChartByCollege,
-  getSubjectDistributionByCollege
+  getSubjectDistributionByCollege,
+  getAttendanceByCollegeAndSession
 } = require('../controllers/attendanceController');
 
 // Trainer middleware
@@ -28,5 +29,6 @@ router.get('/analytics', verifyToken, moderatorMiddleware, getAnalytics);
 const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
 router.get('/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
 router.get('/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
+router.get('/college/:collegeId/session/:sessionId', verifyToken, adminModeratorMiddleware, getAttendanceByCollegeAndSession);
 
 module.exports = router;

@@ -12,9 +12,9 @@ exports.getUpcomingClasses = async (req, res) => {
     const trainerId = req.user.id; // Assuming req.user is set by auth middleware
 
     // Find active contracts for the trainer
-    const activeContracts = await Contract.find({ 
-      trainerId, 
-      status: 'active' 
+    const activeContracts = await Contract.find({
+      trainerId,
+      status: 'active'
     }).populate('sessionId');
 
     if (!activeContracts || activeContracts.length === 0) {
@@ -247,7 +247,7 @@ exports.getAttendanceChartByCollege = async (req, res) => {
     // We'll aggregate by date and sum the headCount
     const attendanceData = await Attendance.aggregate([
       { $match: { sessionId: { $in: sessionIds } } },
-      { 
+      {
         $group: {
           _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
           totalHeadCount: { $sum: '$headCount' },
@@ -288,7 +288,7 @@ exports.getSubjectDistributionByCollege = async (req, res) => {
     const sessionIds = sessions.map(s => s._id);
 
     // Get active contracts for these sessions
-    const contracts = await Contract.find({ 
+    const contracts = await Contract.find({
       sessionId: { $in: sessionIds },
       status: 'active'
     }).populate({
@@ -311,6 +311,58 @@ exports.getSubjectDistributionByCollege = async (req, res) => {
     }));
 
     res.status(200).json(distribution);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get attendance records for a college in a specific session (for admin and moderator)
+exports.getAttendanceByCollegeAndSession = async (req, res) => {
+  try {
+    const { collegeId, sessionId } = req.params;
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // Validate collegeId and sessionId are provided
+    if (!collegeId || !sessionId) {
+      return res.status(400).json({ message: 'College ID and Session ID are required' });
+    }
+
+    // Verify college exists
+    const college = await College.findById(collegeId);
+    if (!college) {
+      return res.status(404).json({ message: 'College not found' });
+    }
+
+    // If the user is a moderator, check that they are associated with this college
+    if (userRole === 'moderator') {
+      // Find the college where this user is the moderator
+      const moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(403).json({ message: 'You are not authorized to access any college' });
+      }
+      // Check if the collegeId matches the moderator's college
+      if (moderatorCollege._id.toString() !== collegeId) {
+        return res.status(403).json({ message: 'You are not authorized to access this college' });
+      }
+    }
+    // For admin, we allow any college (no additional check needed)
+
+    // Verify session exists and belongs to the college
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+    if (session.collegeId.toString() !== collegeId) {
+      return res.status(400).json({ message: 'Session does not belong to the specified college' });
+    }
+
+    // Fetch all attendance records for this session
+    const attendanceRecords = await Attendance.find({ sessionId })
+      .populate('courseId', 'courseCode')
+      .populate('sessionId', 'startDate endDate');
+
+    res.status(200).json(attendanceRecords);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
