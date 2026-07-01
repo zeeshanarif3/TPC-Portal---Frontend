@@ -9,6 +9,12 @@ services:
       - ./mongo-data:/data/db
     networks:
       - mern-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   backend:
     build:
@@ -20,13 +26,14 @@ services:
       - "5000:5000"
     environment:
       - NODE_ENV=production
-      - PORT=5000
+      - BACKEND_PORT=5000
       - MONGO_URI=mongodb://database:27017/mern-db 
       - JWT_SECRET=${JWT_SECRET}
     networks:
       - mern-network
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   frontend:
     build:
@@ -44,6 +51,3 @@ services:
 networks:
   mern-network:
     driver: bridge
-
-volumes:
-  mongo-data:

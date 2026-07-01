@@ -1,25 +1,25 @@
-# --- Stage 1: Build & Dependencies ---
-FROM node:20-alpine AS builder
-WORKDIR /app
+FROM node:20-alpine
 
-COPY package*.json ./
-# Installs everything (needed if you compile TypeScript or use build scripts)
-RUN npm install
-
-COPY . .
-
-# --- Stage 2: Production Runner ---
-FROM node:20-alpine AS runner
-WORKDIR /app
-
+# Set to production mode
 ENV NODE_ENV=production
 
+WORKDIR /app
+
+# Copy dependency files first to utilize Docker layer caching
 COPY package*.json ./
-# Installs ONLY production dependencies (ignores devDependencies)
+
+# Install only production dependencies
 RUN npm ci --omit=dev
 
-# Copy application source code from the builder stage
-COPY --from=builder /app .
+# Copy the rest of the application files
+# Note: .dockerignore ensures host node_modules is ignored
+COPY . .
+
+# Change ownership to the non-root 'node' user
+RUN chown -R node:node /app
+
+# Run the app as a non-privileged user
+USER node
 
 EXPOSE 5000
 
