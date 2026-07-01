@@ -11,16 +11,16 @@ const {
   getUpcomingScheduleByCollege
 } = require('../controllers/scheduleController');
 
-// Admin middleware
-const adminMiddleware = authorizeRoles('admin');
+// Middleware for admin and moderator
+const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
 
-// Admin Routes for Schedules
-router.get('/upcoming', verifyToken, adminMiddleware, getUpcomingScheduleByCollege);
-router.post('/', verifyToken, adminMiddleware, createSchedule);
-router.get('/', verifyToken, adminMiddleware, getAllSchedules);
-router.get('/:id', verifyToken, adminMiddleware, getScheduleById);
-router.put('/:id', verifyToken, adminMiddleware, updateSchedule);
-router.delete('/:id', verifyToken, adminMiddleware, deleteSchedule);
+// Admin and Moderator Routes for Schedules
+router.get('/upcoming', verifyToken, adminModeratorMiddleware, getUpcomingScheduleByCollege);
+router.post('/', verifyToken, adminModeratorMiddleware, createSchedule);
+router.get('/', verifyToken, adminModeratorMiddleware, getAllSchedules);
+router.get('/:id', verifyToken, adminModeratorMiddleware, getScheduleById);
+router.put('/:id', verifyToken, adminModeratorMiddleware, updateSchedule);
+router.delete('/:id', verifyToken, adminModeratorMiddleware, deleteSchedule);
 // New route for upcoming schedule by college
 
 module.exports = router;

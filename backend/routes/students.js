@@ -10,14 +10,14 @@ const {
   deleteStudent
 } = require('../controllers/studentController');
 
-// Admin middleware
-const adminMiddleware = authorizeRoles('admin');
+// Middleware for admin and moderator
+const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
 
 // Admin Routes for Students
-router.post('/', verifyToken, adminMiddleware, createStudent);
-router.get('/', verifyToken, adminMiddleware, getAllStudents);
-router.get('/:id', verifyToken, adminMiddleware, getStudentById);
-router.put('/:id', verifyToken, adminMiddleware, updateStudent);
-router.delete('/:id', verifyToken, adminMiddleware, deleteStudent);
+router.post('/', verifyToken, adminModeratorMiddleware, createStudent);
+router.get('/', verifyToken, adminModeratorMiddleware, getAllStudents);
+router.get('/:id', verifyToken, adminModeratorMiddleware, getStudentById);
+router.put('/:id', verifyToken, adminModeratorMiddleware, updateStudent);
+router.delete('/:id', verifyToken, adminModeratorMiddleware, deleteStudent);
 
 module.exports = router;

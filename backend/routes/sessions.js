@@ -10,14 +10,14 @@ const {
   deleteSession
 } = require('../controllers/sessionController');
 
-// Admin middleware
-const adminMiddleware = authorizeRoles('admin');
+// Middleware for admin and moderator
+const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
 
 // Admin Routes for Sessions
-router.post('/', verifyToken, adminMiddleware, createSession);
-router.get('/', verifyToken, adminMiddleware, getAllSessions);
-router.get('/:id', verifyToken, adminMiddleware, getSessionById);
-router.put('/:id', verifyToken, adminMiddleware, updateSession);
-router.delete('/:id', verifyToken, adminMiddleware, deleteSession);
+router.post('/', verifyToken, adminModeratorMiddleware, createSession);
+router.get('/', verifyToken, adminModeratorMiddleware, getAllSessions);
+router.get('/:id', verifyToken, adminModeratorMiddleware, getSessionById);
+router.put('/:id', verifyToken, adminModeratorMiddleware, updateSession);
+router.delete('/:id', verifyToken, adminModeratorMiddleware, deleteSession);
 
 module.exports = router;

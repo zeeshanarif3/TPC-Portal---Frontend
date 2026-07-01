@@ -23,6 +23,17 @@ const validateCourseSessionRelationship = (course, session) => {
 exports.createSchedule = async (req, res) => {
   try {
     const { courseId, sessionId, slots } = req.body;
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // If moderator, verify they are associated with the college
+    let moderatorCollege = null;
+    if (userRole === 'moderator') {
+      moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+    }
 
     // Verify that the course exists
     const course = await Course.findById(courseId);
@@ -30,10 +41,31 @@ exports.createSchedule = async (req, res) => {
       return res.status(400).json({ message: 'Course not found' });
     }
 
+    // If moderator, verify the course belongs to their college
+    if (userRole === 'moderator') {
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      if (course.collegeId.toString() !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only create schedules for courses in their own college' });
+      }
+    }
+
     // Verify that the session exists
     const session = await Session.findById(sessionId);
     if (!session) {
       return res.status(400).json({ message: 'Session not found' });
+    }
+
+    // If moderator, verify the session belongs to their college (via course college or session college)
+    if (userRole === 'moderator') {
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      // Check that the session's college matches the moderator's college
+      if (session.collegeId.toString() !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only create schedules for sessions in their own college' });
+      }
     }
 
     const relationshipError = validateCourseSessionRelationship(course, session);
@@ -52,7 +84,22 @@ exports.createSchedule = async (req, res) => {
 // Get all schedules
 exports.getAllSchedules = async (req, res) => {
   try {
-    const schedules = await Schedule.find()
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    let filter = {};
+    if (userRole === 'moderator') {
+      const moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      // Get courses for this college, then schedules for those courses
+      const courses = await Course.find({ collegeId: moderatorCollege._id });
+      const courseIds = courses.map(c => c._id);
+      filter = { courseId: { $in: courseIds } };
+    }
+
+    const schedules = await Schedule.find(filter)
       .populate('courseId', 'courseCode')
       .populate('sessionId', 'startDate endDate');
     res.status(200).json(schedules);
@@ -70,6 +117,24 @@ exports.getScheduleById = async (req, res) => {
     if (!schedule) {
       return res.status(404).json({ message: 'Schedule not found' });
     }
+
+    // If moderator, verify the schedule's course belongs to their college
+    const userRole = req.user.role;
+    if (userRole === 'moderator') {
+      const moderatorCollege = await College.findOne({ moderatorId: req.user.id });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      // Populate might not have populated the course's collegeId, so we need to fetch the course
+      const course = await Course.findById(schedule.courseId);
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found' });
+      }
+      if (course.collegeId.toString() !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only access schedules for courses in their own college' });
+      }
+    }
+
     res.status(200).json(schedule);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -80,6 +145,18 @@ exports.getScheduleById = async (req, res) => {
 exports.updateSchedule = async (req, res) => {
   try {
     const { courseId, sessionId, slots } = req.body;
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // If moderator, get their college
+    let moderatorCollege = null;
+    if (userRole === 'moderator') {
+      moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+    }
+
     const existingSchedule = await Schedule.findById(req.params.id);
     if (!existingSchedule) {
       return res.status(404).json({ message: 'Schedule not found' });
@@ -95,11 +172,29 @@ exports.updateSchedule = async (req, res) => {
     if (!course) {
       return res.status(400).json({ message: 'Course not found' });
     }
+    // If moderator, verify the course belongs to their college
+    if (userRole === 'moderator') {
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      if (course.collegeId.toString() !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only update schedules for courses in their own college' });
+      }
+    }
 
     // If sessionId is provided, verify it exists
     session = await Session.findById(effectiveSessionId);
     if (!session) {
       return res.status(400).json({ message: 'Session not found' });
+    }
+    // If moderator, verify the session belongs to their college
+    if (userRole === 'moderator') {
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      if (session.collegeId.toString() !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only update schedules for sessions in their own college' });
+      }
     }
 
     const relationshipError = validateCourseSessionRelationship(course, session);
@@ -124,10 +219,36 @@ exports.updateSchedule = async (req, res) => {
 // Delete schedule by ID
 exports.deleteSchedule = async (req, res) => {
   try {
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // Find the schedule first to check course
+    const schedule = await Schedule.findById(req.params.id).populate('courseId');
+    if (!schedule) {
+      return res.status(404).json({ message: 'Schedule not found' });
+    }
+
+    // If moderator, verify the schedule's course belongs to their college
+    if (userRole === 'moderator') {
+      const moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      // Populate might not have populated the course's collegeId, so we need to fetch the course
+      const course = await Course.findById(schedule.courseId);
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found' });
+      }
+      if (course.collegeId.toString() !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only delete schedules for courses in their own college' });
+      }
+    }
+
     const schedule = await Schedule.findByIdAndDelete(req.params.id);
     if (!schedule) {
       return res.status(404).json({ message: 'Schedule not found' });
     }
+
     res.status(200).json({ message: 'Schedule deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -147,15 +268,27 @@ exports.getUpcomingScheduleByCollege = async (req, res) => {
       return res.status(404).json({ message: 'College not found' });
     }
 
+    // If moderator, verify they are associated with the college
+    const userRole = req.user.role;
+    if (userRole === 'moderator') {
+      const moderatorCollege = await College.findOne({ moderatorId: req.user.id });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      if (collegeId !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only access schedules for their own college' });
+      }
+    }
+
     // Get sessions that are not ended (endDate >= today) or ongoing/upcoming
     const today = new Date();
-    const sessions = await Session.find({ 
+    const sessions = await Session.find({
       collegeId,
       endDate: { $gte: today } // sessions that have not ended yet
     });
 
     // Get schedules for these sessions
-    const schedules = await Schedule.find({ 
+    const schedules = await Schedule.find({
       sessionId: { $in: sessions.map(s => s._id) }
     }).populate({
       path: 'courseId',
@@ -173,9 +306,9 @@ exports.getUpcomingScheduleByCollege = async (req, res) => {
         courseCode: schedule.courseId.courseCode
       },
       session: {
-        _id: schedule.sessionId._id,
-        startDate: schedule.sessionId.startDate,
-        endDate: schedule.sessionId.endDate
+        _id: session.sessionId._id,
+        startDate: session.sessionId.startDate,
+        endDate: session.sessionId.endDate
       },
       slots: schedule.slots
     }));

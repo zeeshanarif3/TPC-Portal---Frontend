@@ -6,13 +6,24 @@ const Attendance = require('../models/Attendance');
 const Contract = require('../models/Contract');
 
 /**
- * GET /dashboard/stats?college=<collegeId>
+ * GET /dashboard/stats?collegeId=<collegeId>
  * Returns statistics for a college
  */
 exports.getDashboardStats = async (req, res) => {
   try {
-    // const { collegeId } = req.query;
-    const { college: collegeId } = req.query
+    const userId = req.user.id;
+    const userRole = req.user.role;
+    let collegeId = req.query.collegeId;
+
+    // If moderator, they can only access their own college
+    if (userRole === 'moderator') {
+      const moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      collegeId = moderatorCollege._id.toString(); // Override with their college
+    }
+
     if (!collegeId) {
       return res.status(400).json({ message: 'College ID is required' });
     }
