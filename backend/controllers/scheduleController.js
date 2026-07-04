@@ -245,7 +245,7 @@ exports.deleteSchedule = async (req, res) => {
     }
 
     const scheduleDeleted = await Schedule.findByIdAndDelete(req.params.id);
-    if (!schedule) {
+    if (!scheduleDeleted) {
       return res.status(404).json({ message: 'Schedule not found' });
     }
 
@@ -306,9 +306,9 @@ exports.getUpcomingScheduleByCollege = async (req, res) => {
         courseCode: schedule.courseId.courseCode
       },
       session: {
-        _id: session.sessionId._id,
-        startDate: session.sessionId.startDate,
-        endDate: session.sessionId.endDate
+        _id: schedule.sessionId._id,
+        startDate: schedule.sessionId.startDate,
+        endDate: schedule.sessionId.endDate
       },
       slots: schedule.slots
     }));
