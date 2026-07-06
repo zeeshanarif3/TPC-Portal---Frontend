@@ -211,8 +211,8 @@ exports.deleteStudent = async (req, res) => {
       }
     }
 
-    const student = await Student.findByIdAndDelete(req.params.id);
-    if (!student) {
+    const studentDeleted = await Student.findByIdAndDelete(req.params.id);
+    if (!studentDeleted) {
       return res.status(404).json({ message: 'Student not found' });
     }
 

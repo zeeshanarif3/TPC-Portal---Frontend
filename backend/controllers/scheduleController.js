@@ -2,6 +2,7 @@ const Schedule = require('../models/Schedule');
 const Course = require('../models/Course');
 const Session = require('../models/Session');
 const College = require('../models/College');
+const Trainer = require('../models/Trainer');
 
 const validateCourseSessionRelationship = (course, session) => {
   if (course.collegeId.toString() !== session.collegeId.toString()) {
@@ -81,11 +82,80 @@ exports.createSchedule = async (req, res) => {
   }
 };
 
-// Get all schedules
+// Get all schedules or schedules for a specific date
 exports.getAllSchedules = async (req, res) => {
   try {
     const userId = req.user.id;
     const userRole = req.user.role;
+
+    // If date query parameter is provided, filter schedules by date
+    if (req.query.date) {
+      const dateStr = req.query.date;
+      // Validate date format (YYYY-MM-DD)
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dateRegex.test(dateStr)) {
+        return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD.' });
+      }
+      const [year, month, day] = dateStr.split('-').map(Number);
+      const startOfDay = new Date(Date.UTC(year, month - 1, day));
+      const endOfDay = new Date(Date.UTC(year, month - 1, day, 23, 59, 59, 999));
+
+      // Find sessions that intersect with the given date
+      const sessions = await Session.find({
+        startDate: { $lte: endOfDay },
+        endDate: { $gte: startOfDay }
+      }).select('_id');
+
+      const sessionIds = sessions.map(s => s._id);
+
+      let query = { sessionId: { $in: sessionIds } };
+
+      if (userRole === 'moderator') {
+        const moderatorCollege = await College.findOne({ moderatorId: userId });
+        if (!moderatorCollege) {
+          return res.status(404).json({ message: 'College not found for this moderator' });
+        }
+        const courses = await Course.find({ collegeId: moderatorCollege._id });
+        const courseIds = courses.map(c => c._id);
+        query = { ...query, courseId: { $in: courseIds } };
+      } else if (userRole === 'trainer') {
+        // For trainer, we will filter in memory after fetching by sessionId
+        // Get the trainer profile for the logged-in user
+        const trainer = await Trainer.findOne({ userId });
+        if (!trainer) {
+          return res.status(404).json({ message: 'Trainer profile not found for this user' });
+        }
+        // We'll filter after fetching schedules
+      }
+      // For admin, no additional filters beyond sessionId
+
+      let schedules = await Schedule.find(query)
+        .populate('courseId', 'courseCode')
+        .populate('sessionId', 'startDate endDate');
+
+      // If trainer, filter schedules to only those where at least one slot is assigned to this trainer
+      if (userRole === 'trainer') {
+        const trainerId = trainer._id;
+        schedules = schedules.filter(schedule => {
+          let found = false;
+          for (const slot of schedule.slots.values()) {
+            if (slot.trainerId.toString() === trainerId.toString()) {
+              found = true;
+              break;
+            }
+          }
+          return found;
+        });
+      }
+
+      res.status(200).json(schedules);
+      return;
+    }
+
+    // No date filter: return all schedules based on role (admin/moderator only; trainer requires date)
+    if (userRole === 'trainer') {
+      return res.status(400).json({ message: 'Date query parameter is required for trainers.' });
+    }
 
     let filter = {};
     if (userRole === 'moderator') {
@@ -97,6 +167,9 @@ exports.getAllSchedules = async (req, res) => {
       const courses = await Course.find({ collegeId: moderatorCollege._id });
       const courseIds = courses.map(c => c._id);
       filter = { courseId: { $in: courseIds } };
+    } else if (userRole !== 'admin') {
+      // Only admin or moderator can list all schedules without date filter
+      return res.status(403).json({ message: 'Access denied. Admins and moderators only.' });
     }
 
     const schedules = await Schedule.find(filter)
@@ -244,8 +317,8 @@ exports.deleteSchedule = async (req, res) => {
       }
     }
 
-    const schedule = await Schedule.findByIdAndDelete(req.params.id);
-    if (!schedule) {
+    const scheduleDeleted = await Schedule.findByIdAndDelete(req.params.id);
+    if (!scheduleDeleted) {
       return res.status(404).json({ message: 'Schedule not found' });
     }
 
@@ -306,9 +379,9 @@ exports.getUpcomingScheduleByCollege = async (req, res) => {
         courseCode: schedule.courseId.courseCode
       },
       session: {
-        _id: session.sessionId._id,
-        startDate: session.sessionId.startDate,
-        endDate: session.sessionId.endDate
+        _id: schedule.sessionId._id,
+        startDate: schedule.sessionId.startDate,
+        endDate: schedule.sessionId.endDate
       },
       slots: schedule.slots
     }));

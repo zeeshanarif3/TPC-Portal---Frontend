@@ -4,9 +4,6 @@ const Session = require('../models/Session');
 const User = require('../models/User');
 const Contract = require('../models/Contract');
 const bcrypt = require('bcryptjs');
-const College = require('../models/College');
-const Session = require('../models/Session');
-const Contract = require('../models/Contract');
 
 // Create a new trainer (also creates the user account)
 exports.createTrainer = async (req, res) => {

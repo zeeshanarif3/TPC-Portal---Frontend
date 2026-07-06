@@ -1,22 +1,27 @@
 const mongoose = require('mongoose');
 
 const ScheduleSchema = new mongoose.Schema({
-  courseId: { 
-    type: mongoose.Schema.Types.ObjectId, 
+  courseId: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Course',
     required: true
   },
-  sessionId: { 
-    type: mongoose.Schema.Types.ObjectId, 
+  sessionId: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Session',
     required: true
   },
-  slots: { 
+  slots: {
     type: Map,
-    of: [{
+    of: {
       startTime: { type: String, required: true },
-      endTime: { type: String, required: true }
-    }]
+      endTime: { type: String, required: true },
+      trainerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Trainer',
+        required: true
+      }
+    }
   }
 }, { timestamps: true });
 

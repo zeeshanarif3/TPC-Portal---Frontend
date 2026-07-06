@@ -204,8 +204,8 @@ exports.deleteSession = async (req, res) => {
       }
     }
 
-    const session = await Session.findByIdAndDelete(req.params.id);
-    if (!session) {
+    const sessionDeleted = await Session.findByIdAndDelete(req.params.id);
+    if (!sessionDeleted) {
       return res.status(404).json({ message: 'Session not found' });
     }
 
