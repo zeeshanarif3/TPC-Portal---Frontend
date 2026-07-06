@@ -6,23 +6,24 @@ import useLenis from "../hooks/useLenis";
 import './Main.css'
 import Anim from "../anim/anim";
 
-function Main() {
-
-
+// function Main() {
+function Main({t}) {
+    
     ////////// for smooth scrolling , for future components, currently not used ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     // useLenis()
-
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
+    
+    
+    
+    
     // main states
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null); // {name, email, role}
     const [ready, setReady] = useState(false);
-
+    
+    t(token) //delete this , its for debug purposes
 
     // main func states
     const handleLogout = () => {
@@ -89,7 +90,8 @@ function Main() {
                 <Anim />
             ) : (ready && user ? (
                 <>
-                    {user.role === "admin" && (
+                    {/* {user.role === "admin" && (  */}
+                    {((user.role === "admin") ||(user.role === "moderator")||(user.role === "trainer"))  && (
                         <Admin_portal
                             token={token}
                             user={user}

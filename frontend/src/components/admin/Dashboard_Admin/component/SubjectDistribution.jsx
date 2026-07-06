@@ -9,6 +9,22 @@ import {
   Legend,
 } from "recharts";
 
+// Professional categorical color palette
+const COLORS = [
+  "#3B82F6", // Blue
+  "#10B981", // Emerald
+  "#F59E0B", // Amber
+  "#EF4444", // Red
+  "#8B5CF6", // Violet
+  "#06B6D4", // Cyan
+  "#EC4899", // Pink
+  "#84CC16", // Lime
+  "#F97316", // Orange
+  "#14B8A6", // Teal
+  "#6366F1", // Indigo
+  "#A855F7", // Purple
+];
+
 export default function SubjectDistribution({ data }) {
   if (!data || data.length === 0) {
     return (
@@ -24,15 +40,12 @@ export default function SubjectDistribution({ data }) {
     );
   }
 
-  const total = data.reduce(
-    (sum, item) => sum + item.count,
-    0
-  );
+  const total = data.reduce((sum, item) => sum + item.count, 0);
 
-  const chartData = data.map((item) => ({
+  const chartData = data.map((item, index) => ({
     name: item.subject,
     value: item.count,
-    color: item.color || "#6366f1",
+    color: COLORS[index % COLORS.length],
   }));
 
   return (
@@ -66,7 +79,9 @@ export default function SubjectDistribution({ data }) {
               ))}
             </Pie>
 
-            <Tooltip />
+            <Tooltip
+              formatter={(value) => [`${value} Sessions`, "Count"]}
+            />
 
             <Legend
               verticalAlign="bottom"

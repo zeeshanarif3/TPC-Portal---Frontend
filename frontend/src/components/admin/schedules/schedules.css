@@ -252,6 +252,86 @@ LOADING / ERROR
     border-color: #fecaca;
 }
 
+
+
+
+
+.filter {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    background: white;
+
+    border-radius: 24px;
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
+}
+
+/* Filter wrapper */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 240px;
+}
+
+/* Label */
+.filter-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Select */
+.filter-select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #1f2937;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.filter-select:hover {
+  border-color: #2563eb;
+}
+
+.filter-select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filter-group {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
 /* ==========================================
 CONTENT ANIMATION
 ========================================== */

@@ -15,8 +15,8 @@ import AttendancePage from "../../components/admin/attendance/attendance";
 
 function Admin_portal({ token, user, handleLogout }) {
 
-    // const [page, setPage] = useState("dashboard"); //Default
-    const [page, setPage] = useState("trainer"); //Default
+    const [page, setPage] = useState("dashboard"); //Default
+    // const [page, setPage] = useState("sessions"); //Default
 
 
     return (
@@ -28,7 +28,9 @@ function Admin_portal({ token, user, handleLogout }) {
                     role={user}
                     handleLogout={handleLogout}
                 />
-                
+                <div className="app-content">
+                    
+                    {/* {page === "dashboard" && <div>v</div> } */}
                     {page === "dashboard" && <DashboardPage token={token} />}
                     {page === "college" && <CollegePage token={token} />}
                     {page === "trainer" && <TrainersPage token={token} />}
@@ -37,6 +39,7 @@ function Admin_portal({ token, user, handleLogout }) {
                     {page === "schedule" && <SchedulesPage token={token} />}
                     {page === "attendance" && <AttendancePage token={token} />}
 
+                </div>
 
                 
 

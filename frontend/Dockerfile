@@ -20,8 +20,9 @@ RUN rm -rf ./*
 # Copy built assets from Stage 1
 COPY --from=builder /app/dist .
 
-# Copy custom nginx configuration for SPA routing
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Optional: If using React Router (SPA), you might need a custom nginx.conf 
+# to handle client-side routing. Un-comment if you notice 404s on page refresh:
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

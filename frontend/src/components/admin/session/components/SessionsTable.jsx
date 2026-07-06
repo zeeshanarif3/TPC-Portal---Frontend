@@ -7,18 +7,31 @@ import {
 } from "lucide-react";
 
 export default function SessionsTable({
-  sessions,
+  sessions = [],
   onDelete,
   onRefresh,
 }) {
+  const getSessionStatus = (session) => {
+    const today = new Date();
+    const start = new Date(session.startDate);
+    const end = new Date(session.endDate);
+
+    if (today < start) return "Upcoming";
+    if (today > end) return "Completed";
+    return "Active";
+  };
+
   const handleDelete = async (sessionId) => {
     if (
       window.confirm(
         "Are you sure you want to delete this session?"
       )
     ) {
-      await onDelete(sessionId);
-      onRefresh();
+      if (onDelete) {
+        await onDelete(sessionId);
+      }
+
+      onRefresh?.();
     }
   };
 
@@ -40,69 +53,77 @@ export default function SessionsTable({
         </thead>
 
         <tbody>
-          {sessions.map((session) => (
-            <tr key={session.id}>
-              <td className="session-id">
-                {session.id}
-              </td>
+          {sessions.map((session) => {
+            const status = getSessionStatus(session);
 
-              <td className="session-college">
-                {session.college}
-              </td>
+            return (
+              <tr key={session._id}>
+                <td className="session-id">
+                  {session._id}
+                </td>
 
-              <td>
-                {session.startDate}
-              </td>
+                <td className="session-college">
+                  {session.collegeId?.name || "—"}
+                </td>
 
-              <td>
-                {session.endDate}
-              </td>
+                <td>
+                  {new Date(
+                    session.startDate
+                  ).toLocaleDateString()}
+                </td>
 
-              <td>
-                {session.courses}
-              </td>
+                <td>
+                  {new Date(
+                    session.endDate
+                  ).toLocaleDateString()}
+                </td>
 
-              <td>
-                <span
-                  className={`status-badge status-${session.status.toLowerCase()}`}
-                >
-                  {session.status}
-                </span>
-              </td>
+                <td>
+                  {session.courseIds?.length || 0}
+                </td>
 
-              <td className="session-actions">
-                <button
-                  className="btn-action btn-view"
-                  title="View Session"
-                  onClick={() =>
-                    (window.location.href = `/sessions/${session.id}`)
-                  }
-                >
-                  <Eye />
-                </button>
+                <td>
+                  <span
+                    className={`status-badge status-${status.toLowerCase()}`}
+                  >
+                    {status}
+                  </span>
+                </td>
 
-                <button
-                  className="btn-action btn-edit"
-                  title="Edit Session"
-                  onClick={() =>
-                    (window.location.href = `/sessions/${session.id}/edit`)
-                  }
-                >
-                  <Pencil />
-                </button>
+                <td className="session-actions">
+                  <button
+                    className="btn-action btn-view"
+                    title="View Session"
+                    onClick={() =>
+                      (window.location.href = `/sessions/${session._id}`)
+                    }
+                  >
+                    <Eye />
+                  </button>
 
-                <button
-                  className="btn-action btn-delete"
-                  title="Delete Session"
-                  onClick={() =>
-                    handleDelete(session.id)
-                  }
-                >
-                  <Trash2 />
-                </button>
-              </td>
-            </tr>
-          ))}
+                  <button
+                    className="btn-action btn-edit"
+                    title="Edit Session"
+                    onClick={() =>
+                      (window.location.href = `/sessions/${session._id}/edit`)
+                    }
+                  >
+                    <Pencil />
+                  </button>
+
+                  <button
+                    className="btn-action btn-delete"
+                    title="Delete Session"
+                    onClick={() =>
+                      handleDelete(session._id)
+                    }
+                  >
+                    <Trash2 />
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

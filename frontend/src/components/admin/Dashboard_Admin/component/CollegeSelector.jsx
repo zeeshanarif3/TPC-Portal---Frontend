@@ -6,7 +6,7 @@ export default function CollegeSelector({ colleges, selected, onSelect }) {
     const [search, setSearch] = useState('');
 
     const filtered = colleges.filter((c) =>
-        c.label.toLowerCase().includes(search.toLowerCase())
+        c.name.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
@@ -28,17 +28,20 @@ export default function CollegeSelector({ colleges, selected, onSelect }) {
                         <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                 </div>
-
             </div>
 
             <div className="college-selector__pills">
                 {filtered.map((c) => (
                     <button
-                        key={c.id}
-                        className={`college-selector__pill ${selected === c.id ? 'college-selector__pill--active' : ''}`}
-                        onClick={() => onSelect(c.id)}
+                        key={c._id}
+                        className={`college-selector__pill ${
+                            selected === c._id
+                                ? 'college-selector__pill--active'
+                                : ''
+                        }`}
+                        onClick={() => onSelect(c._id)}
                     >
-                        {c.label}
+                        {c.name}
                     </button>
                 ))}
             </div>

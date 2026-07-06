@@ -9,20 +9,6 @@ const MOCK_COLLEGES = [
   { id: 'COL003', name: 'Amity University Noida', courses: 6, trainers: 4, activeSession: 'Spring 2025', status: 'Active' },
   { id: 'COL004', name: 'Chandigarh University', courses: 10, trainers: 6, activeSession: null, status: 'Inactive' },
   { id: 'COL005', name: 'Lovely Professional University', courses: 14, trainers: 9, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL006', name: 'Delhi Institute of Technology', courses: 8, trainers: 5, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL007', name: 'Punjab Engineering College', courses: 12, trainers: 7, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0031', name: 'Amity University Noida', courses: 6, trainers: 4, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0042', name: 'Chandigarh University', courses: 10, trainers: 6, activeSession: null, status: 'Inactive' },
-  { id: 'COL0053', name: 'Lovely Professional University', courses: 14, trainers: 9, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0014', name: 'Delhi Institute of Technology', courses: 8, trainers: 5, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0025', name: 'Punjab Engineering College', courses: 12, trainers: 7, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0036', name: 'Amity University Noida', courses: 6, trainers: 4, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0047', name: 'Chandigarh University', courses: 10, trainers: 6, activeSession: null, status: 'Inactive' },
-  { id: 'COL0058', name: 'Lovely Professional University', courses: 14, trainers: 9, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0019', name: 'Delhi Institute of Technology', courses: 8, trainers: 5, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0021', name: 'Punjab Engineering College', courses: 12, trainers: 7, activeSession: 'Spring 2025', status: 'Active' },
-  { id: 'COL0032', name: 'Amity University Noida', courses: 6, trainers: 4, activeSession: 'Spring 2025', status: 'Active' }
-
 ];
 
 const collegeApi = {

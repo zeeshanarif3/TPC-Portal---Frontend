@@ -1,17 +1,9 @@
-
-
-
-
-
-
-
-
 /* ==========================================
 PAGE
 ========================================== */
 
 .college-page {
-    height:stretch;
+    height: stretch;
     width: stretch;
     /* min-height: 100vh; */
     padding: 2.5rem 2.5rem;
@@ -20,12 +12,12 @@ PAGE
     gap: 2.5rem;
     overflow: scroll;
     border-radius: 18px;
-    
+
     background: #ffffff;
     color: #111827;
-      box-shadow:
-    0 1px 2px rgba(0,0,0,.04),
-    0 8px 24px rgba(0,0,0,.05);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, .04),
+        0 8px 24px rgba(0, 0, 0, .05);
 
 
 
@@ -34,18 +26,18 @@ PAGE
 
 
 
---shadow:
-0 2px 4px rgba(0,0,0,.03),
-0 20px 40px rgba(0,0,0,.04);
+    --shadow:
+        0 2px 4px rgba(0, 0, 0, .03),
+        0 20px 40px rgba(0, 0, 0, .04);
 
-     
---shadow-hover:
-    0 12px 30px rgba(0,0,0,.06),
-    0 40px 80px rgba(0,0,0,.08);
 
---border: #eceef2;
---text: #111827;
---muted: #6b7280;
+    --shadow-hover:
+        0 12px 30px rgba(0, 0, 0, .06),
+        0 40px 80px rgba(0, 0, 0, .08);
+
+    --border: #eceef2;
+    --text: #111827;
+    --muted: #6b7280;
 
 
 
@@ -60,24 +52,24 @@ HEADER
 ========================================== */
 
 .college-header {
-position: relative;
-
- 
-display: flex;
-
-justify-content: space-between;
-align-items: center;
+    position: relative;
 
 
-padding: 2.5rem;
+    display: flex;
 
-background: white;
+    justify-content: space-between;
+    align-items: center;
 
-border-radius: 28px;
 
-border: 1px solid var(--border);
+    padding: 2.5rem;
 
-box-shadow: var(--shadow);
+    background: white;
+
+    border-radius: 28px;
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
 
 
 
@@ -91,27 +83,27 @@ transform: translateX(200%);
 } */
 
 .college-header h1 {
-font-size: 2.2rem;
-font-weight: 800;
+    font-size: 2.2rem;
+    font-weight: 800;
 
- 
-color: var(--text);
 
-margin: 0 0 6px;
+    color: var(--text);
 
-letter-spacing: -.05em;
- 
+    margin: 0 0 6px;
+
+    letter-spacing: -.05em;
+
 
 }
 
 .college-header p {
-color: var(--muted);
+    color: var(--muted);
 
- 
-font-size: .95rem;
 
-margin: 0;
- 
+    font-size: .95rem;
+
+    margin: 0;
+
 
 }
 
@@ -122,57 +114,55 @@ BUTTONS
 .btn-add-college,
 .btn-bulk-archive,
 .btn-export-csv {
-position: relative;
+    position: relative;
 
- 
-overflow: hidden;
 
-border: none;
+    overflow: hidden;
 
-background: white;
+    border: none;
 
-border-radius: 16px;
+    background: white;
 
-padding: 13px 20px;
+    border-radius: 16px;
 
-font-size: .9rem;
-font-weight: 600;
+    padding: 13px 20px;
 
-cursor: pointer;
+    font-size: .9rem;
+    font-weight: 600;
 
-box-shadow: var(--shadow);
+    cursor: pointer;
 
-transition:
-    transform .25s ease,
-    box-shadow .25s ease;
- 
+    box-shadow: var(--shadow);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
 
 }
 
 .btn-add-college::before,
 .btn-bulk-archive::before,
 .btn-export-csv::before {
-content: "";
+    content: "";
 
- 
-position: absolute;
 
-top: 0;
-left: -150%;
+    position: absolute;
 
-width: 60%;
-height: 100%;
+    top: 0;
+    left: -150%;
 
-background:
-    linear-gradient(
-        to right,
-        transparent,
-        rgba(255,255,255,.65),
-        transparent
-    );
+    width: 60%;
+    height: 100%;
 
-/* animation: buttonShine 5s linear infinite; */
- 
+    background:
+        linear-gradient(to right,
+            transparent,
+            rgba(255, 255, 255, .65),
+            transparent);
+
+    /* animation: buttonShine 5s linear infinite; */
+
 
 }
 
@@ -185,26 +175,26 @@ left: 250%;
 .btn-add-college:hover,
 .btn-bulk-archive:hover,
 .btn-export-csv:hover {
-transform: translateY(-3px);
+    transform: translateY(-3px);
 
- 
-box-shadow: var(--shadow-hover);
- 
+
+    box-shadow: var(--shadow-hover);
+
 
 }
 
 .btn-add-college:active,
 .btn-bulk-archive:active,
 .btn-export-csv:active {
-transform: scale(.97);
+    transform: scale(.97);
 }
 
 .btn-bulk-archive:disabled {
-opacity: .45;
+    opacity: .45;
 
- 
-pointer-events: none;
- 
+
+    pointer-events: none;
+
 
 }
 
@@ -213,24 +203,24 @@ FILTERS
 ========================================== */
 
 .college-filters {
-position: relative;
+    position: relative;
 
- 
-display: flex;
 
-align-items: center;
+    display: flex;
 
-gap: 16px;
+    align-items: center;
 
-padding: 22px;
+    gap: 16px;
 
-background: white;
+    padding: 22px;
 
-border-radius: 24px;
+    background: white;
 
-border: 1px solid var(--border);
+    border-radius: 24px;
 
-box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
 
 
 }
@@ -240,68 +230,68 @@ SEARCH
 ========================================== */
 
 .search-box {
-flex: 1;
+    flex: 1;
 
- 
-display: flex;
-align-items: center;
 
-gap: 12px;
+    display: flex;
+    align-items: center;
 
-padding: 14px 18px;
+    gap: 12px;
 
-background: #f7f8fa;
+    padding: 14px 18px;
 
-border: 1px solid transparent;
+    background: #f7f8fa;
 
-border-radius: 18px;
+    border: 1px solid transparent;
 
-transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    border-color .25s ease;
- 
+    border-radius: 18px;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+
 
 }
 
 .search-box:hover {
-background: #f9fafb;
+    background: #f9fafb;
 }
 
 .search-box:focus-within {
-background: white;
+    background: white;
 
- 
-border-color: #d7dce4;
 
-transform: translateY(-2px);
+    border-color: #d7dce4;
 
-box-shadow:
-    0 8px 24px rgba(0,0,0,.05);
- 
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, .05);
+
 
 }
 
 .search-icon {
-opacity: .55;
+    opacity: .55;
 }
 
 .search-box input {
-width: 100%;
+    width: 100%;
 
- 
-border: none;
-outline: none;
 
-background: transparent;
+    border: none;
+    outline: none;
 
-font-size: .95rem;
- 
+    background: transparent;
+
+    font-size: .95rem;
+
 
 }
 
 .search-box input::placeholder {
-color: #9ca3af;
+    color: #9ca3af;
 }
 
 /* ==========================================
@@ -309,42 +299,42 @@ SELECT
 ========================================== */
 
 .status-filter {
-min-width: 190px;
+    min-width: 190px;
 
- 
-padding: 14px 18px;
 
-background: white;
+    padding: 14px 18px;
 
-border: 1px solid #d7dce4;
+    background: white;
 
-border-radius: 16px;
+    border: 1px solid #d7dce4;
 
-font-size: .9rem;
+    border-radius: 16px;
 
-cursor: pointer;
+    font-size: .9rem;
 
-transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    border-color .25s ease;
- 
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+
 
 }
 
 .status-filter:hover {
-border-color: #c4cbd6;
+    border-color: #c4cbd6;
 }
 
 .status-filter:focus {
-outline: none;
+    outline: none;
 
- 
-transform: translateY(-2px);
 
-box-shadow:
-    0 8px 20px rgba(0,0,0,.05);
- 
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, .05);
+
 
 }
 
@@ -354,26 +344,26 @@ STATES
 
 .loading,
 .error {
-background: white;
+    background: white;
 
- 
-border-radius: 24px;
 
-padding: 28px;
+    border-radius: 24px;
 
-border: 1px solid var(--border);
+    padding: 28px;
 
-box-shadow: var(--shadow);
+    border: 1px solid var(--border);
 
-text-align: center;
+    box-shadow: var(--shadow);
 
-font-weight: 600;
- 
+    text-align: center;
+
+    font-weight: 600;
+
 
 }
 
 .error {
-border-color: #fecaca;
+    border-color: #fecaca;
 }
 
 /* ==========================================
@@ -382,39 +372,39 @@ RESPONSIVE
 
 @media (max-width:1100px) {
 
- 
-.college-filters {
-    flex-wrap: wrap;
-}
 
-.search-box {
-    min-width: 100%;
-}
- 
+    .college-filters {
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        min-width: 100%;
+    }
+
 
 }
 
 @media (max-width:768px) {
 
- 
-.college-header {
-    flex-direction: column;
-    align-items: stretch;
-}
 
-.college-filters {
-    flex-direction: column;
-    align-items: stretch;
-}
+    .college-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-.status-filter,
-.btn-add-college,
-.btn-bulk-archive,
-.btn-export-csv {
-    width: 100%;
-}
+    .college-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-.college-header h1 {
-    font-size: 1.75rem;
-}
+    .status-filter,
+    .btn-add-college,
+    .btn-bulk-archive,
+    .btn-export-csv {
+        width: 100%;
+    }
+
+    .college-header h1 {
+        font-size: 1.75rem;
+    }
 }

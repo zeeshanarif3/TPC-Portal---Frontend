@@ -1,46 +1,97 @@
 import { useState, useEffect } from 'react';
 import ContractsTable from './components/contractTable';
 import ContractsStats from './components/contractStats';
-import useContracts from './hooks/usecontract';
+import { useDashboard } from "../../../hooks/useDashboard";
+// import useContracts from './hooks/usecontract';
 
 import './contract.css';
 
-export default function ContractsPage() {
-  const { contracts, loading, error, fetchContracts, endContract, deleteContract } = useContracts();
+export default function ContractsPage({ token }) {
+  // const { contracts, loading, error } = useContracts();
+  const {
+    loading,
+    error,
+
+    AllContracts = [],
+    ExpContracts,
+
+  } = useDashboard(token);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
 
-  useEffect(() => {
-    fetchContracts();
-  }, []);
+  const filteredContracts = AllContracts.filter((contract) => {
+    const matchesSearch =
+      contract._id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contract.trainerId?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contract.trainerId?.speciality?.toLowerCase().includes(searchTerm.toLowerCase());
 
-  const filteredContracts = contracts.filter(contract => {
-    const matchesSearch = 
-      contract.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      contract.trainer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      contract.college.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesFilter = statusFilter === 'All' || contract.status === statusFilter;
+    const contractStatus =
+      contract.status.charAt(0).toUpperCase() +
+      contract.status.slice(1).toLowerCase();
+
+    const matchesFilter =
+      statusFilter === 'All' ||
+      contractStatus === statusFilter;
+
     return matchesSearch && matchesFilter;
   });
 
   const stats = {
-    active: contracts.filter(c => c.status === 'Active').length,
-    expiringSoon: contracts.filter(c => c.status === 'Expiring Soon').length,
-    expired: contracts.filter(c => c.status === 'Expired').length,
+    active: AllContracts.filter(
+      (c) => c.status.toLowerCase() === 'active'
+    ).length,
+
+    expiringSoon: ExpContracts?.length || 0,
+
+    expired: AllContracts.filter(
+      (c) => c.status.toLowerCase() === 'expired'
+    ).length,
   };
 
   const handleExportCSV = () => {
-    const headers = ['CONTRACT ID', 'TRAINER', 'COLLEGE', 'SESSION', 'STATUS', 'START', 'END'];
-    const rows = filteredContracts.map(c => [c.id, c.trainer, c.college, c.session, c.status, c.startDate, c.endDate]);
-    const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
-    
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const headers = [
+      'CONTRACT ID',
+      'TRAINER',
+      'SPECIALITY',
+      'SESSION START',
+      'SESSION END',
+      'STATUS',
+      'CONTRACT START',
+      'CONTRACT END',
+    ];
+
+    const rows = filteredContracts.map((c) => [
+      c._id,
+      c.trainerId?.name || '—',
+      c.trainerId?.speciality || '—',
+      c.sessionId?.startDate
+        ? new Date(c.sessionId.startDate).toLocaleDateString()
+        : '—',
+      c.sessionId?.endDate
+        ? new Date(c.sessionId.endDate).toLocaleDateString()
+        : '—',
+      c.status,
+      new Date(c.startDate).toLocaleDateString(),
+      new Date(c.endDate).toLocaleDateString(),
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map((row) => row.join(','))
+      .join('\n');
+
+    const blob = new Blob([csvContent], {
+      type: 'text/csv',
+    });
+
     const url = window.URL.createObjectURL(blob);
+
     const a = document.createElement('a');
     a.href = url;
     a.download = 'contracts.csv';
     a.click();
+
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -49,9 +100,13 @@ export default function ContractsPage() {
       <div className="contracts-header">
         <div>
           <h1>Contracts</h1>
-          <p>Manage trainer-college agreements</p>
+          <p>Manage trainer agreements</p>
         </div>
-        <button className="btn-new-contract" onClick={() => window.location.href = '/contracts/new'}>
+
+        <button
+          className="btn-new-contract"
+          onClick={() => (window.location.href = '/contracts/new')}
+        >
           + New Contract
         </button>
       </div>
@@ -63,6 +118,7 @@ export default function ContractsPage() {
       <div className="contracts-filters">
         <div className="search-box">
           <span className="search-icon">🔍</span>
+
           <input
             type="text"
             placeholder="Search contracts..."
@@ -82,7 +138,10 @@ export default function ContractsPage() {
           <option value="Expired">Expired</option>
         </select>
 
-        <button className="btn-export-csv" onClick={handleExportCSV}>
+        <button
+          className="btn-export-csv"
+          onClick={handleExportCSV}
+        >
           Export CSV
         </button>
       </div>
@@ -90,12 +149,10 @@ export default function ContractsPage() {
       {/* Table */}
       {loading && <p className="loading">Loading contracts...</p>}
       {error && <p className="error">{error}</p>}
+
       {!loading && !error && (
         <ContractsTable
           contracts={filteredContracts}
-          onEnd={endContract}
-          onDelete={deleteContract}
-          onRefresh={fetchContracts}
         />
       )}
     </div>

@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 export default function ContractsTable({
-  contracts,
+  contracts = [],
   onEnd,
   onDelete,
   onRefresh,
@@ -19,8 +19,11 @@ export default function ContractsTable({
         "Are you sure you want to end this contract?"
       )
     ) {
-      await onEnd(contractId);
-      onRefresh();
+      if (onEnd) {
+        await onEnd(contractId);
+      }
+
+      onRefresh?.();
     }
   };
 
@@ -30,8 +33,11 @@ export default function ContractsTable({
         "Are you sure you want to delete this contract?"
       )
     ) {
-      await onDelete(contractId);
-      onRefresh();
+      if (onDelete) {
+        await onDelete(contractId);
+      }
+
+      onRefresh?.();
     }
   };
 
@@ -42,7 +48,7 @@ export default function ContractsTable({
           <tr>
             <th>CONTRACT ID</th>
             <th>TRAINER</th>
-            <th>COLLEGE</th>
+            <th>SPECIALITY</th>
             <th>SESSION</th>
             <th>STATUS</th>
             <th>START</th>
@@ -55,39 +61,50 @@ export default function ContractsTable({
 
         <tbody>
           {contracts.map((contract) => (
-            <tr key={contract.id}>
+            <tr key={contract._id}>
               <td className="contract-id">
-                {contract.id}
+                {contract._id}
               </td>
 
               <td className="contract-trainer">
-                {contract.trainer}
-              </td>
-
-              <td className="contract-college">
-                {contract.college}
+                {contract.trainerId?.name || "—"}
               </td>
 
               <td>
-                {contract.session}
+                {contract.trainerId?.speciality || "—"}
+              </td>
+
+              <td>
+                {contract.sessionId
+                  ? `${new Date(
+                      contract.sessionId.startDate
+                    ).toLocaleDateString()} - ${new Date(
+                      contract.sessionId.endDate
+                    ).toLocaleDateString()}`
+                  : "—"}
               </td>
 
               <td>
                 <span
                   className={`status-badge status-${contract.status
                     .toLowerCase()
-                    .replace(" ", "-")}`}
+                    .replace(/\s+/g, "-")}`}
                 >
-                  {contract.status}
+                  {contract.status.charAt(0).toUpperCase() +
+                    contract.status.slice(1)}
                 </span>
               </td>
 
               <td>
-                {contract.startDate}
+                {new Date(
+                  contract.startDate
+                ).toLocaleDateString()}
               </td>
 
               <td>
-                {contract.endDate}
+                {new Date(
+                  contract.endDate
+                ).toLocaleDateString()}
               </td>
 
               <td className="contract-actions">
@@ -95,7 +112,7 @@ export default function ContractsTable({
                   className="btn-action btn-view"
                   title="View Contract"
                   onClick={() =>
-                    (window.location.href = `/contracts/${contract.id}`)
+                    (window.location.href = `/contracts/${contract._id}`)
                   }
                 >
                   <Eye />
@@ -105,7 +122,7 @@ export default function ContractsTable({
                   className="btn-action btn-edit"
                   title="Edit Contract"
                   onClick={() =>
-                    (window.location.href = `/contracts/${contract.id}/edit`)
+                    (window.location.href = `/contracts/${contract._id}/edit`)
                   }
                 >
                   <Pencil />
@@ -115,7 +132,7 @@ export default function ContractsTable({
                   className="btn-action btn-end"
                   title="End Contract"
                   onClick={() =>
-                    handleEnd(contract.id)
+                    handleEnd(contract._id)
                   }
                 >
                   <CircleStop />
@@ -125,7 +142,7 @@ export default function ContractsTable({
                   className="btn-action btn-delete"
                   title="Delete Contract"
                   onClick={() =>
-                    handleDelete(contract.id)
+                    handleDelete(contract._id)
                   }
                 >
                   <Trash2 />

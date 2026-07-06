@@ -1,31 +1,19 @@
 import {
   Eye,
   Pencil,
-  Archive,
-  Trash2
+  Trash2,
 } from "lucide-react";
 
 import "./CollegeTable.css";
 
 export default function CollegeTable({
-  colleges,
-  selectedColleges,
-  onSelectCollege,
-  onSelectAll,
+  colleges = [],
   onDelete,
-  onArchive,
-  onRefresh,
 }) {
   const handleDelete = async (collegeId) => {
     if (window.confirm("Are you sure you want to delete this college?")) {
-      await onDelete(collegeId);
-      onRefresh();
+      await onDelete?.(collegeId);
     }
-  };
-
-  const handleArchive = async (collegeId) => {
-    await onArchive(collegeId);
-    onRefresh();
   };
 
   return (
@@ -33,101 +21,63 @@ export default function CollegeTable({
       <table className="college-table">
         <thead>
           <tr>
-            <th className="checkbox-column">
-              <input
-                type="checkbox"
-                checked={
-                  colleges.length > 0 &&
-                  selectedColleges.length === colleges.length
-                }
-                onChange={(e) => onSelectAll(e.target.checked)}
-              />
-            </th>
-
-            <th>COLLEGE NAME</th>
-            <th>COLLEGE ID</th>
-            <th>COURSES</th>
-            <th>TRAINERS</th>
-            <th>ACTIVE SESSION</th>
-            <th>STATUS</th>
+            <th>COLLEGE</th>
+            <th>LOCATION</th>
+            <th>POINT OF CONTACT</th>
+            <th>MODERATOR</th>
+            <th>CREATED</th>
             <th className="actions-column">ACTIONS</th>
           </tr>
         </thead>
 
         <tbody>
           {colleges.map((college) => (
-            <tr key={college.id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedColleges.includes(college.id)}
-                  onChange={() => onSelectCollege(college.id)}
-                />
-              </td>
-
+            <tr key={college._id}>
               <td className="college-name">
-                {college.name}
+                <div>{college.name}</div>
+                <small className="college-id">{college._id}</small>
               </td>
 
-              <td className="college-id">
-                {college.id}
+              <td>{college.location || "—"}</td>
+
+              <td>{college.pointOfContact || "—"}</td>
+
+              <td>
+                <div>{college.moderatorId?.name || "—"}</div>
+                <small>{college.moderatorId?.email}</small>
               </td>
 
               <td>
-                {college.courses}
-              </td>
-
-              <td>
-                {college.trainers}
-              </td>
-
-              <td>
-                {college.activeSession || "—"}
-              </td>
-
-              <td>
-                <span
-                  className={`status-badge status-${college.status.toLowerCase()}`}
-                >
-                  {college.status}
-                </span>
+                {new Date(college.createdAt).toLocaleDateString()}
               </td>
 
               <td className="college-actions">
                 <button
                   className="btn-action btn-view"
-                  title="View College"
+                  title="View"
                   onClick={() =>
-                    (window.location.href = `/college/${college.id}`)
+                    (window.location.href = `/colleges/${college._id}`)
                   }
                 >
-                  <Eye />
+                  <Eye size={18} />
                 </button>
 
                 <button
                   className="btn-action btn-edit"
-                  title="Edit College"
+                  title="Edit"
                   onClick={() =>
-                    (window.location.href = `/college/${college.id}/edit`)
+                    (window.location.href = `/colleges/${college._id}/edit`)
                   }
                 >
-                  <Pencil />
-                </button>
-
-                <button
-                  className="btn-action btn-archive"
-                  title="Archive College"
-                  onClick={() => handleArchive(college.id)}
-                >
-                  <Archive />
+                  <Pencil size={18} />
                 </button>
 
                 <button
                   className="btn-action btn-delete"
-                  title="Delete College"
-                  onClick={() => handleDelete(college.id)}
+                  title="Delete"
+                  onClick={() => handleDelete(college._id)}
                 >
-                  <Trash2 />
+                  <Trash2 size={18} />
                 </button>
               </td>
             </tr>

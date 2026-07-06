@@ -1,10 +1,10 @@
 // Dashboard.jsx
-import { useDashboard } from './hooks/useDashboard';
+import { useDashboard } from '../../../hooks/useDashboard';
 import StatsCards from './component/StatsCards';
 import CollegeSelector from './component/CollegeSelector';
 import TrainT from './component/TrainT';
 import UpcomingSchedule from './component/UpcomingSchedule';
-import AttendanceChart from './component/AttendanceChart';
+import Attendance_chart from './component/AttendanceChart';
 import SubjectDistribution from './component/SubjectDistribution';
 
 import ContractExpiry from './component/ContractExpiry';
@@ -18,13 +18,47 @@ export default function DashboardPage({ token }) {
         setSelectedCollege,
         colleges,
         stats,
-        trainers,
-        schedule,
-        attendance,
-        courseDist,
-        contractExpiry,
         loading,
         error,
+
+        // attendance
+
+        // upcomingClasses,
+        AttendanceChart,
+        SubjectDistributionAttendance,
+
+
+        // schedules
+        UpcomingScheduleByColl,
+        // AllSchedules,
+
+
+        //contracts
+
+        // AllContracts,
+        ExpContracts,
+
+
+        //sessions
+
+        // AllSessions,
+
+
+        //students
+
+        // Allstudents,
+
+        //Courses
+
+        // AllCourses,
+
+        //Trainers
+        // AllTrainers,
+        TrainersByColl,
+
+
+
+
     } = useDashboard(token);
 
     if (error) {
@@ -34,29 +68,29 @@ export default function DashboardPage({ token }) {
     return (
         <div className="dashboard">
 
-            <div className="dashboard__top-row">
+             <div className="dashboard__top-row">
                 <div className="left  ">
                     <StatsCards stats={stats} />
                     <div className="  disp_cont">
 
                         <SubjectDistribution
-                            data={loading ? [] : courseDist}
+                            data={loading ? [] : SubjectDistributionAttendance}
                         />
 
                         <ContractExpiry
-                            contracts={loading ? [] : contractExpiry}
+                            contracts={loading ? [] : ExpContracts}
                         />
 
 
                     </div>
-                </div>
+                </div> 
                 <div className="right  ">
                     <CollegeSelector
                         colleges={colleges}
                         selected={selectedCollege}
                         onSelect={setSelectedCollege}
                     />
-                    <AttendanceChart data={attendance} />
+                    <Attendance_chart data={AttendanceChart} />
                 </div>
 
             </div>
@@ -66,7 +100,7 @@ export default function DashboardPage({ token }) {
                 <div className="Schedulle-card">
 
                     <UpcomingSchedule
-                        schedule={loading ? [] : schedule}
+                        schedule={loading ? [] : UpcomingScheduleByColl}
                         onViewAll={() => { }}
                     />
 
@@ -82,7 +116,7 @@ export default function DashboardPage({ token }) {
 
 
                 <TrainT
-                    trainers={loading ? [] : trainers}
+                    trainers={loading ? [] : TrainersByColl}
                 />
 
 
