@@ -116,10 +116,31 @@ exports.createAttendance = async (req, res) => {
       return res.status(403).json({ message: 'Trainer does not have an active contract for this session' });
     }
 
-    // Check if attendance already exists for this course, session, and date
-    const existingAttendance = await Attendance.findOne({ courseId, sessionId, date });
+    // Find the schedule for this course and session
+    const schedule = await Schedule.findOne({ courseId, sessionId });
+    if (!schedule) {
+      return res.status(404).json({ message: 'Schedule not found for this course and session' });
+    }
+
+    // Check if the slot (startTime, endTime) exists in the schedule and is assigned to this trainer
+    let slotFound = false;
+    for (const slot of schedule.slots.values()) {
+      if (slot.startTime === startTime && slot.endTime === endTime) {
+        if (slot.trainerId.toString() !== trainer._id.toString()) {
+          return res.status(403).json({ message: 'This slot is not assigned to you' });
+        }
+        slotFound = true;
+        break;
+      }
+    }
+    if (!slotFound) {
+      return res.status(400).json({ message: 'Slot not found in the schedule' });
+    }
+
+    // Check if attendance already exists for this course, session, date, startTime, endTime
+    const existingAttendance = await Attendance.findOne({ courseId, sessionId, date, startTime, endTime });
     if (existingAttendance) {
-      return res.status(400).json({ message: 'Attendance record already exists for this course, session, and date' });
+      return res.status(400).json({ message: 'Attendance record already exists for this course, session, date, and time slot' });
     }
 
     // Create new attendance
@@ -129,6 +150,7 @@ exports.createAttendance = async (req, res) => {
       date,
       startTime,
       endTime,
+      trainerId: trainer._id,
       presentStudents: presentStudentList,
       headCount: presentStudentList.length
     });
@@ -173,10 +195,36 @@ exports.updateAttendance = async (req, res) => {
       return res.status(403).json({ message: 'Trainer does not have an active contract for this session' });
     }
 
-    // Find the attendance record for this course, session, and date
-    const attendance = await Attendance.findOne({ courseId, sessionId, date });
+    // Find the schedule for this course and session
+    const schedule = await Schedule.findOne({ courseId, sessionId });
+    if (!schedule) {
+      return res.status(404).json({ message: 'Schedule not found for this course and session' });
+    }
+
+    // Check if the slot (startTime, endTime) exists in the schedule and is assigned to this trainer
+    let slotFound = false;
+    for (const slot of schedule.slots.values()) {
+      if (slot.startTime === startTime && slot.endTime === endTime) {
+        if (slot.trainerId.toString() !== trainer._id.toString()) {
+          return res.status(403).json({ message: 'This slot is not assigned to you' });
+        }
+        slotFound = true;
+        break;
+      }
+    }
+    if (!slotFound) {
+      return res.status(400).json({ message: 'Slot not found in the schedule' });
+    }
+
+    // Find the attendance record for this course, session, date, startTime, endTime
+    const attendance = await Attendance.findOne({ courseId, sessionId, date, startTime, endTime });
     if (!attendance) {
-      return res.status(404).json({ message: 'Attendance record not found for the given course, session, and date' });
+      return res.status(404).json({ message: 'Attendance record not found for the given course, session, date, and time slot' });
+    }
+
+    // Ensure that the trainer updating is the same as the one who created the record
+    if (attendance.trainerId.toString() !== trainer._id.toString()) {
+      return res.status(403).json({ message: 'You are not authorized to update this attendance record' });
     }
 
     // Update the attendance record
@@ -184,6 +232,7 @@ exports.updateAttendance = async (req, res) => {
     attendance.endTime = endTime;
     attendance.presentStudents = presentStudentList;
     attendance.headCount = presentStudentList.length;
+    // Note: We do not change trainerId on update to preserve original recorder
 
     await attendance.save();
     res.status(200).json(attendance);
@@ -197,7 +246,8 @@ exports.getAttendanceById = async (req, res) => {
   try {
     const attendance = await Attendance.findById(req.params.id)
       .populate('courseId', 'courseCode')
-      .populate('sessionId', 'startDate endDate');
+      .populate('sessionId', 'startDate endDate')
+      .populate('trainerId', 'name'); // optional: populate trainer name
     if (!attendance) {
       return res.status(404).json({ message: 'Attendance record not found' });
     }
@@ -218,7 +268,8 @@ exports.getAttendanceBySessionAndDate = async (req, res) => {
 
     const attendance = await Attendance.findOne({ sessionId, date })
       .populate('courseId', 'courseCode')
-      .populate('sessionId', 'startDate endDate');
+      .populate('sessionId', 'startDate endDate')
+      .populate('trainerId', 'name');
 
     if (!attendance) {
       return res.status(404).json({ message: 'Attendance record not found for the given session and date' });
@@ -290,6 +341,7 @@ exports.getAnalytics = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 // Get attendance chart data (attendance over time) for a college
 exports.getAttendanceChartByCollege = async (req, res) => {
   try {
@@ -425,7 +477,8 @@ exports.getAttendanceByCollegeAndSession = async (req, res) => {
     // Fetch all attendance records for this session
     const attendanceRecords = await Attendance.find({ sessionId })
       .populate('courseId', 'courseCode')
-      .populate('sessionId', 'startDate endDate');
+      .populate('sessionId', 'startDate endDate')
+      .populate('trainerId', 'name');
 
     res.status(200).json(attendanceRecords);
   } catch (error) {

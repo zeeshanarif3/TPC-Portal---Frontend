@@ -13,11 +13,13 @@ const {
 
 // Middleware for admin and moderator
 const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
+// Middleware for GET schedules route (allows admin, moderator, trainer)
+const getScheduleMiddleware = authorizeRoles('admin', 'moderator', 'trainer');
 
 // Admin and Moderator Routes for Schedules
 router.get('/upcoming', verifyToken, adminModeratorMiddleware, getUpcomingScheduleByCollege);
 router.post('/', verifyToken, adminModeratorMiddleware, createSchedule);
-router.get('/', verifyToken, adminModeratorMiddleware, getAllSchedules);
+router.get('/', verifyToken, getScheduleMiddleware, getAllSchedules);
 router.get('/:id', verifyToken, adminModeratorMiddleware, getScheduleById);
 router.put('/:id', verifyToken, adminModeratorMiddleware, updateSchedule);
 router.delete('/:id', verifyToken, adminModeratorMiddleware, deleteSchedule);
