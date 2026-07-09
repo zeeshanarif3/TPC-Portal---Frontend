@@ -453,3 +453,150 @@ exports.getUpcomingScheduleByCollege = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Append slots via CSV rows
+exports.appendSlotsViaCSV = async (req, res) => {
+  try {
+    const rows = req.body;
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return res.status(400).json({ message: 'Request body must be a non-empty array of parsed CSV rows' });
+    }
+
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // If moderator, verify they are associated with a college
+    let moderatorCollege = null;
+    if (userRole === 'moderator') {
+      moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+    }
+
+    // Group rows by courseId and sessionId
+    const groupedRows = {};
+    for (const row of rows) {
+      const { courseId, sessionId } = row;
+      if (!courseId || !sessionId) {
+        return res.status(400).json({ message: 'Each row must contain courseId and sessionId' });
+      }
+      const key = `${courseId}_${sessionId}`;
+      if (!groupedRows[key]) {
+        groupedRows[key] = [];
+      }
+      groupedRows[key].push(row);
+    }
+
+    const updatedSchedules = [];
+
+    // Process each group
+    for (const [groupKey, groupRows] of Object.entries(groupedRows)) {
+      const [courseId, sessionId] = groupKey.split('_');
+
+      const schedule = await Schedule.findOne({ courseId, sessionId });
+      if (!schedule) {
+        continue;
+      }
+
+      // Mirror our existing role-based security validation pattern
+      if (userRole === 'moderator') {
+        const course = await Course.findById(schedule.courseId);
+        if (!course || course.collegeId.toString() !== moderatorCollege._id.toString()) {
+          return res.status(403).json({ message: 'Moderators can only update schedules for courses in their own college' });
+        }
+        const session = await Session.findById(schedule.sessionId);
+        if (!session || session.collegeId.toString() !== moderatorCollege._id.toString()) {
+          return res.status(403).json({ message: 'Moderators can only update schedules for sessions in their own college' });
+        }
+      }
+
+      if (!schedule.slots) {
+        schedule.slots = new Map();
+      }
+
+      for (const row of groupRows) {
+        const { startTime, endTime, roomNo, trainerId, topic } = row;
+        if (!startTime || !endTime || !trainerId || !roomNo) {
+          return res.status(400).json({ message: 'Missing required slot fields: startTime, endTime, trainerId, roomNo' });
+        }
+
+        // Determine the slots Map key (dateKey)
+        let dateKey = 'default';
+        let startTimeVal = startTime;
+        let endTimeVal = endTime;
+
+        if (typeof startTime === 'string') {
+          if (startTime.includes('T')) {
+            const parts = startTime.split('T');
+            dateKey = parts[0];
+            startTimeVal = parts[1] ? parts[1].substring(0, 5) : startTime;
+          } else if (startTime.includes(' ')) {
+            const parts = startTime.split(' ');
+            dateKey = parts[0];
+            startTimeVal = parts[1] ? parts[1].substring(0, 5) : startTime;
+          } else if (startTime.includes('-')) {
+            dateKey = startTime.substring(0, 10);
+          }
+        }
+
+        if (typeof endTime === 'string') {
+          if (endTime.includes('T')) {
+            const parts = endTime.split('T');
+            endTimeVal = parts[1] ? parts[1].substring(0, 5) : endTime;
+          } else if (endTime.includes(' ')) {
+            const parts = endTime.split(' ');
+            endTimeVal = parts[1] ? parts[1].substring(0, 5) : endTime;
+          }
+        }
+
+        // If explicitly provided in row, use it
+        if (row.date) {
+          dateKey = row.date.toString();
+        } else if (row.day) {
+          dateKey = row.day.toString();
+        }
+
+        const newSlot = {
+          startTime: startTimeVal,
+          endTime: endTimeVal,
+          trainerId,
+          roomNo,
+        };
+        if (topic) {
+          newSlot.topic = topic;
+        }
+
+        if (schedule.slots.has(dateKey)) {
+          const existingArray = schedule.slots.get(dateKey);
+          if (Array.isArray(existingArray)) {
+            existingArray.push(newSlot);
+            schedule.slots.set(dateKey, existingArray);
+          } else {
+            schedule.slots.set(dateKey, [newSlot]);
+          }
+        } else {
+          schedule.slots.set(dateKey, [newSlot]);
+        }
+      }
+
+      schedule.markModified('slots');
+      await schedule.save();
+      updatedSchedules.push(schedule);
+    }
+
+    // Populate updated schedules to mirror existing responses
+    const populatedSchedules = [];
+    for (const s of updatedSchedules) {
+      const populated = await Schedule.findById(s._id)
+        .populate('courseId', 'courseCode')
+        .populate('sessionId', 'startDate endDate');
+      populatedSchedules.push(populated);
+    }
+
+    res.status(200).json(populatedSchedules);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+

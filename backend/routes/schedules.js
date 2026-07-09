@@ -8,7 +8,8 @@ const {
   getScheduleById,
   updateSchedule,
   deleteSchedule,
-  getUpcomingScheduleByCollege
+  getUpcomingScheduleByCollege,
+  appendSlotsViaCSV
 } = require('../controllers/scheduleController');
 
 // Middleware for admin and moderator
@@ -19,6 +20,7 @@ const getScheduleMiddleware = authorizeRoles('admin', 'moderator', 'trainer');
 // Admin and Moderator Routes for Schedules
 router.get('/upcoming', verifyToken, adminModeratorMiddleware, getUpcomingScheduleByCollege);
 router.post('/', verifyToken, adminModeratorMiddleware, createSchedule);
+router.post('/append-slots-csv', verifyToken, adminModeratorMiddleware, appendSlotsViaCSV);
 router.get('/', verifyToken, getScheduleMiddleware, getAllSchedules);
 router.get('/:id', verifyToken, adminModeratorMiddleware, getScheduleById);
 router.put('/:id', verifyToken, adminModeratorMiddleware, updateSchedule);
