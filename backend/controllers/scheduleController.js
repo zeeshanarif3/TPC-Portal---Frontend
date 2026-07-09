@@ -128,6 +128,7 @@ exports.getAllSchedules = async (req, res) => {
         // We'll filter after fetching schedules
       }
       // For admin, no additional filters beyond sessionId
+      console.log("Query:", query);
 
       let schedules = await Schedule.find(query)
         .populate('courseId', 'courseCode')

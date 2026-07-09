@@ -13,7 +13,7 @@ const ScheduleSchema = new mongoose.Schema({
   },
   slots: {
     type: Map,
-    of: {
+    of: [{
       startTime: { type: String, required: true },
       endTime: { type: String, required: true },
       trainerId: {
@@ -21,7 +21,7 @@ const ScheduleSchema = new mongoose.Schema({
         ref: 'Trainer',
         required: true
       }
-    }
+    }]
   }
 }, { timestamps: true });
 
