@@ -124,14 +124,19 @@ exports.createAttendance = async (req, res) => {
 
     // Check if the slot (startTime, endTime) exists in the schedule and is assigned to this trainer
     let slotFound = false;
-    for (const slot of schedule.slots.values()) {
-      if (slot.startTime === startTime && slot.endTime === endTime) {
-        if (slot.trainerId.toString() !== trainer._id.toString()) {
-          return res.status(403).json({ message: 'This slot is not assigned to you' });
+    for (const slotsArray of schedule.slots.values()) {
+      if (Array.isArray(slotsArray)) {
+        for (const slot of slotsArray) {
+          if (slot.startTime === startTime && slot.endTime === endTime) {
+            if (slot.trainerId.toString() !== trainer._id.toString()) {
+              return res.status(403).json({ message: 'This slot is not assigned to you' });
+            }
+            slotFound = true;
+            break;
+          }
         }
-        slotFound = true;
-        break;
       }
+      if (slotFound) break;
     }
     if (!slotFound) {
       return res.status(400).json({ message: 'Slot not found in the schedule' });
@@ -203,14 +208,19 @@ exports.updateAttendance = async (req, res) => {
 
     // Check if the slot (startTime, endTime) exists in the schedule and is assigned to this trainer
     let slotFound = false;
-    for (const slot of schedule.slots.values()) {
-      if (slot.startTime === startTime && slot.endTime === endTime) {
-        if (slot.trainerId.toString() !== trainer._id.toString()) {
-          return res.status(403).json({ message: 'This slot is not assigned to you' });
+    for (const slotsArray of schedule.slots.values()) {
+      if (Array.isArray(slotsArray)) {
+        for (const slot of slotsArray) {
+          if (slot.startTime === startTime && slot.endTime === endTime) {
+            if (slot.trainerId.toString() !== trainer._id.toString()) {
+              return res.status(403).json({ message: 'This slot is not assigned to you' });
+            }
+            slotFound = true;
+            break;
+          }
         }
-        slotFound = true;
-        break;
       }
+      if (slotFound) break;
     }
     if (!slotFound) {
       return res.status(400).json({ message: 'Slot not found in the schedule' });

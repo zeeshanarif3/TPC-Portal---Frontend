@@ -16,11 +16,7 @@ const ScheduleSchema = new mongoose.Schema({
     of: [{
       startTime: { type: String, required: true },
       endTime: { type: String, required: true },
-      trainerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Trainer',
-        required: true
-      }
+      trainerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Trainer', required: true }
     }]
   }
 }, { timestamps: true });

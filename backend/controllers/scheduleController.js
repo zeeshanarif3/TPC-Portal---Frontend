@@ -20,10 +20,44 @@ const validateCourseSessionRelationship = (course, session) => {
   return null;
 };
 
+const validateSlotsPayload = (slots) => {
+  if (!slots) return null;
+  if (typeof slots !== 'object' || Array.isArray(slots)) {
+    return 'Slots must be an object representing a map of days/dates to arrays of slots';
+  }
+
+  for (const [key, value] of Object.entries(slots)) {
+    if (!Array.isArray(value)) {
+      return `Slots for '${key}' must be an array`;
+    }
+    for (const slot of value) {
+      if (!slot || typeof slot !== 'object' || Array.isArray(slot)) {
+        return `Each slot under '${key}' must be an object`;
+      }
+      if (!slot.startTime || typeof slot.startTime !== 'string') {
+        return `Each slot under '${key}' must contain a valid string 'startTime'`;
+      }
+      if (!slot.endTime || typeof slot.endTime !== 'string') {
+        return `Each slot under '${key}' must contain a valid string 'endTime'`;
+      }
+      if (!slot.trainerId || typeof slot.trainerId !== 'string') {
+        return `Each slot under '${key}' must contain a valid 'trainerId'`;
+      }
+    }
+  }
+  return null;
+};
+
 // Create a new schedule
 exports.createSchedule = async (req, res) => {
   try {
     const { courseId, sessionId, slots } = req.body;
+
+    const validationError = validateSlotsPayload(slots);
+    if (validationError) {
+      return res.status(400).json({ message: validationError });
+    }
+
     const userId = req.user.id;
     const userRole = req.user.role;
 
@@ -128,7 +162,6 @@ exports.getAllSchedules = async (req, res) => {
         // We'll filter after fetching schedules
       }
       // For admin, no additional filters beyond sessionId
-      console.log("Query:", query);
 
       let schedules = await Schedule.find(query)
         .populate('courseId', 'courseCode')
@@ -139,11 +172,16 @@ exports.getAllSchedules = async (req, res) => {
         const trainerId = trainer._id;
         schedules = schedules.filter(schedule => {
           let found = false;
-          for (const slot of schedule.slots.values()) {
-            if (slot.trainerId.toString() === trainerId.toString()) {
-              found = true;
-              break;
+          for (const slotsArray of schedule.slots.values()) {
+            if (Array.isArray(slotsArray)) {
+              for (const slot of slotsArray) {
+                if (slot && slot.trainerId && slot.trainerId.toString() === trainerId.toString()) {
+                  found = true;
+                  break;
+                }
+              }
             }
+            if (found) break;
           }
           return found;
         });
@@ -276,13 +314,36 @@ exports.updateSchedule = async (req, res) => {
       return res.status(400).json({ message: relationshipError });
     }
 
-    const schedule = await Schedule.findByIdAndUpdate(
-      req.params.id,
-      { courseId, sessionId, slots },
-      { new: true, runValidators: true }
-    )
-    .populate('courseId', 'courseCode')
-    .populate('sessionId', 'startDate endDate');
+    if (slots) {
+      const validationError = validateSlotsPayload(slots);
+      if (validationError) {
+        return res.status(400).json({ message: validationError });
+      }
+
+      for (const [key, value] of Object.entries(slots)) {
+        if (existingSchedule.slots.has(key)) {
+          const existingArray = existingSchedule.slots.get(key);
+          if (Array.isArray(existingArray)) {
+            existingArray.push(...value);
+            existingSchedule.slots.set(key, existingArray);
+          } else {
+            existingSchedule.slots.set(key, value);
+          }
+        } else {
+          existingSchedule.slots.set(key, value);
+        }
+      }
+      existingSchedule.markModified('slots');
+    }
+
+    if (courseId) existingSchedule.courseId = courseId;
+    if (sessionId) existingSchedule.sessionId = sessionId;
+
+    await existingSchedule.save();
+
+    const schedule = await Schedule.findById(existingSchedule._id)
+      .populate('courseId', 'courseCode')
+      .populate('sessionId', 'startDate endDate');
 
     res.status(200).json(schedule);
   } catch (error) {
