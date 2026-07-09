@@ -10,7 +10,11 @@ import "./TrainerTable.css";
 export default function TrainersTable({
   trainers = [],
   onDelete,
-  onRefresh
+  onRefresh,
+  token,
+  setShowUpdateTrainer,
+  setSelectedTrainerData,
+
 }) {
   const handleDelete = async (trainerId) => {
     if (
@@ -19,7 +23,7 @@ export default function TrainersTable({
       )
     ) {
       if (onDelete) {
-        await onDelete(trainerId);
+        await onDelete(trainerId,token);
       }
 
       onRefresh?.();
@@ -70,7 +74,7 @@ export default function TrainersTable({
               </td>
 
               <td className="trainer-actions">
-                <button
+                {/* <button
                   className="btn-action btn-view"
                   title="View Trainer"
                   onClick={() =>
@@ -78,19 +82,22 @@ export default function TrainersTable({
                   }
                 >
                   <Eye />
-                </button>
+                </button> */}
 
-                <button
+
+
+                  <button
                   className="btn-action btn-edit"
                   title="Edit Trainer"
-                  onClick={() =>
-                    (window.location.href = `/trainers/${trainer._id}/edit`)
-                  }
+                  onClick={() => {
+                    setSelectedTrainerData(trainer);
+                    setShowUpdateTrainer(true);
+                  }}
                 >
-                  <Pencil />
+                  <Pencil size={18} />
                 </button>
 
-                <button
+                {/* <button
                   className="btn-action btn-contract"
                   title="Assign Contract"
                   onClick={() =>
@@ -98,7 +105,7 @@ export default function TrainersTable({
                   }
                 >
                   <FileText />
-                </button>
+                </button> */}
 
                 <button
                   className="btn-action btn-delete"

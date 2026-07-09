@@ -168,7 +168,7 @@ export default function AttendancePage({ token }) {
   ))}
 </select>
 
-{/* Session Selector
+{/* Session Selector */}
 <select
   className="filter-select"
   value={CurrentSession}
@@ -186,27 +186,8 @@ export default function AttendancePage({ token }) {
       {new Date(session.endDate).toLocaleDateString("en-GB")}
     </option>
   ))}
-</select> */}
-<select
-  className="filter-select"
-  value={CurrentSession}
-  onChange={(e) => {
-    setCurrentSession(e.target.value);
-  }}
->
-  {AllSessions
-    .filter(
-      (session) =>
-        !selectedCollege ||
-        session.collegeId?._id === selectedCollege
-    )
-    .map((session) => (
-      <option key={session._id} value={session._id}>
-        {new Date(session.startDate).toLocaleDateString("en-GB")} -{" "}
-        {new Date(session.endDate).toLocaleDateString("en-GB")}
-      </option>
-    ))}
 </select>
+
 
         <input
           type="date"

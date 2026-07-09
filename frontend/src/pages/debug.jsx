@@ -57,6 +57,9 @@ function Debug() {
         //Trainers
         AllTrainers,
         TrainersByColl,
+
+        //Moderator
+        AllModerators,
     } = useDashboard(token);
 
 
@@ -228,7 +231,22 @@ function Debug() {
                     
                 <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+
+                 {/* <br />
+                    Moderators
                 <br />
+                <br />
+                <br />
+                <br />
+                AllModerators :
+                
+                 <pre>{JSON.stringify(AllModerators, null, 2)}</pre> it will work , trainer login is currently not made
+                <br />
+                <br /> */}
+            
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+                {/* <br />
 
                     schedules
                 <br />
@@ -237,17 +255,17 @@ function Debug() {
                 <br />
                 UpcomingScheduleByColl :
                 
-                 {/* <pre>{JSON.stringify(UpcomingScheduleByColl, null, 2)}</pre>  too long , but working */}
+                 <pre>{JSON.stringify(UpcomingScheduleByColl, null, 2)}</pre>  too long , but working
                 <br />
                 <br />
                 <br />
                 AllSchedules :
                 
-                 {/* <pre>{JSON.stringify(AllSchedules, null, 2)}</pre>   same, too long , but working */}
+                 <pre>{JSON.stringify(AllSchedules, null, 2)}</pre>   same, too long , but working
                 <br />
                 <br />
               
-                <br />
+                <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 {/* <br />
 
@@ -270,7 +288,7 @@ function Debug() {
 
                 <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                {/* <br />
+                <br />
 
                     sessions
                 <br />
@@ -282,7 +300,7 @@ function Debug() {
                  <pre>{JSON.stringify(AllSessions, null, 2)}</pre>                  
                  <br />
 
-                <br /> */}
+                <br />
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 <br />
 {/* 

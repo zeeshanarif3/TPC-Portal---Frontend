@@ -3,9 +3,13 @@ import TrainersTable from './components/TrainersTable';
 import useTrainers from './hooks/usetrainer';
 import { useDashboard } from "../../../hooks/useDashboard";
 
+import NewTrainerPage from './components/NewtrainerPage';
+import UpdateTrainerPage from './components/UpdateTrainerPage';
 import './trainer.css';
 
 export default function TrainersPage({ token }) {
+    const [showNewTrainer, setShowNewTrainer] = useState(false);
+    const [showUpdateTrainer, setShowUpdateTrainer] = useState(false);
 
   const {
     loading,
@@ -14,13 +18,39 @@ export default function TrainersPage({ token }) {
     //Trainers
     AllTrainers = [],
     TrainersByColl= [],
+    createTrainer,
+    deleteTrainer,
+    updateTrainer,
 
   } = useDashboard(token);
 
   // const { trainers, loading, error, fetchTrainers, deleteTrainer } = useTrainers();
   const [searchTerm, setSearchTerm] = useState('');
   const [contractFilter, setContractFilter] = useState('All');
+  const [selectedTrainerData, setSelectedTrainerData] = useState(null);
 
+
+    if (showNewTrainer) {
+      return (
+        <NewTrainerPage
+          token={token}
+          onBack={() => setShowNewTrainer(false)}
+          createTrainer={createTrainer}
+          updateTrainer={updateTrainer}
+        />
+      );
+    }
+    if (showUpdateTrainer) {
+      return (
+        <UpdateTrainerPage
+          token={token}
+          onBack={() => setShowUpdateTrainer(false)}
+          trainer={selectedTrainerData}
+          updateTrainer={updateTrainer}
+        />
+      );
+    }
+        
   const filteredTrainers = AllTrainers.filter((trainer) => {
     const matchesSearch =
       trainer.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,7 +113,7 @@ export default function TrainersPage({ token }) {
 
         <button
           className="btn-add-trainer"
-          onClick={() => (window.location.href = '/trainers/add')}
+          onClick={() => setShowNewTrainer(true)}
         >
           + Add Trainer
         </button>
@@ -131,6 +161,10 @@ export default function TrainersPage({ token }) {
             contractStatus: trainer.contractStatus || 'Active',
             currentSession: trainer.currentSession || '—',
           }))}
+          onDelete={deleteTrainer}
+          token={token}
+          setShowUpdateTrainer={setShowUpdateTrainer}
+          setSelectedTrainerData={setSelectedTrainerData}
         />
       )}
     </div>

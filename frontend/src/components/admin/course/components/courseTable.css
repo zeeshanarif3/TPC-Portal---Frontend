@@ -2,7 +2,7 @@
    TABLE CONTAINER
 ========================================== */
 
-.college-table-container {
+.courses-table-container {
   flex: 1;
   min-height: 0;
   min-width: 0;
@@ -23,19 +23,19 @@
    TABLE
 ========================================== */
 
-.college-table {
+.courses-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
 
-.college-table thead {
+.courses-table thead {
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-.college-table th {
+.courses-table th {
   padding: 1rem 1.5rem;
 
   background: #fafafa;
@@ -53,7 +53,7 @@
   white-space: nowrap;
 }
 
-.college-table td {
+.courses-table td {
   padding: 1.25rem 1.5rem;
 
   font-size: 0.92rem;
@@ -66,17 +66,15 @@
   vertical-align: middle;
 }
 
-.college-table tbody tr {
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+.courses-table tbody tr {
+  transition: background-color 0.2s ease;
 }
 
-.college-table tbody tr:hover {
+.courses-table tbody tr:hover {
   background: #fafafa;
 }
 
-.college-table tbody tr:last-child td {
+.courses-table tbody tr:last-child td {
   border-bottom: none;
 }
 
@@ -84,39 +82,25 @@
    COLUMNS
 ========================================== */
 
-.checkbox-column {
-  width: 60px;
+.course-name {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.course-id {
+  font-family: monospace;
+  color: #64748b;
 }
 
 .actions-column {
   width: 180px;
 }
 
-.college-name {
-  font-weight: 600;
-  color: #0f172a;
-}
-
-.college-id {
-  font-family: monospace;
-  color: #64748b;
-}
-
 /* ==========================================
-   CHECKBOX
+   CONTRACT BADGES
 ========================================== */
 
-.college-table input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-/* ==========================================
-   STATUS BADGES
-========================================== */
-
-.status-badge {
+.contract-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -131,22 +115,22 @@
   white-space: nowrap;
 }
 
-.status-active {
+.contract-active {
   background: #dcfce7;
   color: #166534;
 }
 
-.status-inactive {
+.contract-expired {
   background: #fee2e2;
   color: #991b1b;
 }
 
-.status-pending {
+.contract-pending {
   background: #fef3c7;
   color: #92400e;
 }
 
-.status-archived {
+.contract-not-assigned {
   background: #e2e8f0;
   color: #475569;
 }
@@ -155,7 +139,7 @@
    ACTIONS
 ========================================== */
 
-.college-actions {
+.course-actions {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -169,10 +153,10 @@
   align-items: center;
   justify-content: center;
 
-  background: transparent;
-
   border: none;
   border-radius: 10px;
+
+  background: transparent;
 
   color: #64748b;
 
@@ -208,9 +192,9 @@
   color: #7c3aed;
 }
 
-.btn-archive:hover {
-  background: rgba(245, 158, 11, 0.08);
-  color: #d97706;
+.btn-contract:hover {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
 }
 
 .btn-delete:hover {
@@ -237,197 +221,26 @@
    SCROLLBAR
 ========================================== */
 
-.college-table-container::-webkit-scrollbar {
-  height: 10px;
+.courses-table-container::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
-.college-table-container::-webkit-scrollbar-thumb {
+.courses-table-container::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 999px;
 }
 
-.college-table-container::-webkit-scrollbar-track {
+.courses-table-container::-webkit-scrollbar-track {
   background: transparent;
 }
-
-
-
-
-
-
-
-
-
-.delete-overlay {
-    position: fixed;
-    inset: 0;
-
-    background: rgba(15, 23, 42, 0.45);
-    backdrop-filter: blur(6px);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 9999;
-}
-
-
-.delete-modal {
-
-    width: 380px;
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 30px;
-
-    text-align: center;
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.2);
-
-    animation: modalPop .25s ease;
-}
-
-
-@keyframes modalPop {
-
-    from {
-        opacity:0;
-        transform:scale(.85);
-    }
-
-    to {
-        opacity:1;
-        transform:scale(1);
-    }
-
-}
-
-
-
-.delete-icon {
-
-    width:60px;
-    height:60px;
-
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:#fee2e2;
-    color:#dc2626;
-}
-
-
-
-.delete-modal h2 {
-
-    margin-top:20px;
-
-    font-size:22px;
-
-    color:#111827;
-
-}
-
-
-
-.delete-modal p {
-
-    color:#6b7280;
-
-    line-height:1.6;
-
-    margin-top:10px;
-
-}
-
-
-
-.delete-buttons {
-
-    display:flex;
-
-    gap:15px;
-
-    margin-top:25px;
-
-}
-
-
-
-.delete-buttons button {
-
-    flex:1;
-
-    padding:12px;
-
-    border-radius:10px;
-
-    border:none;
-
-    cursor:pointer;
-
-    font-weight:600;
-
-    font-size:15px;
-
-    transition:.2s;
-
-}
-
-
-
-.cancel-delete {
-
-    background:#f1f5f9;
-
-    color:#334155;
-
-}
-
-
-.cancel-delete:hover {
-
-    background:#e2e8f0;
-
-}
-
-
-
-.confirm-delete {
-
-    background:#dc2626;
-
-    color:white;
-
-}
-
-
-.confirm-delete:hover {
-
-    background:#b91c1c;
-
-}
-
-
-
-
 
 /* ==========================================
    RESPONSIVE
 ========================================== */
 
 @media (max-width: 1200px) {
-  .college-table {
-    min-width: 1100px;
+  .courses-table {
+    min-width: 1000px;
   }
 }

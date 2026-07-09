@@ -17,15 +17,15 @@ import {
 } from "lucide-react";
 
 const NAV_ITEMS = [
-    { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { key: "college", label: "College", icon: Building2 },
-    { key: "trainer", label: "Trainer", icon: GraduationCap },
-    { key: "moderator", label: "Moderator", icon: ShieldCheck },
-    { key: "contracts", label: "Contracts", icon: FileSignature },
-    { key: "sessions", label: "Sessions", icon: Presentation },
-    { key: "schedule", label: "Schedule", icon: CalendarDays },
+    // { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    // { key: "college", label: "College", icon: Building2 },
+    // { key: "trainer", label: "Trainer", icon: GraduationCap },
+    // { key: "moderator", label: "Moderator", icon: ShieldCheck },
+    // { key: "contracts", label: "Contracts", icon: FileSignature },
+    // { key: "sessions", label: "Sessions", icon: Presentation },
+    // { key: "schedule", label: "Schedule", icon: CalendarDays },
     { key: "attendance", label: "Attendance", icon: ClipboardCheck },
-    { key: "course", label: "Course", icon: BookOpen },
+    // { key: "course", label: "Course", icon: BookOpen },
     //   {
     //     key: "",
     //     label: "",

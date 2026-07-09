@@ -3,11 +3,18 @@ import ContractsTable from './components/contractTable';
 import ContractsStats from './components/contractStats';
 import { useDashboard } from "../../../hooks/useDashboard";
 // import useContracts from './hooks/usecontract';
+import NewContractPage from './components/NewContractPage';
+import UpdateContractPage from './components/UpdateContractPage';
+
 
 import './contract.css';
 
 export default function ContractsPage({ token }) {
   // const { contracts, loading, error } = useContracts();
+  const [showNewcontract, setShowNewcontract] = useState(false);
+  const [showUpdatecontract, setShowUpdatecontract] = useState(false);
+  const [Updatecontractdata, setUpdatecontractdata] = useState(null);
+
   const {
     loading,
     error,
@@ -15,10 +22,50 @@ export default function ContractsPage({ token }) {
     AllContracts = [],
     ExpContracts,
 
+    AllTrainers = [],
+    AllSessions = [],
+    createContract,
+    updateContract,
+    deleteContract,
+
+
   } = useDashboard(token);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
+
+
+
+    if (showNewcontract) {
+      return (
+        <NewContractPage
+          token={token}
+          onBack={() => setShowNewcontract(false)}
+          AllTrainers={AllTrainers}
+          AllSessions={AllSessions}
+          createContract={createContract}
+        />
+      );
+    } 
+    if (showUpdatecontract) {
+      return (
+        <UpdateContractPage
+          token={token}
+          onBack={() => setShowUpdatecontract(false)}
+          contract={Updatecontractdata}
+          AllTrainers={AllTrainers}
+          AllSessions={AllSessions}
+          updateContract={updateContract}
+        />
+      );
+    } 
+
+
+
+     
+
+
+
 
   const filteredContracts = AllContracts.filter((contract) => {
     const matchesSearch =
@@ -105,7 +152,7 @@ export default function ContractsPage({ token }) {
 
         <button
           className="btn-new-contract"
-          onClick={() => (window.location.href = '/contracts/new')}
+          onClick={() => setShowNewcontract(true)}
         >
           + New Contract
         </button>
@@ -153,6 +200,11 @@ export default function ContractsPage({ token }) {
       {!loading && !error && (
         <ContractsTable
           contracts={filteredContracts}
+          onDelete={deleteContract}
+          token={token}
+          Updatecontractdata={setUpdatecontractdata}
+          setShowUpdatecontract={setShowUpdatecontract}
+
         />
       )}
     </div>

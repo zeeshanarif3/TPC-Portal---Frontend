@@ -12,6 +12,8 @@ import ContractsPage from "../../components/admin/contract/contract";
 import SessionsPage from "../../components/admin/session/sessions";
 import SchedulesPage from "../../components/admin/schedules/schedules";
 import AttendancePage from "../../components/admin/attendance/attendance";
+import ModeratorPage from "../../components/admin/moderator/moderator";
+import CoursesPage from "../../components/admin/course/course";
 
 function Admin_portal({ token, user, handleLogout }) {
 
@@ -38,6 +40,8 @@ function Admin_portal({ token, user, handleLogout }) {
                     {page === "sessions" && <SessionsPage token={token} />}
                     {page === "schedule" && <SchedulesPage token={token} />}
                     {page === "attendance" && <AttendancePage token={token} />}
+                    {page === "moderator" && <ModeratorPage token={token} />}
+                    {page === "course" && <CoursesPage token={token} />}
 
                 </div>
 

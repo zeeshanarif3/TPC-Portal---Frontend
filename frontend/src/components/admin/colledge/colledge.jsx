@@ -1,21 +1,53 @@
 import { useState } from "react";
 import { useDashboard } from "../../../hooks/useDashboard";
 import CollegeTable from "./components/CollegeTable";
-
+import NewCollegePage from "./components/NewCollegePage";
+import UpdateCollegePage from "./components/UpdateCollegePage";
 
 import "./colledge.css";
 
 export default function CollegePage({ token }) {
+  const [showNewCollege, setShowNewCollege] = useState(false);
+  const [showUpdateCollege, setShowUpdateCollege] = useState(false);
+
   const {
     colleges = [],
-
     stats,
     loading,
     error,
+    createModerator,
+    createCollege,
+    deleteCollege,
+    updateCollege,
+    AllModerators = [],
+
   } = useDashboard(token);
 
-  const [selectedColleges, setSelectedColleges] = useState([]);
+  const [selectedCollege, setSelectedCollege] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+  if (showNewCollege) {
+    return (
+      <NewCollegePage
+        token={token}
+        onBack={() => setShowNewCollege(false)}
+        createCollege={createCollege}
+        createModerator={createModerator}
+      />
+    );
+  }
+  if (showUpdateCollege) {
+    return (
+      <UpdateCollegePage
+        token={token}
+        onBack={() => setShowUpdateCollege(false)}
+        college={selectedCollege}
+        updateCollege={updateCollege}
+        AllModerators={AllModerators}
+      />
+    );
+  }
+
 
   const filteredColleges = colleges.filter((college) => {
     const search = searchTerm.toLowerCase();
@@ -91,7 +123,7 @@ export default function CollegePage({ token }) {
 
         <button
           className="btn-add-college"
-          onClick={() => (window.location.href = "/college/add")}
+          onClick={() => setShowNewCollege(true)}
         >
           + Add College
         </button>
@@ -124,10 +156,11 @@ export default function CollegePage({ token }) {
       {!loading && !error && (
         <CollegeTable
           colleges={filteredColleges}
-          selectedColleges={selectedColleges}
-          onSelectCollege={handleSelectCollege}
-          onSelectAll={handleSelectAll}
-          // onDelete={deleteCollege}
+          onDelete={deleteCollege}
+          token = {token}
+          setShowUpdateCollege = {setShowUpdateCollege}
+          setSelectedCollege = {setSelectedCollege}
+
         />
       )}
     </div>

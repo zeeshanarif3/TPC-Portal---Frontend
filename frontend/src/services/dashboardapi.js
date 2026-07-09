@@ -837,6 +837,156 @@ export async function fetchTrainersByCollege(collegeId, token) {
 
 
 
+// Moderators
+
+
+// Get all moderators
+export async function getAllModerators(token) {
+  try {
+    const response = await fetch(`${BASE_URL}/moderators`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log("Fetched moderators:", data);
+    if (!response.ok) {
+      throw new Error("Failed to fetch moderators");
+    }
+    return data;
+
+  } catch (error) {
+    console.error("Error fetching moderators:", error);
+    throw error;
+  }
+};
+
+// Get moderator by ID
+export async function getModeratorById(id, token) {
+  try {
+    const response = await fetch(`${BASE_URL}/moderators/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch moderator");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching moderator:", error);
+    throw error;
+  }
+};
+
+// Create moderator
+export async function createModerator(moderatorData, token) {
+  try {
+    const response = await fetch(`${BASE_URL}/moderators`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(moderatorData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to create moderator");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error creating moderator:", error);
+    throw error;
+  }
+};
+
+// Update moderator
+export async function updateModerator(id, moderatorData, token) {
+  try {
+    const response = await fetch(`${BASE_URL}/moderators/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(moderatorData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update moderator");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error updating moderator:", error);
+    throw error;
+  }
+};
+
+// Delete moderator
+export async function deleteModerator(id, token) {
+  try {
+    const response = await fetch(`${BASE_URL}/moderators/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to delete moderator");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error deleting moderator:", error);
+    throw error;
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

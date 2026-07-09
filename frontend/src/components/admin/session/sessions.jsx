@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import SessionsTable from './components/SessionsTable';
+import NewSessionPage from './components/NewSessionPage';
+import UpdateSessionPage from './components/UpdateSessionPage';
 // import useSessions from './hooks/useSessions';
 
 import { useDashboard } from '../../../hooks/useDashboard';
@@ -7,6 +9,9 @@ import { useDashboard } from '../../../hooks/useDashboard';
 import './sessions.css';
 
 export default function SessionsPage({ token }) {
+  const [showNewSession, setShowNewSession] = useState(false);
+  const [showUpdateSession, setShowUpdateSession] = useState(false);
+  const [selectedSession, setSelectedSession] = useState(null);
 
   const {
     loading,
@@ -15,11 +20,57 @@ export default function SessionsPage({ token }) {
     //sessions
     AllSessions = [],
 
+    colleges = [],
+    AllCourses = [],
+    createSession,
+    updateSession,
+    deleteSession,
   } = useDashboard(token);
 
   // const { sessions, loading, error, fetchSessions, deleteSession } = useSessions();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
+
+
+
+
+    if (showNewSession) {
+      return (
+        <NewSessionPage
+          AllColleges={colleges}
+          AllCourses={AllCourses}
+          token={token}
+          onBack={() => setShowNewSession(false)}
+          createSession={createSession}
+          updateSession={updateSession}
+        />
+      );
+    } 
+    if (showUpdateSession) {
+      return (
+        <UpdateSessionPage
+          AllColleges={colleges}
+          AllCourses={AllCourses}
+          token={token}
+          onBack={() => setShowUpdateSession(false)}
+          session={selectedSession}
+          updateSession={updateSession}
+        />
+      );
+    } 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const getSessionStatus = (session) => {
     const today = new Date();
@@ -101,7 +152,7 @@ export default function SessionsPage({ token }) {
         <button
           className="btn-new-session"
           onClick={() =>
-            (window.location.href = '/sessions/new')
+            setShowNewSession(true)
           }
         >
           + New Session
@@ -160,6 +211,11 @@ export default function SessionsPage({ token }) {
       {!loading && !error && (
         <SessionsTable
           sessions={filteredSessions}
+          onDelete={deleteSession}
+          onRefresh={() => {}}
+          token={token}
+          setSelectedSession={setSelectedSession}
+          setShowUpdateSession={setShowUpdateSession}
         />
       )}
     </div>

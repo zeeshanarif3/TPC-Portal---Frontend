@@ -12,6 +12,9 @@ export default function ContractsTable({
   onEnd,
   onDelete,
   onRefresh,
+  token,
+  Updatecontractdata,
+  setShowUpdatecontract,
 }) {
   const handleEnd = async (contractId) => {
     if (
@@ -34,7 +37,7 @@ export default function ContractsTable({
       )
     ) {
       if (onDelete) {
-        await onDelete(contractId);
+        await onDelete(contractId, token);
       }
 
       onRefresh?.();
@@ -108,7 +111,7 @@ export default function ContractsTable({
               </td>
 
               <td className="contract-actions">
-                <button
+                {/* <button
                   className="btn-action btn-view"
                   title="View Contract"
                   onClick={() =>
@@ -116,19 +119,22 @@ export default function ContractsTable({
                   }
                 >
                   <Eye />
-                </button>
+                </button> */}
 
                 <button
                   className="btn-action btn-edit"
                   title="Edit Contract"
                   onClick={() =>
-                    (window.location.href = `/contracts/${contract._id}/edit`)
+                    {
+                      Updatecontractdata(contract);
+                      setShowUpdatecontract(true);
+                    }
                   }
                 >
                   <Pencil />
                 </button>
 
-                <button
+                {/* <button
                   className="btn-action btn-end"
                   title="End Contract"
                   onClick={() =>
@@ -136,7 +142,7 @@ export default function ContractsTable({
                   }
                 >
                   <CircleStop />
-                </button>
+                </button> */}
 
                 <button
                   className="btn-action btn-delete"

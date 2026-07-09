@@ -1,0 +1,231 @@
+
+
+.user-info {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .user-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    padding: 0.6rem 0.8rem;
+
+    background: #3a2d22;
+    border: 1px solid#453c35;
+    border-radius: 12px;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    width: 85%;
+} */
+
+
+.user-trigger {
+
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    width: calc(100% - 1rem);
+    padding: 0.45rem 1rem;
+
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+
+.user-trigger:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.12);
+
+    transform: translateY(-1px);
+}
+
+.user-info-text{
+    
+    display: flex;
+    gap: 0.3rem;
+
+}
+
+
+
+.user-trigger:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.user-trigger:focus-visible {
+    /* outline: 2px solid #2563eb; */
+    outline-offset: 2px;
+}
+
+/* Avatar shown as initials, not a random external image generator.
+   Color is derived from role so it stays consistent for the same user. */
+.user-avatar,
+.menu-avatar {
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color:  hsl(0, 0%, 100%);
+    background: linear-gradient(135deg, var(--sb-accent), hsl(0, 0%, 83%));
+    line-height: 1;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+}
+
+.menu-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+}
+
+.user-role {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #644f38;
+    white-space: nowrap;
+}
+
+.user-trigger-caret {
+    font-size: 16px;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    transition: transform 0.15s ease;
+}
+
+.user-trigger-caret.open {
+    transform: rotate(180deg);
+}
+
+/* Rendered through a portal into document.body, so it positions itself
+   with fixed viewport coordinates (set inline via JS) rather than
+   relative to .user-info. This is what lets it escape the sidebar's
+   overflow clipping instead of being cropped inside it. */
+.user-menu-portal {
+        top: 795px;
+    left: -1px;
+    position: fixed;
+
+    width: 260px;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    padding: 16px;
+
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.12),
+        0 2px 6px rgba(0, 0, 0, 0.06);
+
+    z-index: 1000;
+}
+
+.menu-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.menu-user-text {
+    min-width: 0;
+}
+
+.menu-user-text h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111827;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-user-text p {
+    margin: 2px 0 0;
+    font-size: 0.8rem;
+    color: #6b7280;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-role-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 0;
+    margin-top: 4px;
+}
+
+.menu-role-row span:first-child {
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.menu-role-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1d4ed8;
+    background: #dbeafe;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 9px 0;
+    margin-top: 4px;
+
+    background: #fef2f2;
+    color: #dc2626;
+
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.logout-btn:hover {
+    background: #fee2e2;
+}
+
+.logout-btn svg {
+    width: 0px;
+    /* height: 16px; */
+}

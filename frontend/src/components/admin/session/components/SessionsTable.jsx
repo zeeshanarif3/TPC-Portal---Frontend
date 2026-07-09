@@ -10,6 +10,9 @@ export default function SessionsTable({
   sessions = [],
   onDelete,
   onRefresh,
+  token,
+  setShowUpdateSession,
+  setSelectedSession,
 }) {
   const getSessionStatus = (session) => {
     const today = new Date();
@@ -28,7 +31,7 @@ export default function SessionsTable({
       )
     ) {
       if (onDelete) {
-        await onDelete(sessionId);
+        await onDelete(sessionId, token);
       }
 
       onRefresh?.();
@@ -91,7 +94,7 @@ export default function SessionsTable({
                 </td>
 
                 <td className="session-actions">
-                  <button
+                  {/* <button
                     className="btn-action btn-view"
                     title="View Session"
                     onClick={() =>
@@ -99,13 +102,16 @@ export default function SessionsTable({
                     }
                   >
                     <Eye />
-                  </button>
+                  </button> */}
 
                   <button
                     className="btn-action btn-edit"
                     title="Edit Session"
                     onClick={() =>
-                      (window.location.href = `/sessions/${session._id}/edit`)
+                      {
+                        setSelectedSession(session);
+                        setShowUpdateSession(true);
+                      }
                     }
                   >
                     <Pencil />
