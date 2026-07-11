@@ -144,7 +144,9 @@ exports.getAllSchedules = async (req, res) => {
 
       let query = { sessionId: { $in: sessionIds } };
 
-      if (userRole === 'moderator') {
+      let trainer = null;
+
+      if (userRole === 'moderator') {z
         const moderatorCollege = await College.findOne({ moderatorId: userId });
         if (!moderatorCollege) {
           return res.status(404).json({ message: 'College not found for this moderator' });
@@ -155,7 +157,7 @@ exports.getAllSchedules = async (req, res) => {
       } else if (userRole === 'trainer') {
         // For trainer, we will filter in memory after fetching by sessionId
         // Get the trainer profile for the logged-in user
-        const trainer = await Trainer.findOne({ userId });
+        trainer = await Trainer.findOne({ userId });
         if (!trainer) {
           return res.status(404).json({ message: 'Trainer profile not found for this user' });
         }
