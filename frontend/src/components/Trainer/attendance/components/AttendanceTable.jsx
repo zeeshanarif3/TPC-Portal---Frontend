@@ -35,8 +35,8 @@ export default function AttendanceTable({
   };
 
   return (
-    <div className="attendance-table-container">
-      <table className="attendance-table">
+    <div className="Traineattendance-table-container">
+      <table className="Traineattendance-table">
         <thead>
           <tr>
             <th>DATE</th>
@@ -44,9 +44,9 @@ export default function AttendanceTable({
             <th>COURSE</th>
             <th>SESSION</th>
             <th>HEAD COUNT</th>
-            <th className="actions-column">
+            {/* <th className="actions-column">
               ACTIONS
-            </th>
+            </th> */}
           </tr>
         </thead>
 
@@ -61,20 +61,20 @@ export default function AttendanceTable({
 
             return (
               <tr key={record._id}>
-                <td className="attendance-date">
+                <td className="Traineattendance-date">
                   {/* {new Date(record.date).toLocaleDateString()} */}
                   {new Date(record.date).toISOString().split("T")[0]}
                 </td>
 
-                <td className="attendance-time">
-                  {record.startTime} - {record.endTime}
+                <td className="Traineattendance-time">
+                  {/* {record.startTime} - {record.endTime} */}
                 </td>
 
-                <td className="attendance-course">
+                <td className="Traineattendance-course">
                   {record.courseId?.courseCode}
                 </td>
 
-                <td className="attendance-session">
+                <td className="Traineattendance-session">
                   {new Date(
                     record.sessionId?.startDate
                   ).toLocaleDateString()}{" "}
@@ -100,10 +100,10 @@ export default function AttendanceTable({
                   </div>
                 </td>
 
-                <td className="attendance-actions">
+                {/* <td className="Traineattendance-actions">
                   <button
                     className="btn-action btn-view"
-                    title="View Attendance"
+                    title="View attendance"
                     onClick={() =>
                       (window.location.href = `/attendance/${record._id}`)
                     }
@@ -132,7 +132,7 @@ export default function AttendanceTable({
                       <Trash2 size={18} />
                     </button>
                   )}
-                </td>
+                </td>  */}
               </tr>
             );
           })}

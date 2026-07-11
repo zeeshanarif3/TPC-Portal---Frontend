@@ -1,0 +1,514 @@
+.new-schedule-page {
+    max-width: 2100px;
+    margin: 30px auto;
+    padding: 30px;
+    height: stretch;
+    overflow: scroll;
+
+
+    background: var(--bg-secondary);
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.08);
+
+    color: var(--text-primary, #111827);
+
+    animation: fadeIn .3s ease;
+}
+
+
+
+@keyframes fadeIn {
+
+    from {
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to {
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+
+
+.new-schedule-page h2 {
+
+    font-size: 28px;
+    margin-bottom:25px;
+
+    font-weight:700;
+
+}
+
+
+
+
+.new-schedule-page h3 {
+
+    margin:25px 0 15px;
+
+    font-size:20px;
+
+}
+
+
+
+
+
+.back-btn {
+
+    background:transparent;
+
+    border:none;
+
+    color:var(--accent-color,#16a34a);
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    margin-bottom:20px;
+
+    transition:.2s;
+
+}
+
+
+.back-btn:hover {
+
+    transform:translateX(-4px);
+
+}
+
+
+
+
+.new-schedule-page  form {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+
+
+
+.form-group {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+
+
+
+.form-group label {
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--text-secondary,#6b7280);
+
+}
+
+
+
+
+
+.new-schedule-page input,
+.new-schedule-page select {
+
+
+    height:44px;
+
+    padding:0 14px;
+
+
+    border-radius:12px;
+
+    border:
+
+    1px solid var(--border-color,#e5e7eb);
+
+
+    background:
+
+    var(--input-bg,#080808);
+
+
+    color:
+
+    var(--text-primary,#111827);
+
+
+    outline:none;
+
+
+    transition:.25s;
+
+}
+
+
+
+
+
+.new-schedule-page input:focus,
+.new-schedule-page select:focus {
+
+
+    border-color:#22c55e;
+
+
+    box-shadow:
+
+    0 0 0 3px rgba(34,197,94,.15);
+
+}
+
+
+
+
+
+.new-schedule-page  hr {
+
+    border:none;
+
+    height:1px;
+
+    background:
+
+    var(--border-color,#e5e7eb);
+
+    margin:10px 0;
+
+}
+
+
+
+
+
+.slot-grid {
+
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(180px,1fr));
+
+
+    gap:15px;
+
+
+}
+
+
+
+
+.new-schedule-page button {
+
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:11px 18px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+
+
+
+
+.slot-grid + button {
+
+
+    width:max-content;
+
+
+    background:#16a34a;
+
+    color:white;
+
+}
+
+
+
+
+.slot-grid + button:hover {
+
+
+    background:#15803d;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+
+
+.added-slots {
+
+
+    margin-top:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+
+
+
+
+.added-slots h4 {
+
+    margin-bottom:10px;
+
+    font-size:15px;
+
+    color:
+
+    var(--text-secondary,#6b7280);
+
+}
+
+
+
+
+
+.slot-card {
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+
+    gap:12px;
+
+
+    padding:15px;
+
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(34,197,94,.08),
+
+        transparent
+
+    );
+
+
+    border:
+
+    1px solid rgba(34,197,94,.2);
+
+
+    border-radius:16px;
+
+
+}
+
+
+
+
+
+.slot-card span {
+
+
+    font-size:14px;
+
+    font-weight:500;
+
+}
+
+
+
+
+
+.slot-card button {
+
+
+    background:#ef4444;
+
+    color:white;
+
+    padding:7px 12px;
+
+    font-size:13px;
+
+}
+
+
+
+
+
+.slot-card button:hover {
+
+
+    background:#dc2626;
+
+}
+
+
+
+
+
+.submit-btn {
+
+
+    margin-top:25px;
+
+
+    width:100%;
+
+
+    height:48px;
+
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #16a34a,
+
+        #22c55e
+
+    );
+
+
+    color:white;
+
+
+    font-size:16px;
+
+
+    box-shadow:
+
+    0 8px 20px rgba(34,197,94,.25);
+
+
+}
+
+
+
+
+
+.submit-btn:hover {
+
+
+    transform:translateY(-2px);
+
+
+    box-shadow:
+
+    0 12px 25px rgba(34,197,94,.35);
+
+
+}
+
+
+
+
+
+.error {
+
+
+    padding:14px;
+
+    border-radius:12px;
+
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+
+    border:1px solid #fecaca;
+
+}
+
+
+
+
+.success {
+
+
+    padding:14px;
+
+    border-radius:12px;
+
+
+    background:#dcfce7;
+
+    color:#166534;
+
+
+    border:1px solid #bbf7d0;
+
+}
+
+
+
+
+
+@media(max-width:700px){
+
+
+    .new-schedule-page {
+
+        margin:15px;
+
+        padding:20px;
+
+        border-radius:16px;
+
+    }
+
+
+
+    .slot-card {
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+
+}

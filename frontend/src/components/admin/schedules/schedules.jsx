@@ -2,8 +2,13 @@ import { useState, useMemo } from "react";
 import SchedulesTable from "./components/SchedulesTable";
 import SchedulesCalendar from "./components/SchedulesCalendar";
 import ConflictAlert from "./components/ConflictAlert";
+import NewSchedulePage from "./components/NewSchedulePage";
+import UpdateSchedulePage from "./components/UpdateSchedulePage";
+
+import CSVScheduleUpload from "./components/CSVScheduleUpload";
+import CSVSchedulePreview from "./components/CSVSchedulePreview";
 import { useDashboard } from "../../../hooks/useDashboard";
-import NewSchedulePage from "./pages/NewSchedulePage";
+// import NewSchedulePage from "./pages/NewSchedulePage";
 
 import "./schedules.css";
 
@@ -14,11 +19,19 @@ export default function SchedulesPage({ token }) {
     stats,
     loading,
     error,
+    createSchedule,
+    updateSchedule,
+    appendSlotsViaCSV,
+    AllSessions,
+    AllTrainers,
+    deleteSchedule,
   } = useDashboard(token);
 
   const [view, setView] = useState("table");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showNewSchedule, setShowNewSchedule] = useState(false);
+  const [showUpdateSchedule, setshowUpdateSchedule] = useState(false);
+  const [UpdateScheduledata, setUpdateScheduledata] = useState(null);
 
   // Course filter
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -35,11 +48,42 @@ export default function SchedulesPage({ token }) {
   }, [AllSchedules, selectedCourse]);
 
   // Show Add Schedule page
+  // if (showNewSchedule) {
+  //   return (
+  //     <NewSchedulePage
+  //       token={token}
+  //       onBack={() => setShowNewSchedule(false)}
+  //       createSchedule={createSchedule}
+  //       appendSlotsViaCSV={appendSlotsViaCSV}
+  //       AllCourses={AllCourses}
+  //       AllSessions={AllSessions}
+  //       AllTrainers={AllTrainers}
+  //     />
+  //   );
+  // }
   if (showNewSchedule) {
     return (
-      <NewSchedulePage
+      <CSVScheduleUpload
         token={token}
         onBack={() => setShowNewSchedule(false)}
+        createSchedule={createSchedule}
+        appendSlotsViaCSV={appendSlotsViaCSV}
+        AllCourses={AllCourses}
+        AllSessions={AllSessions}
+        AllTrainers={AllTrainers}
+      />
+    );
+  }
+
+  if (showUpdateSchedule) {
+    return (
+      <UpdateSchedulePage
+        token={token}
+        onBack={() => setshowUpdateSchedule(false)}
+        schedule= {UpdateScheduledata}
+        AllCourses = {AllCourses}
+        AllSessions = {AllSessions}
+        updateSchedule = {updateSchedule}
       />
     );
   }
@@ -116,15 +160,18 @@ export default function SchedulesPage({ token }) {
           {view === "table" ? (
             <SchedulesTable
               schedules={filteredSchedules}
-              // onDelete={deleteSchedule}
+              onDelete={deleteSchedule}
+              setUpdateScheduledata={setUpdateScheduledata}
+              setshowUpdateSchedule={setshowUpdateSchedule}
               // onRefresh={fetchSchedules}
             />
           ) : (
             <SchedulesCalendar
+              token={token}
               schedules={filteredSchedules}
               selectedDate={selectedDate}
               onSelectDate={setSelectedDate}
-              // onDelete={deleteSchedule}
+              onDelete={deleteSchedule}
               // onRefresh={fetchSchedules}
             />
           )}

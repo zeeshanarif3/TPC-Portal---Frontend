@@ -1,23 +1,24 @@
 import { useState } from "react";
 import AttendanceTable from "./components/AttendanceTable";
 import AttendanceStats from "./components/AttendanceStats";
-import { useDashboard } from "../../../hooks/useDashboard";
+// import { useDashboard } from "../../../hooks/useDashboard";
 
 import "./attendance.css";
+import useTrainer from "../../../hooks/useTrainer";
 
 export default function AttendancePage({ token }) {
   const {
-    selectedCollege,
-    setSelectedCollege,
-    colleges,
-    AllSessions,
-    setCurrentSession,
-    CurrentSession,
-    stats,
-    loading,
-    error,
-    AttendanceByCollegeAndSession,
-  } = useDashboard(token);
+    // selectedCollege,
+    // setSelectedCollege,
+    // colleges,
+    // AllSessions,
+    // setCurrentSession,
+    // CurrentSession,
+    // stats,
+    // loading,
+    // error,
+    // AttendanceByCollegeAndSession,
+  } = useTrainer(token);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [dateFilter, setDateFilter] = useState("");
@@ -84,145 +85,7 @@ export default function AttendancePage({ token }) {
   };
 
   return (
-    <div className="attendance-page">
-              {/* {selectedCollege } ///////////////////   {CurrentSession} debug */}
-      {/* Header */}
-      <div className="attendance-header">
-        <div>
-          <h1>Attendance</h1>
-          <p>Track and manage student attendance records</p>
-        </div>
-
-        {/* <button
-          className="btn-take-attendance"
-          onClick={handleTakeAttendance}
-        >
-          + Take Attendance
-        </button> */}
-      </div>
-
-      {/* Statistics */}
-      <AttendanceStats stats={stats} />
-
-      {/* Filters */}
-      {/* <div className="attendance-filters">
-        <div className="search-box">
-          <span className="search-icon">🔍</span>
-
-          <input
-            type="text"
-            placeholder="Search by course or session..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <input
-          type="date"
-          className="date-filter"
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-        />
-
-        <button
-          className="btn-export-csv"
-          onClick={handleExportCSV}
-        >
-          Export CSV
-        </button>
-      </div> */}
-      {/* Filters */}
-      <div className="attendance-filters">
-
-        <div className="search-box">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Search by course or session..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-{/* College Selector */}
-<select
-  className="filter-select"
-  value={selectedCollege}
-  onChange={(e) => {
-    const collegeId = e.target.value;
-
-    setSelectedCollege(collegeId);
-
-    // Select the first session of the chosen college
-    const firstSession = AllSessions.find(
-      (session) => session.collegeId._id === collegeId
-    );
-
-    setCurrentSession(firstSession ? firstSession._id : "");
-  }}
->
-  {colleges.map((college) => (
-    <option key={college._id} value={college._id}>
-      {college.name}
-    </option>
-  ))}
-</select>
-
-{/* Session Selector */}
-<select
-  className="filter-select"
-  value={CurrentSession}
-  onChange={(e) => {
-    setCurrentSession(e.target.value);
-  }}
->
-  {AllSessions.filter(
-    (session) =>
-      !selectedCollege ||
-      session.collegeId._id === selectedCollege
-  ).map((session) => (
-    <option key={session._id} value={session._id}>
-      {new Date(session.startDate).toLocaleDateString("en-GB")} -{" "}
-      {new Date(session.endDate).toLocaleDateString("en-GB")}
-    </option>
-  ))}
-</select>
-
-
-        <input
-          type="date"
-          className="date-filter"
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-        />
-
-        <button
-          className="btn-export-csv"
-          onClick={handleExportCSV}
-        >
-          Export CSV
-        </button>
-      </div>
-
-      {/* Table */}
-      {loading && (
-        <p className="loading">
-          Loading attendance records...
-        </p>
-      )}
-
-      {error && (
-        <p className="error">
-          {error}
-        </p>
-      )}
-
-      {!loading && !error && (
-        <AttendanceTable
-          attendance={filteredAttendance}
-        />
-      )}
-    </div>
+   <div></div>
   );
 }
 

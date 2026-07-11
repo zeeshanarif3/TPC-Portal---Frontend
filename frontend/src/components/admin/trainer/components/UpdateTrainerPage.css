@@ -1,0 +1,462 @@
+/* UpdateTrainerPage.css */
+
+
+.update-trainer-page {
+
+    width:100%;
+
+    min-height:100%;
+
+    padding:30px;
+
+
+    font-family:"Inter", sans-serif;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+
+    overflow-y:auto;
+
+}
+
+
+
+
+
+/* Back Button */
+
+
+.update-trainer-page > button {
+
+
+    background:transparent;
+
+
+    border:none;
+
+
+    color:#4f46e5;
+
+
+    font-size:15px;
+
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+    margin-bottom:20px;
+
+
+    transition:0.3s ease;
+
+
+    align-self:flex-start;
+
+}
+
+
+
+.update-trainer-page > button:hover {
+
+
+    transform:translateX(-5px);
+
+
+    color:#3730a3;
+
+}
+
+
+
+
+
+/* Heading */
+
+
+.update-trainer-page h2 {
+
+
+    font-size:30px;
+
+
+    font-weight:700;
+
+
+    color:var(--text-primary);
+
+
+    margin-bottom:25px;
+
+}
+
+
+
+
+
+/* Form Card */
+
+
+.update-trainer-page .trainer-form {
+
+
+    width:100%;
+
+
+    max-width:650px;
+
+
+
+    background:
+
+        rgba(255,255,255,0.85);
+
+
+
+    backdrop-filter:
+
+        blur(15px);
+
+
+
+    border-radius:20px;
+
+
+
+    padding:35px;
+
+
+
+    box-shadow:
+
+
+        0 10px 30px rgba(0,0,0,0.08);
+
+
+
+    border:
+
+
+        1px solid rgba(255,255,255,0.6);
+
+
+
+    animation:
+
+
+        slideUp 0.4s ease;
+
+
+
+    transition:0.3s ease;
+
+}
+
+
+
+
+
+.update-trainer-page .trainer-form:hover {
+
+
+    transform:translateY(-3px);
+
+
+
+    box-shadow:
+
+
+        0 15px 40px rgba(0,0,0,0.12);
+
+}
+
+
+
+
+
+/* Animation */
+
+
+@keyframes slideUp {
+
+
+    from {
+
+
+        opacity:0;
+
+
+        transform:translateY(20px);
+
+
+    }
+
+
+
+    to {
+
+
+        opacity:1;
+
+
+        transform:translateY(0);
+
+
+    }
+
+}
+
+
+
+
+
+/* Form Group */
+
+
+.update-trainer-page .form-group {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    margin-bottom:20px;
+
+}
+
+
+
+
+
+/* Labels */
+
+
+.update-trainer-page .form-group label {
+
+
+    font-size:14px;
+
+
+    font-weight:600;
+
+
+    color:#374151;
+
+
+    margin-bottom:8px;
+
+}
+
+
+
+
+
+/* Input */
+
+
+.update-trainer-page input {
+
+
+    height:45px;
+
+
+
+    padding:0 15px;
+
+
+
+    border-radius:12px;
+
+
+
+   border:1px solid var(--border-color);
+
+
+
+    background:var(--bg-primary);
+
+
+
+    font-size:15px;
+
+
+
+    color:var(--text-primary);
+
+
+
+    outline:none;
+
+
+
+    transition:all 0.3s ease;
+
+}
+
+
+
+
+
+.update-trainer-page input:focus {
+
+
+    border-color:#4f46e5;
+
+
+
+    box-shadow:
+
+
+        0 0 0 4px rgba(79,70,229,0.15);
+
+}
+
+
+
+
+
+/* Save Button */
+
+
+.update-trainer-page .save-btn {
+
+
+    width:100%;
+
+
+    height:48px;
+
+
+    margin-top:20px;
+
+
+
+    border:none;
+
+
+    border-radius:14px;
+
+
+
+    background:
+
+
+        linear-gradient(
+
+            135deg,
+
+            #4f46e5,
+
+            #7c3aed
+
+        );
+
+
+
+    color:white;
+
+
+    font-size:16px;
+
+
+    font-weight:600;
+
+
+
+    cursor:pointer;
+
+
+
+    transition:0.3s ease;
+
+
+
+    box-shadow:
+
+
+        0 8px 20px rgba(79,70,229,0.3);
+
+}
+
+
+
+
+
+.update-trainer-page .save-btn:hover {
+
+
+    transform:translateY(-2px);
+
+
+
+    box-shadow:
+
+
+        0 12px 25px rgba(79,70,229,0.4);
+
+}
+
+
+
+
+
+.update-trainer-page .save-btn:disabled {
+
+
+    cursor:not-allowed;
+
+
+    opacity:0.7;
+
+
+    transform:none;
+
+}
+
+
+
+
+
+/* Responsive */
+
+
+@media(max-width:768px){
+
+
+    .update-trainer-page {
+
+
+        padding:20px;
+
+    }
+
+
+
+    .update-trainer-page h2 {
+
+
+        font-size:24px;
+
+    }
+
+
+
+    .update-trainer-page .trainer-form {
+
+
+        padding:25px;
+
+    }
+
+}

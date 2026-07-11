@@ -2,6 +2,13 @@ import "./NewModeratorPage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useState } from "react";
 
+
+
+
+
+
+import './NewModeratorPage.css'
+
 export default function NewModeratorPage({ token, onBack }) {
   const { createModerator } = useDashboard();
 

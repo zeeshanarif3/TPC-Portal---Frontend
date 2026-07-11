@@ -95,33 +95,19 @@ export default function DashboardPage({ token }) {
 
             </div>
 
-            <div className="dashboard__mid-row">
+            {/* <div className="dashboard__mid-row">
+            </div> */}
 
+            <div className="dashboard__bottom-row">
                 <div className="Schedulle-card">
-
                     <UpcomingSchedule
                         schedule={loading ? [] : UpcomingScheduleByColl}
                         onViewAll={() => { }}
                     />
-
                 </div>
-
-            </div>
-
-
-
-            <div className="dashboard__bottom-row">
-
-
-
-
                 <TrainT
                     trainers={loading ? [] : TrainersByColl}
                 />
-
-
-
-
             </div>
 
         </div>

@@ -2,6 +2,8 @@ import "./NewCollegePage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useState } from "react";
 
+import './NewCollegePage.css'
+
 export default function NewCollegePage({ token, onBack ,createCollege , createModerator}) {
 
 

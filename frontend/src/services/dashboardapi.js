@@ -291,6 +291,95 @@ export async function fetchSubjectDistribution(collegeId, token) {
 
 
 
+// // Create schedule
+// export async function createSchedule(data, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules`,
+//     {
+//       method: "POST",
+//       headers: getHeaders(token),
+//       body: JSON.stringify(data)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to create schedule");
+//   return res.json();
+// }
+
+// // Get all schedules
+// export async function fetchSchedules(token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules`,
+//     {
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to fetch schedules");
+//   return res.json();
+// }
+
+// // Get schedule by ID
+// export async function fetchScheduleById(id, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/${id}`,
+//     {
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to fetch schedule");
+//   return res.json();
+// }
+
+// // Update schedule
+// export async function updateSchedule(id, data, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/${id}`,
+//     {
+//       method: "PUT",
+//       headers: getHeaders(token),
+//       body: JSON.stringify(data)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to update schedule");
+//   return res.json();
+// }
+
+// // Delete schedule
+// export async function deleteSchedule(id, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/${id}`,
+//     {
+//       method: "DELETE",
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to delete schedule");
+//   return res.json();
+// }
+
+// // Get upcoming schedule for a college
+// export async function fetchUpcomingSchedule(collegeId, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/upcoming?collegeId=${collegeId}`,
+//     {
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to fetch upcoming schedule");
+//   const data = await res.json();
+//   console.log(data);
+//   return data;
+// }
+
+
+
+// schedules
+
 // Create schedule
 export async function createSchedule(data, token) {
   const res = await fetch(
@@ -306,10 +395,15 @@ export async function createSchedule(data, token) {
   return res.json();
 }
 
+
 // Get all schedules
-export async function fetchSchedules(token) {
+export async function fetchSchedules(token, date = null) {
+  const url = date
+    ? `${BASE_URL}/schedules?date=${date}`
+    : `${BASE_URL}/schedules`;
+
   const res = await fetch(
-    `${BASE_URL}/schedules`,
+    url,
     {
       headers: getHeaders(token)
     }
@@ -318,6 +412,7 @@ export async function fetchSchedules(token) {
   if (!res.ok) throw new Error("Failed to fetch schedules");
   return res.json();
 }
+
 
 // Get schedule by ID
 export async function fetchScheduleById(id, token) {
@@ -331,6 +426,7 @@ export async function fetchScheduleById(id, token) {
   if (!res.ok) throw new Error("Failed to fetch schedule");
   return res.json();
 }
+
 
 // Update schedule
 export async function updateSchedule(id, data, token) {
@@ -347,6 +443,7 @@ export async function updateSchedule(id, data, token) {
   return res.json();
 }
 
+
 // Delete schedule
 export async function deleteSchedule(id, token) {
   const res = await fetch(
@@ -361,8 +458,9 @@ export async function deleteSchedule(id, token) {
   return res.json();
 }
 
-// Get upcoming schedule for a college
-export async function fetchUpcomingSchedule(collegeId, token) {
+
+// Get upcoming schedules by college
+export async function fetchUpcomingScheduleByCollege(collegeId, token) {
   const res = await fetch(
     `${BASE_URL}/schedules/upcoming?collegeId=${collegeId}`,
     {
@@ -370,15 +468,25 @@ export async function fetchUpcomingSchedule(collegeId, token) {
     }
   );
 
-  if (!res.ok) throw new Error("Failed to fetch upcoming schedule");
-  const data = await res.json();
-  console.log(data);
-  return data;
+  if (!res.ok) throw new Error("Failed to fetch upcoming schedules");
+  return res.json();
 }
 
 
+// Append slots through CSV
+export async function appendSlotsViaCSV(rows, token) {
+  const res = await fetch(
+    `${BASE_URL}/schedules/append-slots-csv`,
+    {
+      method: "POST",
+      headers: getHeaders(token),
+      body: JSON.stringify(rows)
+    }
+  );
 
-
+  if (!res.ok) throw new Error("Failed to append CSV slots");
+  return res.json();
+}
 
 
 

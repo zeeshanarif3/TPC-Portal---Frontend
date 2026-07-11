@@ -16,7 +16,7 @@
      border-radius: 18px;
     /*
     background:  hsl(0, 0%, 95%);
-    color: #111827;
+    color: var(--text-primary);
     box-shadow:
     0 1px 2px rgba(0,0,0,.04),
     0 8px 24px rgba(0,0,0,.05); */
@@ -37,10 +37,10 @@ ERROR
     
     z-index: 2;
     
-    /* background: #fff; */
-    background:  hsl(0, 0%, 95%);
+    /* background: var(--bg-primary); */
+    background:  var(--bg-primary);
     
-    border: 1px solid #fecaca;
+    border: 1px solid var(--border-color);
     
     color: #991b1b;
     
@@ -48,8 +48,8 @@ ERROR
     
     padding: 18px 22px;
     
-    box-shadow:
-    0 8px 24px rgba(0,0,0,.04);
+    /* box-shadow:
+    0 8px 24px rgba(0,0,0,.04); */
 }
 
 /* ==========================================

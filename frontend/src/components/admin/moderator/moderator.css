@@ -6,15 +6,14 @@ PAGE
     height: stretch;
     width: stretch;
     /* min-height: 100vh; */
-    padding: 2.5rem 2.5rem;
+    /* padding: 2.5rem 2.5rem; */
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1rem;
     overflow: scroll;
     border-radius: 18px;
 
-    background: #ffffff;
-    color: #111827;
+    color: var(--text-primary);
     box-shadow:
         0 1px 2px rgba(0, 0, 0, .04),
         0 8px 24px rgba(0, 0, 0, .05);
@@ -36,9 +35,9 @@ PAGE
         0 12px 30px rgba(0, 0, 0, .06),
         0 40px 80px rgba(0, 0, 0, .08);
 
-    --border: #eceef2;
-    --text: #111827;
-    --muted: #6b7280;
+    --border: var(--border-color);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
 
 
 
@@ -59,11 +58,12 @@ HEADER
     align-items: center;
 
 
-    padding: 2.5rem;
+     padding: 2.5rem;
 
-    background: white;
 
-    border-radius: 28px;
+    background: var(--bg-primary);
+
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
@@ -74,27 +74,27 @@ HEADER
 }
 
 .moderator-header h1 {
-font-size: 2.2rem;
-font-weight: 800;
+    font-size: 2.2rem;
+    font-weight: 800;
 
- 
-color: var(--text);
 
-margin: 0 0 6px;
+    color: var(--text);
 
-letter-spacing: -.05em;
- 
+    margin: 0 0 6px;
+
+    letter-spacing: -.05em;
+
 
 
 }
 
 .moderator-header p {
-color: var(--muted);
+    color: var(--muted);
 
- 
-font-size: .95rem;
 
-margin: 0;
+    font-size: .95rem;
+
+    margin: 0;
 
 }
 
@@ -106,30 +106,31 @@ ACTIONS
 
 .btn-add-trainer,
 .btn-export-csv {
-position: relative;
+    position: relative;
 
- 
-overflow: hidden;
 
-border: none;
+    overflow: hidden;
 
-background: white;
+    border: none;
 
-border-radius: 16px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
 
-padding: 13px 20px;
+    border-radius: 16px;
 
-font-size: .9rem;
-font-weight: 600;
+    padding: 13px 20px;
 
-cursor: pointer;
+    font-size: .9rem;
+    font-weight: 600;
 
-box-shadow: var(--shadow);
+    cursor: pointer;
 
-transition:
-    transform .25s ease,
-    box-shadow .25s ease;
- 
+    box-shadow: var(--shadow);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
 
 }
 
@@ -143,56 +144,30 @@ transition:
 
 }
 
-.btn-add-trainer {
-position: relative;
-
- 
-overflow: hidden;
-
-border: none;
-
-background: white;
-
-border-radius: 16px;
-
-padding: 13px 20px;
-
-font-size: .9rem;
-font-weight: 600;
-
-cursor: pointer;
-
-box-shadow: var(--shadow);
-
-transition:
-    transform .25s ease,
-    box-shadow .25s ease;
- 
-}
 
 /* ==========================================
 FILTERS
 ========================================== */
 
 .moderator-filters {
-position: relative;
+    position: relative;
 
- 
-display: flex;
 
-align-items: center;
+    display: flex;
 
-gap: 16px;
+    align-items: center;
 
-padding: 22px;
+    gap: 16px;
 
-background: white;
+    padding: 22px;
 
-border-radius: 24px;
+    background: var(--bg-primary);
 
-border: 1px solid var(--border);
+    border-radius: 18px;
 
-box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
 
 
 }
@@ -212,7 +187,7 @@ SEARCH
 
     padding: 14px 18px;
 
-    background: #f7f8fa;
+    background: var(--bg-primary);
 
     border: 1px solid transparent;
 
@@ -227,15 +202,15 @@ SEARCH
 }
 
 .search-box:focus-within {
-    background: white;
+    background: var(--bg-primary);
 
 
-    border-color: #d7dce4;
+    border-color: var(--border-color);
 
     transform: translateY(-2px);
 
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, .05);
+    /* box-shadow:
+        0 8px 24px rgba(0, 0, 0, .05); */
 
 
 }
@@ -268,9 +243,9 @@ SELECT
 
     border-radius: 16px;
 
-    border: 1px solid #d7dce4;
+    border: 1px solid var(--border-color);
 
-    background: white;
+    background: var(--bg-primary);
 
     cursor: pointer;
 
@@ -287,8 +262,8 @@ SELECT
 
     transform: translateY(-2px);
 
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, .05);
+    /* box-shadow:
+        0 8px 24px rgba(0, 0, 0, .05); */
 
 
 }
@@ -299,12 +274,12 @@ STATES
 
 .loading-card,
 .error-card {
-    background: white;
+    background: var(--bg-primary);
 
 
     padding: 30px;
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 

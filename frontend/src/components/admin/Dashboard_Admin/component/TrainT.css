@@ -13,12 +13,12 @@
     padding: 1.2rem 1.2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 2.5rem;
+    justify-content: start;
+    gap: 1rem;
     overflow: scroll;
     border-radius: 18px;
-    background: #ffffff;
-    color: #111827;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .05);
     transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
 }
@@ -43,7 +43,7 @@
 
     z-index: 10;
 
-    background: #ffffff;
+    background: var(--bg-primary);
 }
 
 .train-table__table th {
@@ -57,11 +57,11 @@
     text-transform: uppercase;
     letter-spacing: .06em;
 
-    color: #6b7280;
+    color: var(--text-secondary);
 
-    background: #ffffff;
+    background: var(--bg-primary);
 
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-color);
 }
 
 /* ==========================================
@@ -75,7 +75,7 @@
 }
 
 .train-table__table tbody tr:hover {
-    background: #f8fafc;
+    background: var(--bg-primary);
 }
 
 /* ==========================================
@@ -86,9 +86,9 @@
     padding: 1rem 1.25rem;
 
     font-size: 0.9rem;
-    color: #111827;
+    color: var(--text-primary);
 
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .train-table__table td:first-child {
@@ -123,7 +123,7 @@
 
     border-radius: 999px;
 
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
 
     font-size: 0.8rem;
     font-weight: 600;
@@ -147,7 +147,7 @@
     font-size: 0.78rem;
     font-weight: 600;
 
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
 
     transition:
         transform .2s ease,
@@ -157,8 +157,8 @@
 .status-badge:hover {
     transform: translateY(-1px);
 
-    box-shadow:
-        0 6px 14px rgba(0, 0, 0, .05);
+    /* box-shadow:
+        0 6px 14px rgba(0, 0, 0, .05); */
 }
 
 .status-dot {
@@ -174,12 +174,12 @@
 
 .status-badge--active {
     background: #644f38;
-    color: white;
-    border-color: #111827;
+    color: var(--text-primary);
+    border-color: var(--text-primary);
 }
 
 .status-badge--active .status-dot {
-    background: white;
+    background: var(--bg-primary);
 }
 
 /* ==========================================
@@ -200,7 +200,7 @@
 ========================================== */
 
 .status-badge--pending {
-    background: #f9fafb;
+    background: var(--bg-primary);
 }
 
 .status-badge--pending .status-dot {

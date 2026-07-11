@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import "./sidebar.css";
 import UserInfo from "./component/userinfo";
+// import {ThemeContext} from "./ThemeContext";
+import { ThemeContext } from "../../../theme/ThemeContext";
+
 import {
     LayoutDashboard,
     Building2,
@@ -38,6 +42,21 @@ const NAV_ITEMS = [
     //   },
 ];
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default function Sidebar({
     activeItem: activeItemProp,
     onNavigate,
@@ -45,6 +64,8 @@ export default function Sidebar({
     role,
     handleLogout,
 }) {
+    // const { toggleTheme } = useContext(ThemeContext);
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const [collapsed, setCollapsed] = useState(defaultCollapsed);
     const [internalActive, setInternalActive] = useState("dashboard");
     const [expandedKey, setExpandedKey] = useState("attendance");
@@ -136,8 +157,35 @@ export default function Sidebar({
                 {/* <div className="role">
         {role.name}
         </div>
-        
+
+
         <UserInfo></UserInfo> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <button
+                    className={`theme-toggle ${theme === "dark" ? "dark" : ""} ${collapsed ? "" : "horizontal"
+                        }`}
+                    onClick={toggleTheme}
+                >
+                    <span className="theme-thumb">
+                        {theme === "dark" ? "🌙" : "☀️"}
+                    </span>
+                </button>
+
+
                 {
                     (role) ? (
 
@@ -153,15 +201,6 @@ export default function Sidebar({
                             collapsed={collapsed}
                         />
                     ) : (null)}
-
-
-
-
-
-
-
-
-
 
 
 

@@ -2,6 +2,9 @@ import "./UpdateCollegePage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useEffect, useState } from "react";
 
+import './UpdateCollegePage.css'
+
+
 export default function UpdateCollegePage({
     token,
     onBack,
@@ -9,7 +12,6 @@ export default function UpdateCollegePage({
     updateCollege,
     AllModerators = [],
 }) {
-
     const [formData, setFormData] = useState({
         name: "",
         pointOfContact: "",

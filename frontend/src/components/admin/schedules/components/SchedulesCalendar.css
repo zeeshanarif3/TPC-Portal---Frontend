@@ -19,16 +19,16 @@
 ========================================== */
 
 .calendar-main {
-    background: white;
+    background: var(--bg-primary);
 
-    border: 1px solid #eef0f3;
-    border-radius: 24px;
+   border: 1px solid var(--border-color);
+    border-radius: 18px;
 
     overflow: auto;
-
+/* 
     box-shadow:
         0 2px 4px rgba(0,0,0,.02),
-        0 20px 40px rgba(0,0,0,.04);
+        0 20px 40px rgba(0,0,0,.04); */
 }
 
 /* ==========================================
@@ -51,11 +51,11 @@
     position: sticky;
     top: 0;
 
-    background: white;
+    background: var(--bg-primary);
 
     z-index: 20;
 
-    border-bottom: 1px solid #edf0f2;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .day-header,
@@ -68,7 +68,7 @@
     text-transform: uppercase;
     letter-spacing: .05em;
 
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 .day-header {
@@ -88,11 +88,11 @@
 }
 
 .time-row:not(:last-child) {
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .time-row .time-label {
-    border-right: 1px solid #f3f4f6;
+    border-right: 1px solid var(--border-color);
 
     display: flex;
     align-items: flex-start;
@@ -110,13 +110,13 @@
 
     padding: 0.5rem;
 
-    border-right: 1px solid #f3f4f6;
+    border-right: 1px solid var(--border-color);
 
     transition: background .25s ease;
 }
 
 .time-slot:hover {
-    background: #fafafa;
+   background: var(--bg-primary);
 }
 
 /* ==========================================
@@ -133,7 +133,7 @@
             #1f2937
         );
 
-    color: white;
+    color: var(--text-primary);
 
     border-radius: 14px;
 
@@ -153,8 +153,8 @@
 .Schedulee-card.hovered {
     transform: translateY(-2px);
 
-    box-shadow:
-        0 12px 24px rgba(17,24,39,.18);
+    /* box-shadow:
+        0 12px 24px rgba(17,24,39,.18); */
 }
 
 .card-title {
@@ -189,7 +189,7 @@
 
     background: rgba(255,255,255,.18);
 
-    color: white;
+    color: var(--text-primary);
 
     cursor: pointer;
 
@@ -205,10 +205,10 @@
 ========================================== */
 
 .mini-calendar {
-    background: white;
+    background: var(--bg-primary);
 
-    border: 1px solid #eef0f3;
-    border-radius: 24px;
+   border: 1px solid var(--border-color);
+    border-radius: 18px;
 
     padding: 1.25rem;
 
@@ -241,7 +241,7 @@
 
     border-radius: 10px;
 
-    background: #f3f4f6;
+    background: var(--bg-primary);
 
     cursor: pointer;
 
@@ -251,7 +251,7 @@
 }
 
 .calendar-nav button:hover {
-    background: #e5e7eb;
+    background: var(--border-color);
 
     transform: translateY(-1px);
 }
@@ -259,7 +259,7 @@
 .calendar-month {
     font-weight: 700;
 
-    color: #111827;
+    color: var(--text-primary);
 }
 
 /* ==========================================
@@ -280,7 +280,7 @@
     font-size: 0.72rem;
     font-weight: 700;
 
-    color: #9ca3af;
+    color: var(--text-secondary);
 }
 
 /* ==========================================
@@ -314,7 +314,7 @@
 }
 
 .date:hover {
-    background: #f3f4f6;
+    background: var(--bg-primary);
 
     transform: scale(1.05);
 }
@@ -326,22 +326,22 @@
 .date.today {
     background: #111827;
 
-    color: white;
+    color: var(--text-primary);
 
     font-weight: 700;
 }
 
 .date.selected {
-    background: #e5e7eb;
+    background: var(--border-color);
 
-    color: #111827;
+    color: var(--text-primary);
 
     font-weight: 700;
 }
 
 .date.today.selected {
     background: #111827;
-    color: white;
+    color: var(--text-primary);
 }
 
 /* ==========================================
@@ -357,12 +357,12 @@
 
     border-radius: 12px;
 
-    background: #f9fafb;
+    background: var(--bg-primary);
 
     font-size: 0.85rem;
     font-weight: 600;
 
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 /* ==========================================

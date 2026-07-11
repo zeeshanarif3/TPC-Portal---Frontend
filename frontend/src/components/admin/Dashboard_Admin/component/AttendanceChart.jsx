@@ -83,12 +83,13 @@ export default function Attendance_chart({
               >
                 <stop
                   offset="0%"
-                  stopColor="#644f38"
+                  // stopColor="#644f38"
+                  stopColor="#f1af07"
                   stopOpacity={0.10}
                 />
                 <stop
                   offset="100%"
-                  stopColor="#644f38"
+                  stopColor="#f1af07"
                   stopOpacity={0}
                 />
               </linearGradient>
@@ -103,7 +104,7 @@ export default function Attendance_chart({
               tickMargin={14}
               tick={{
                 fontSize: 12,
-                fill: '#64748B',
+                fill: '#f1af07',
               }}
             />
 
@@ -114,10 +115,10 @@ export default function Attendance_chart({
               }
               formatter={(value) => [value, 'Attendance']}
               contentStyle={{
-                background: '#fff',
-                border: '1px solid #f1f5f9',
+                background: 'var(--bg-primary)',
+                border: '1px solid var(--border-color)',
                 borderRadius: '10px',
-                boxShadow: '0 8px 20px rgba(0,0,0,.08)',
+                // boxShadow: '0 8px 20px rgba(0,0,0,.08)',
                 padding: '8px 12px',
               }}
             />
@@ -125,7 +126,7 @@ export default function Attendance_chart({
             <Area
               type="natural"
               dataKey="count"
-              stroke="#644f38"
+              stroke="#f1af07"
               strokeWidth={2.75}
               fill="url(#attendanceGradient)"
               dot={false}

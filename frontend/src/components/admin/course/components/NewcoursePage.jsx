@@ -2,6 +2,9 @@ import "./NewcoursePage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useState } from "react";
 
+
+import './NewcoursePage.css'
+
 export default function NewCoursePage({ token, onBack ,AllColleges ,createCourse}) {
   
   const [formData, setFormData] = useState({

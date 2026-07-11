@@ -6,32 +6,31 @@ PAGE
     height: stretch;
     width: stretch;
 
-    padding: 2.5rem;
+ 
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1rem;
 
     overflow: scroll;
     border-radius: 18px;
 
-    background: #ffffff;
-    color: #111827;
+    color: var(--text-primary);
 
     box-shadow:
-        0 1px 2px rgba(0,0,0,.04),
-        0 8px 24px rgba(0,0,0,.05);
+        0 1px 2px rgba(0, 0, 0, .04),
+        0 8px 24px rgba(0, 0, 0, .05);
 
     --shadow:
-        0 2px 4px rgba(0,0,0,.03),
-        0 20px 40px rgba(0,0,0,.04);
+        0 2px 4px rgba(0, 0, 0, .03),
+        0 20px 40px rgba(0, 0, 0, .04);
 
     --shadow-hover:
-        0 12px 30px rgba(0,0,0,.06),
-        0 40px 80px rgba(0,0,0,.08);
+        0 12px 30px rgba(0, 0, 0, .06),
+        0 40px 80px rgba(0, 0, 0, .08);
 
-    --border: #eceef2;
-    --text: #111827;
-    --muted: #6b7280;
+    --border: var(--border-color);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
 }
 
 /* ==========================================
@@ -45,11 +44,12 @@ HEADER
     justify-content: space-between;
     align-items: center;
 
-    padding: 2.5rem;
+     padding: 2.5rem;
 
-    background: white;
 
-    border-radius: 28px;
+    background: var(--bg-primary);
+
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
@@ -89,9 +89,9 @@ CONTROLS
 
     padding: 22px;
 
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
@@ -109,7 +109,7 @@ VIEW TOGGLES
 
     border: none;
 
-    background: white;
+    background: var(--bg-primary);
 
     border-radius: 16px;
 
@@ -141,12 +141,10 @@ VIEW TOGGLES
     width: 60%;
     height: 100%;
 
-    background: linear-gradient(
-        to right,
-        transparent,
-        rgba(255,255,255,.65),
-        transparent
-    );
+    background: linear-gradient(to right,
+            transparent,
+            rgba(255, 255, 255, .65),
+            transparent);
 }
 
 .btn-view-toggle:hover {
@@ -180,7 +178,8 @@ ADD SLOT BUTTON
 
     border: none;
 
-    background: white;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
 
     border-radius: 16px;
 
@@ -209,12 +208,10 @@ ADD SLOT BUTTON
     width: 60%;
     height: 100%;
 
-    background: linear-gradient(
-        to right,
-        transparent,
-        rgba(255,255,255,.65),
-        transparent
-    );
+    background: linear-gradient(to right,
+            transparent,
+            rgba(255, 255, 255, .65),
+            transparent);
 }
 
 .btn-add-slot:hover {
@@ -233,9 +230,9 @@ LOADING / ERROR
 
 .loading,
 .error {
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     padding: 28px;
 
@@ -266,9 +263,9 @@ LOADING / ERROR
 
     padding: 22px;
 
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
@@ -277,52 +274,52 @@ LOADING / ERROR
 
 /* Filter wrapper */
 .filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 240px;
 }
 
 /* Label */
 .filter-group label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
 }
 
 /* Select */
 .filter-select {
-  width: 100%;
-  padding: 10px 14px;
-  font-size: 14px;
-  color: #1f2937;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  outline: none;
-  transition: all 0.2s ease;
-  cursor: pointer;
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .filter-select:hover {
-  border-color: #2563eb;
+    border-color: #2563eb;
 }
 
 .filter-select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    border-color: #2563eb;
+    /* box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); */
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .filter-group {
-    width: 100%;
-    min-width: unset;
-  }
+    .filter-group {
+        width: 100%;
+        min-width: unset;
+    }
 
-  .filter-select {
-    width: 100%;
-  }
+    .filter-select {
+        width: 100%;
+    }
 }
 
 
@@ -336,7 +333,7 @@ LOADING / ERROR
 CONTENT ANIMATION
 ========================================== */
 
-.Schedulees-page > *:not(.Schedulees-header) {
+.Schedulees-page>*:not(.Schedulees-header) {
     animation: scheduleFade .35s ease;
 }
 

@@ -28,7 +28,7 @@ export default function ModeratorTable({
   };
 
   return (
-    <div className="moderator-table-container">``
+    <div className="moderator-table-container">
       <table className="moderator-table">
         <thead>
           <tr>

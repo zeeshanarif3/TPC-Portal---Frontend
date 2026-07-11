@@ -2,6 +2,8 @@ import "./UpdateModeratorPage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useEffect, useState } from "react";
 
+import './UpdateModeratorPage.css'
+
 export default function UpdateModeratorPage({
   token,
   onBack,

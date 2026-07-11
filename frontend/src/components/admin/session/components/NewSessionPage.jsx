@@ -2,6 +2,9 @@ import "./NewSessionPage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useMemo, useState } from "react";
 
+
+import './NewSessionPage.css'
+
 export default function NewSessionPage({AllColleges, AllCourses, token, onBack ,createSession, updateSession}) {
 
 

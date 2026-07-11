@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AttendanceTable from "./components/AttendanceTable";
 import AttendanceStats from "./components/AttendanceStats";
+import UpdateAttendancePage from "./components/UpdateAttendancePage";
 import { useDashboard } from "../../../hooks/useDashboard";
 
 import "./attendance.css";
@@ -17,10 +18,48 @@ export default function AttendancePage({ token }) {
     loading,
     error,
     AttendanceByCollegeAndSession,
+    Allstudents,
+
+    updateAttendance,
   } = useDashboard(token);
+
+  const [showUpdateAttendancePage, setshowUpdateAttendancePage] = useState(false);
+  const [UpdateAttendancedata, setUpdateAttendancedata] = useState(null);
+
+
 
   const [searchTerm, setSearchTerm] = useState("");
   const [dateFilter, setDateFilter] = useState("");
+
+
+
+
+
+
+
+
+if (showUpdateAttendancePage) {
+    return (
+      <UpdateAttendancePage
+        token={token}
+        onBack={() => setshowUpdateAttendancePage(false)}
+        attendance = {UpdateAttendancedata}
+        AllStudents ={Allstudents}
+        updateAttendance= {updateAttendance}
+      />
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   const filteredAttendance = AttendanceByCollegeAndSession.filter((record) => {
     const courseCode = record.courseId?.courseCode || "";
@@ -239,6 +278,8 @@ export default function AttendancePage({ token }) {
       {!loading && !error && (
         <AttendanceTable
           attendance={filteredAttendance}
+          setUpdateAttendancedata = {setUpdateAttendancedata}
+          setshowUpdateAttendancePage = {setshowUpdateAttendancePage}
         />
       )}
     </div>

@@ -2,7 +2,7 @@ import "./UpdateContractPage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useEffect, useState } from "react";
 
-
+import './UpdateContractPage.css'
 export default function UpdateContractPage({
   token,
   onBack,

@@ -9,63 +9,63 @@ export default function AttendanceStats({ stats }) {
   const statistics = stats?.statistics || {};
 
   return (
-    <section className="attendance-stats">
-      <div className="attendance-card attendance-card--primary">
-        <div className="attendance-card__header">
-          <div className="attendance-card__icon">
+    <section className="Trainattendance-stats">
+      <div className="Trainattendance-card Trainattendance-card--primary">
+        <div className="Trainattendance-card__header">
+          <div className="Trainattendance-card__icon">
             <Users size={18} />
           </div>
 
-          <span className="attendance-card__title">
+          <span className="Trainattendance-card__title">
             Total Students
           </span>
         </div>
 
-        <div className="attendance-card__value">
+        <div className="Trainattendance-card__value">
           {statistics.totalStudents ?? 0}
         </div>
 
-        <div className="attendance-card__meta">
+        <div className="Trainattendance-card__meta">
           Registered Students
         </div>
       </div>
 
-      <div className="attendance-card">
-        <div className="attendance-card__header">
-          <div className="attendance-card__icon">
+      <div className="Trainattendance-card">
+        <div className="Trainattendance-card__header">
+          <div className="Trainattendance-card__icon">
             <BookOpen size={18} />
           </div>
 
-          <span className="attendance-card__title">
+          <span className="Trainattendance-card__title">
             Total Courses
           </span>
         </div>
 
-        <div className="attendance-card__value">
+        <div className="Trainattendance-card__value">
           {statistics.totalCourses ?? 0}
         </div>
 
-        <div className="attendance-card__meta">
+        <div className="Trainattendance-card__meta">
           Active Courses
         </div>
       </div>
 
-      <div className="attendance-card">
-        <div className="attendance-card__header">
-          <div className="attendance-card__icon">
+      <div className="Trainattendance-card">
+        <div className="Trainattendance-card__header">
+          <div className="Trainattendance-card__icon">
             <ClipboardList size={18} />
           </div>
 
-          <span className="attendance-card__title">
+          <span className="Trainattendance-card__title">
             Attendance Records
           </span>
         </div>
 
-        <div className="attendance-card__value">
+        <div className="Trainattendance-card__value">
           {statistics.totalAttendanceRecords ?? 0}
         </div>
 
-        <div className="attendance-card__meta">
+        <div className="Trainattendance-card__meta">
           Total Records
         </div>
       </div>

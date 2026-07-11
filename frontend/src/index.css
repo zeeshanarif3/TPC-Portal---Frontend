@@ -8,7 +8,53 @@ html {
     scroll-behavior: smooth;
 }
 
-/* 
-@media (prefers-color-scheme: light) {
 
+
+
+:root {
+  --bg-primary: hsl(0, 0%, 95%);
+  --bg-secondary: hsl(0, 0%, 90%);
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --card-bg: #ffffff;
+  --border-color: #ddd;
+  --accent: #f1af07;
+  /* --stat-active-start:hsl(0, 0%, 98%); */
+  --stat-active-start:hsl(102, 74%, 90%);
+  --stat-expiring-start:hsl(54, 75%, 90%);
+  --stat-expired-start:hsl(19, 76%, 90%);
+
+}
+
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-primary: hsl(0, 0%, 10%);
+    --bg-secondary: hsl(0, 0%, 5%);
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --card-bg: #1a1a1a;
+    --border-color: #333;
+
+    --stat-active-start:hsl(102, 74%, 10%);
+    --stat-expiring-start:hsl(49, 73%, 10%);
+    --stat-expiring-start:hsl(49, 73%, 10%);
+    --stat-expired-start:hsl(15, 73%, 10%);
+}
+
+
+
+
+
+
+/* @media (prefers-color-scheme: dark) {
+    :root {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --card-bg: #1a1a1a;
+    --border-color: #333;
+    --accent: #60a5fa;
+    }
 } */

@@ -6,16 +6,17 @@ PAGE
     height: stretch;
     width: stretch;
 
-    padding: 2.5rem;
+ 
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1rem;
 
     overflow: scroll;
     border-radius: 18px;
 
-    background: #ffffff;
-    color: #111827;
+
+    background: var(--bg-secondary);
+    color: var(--text-primary);
 
     box-shadow:
         0 1px 2px rgba(0,0,0,.04),
@@ -29,9 +30,9 @@ PAGE
         0 12px 30px rgba(0,0,0,.06),
         0 40px 80px rgba(0,0,0,.08);
 
-    --border: #eceef2;
-    --text: #111827;
-    --muted: #6b7280;
+    --border:var(--border-color);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
 }
 
 /* ==========================================
@@ -47,9 +48,10 @@ HEADER
 
     padding: 2.5rem;
 
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 28px;
+
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
@@ -87,7 +89,7 @@ BUTTONS
 
     border: none;
 
-    background: white;
+    background: var(--bg-primary);
 
     border-radius: 16px;
 
@@ -120,7 +122,7 @@ BUTTONS
     background: linear-gradient(
         to right,
         transparent,
-        rgba(255,255,255,.65),
+        var(--bg-secondary),
         transparent
     );
 }
@@ -151,9 +153,9 @@ FILTERS
 
     padding: 22px;
 
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
@@ -174,7 +176,7 @@ SEARCH
 
     padding: 14px 18px;
 
-    background: #f7f8fa;
+    background: var(--bg-primary);
 
     border: 1px solid transparent;
 
@@ -187,13 +189,13 @@ SEARCH
 }
 
 .search-box:hover {
-    background: #f9fafb;
+    background: var(--bg-primary);
 }
 
 .search-box:focus-within {
-    background: white;
+    background: var(--bg-primary);
 
-    border-color: #d7dce4;
+    border-color: var(--border);
 
     transform: translateY(-2px);
 
@@ -217,7 +219,7 @@ SEARCH
 }
 
 .search-box input::placeholder {
-    color: #9ca3af;
+    color:var(--text-primary);
 }
 
 /* ==========================================
@@ -226,12 +228,12 @@ DATE FILTER
 
 .date-filter {
     min-width: 190px;
-
+    color: var(--text-primary);
     padding: 14px 18px;
 
-    background: white;
+    background: var(--bg-primary);
 
-    border: 1px solid #d7dce4;
+    border: 1px solid var(--border);
 
     border-radius: 16px;
 
@@ -246,7 +248,7 @@ DATE FILTER
 }
 
 .date-filter:hover {
-    border-color: #c4cbd6;
+    border-color: var(--border-color);
 }
 
 .date-filter:focus {
@@ -264,9 +266,9 @@ LOADING / ERROR
 
 .loading,
 .error {
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     padding: 28px;
 
@@ -280,7 +282,7 @@ LOADING / ERROR
 }
 
 .error {
-    border-color: #fecaca;
+    border-color:var(--border-color);
 }
 
 /* ==========================================
@@ -357,14 +359,14 @@ RESPONSIVE
   min-width: 180px;
   height: 40px;
   padding: 0 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: #fff;
+  background: var(--bg-primary);
   font-size: 14px;
   cursor: pointer;
   outline: none;
 }
 
 .filter-select:focus {
-  border-color: #2563eb;
+  border-color: var(--border);
 }

@@ -2,20 +2,20 @@
 PAGE
 ========================================== */
 
-.attendance-page {
+.trainerAttendance-page {
     height: stretch;
     width: stretch;
 
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1rem;
 
     overflow: scroll;
     border-radius: 18px;
 
-    background: #ffffff;
-    color: #111827;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 
     box-shadow:
         0 1px 2px rgba(0,0,0,.04),
@@ -29,34 +29,34 @@ PAGE
         0 12px 30px rgba(0,0,0,.06),
         0 40px 80px rgba(0,0,0,.08);
 
-    --border: #eceef2;
-    --text: #111827;
-    --muted: #6b7280;
+   --border: var(--border-color);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
 }
 
 /* ==========================================
 HEADER
 ========================================== */
 
-.attendance-header {
+.trainerAttendance-header {
     position: relative;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 2.5rem;
+ 
 
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 28px;
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
     box-shadow: var(--shadow);
 }
 
-.attendance-header h1 {
+.trainerAttendance-header h1 {
     font-size: 2.2rem;
     font-weight: 800;
 
@@ -67,7 +67,7 @@ HEADER
     letter-spacing: -.05em;
 }
 
-.attendance-header p {
+.trainerAttendance-header p {
     color: var(--muted);
 
     font-size: .95rem;
@@ -79,7 +79,7 @@ HEADER
 BUTTONS
 ========================================== */
 
-.btn-take-attendance,
+.btn-take-trainerAttendance,
 .btn-export-csv {
     position: relative;
 
@@ -87,7 +87,7 @@ BUTTONS
 
     border: none;
 
-    background: white;
+    background: var(--bg-primary);
 
     border-radius: 16px;
 
@@ -105,7 +105,7 @@ BUTTONS
         box-shadow .25s ease;
 }
 
-.btn-take-attendance::before,
+.btn-take-trainerAttendance::before,
 .btn-export-csv::before {
     content: "";
 
@@ -125,14 +125,14 @@ BUTTONS
     );
 }
 
-.btn-take-attendance:hover,
+.btn-take-trainerAttendance:hover,
 .btn-export-csv:hover {
     transform: translateY(-3px);
 
     box-shadow: var(--shadow-hover);
 }
 
-.btn-take-attendance:active,
+.btn-take-trainerAttendance:active,
 .btn-export-csv:active {
     transform: scale(.97);
 }
@@ -141,7 +141,7 @@ BUTTONS
 FILTERS
 ========================================== */
 
-.attendance-filters {
+.trainerAttendance-filters {
     position: relative;
 
     display: flex;
@@ -151,9 +151,9 @@ FILTERS
 
     padding: 22px;
 
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     border: 1px solid var(--border);
 
@@ -174,7 +174,7 @@ SEARCH
 
     padding: 14px 18px;
 
-    background: #f7f8fa;
+   background: var(--bg-primary);
 
     border: 1px solid transparent;
 
@@ -187,13 +187,13 @@ SEARCH
 }
 
 .search-box:hover {
-    background: #f9fafb;
+    background: var(--bg-primary);
 }
 
 .search-box:focus-within {
-    background: white;
+    background: var(--bg-primary);
 
-    border-color: #d7dce4;
+    border-color: var(--border-color);
 
     transform: translateY(-2px);
 
@@ -217,7 +217,7 @@ SEARCH
 }
 
 .search-box input::placeholder {
-    color: #9ca3af;
+    color: var(--text-secondary);
 }
 
 /* ==========================================
@@ -229,9 +229,9 @@ DATE FILTER
 
     padding: 14px 18px;
 
-    background: white;
+    background: var(--bg-primary);
 
-    border: 1px solid #d7dce4;
+    border: 1px solid var(--border-color);
 
     border-radius: 16px;
 
@@ -264,9 +264,9 @@ LOADING / ERROR
 
 .loading,
 .error {
-    background: white;
+    background: var(--bg-primary);
 
-    border-radius: 24px;
+    border-radius: 18px;
 
     padding: 28px;
 
@@ -287,11 +287,11 @@ LOADING / ERROR
 ANIMATION
 ========================================== */
 
-.attendance-page > * {
-    animation: attendanceFade .35s ease;
+.trainerAttendance-page > * {
+    animation: trainerAttendanceFade .35s ease;
 }
 
-@keyframes attendanceFade {
+@keyframes trainerAttendanceFade {
     from {
         opacity: 0;
         transform: translateY(8px);
@@ -309,7 +309,7 @@ RESPONSIVE
 
 @media (max-width: 1100px) {
 
-    .attendance-filters {
+    .trainerAttendance-filters {
         flex-wrap: wrap;
     }
 
@@ -320,23 +320,23 @@ RESPONSIVE
 
 @media (max-width: 768px) {
 
-    .attendance-header {
+    .trainerAttendance-header {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .attendance-filters {
+    .trainerAttendance-filters {
         flex-direction: column;
         align-items: stretch;
     }
 
     .date-filter,
-    .btn-take-attendance,
+    .btn-take-trainerAttendance,
     .btn-export-csv {
         width: 100%;
     }
 
-    .attendance-header h1 {
+    .trainerAttendance-header h1 {
         font-size: 1.75rem;
     }
 }
@@ -357,9 +357,9 @@ RESPONSIVE
   min-width: 180px;
   height: 40px;
   padding: 0 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: #fff;
+  background: var(--bg-primary);
   font-size: 14px;
   cursor: pointer;
   outline: none;

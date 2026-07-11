@@ -6,11 +6,11 @@
   flex: 1;
   min-height: 0;
   min-width: 0;
+  
+  background: var(--bg-primary);
 
-  background: #ffffff;
-
-  border: 1px solid #e5e7eb;
-  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
 
   overflow: auto;
 
@@ -37,8 +37,8 @@
 
 .college-table th {
   padding: 1rem 1.5rem;
-
-  background: #fafafa;
+  
+  background: var(--bg-primary);
 
   text-align: left;
 
@@ -46,9 +46,9 @@
   font-weight: 700;
   letter-spacing: 0.08em;
 
-  color: #64748b;
+  color:var(--text-secondary);
 
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
 
   white-space: nowrap;
 }
@@ -59,9 +59,9 @@
   font-size: 0.92rem;
   font-weight: 500;
 
-  color: #0f172a;
+  color: var(--text-primary);
 
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
 
   vertical-align: middle;
 }
@@ -73,7 +73,7 @@
 }
 
 .college-table tbody tr:hover {
-  background: #fafafa;
+  background: var(--bg-primary);
 }
 
 .college-table tbody tr:last-child td {
@@ -94,12 +94,12 @@
 
 .college-name {
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .college-id {
   font-family: monospace;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 /* ==========================================
@@ -132,23 +132,25 @@
 }
 
 .status-active {
-  background: #dcfce7;
+  background: var(--bg-primary);
   color: #166534;
 }
 
 .status-inactive {
-  background: #fee2e2;
+  background: var(--bg-primary);
+  /* background: #fee2e2; */
   color: #991b1b;
 }
 
 .status-pending {
-  background: #fef3c7;
+  background: var(--bg-primary);
+  /* background: #fef3c7; */
   color: #92400e;
 }
 
 .status-archived {
-  background: #e2e8f0;
-  color: #475569;
+  /* background: #e2e8f0; */
+  color:var(--text-secondary);
 }
 
 /* ==========================================
@@ -174,7 +176,7 @@
   border: none;
   border-radius: 10px;
 
-  color: #64748b;
+  color: var(--text-secondary);
 
   cursor: pointer;
 
@@ -227,7 +229,7 @@
 
   text-align: center;
 
-  color: #64748b;
+  color: var(--text-secondary);
 
   font-size: 0.95rem;
   font-weight: 500;
@@ -243,7 +245,7 @@
 }
 
 .college-table-container::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: var(--bg-primary);
   border-radius: 999px;
 }
 
@@ -278,7 +280,7 @@
 
     width: 380px;
 
-    background: white;
+    background: var(--bg-primary);
 
     border-radius: 20px;
 
@@ -334,7 +336,7 @@
 
     font-size:22px;
 
-    color:#111827;
+    color:var(--text-primary);
 
 }
 

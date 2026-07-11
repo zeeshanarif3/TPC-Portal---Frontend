@@ -1,6 +1,8 @@
 import "./UpdateSessionPage.css";
 import { useEffect, useState } from "react";
 
+import './UpdateSessionPage.css'
+
 export default function UpdateSessionPage({
   token,
   onBack,

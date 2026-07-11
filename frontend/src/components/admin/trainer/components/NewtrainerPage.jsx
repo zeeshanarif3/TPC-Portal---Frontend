@@ -1,7 +1,7 @@
 import "./NewtrainerPage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useState } from "react";
-
+import './NewtrainerPage.css'
 export default function NewTrainerPage({ token, onBack , createTrainer, updateTrainer}) {
 
 

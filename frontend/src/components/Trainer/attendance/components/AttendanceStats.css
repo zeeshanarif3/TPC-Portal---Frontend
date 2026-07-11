@@ -2,7 +2,7 @@
    STATS GRID
 ========================================== */
 
-.attendance-stats {
+.Trainattendance-stats {
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr;
     gap: 1.25rem;
@@ -12,7 +12,7 @@
    CARD
 ========================================== */
 
-.attendance-card {
+.Trainattendance-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -21,10 +21,10 @@
 
     padding: 1.75rem;
 
-    background: #ffffff;
+    background: var(--bg-primary);
 
-    border: 1px solid #e8edf3;
-    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
 
     transition:
         transform .2s ease,
@@ -36,10 +36,10 @@
         0 8px 24px rgba(0,0,0,.04);
 }
 
-.attendance-card:hover {
+.Trainattendance-card:hover {
     transform: translateY(-2px);
 
-    border-color: #dbe3ee;
+    border-color: var(--border-color);
 
     box-shadow:
         0 10px 30px rgba(0,0,0,.07);
@@ -49,12 +49,12 @@
    PRIMARY CARD
 ========================================== */
 
-.attendance-card--primary {
+.Trainattendance-card--primary {
     background:
         linear-gradient(
             180deg,
-            #ffffff 0%,
-            #fafcff 100%
+            var(--bg-primary) 0%,
+            var(--bg-secondary) 100%
         );
 }
 
@@ -62,7 +62,7 @@
    HEADER
 ========================================== */
 
-.attendance-card__header {
+.Trainattendance-card__header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -72,7 +72,7 @@
    ICON
 ========================================== */
 
-.attendance-card__icon {
+.Trainattendance-card__icon {
     width: 2.5rem;
     height: 2.5rem;
 
@@ -82,9 +82,9 @@
 
     border-radius: 12px;
 
-    background: #f3f6fa;
+    background: var(--bg-primary);
 
-    color: #475569;
+    color: var(--text-secondary);
 
     flex-shrink: 0;
 }
@@ -93,21 +93,21 @@
    TITLE
 ========================================== */
 
-.attendance-card__title {
+.Trainattendance-card__title {
     font-size: 0.8rem;
     font-weight: 700;
 
     text-transform: uppercase;
     letter-spacing: 0.08em;
 
-    color: #94a3b8;
+    color: var(--text-secondary);
 }
 
 /* ==========================================
    VALUE
 ========================================== */
 
-.attendance-card__value {
+.Trainattendance-card__value {
     margin-top: auto;
 
     font-size: clamp(2.5rem, 4vw, 3.5rem);
@@ -117,7 +117,7 @@
 
     letter-spacing: -0.04em;
 
-    color: #0f172a;
+    color: var(--text-primary);
     align-self: flex-end;
 }
 
@@ -125,13 +125,13 @@
 META
 ========================================== */
 
-.attendance-card__meta {
+.Trainattendance-card__meta {
     margin-top: 0.5rem;
     
     font-size: 0.9rem;
     font-weight: 500;
     
-    color: #64748b;
+    color: var(--text-secondary);
     align-self: flex-end;
 }
 
@@ -140,11 +140,11 @@ META
 ========================================== */
 
 @media (max-width: 1100px) {
-    .attendance-stats {
+    .Trainattendance-stats {
         grid-template-columns: 1fr;
     }
 
-    .attendance-card {
+    .Trainattendance-card {
         min-height: 140px;
     }
 }

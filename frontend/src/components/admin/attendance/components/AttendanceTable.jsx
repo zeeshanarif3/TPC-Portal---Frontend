@@ -10,6 +10,8 @@ export default function AttendanceTable({
   attendance,
   onDelete,
   onRefresh,
+  setUpdateAttendancedata,
+  setshowUpdateAttendancePage,
 }) {
   const handleDelete = async (attendanceId) => {
     if (!onDelete) return;
@@ -44,9 +46,9 @@ export default function AttendanceTable({
             <th>COURSE</th>
             <th>SESSION</th>
             <th>HEAD COUNT</th>
-            <th className="actions-column">
+            {/* <th className="actions-column">
               ACTIONS
-            </th>
+            </th> */}
           </tr>
         </thead>
 
@@ -100,7 +102,7 @@ export default function AttendanceTable({
                   </div>
                 </td>
 
-                <td className="attendance-actions">
+                {/* <td className="attendance-actions">
                   <button
                     className="btn-action btn-view"
                     title="View Attendance"
@@ -111,12 +113,21 @@ export default function AttendanceTable({
                     <Eye size={18} />
                   </button>
 
+
+
+                    
                   <button
                     className="btn-action btn-edit"
                     title="Edit Attendance"
+                    // onClick={() =>
+                    //   (window.location.href = `/attendance/${record._id}/edit`)
+                    // }
                     onClick={() =>
-                      (window.location.href = `/attendance/${record._id}/edit`)
+                    {
+                      setUpdateAttendancedata(record);
+                      setshowUpdateAttendancePage(true);
                     }
+                  }
                   >
                     <Pencil size={18} />
                   </button>
@@ -132,7 +143,7 @@ export default function AttendanceTable({
                       <Trash2 size={18} />
                     </button>
                   )}
-                </td>
+                </td> */}
               </tr>
             );
           })}

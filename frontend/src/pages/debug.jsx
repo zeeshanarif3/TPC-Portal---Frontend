@@ -2,65 +2,69 @@
 import { useDashboard } from "../hooks/useDashboard";
 import { useState, useEffect } from 'react';
 import Main from './Main'
+import { useTrainer } from "../hooks/useTrainer";
 
 
 
 function Debug() {
     const [token, setT] = useState(null);
 
-
     const {
-        selectedCollege,
-        setSelectedCollege,
-        colleges,
-        stats,
-        trainers,
-        schedule,
-        attendance,
-        courseDist,
-        contractExpiry,
-        loading,
-        error,
+        AllSchedules
+    } = useTrainer(token);
 
-        // attendance
+    // const {
+    //     selectedCollege,
+    //     setSelectedCollege,
+    //     colleges,
+    //     stats,
+    //     trainers,
+    //     schedule,
+    //     attendance,
+    //     courseDist,
+    //     contractExpiry,
+    //     loading,
+    //     error,
 
-        upcomingClasses,
-        AttendanceChart,
-        SubjectDistributionAttendance,
-        AttendanceByCollegeAndSession,
+    //     // attendance
 
-
-        // schedules
-        UpcomingScheduleByColl,
-        AllSchedules,
-
-
-        //contracts
-
-        AllContracts,
-        ExpContracts,
+    //     upcomingClasses,
+    //     AttendanceChart,
+    //     SubjectDistributionAttendance,
+    //     AttendanceByCollegeAndSession,
 
 
-        //sessions
+    //     // schedules
+    //     UpcomingScheduleByColl,
+    //     AllSchedules,
 
-        AllSessions,
+
+    //     //contracts
+
+    //     AllContracts,
+    //     ExpContracts,
 
 
-        //students
+    //     //sessions
 
-        Allstudents,
+    //     AllSessions,
 
-        //Courses
 
-        AllCourses,
+    //     //students
 
-        //Trainers
-        AllTrainers,
-        TrainersByColl,
+    //     Allstudents,
 
-        //Moderator
-        AllModerators,
-    } = useDashboard(token);
+    //     //Courses
+
+    //     AllCourses,
+
+    //     //Trainers
+    //     AllTrainers,
+    //     TrainersByColl,
+
+    //     //Moderator
+    //     AllModerators,
+    // } = useDashboard(token);
 
 
 
@@ -246,17 +250,17 @@ function Debug() {
                 <br /> */}
             
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                {/* <br />
+                <br />
 
                     schedules
                 <br />
                 <br />
                 <br />
                 <br />
-                UpcomingScheduleByColl :
+                {/* UpcomingScheduleByColl :
                 
                  <pre>{JSON.stringify(UpcomingScheduleByColl, null, 2)}</pre>  too long , but working
-                <br />
+                <br /> */}
                 <br />
                 <br />
                 AllSchedules :
@@ -265,7 +269,7 @@ function Debug() {
                 <br />
                 <br />
               
-                <br /> */}
+                <br />
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 {/* <br />
 
@@ -288,7 +292,7 @@ function Debug() {
 
                 <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                <br />
+                {/* <br />
 
                     sessions
                 <br />
@@ -300,7 +304,7 @@ function Debug() {
                  <pre>{JSON.stringify(AllSessions, null, 2)}</pre>                  
                  <br />
 
-                <br />
+                <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 <br />
 {/* 
@@ -316,7 +320,7 @@ function Debug() {
 
                 <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                <br />
+                {/* <br />
 
                     Courses
                 <br />
@@ -328,9 +332,9 @@ function Debug() {
                  <pre>{JSON.stringify(AllCourses, null, 2)}</pre>   
                  <br />
 
-                <br />
+                <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                <br />
+                {/* <br />
 
                     Trainers
                 <br />
@@ -353,7 +357,7 @@ function Debug() {
 
 
 
-
+ */}
             </div>
 
 

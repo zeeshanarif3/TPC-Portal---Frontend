@@ -32,23 +32,26 @@ Dark admin sidebar with collapse-to-icons behavior
 
 .sb_cont {
   /* --sb-bg:  hsl(0, 0%, 100%); */
-  --sb-bg-active: #f1f5f9;
+  --sb-bg-active: var(--bg-secondary);
 
-  --sb-text: #1f2937;
-  --sb-text-muted: #6b7280;
-  --sb-text-active: #111827;
+  --sb-text: var(--text-primary);
+  --sb-text-muted: var(--text-secondary);
+  --sb-text-active: var(--text-primary);
 
-  --sb-accent: #624832;
+  --sb-accent: var( --accent);
 
   height: calc(100vh - 2rem);
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 
   position: sticky;
 
   border-radius: 14px;
-  /* border: 1px solid #e5e7eb; */
+  /* border: 1px solid var(--border-color); */
 
   background: var(--sb-bg);
   color: var(--sb-text);
@@ -96,8 +99,8 @@ Dark admin sidebar with collapse-to-icons behavior
   height: 30px;
   flex-shrink: 0;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--sb-accent), hsl(0, 0%, 76%));
-  color: #fff;
+  background: linear-gradient(135deg, var(--sb-accent), var(--bg-primary));
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -240,7 +243,7 @@ Dark admin sidebar with collapse-to-icons behavior
 }
 
 .sb__subitem--active {
-  color: var(--sb-accent);
+  color: var(--text-primary);
   background: var(--sb-bg-active);
 }
 
@@ -267,4 +270,146 @@ Dark admin sidebar with collapse-to-icons behavior
 .sb__collapse-toggle:hover {
   background: var(--sb-bg-active);
   color: var(--sb-text-active);
+}
+
+
+.theme-toggle {
+
+    /* vertical default */
+    width: 34px;
+    height: 68px;
+
+    border-radius: 20px;
+
+    border: 1px solid var(--border-color);
+
+    background: var(--bg-primary);
+
+
+    padding: 4px;
+
+    cursor: pointer;
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+
+    overflow: hidden;
+
+    transition:
+        background .5s ease,
+        width .35s ease,
+        height .35s ease;
+
+}
+
+
+
+
+/* thumb */
+.theme-thumb {
+
+    position: absolute;
+
+    top: 4px;
+
+
+    width: 26px;
+    height: 26px;
+
+
+    border-radius: 50%;
+
+
+    background: var(--card-bg);
+
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+
+    font-size:15px;
+
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.35);
+
+
+    transition:
+        top .55s cubic-bezier(.68,-0.55,.27,1.55),
+        left .55s cubic-bezier(.68,-0.55,.27,1.55),
+        transform .2s ease;
+
+}
+
+
+
+/* vertical dark */
+.theme-toggle.dark .theme-thumb {
+
+    top:38px;
+
+}
+
+
+
+/* ========================= */
+/* Horizontal Mode */
+/* ========================= */
+
+.theme-toggle.horizontal {
+
+
+    width:68px;
+    height:34px;
+
+
+    border-radius:20px;
+
+
+    justify-content:flex-start;
+
+}
+
+
+
+/* horizontal thumb */
+.theme-toggle.horizontal .theme-thumb {
+
+
+    top:4px;
+    left:4px;
+
+
+}
+
+
+
+/* move right for dark */
+.theme-toggle.horizontal.dark .theme-thumb {
+
+
+    left:38px;
+
+
+}
+
+
+
+/* press */
+.theme-toggle:active .theme-thumb {
+
+    transform:scale(.85);
+
+}
+
+
+
+/* hover */
+.theme-toggle:hover {
+
+    transform:scale(1.06);
+
 }

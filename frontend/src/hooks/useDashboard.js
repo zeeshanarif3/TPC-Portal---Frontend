@@ -19,11 +19,18 @@ import {
     updateAttendance,
 
     // schedules
-    fetchUpcomingSchedule,
+    // fetchUpcomingSchedule,
+    // fetchSchedules,
+    // createSchedule,
+    // updateSchedule,
+    // deleteSchedule,
+    appendSlotsViaCSV,
+    fetchUpcomingScheduleByCollege,
+    deleteSchedule,
+    updateSchedule,
     fetchSchedules,
     createSchedule,
-    updateSchedule,
-    deleteSchedule,
+    fetchScheduleById,
 
     // contracts
     fetchContracts,
@@ -214,7 +221,7 @@ export function useDashboard(token) {
         }
         try {
             const [upcoming, all] = await Promise.all([
-                fetchUpcomingSchedule(selectedCollege, token),
+                fetchUpcomingScheduleByCollege(selectedCollege, token),
                 fetchSchedules(token),
             ]);
             setUpcomingScheduleByColl(upcoming);
@@ -676,14 +683,27 @@ const handleDeleteModerator = async (id) => {
         AttendanceChart,
         SubjectDistributionAttendance,
         AttendanceByCollegeAndSession,
+        createAttendance: handleCreateAttendance,
+        updateAttendance: handleUpdateAttendance,
+
 
         // schedule
-        UpcomingScheduleByColl,
-        AllSchedules,
+        // UpcomingScheduleByColl,
+        // AllSchedules,
         // createSchedule,
         createSchedule: handleCreateSchedule,
         updateSchedule: handleUpdateSchedule,
         deleteSchedule: handleDeleteSchedule,
+        appendSlotsViaCSV,
+        UpcomingScheduleByColl,
+        AllSchedules,
+        // fetchUpcomingScheduleByCollege,
+        // deleteSchedule,
+        // updateSchedule,`
+        // fetchSchedules,
+        // createSchedule,
+        // fetchScheduleById,
+
 
         // contracts
         AllContracts,

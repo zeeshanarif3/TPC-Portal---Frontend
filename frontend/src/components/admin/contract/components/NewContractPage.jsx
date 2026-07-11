@@ -2,6 +2,8 @@ import "./NewContractPage.css";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import { useState } from "react";
 
+
+import './NewContractPage.css'
 export default function NewContractPage({ token, onBack, AllTrainers, AllSessions ,createContract}) {
   const [formData, setFormData] = useState({
     trainerId: "",
