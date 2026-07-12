@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import "./CSVSchedulePreview.css";
+import "./CSVSchedulePreview.css";
 
 
 export default function CSVSchedulePreview({
@@ -17,17 +17,14 @@ export default function CSVSchedulePreview({
 }) {
 
 
-    // const ENABLE_IMPORT = false;
     const ENABLE_IMPORT = true;
 
 
+    const [loading, setLoading] = useState(false);
 
-    const [loading,setLoading] = useState(false);
+    const [message, setMessage] = useState("");
 
-    const [message,setMessage] = useState("");
-
-    const [hoveredSlot,setHoveredSlot] = useState(null);
-
+    const [hoveredSlot, setHoveredSlot] = useState(null);
 
 
 
@@ -44,13 +41,13 @@ export default function CSVSchedulePreview({
 
 
 
-    function getCourseName(id){
+    function getCourseName(id) {
 
         return (
             AllCourses.find(
-                c=>c._id===id
+                c => c._id === id
             )
-            ?.courseCode
+                ?.courseCode
             ||
             "Unknown"
         );
@@ -60,13 +57,15 @@ export default function CSVSchedulePreview({
 
 
 
-    function getTrainerName(id){
+
+
+    function getTrainerName(id) {
 
         return (
             AllTrainers.find(
-                t=>t._id===id
+                t => t._id === id
             )
-            ?.name
+                ?.name
             ||
             "Unknown"
         );
@@ -77,15 +76,46 @@ export default function CSVSchedulePreview({
 
 
 
-    const convertHour=(time)=>{
 
-        if(!time)
+
+    const convertHour = (time) => {
+
+        if (!time)
             return null;
 
 
-        return parseInt(
-            time.split(":")[0]
-        );
+
+        let hour =
+            parseInt(
+                time.split(":")[0],
+                10
+            );
+
+
+
+        if (
+            time.includes("PM") &&
+            hour !== 12
+        ) {
+
+            hour += 12;
+
+        }
+
+
+
+        if (
+            time.includes("AM") &&
+            hour === 12
+        ) {
+
+            hour = 0;
+
+        }
+
+
+
+        return hour;
 
     };
 
@@ -93,13 +123,16 @@ export default function CSVSchedulePreview({
 
 
 
-    const formatHour=(hour)=>{
 
+    const formatHour = (hour) => {
 
-        const date=new Date();
+        const date = new Date();
+
 
         date.setHours(
             hour,
+            0,
+            0,
             0
         );
 
@@ -107,11 +140,10 @@ export default function CSVSchedulePreview({
         return date.toLocaleTimeString(
             "en-US",
             {
-                hour:"numeric",
-                minute:"2-digit"
+                hour: "numeric",
+                minute: "2-digit"
             }
         );
-
 
     };
 
@@ -120,61 +152,24 @@ export default function CSVSchedulePreview({
 
 
 
-    function generateTimeSlots(){
-
-
-        const hours=new Set();
-
-
-        for(let i=8;i<=17;i++){
-
-            hours.add(i);
-
-        }
 
 
 
-        schedules.forEach(schedule=>{
+    function getWeekDayFromDate(date) {
 
 
-            Object.values(
-                schedule.slots || {}
-            )
-            .flat()
-            .forEach(slot=>{
-
-
-                const start=
-                convertHour(
-                    slot.startTime
-                );
-
-
-                const end=
-                convertHour(
-                    slot.endTime
-                );
-
-
-                if(start!==null)
-                    hours.add(start);
-
-
-                if(end!==null)
-                    hours.add(end);
-
-
-            });
-
-
-        });
+        if (!date)
+            return null;
 
 
 
-        return [...hours]
-        .sort(
-            (a,b)=>a-b
-        );
+        return new Date(date)
+            .toLocaleDateString(
+                "en-US",
+                {
+                    weekday: "long"
+                }
+            );
 
 
     }
@@ -182,8 +177,84 @@ export default function CSVSchedulePreview({
 
 
 
+
+
+
+
+
+    function generateTimeSlots() {
+
+
+        const hours = new Set();
+
+
+
+        // default college timing
+        for (
+            let i = 8;
+            i <= 17;
+            i++
+        ) {
+
+            hours.add(i);
+
+        }
+
+
+
+
+        schedules.forEach(schedule => {
+
+
+            const start =
+                convertHour(
+                    schedule.startTime
+                );
+
+
+
+            const end =
+                convertHour(
+                    schedule.endTime
+                );
+
+
+
+            if (start !== null)
+                hours.add(start);
+
+
+
+            if (end !== null)
+                hours.add(end);
+
+
+
+        });
+
+
+
+
+        return [
+
+            ...hours
+
+        ]
+            .sort(
+                (a, b) => a - b
+            );
+
+
+    }
+
+
+
+
+
+
+
     const timeSlots =
-    generateTimeSlots();
+        generateTimeSlots();
 
 
 
@@ -191,42 +262,34 @@ export default function CSVSchedulePreview({
 
 
 
-    function getSchedulesForSlot(day,hour){
+
+    function getSchedulesForSlot(day, hour) {
 
 
-        const dayKey =
-        day.toLowerCase();
+        return schedules.filter(
+            schedule => {
 
 
+                const scheduleDay =
+                    getWeekDayFromDate(
+                        schedule.date
+                    );
 
-        return schedules.flatMap(
-            schedule=>{
 
 
                 return (
-                    schedule.slots?.[dayKey]
-                    ||
-                    []
-                )
-                .filter(slot=>
+
+                    scheduleDay === day
+
+                    &&
 
                     convertHour(
-                        slot.startTime
+                        schedule.startTime
                     )
                     ===
                     hour
 
-                )
-                .map(slot=>({
-
-                    ...slot,
-
-                    courseId:
-                    schedule.courseId
-
-
-                }));
-
+                );
 
 
             }
@@ -242,13 +305,14 @@ export default function CSVSchedulePreview({
 
 
 
-    async function importSchedules(){
+
+    async function importSchedules() {
 
 
-        if(!ENABLE_IMPORT){
+        if (!ENABLE_IMPORT) {
 
             setMessage(
-                "Import disabled (developer mode)"
+                "Import disabled"
             );
 
             return;
@@ -257,17 +321,17 @@ export default function CSVSchedulePreview({
 
 
 
-        try{
+
+        try {
 
 
             setLoading(true);
 
 
 
-            for(
-                const schedule
-                of schedules
-            ){
+            for (
+                const schedule of schedules
+            ) {
 
                 await createSchedule(
                     schedule,
@@ -284,14 +348,14 @@ export default function CSVSchedulePreview({
 
 
         }
-        catch(err){
+        catch (err) {
 
             setMessage(
                 err.message
             );
 
         }
-        finally{
+        finally {
 
             setLoading(false);
 
@@ -307,291 +371,331 @@ export default function CSVSchedulePreview({
 
 
 
-return (
+    return (
 
-<div className="csv-calendar-container">
-
-
-
-<button
-className="back-btn"
-onClick={onBack}
->
-← Back
-</button>
+        <div className="csv-calendar-container">
 
 
 
+            <button
 
-<div className="csv-header">
+                className="back-btn"
+
+                onClick={onBack}
+
+            >
+
+                ← Back
+
+            </button>
 
 
-<h2>
-CSV Schedule Preview
-</h2>
 
 
 
-<button
+            <div className="csv-header">
 
-className={
-ENABLE_IMPORT
-?
-"import-btn active"
-:
-"import-btn"
+
+                <h2>
+                    CSV Schedule Preview
+                </h2>
+
+
+
+
+                <button
+
+                    className={
+                        ENABLE_IMPORT
+                            ?
+                            "import-btn active"
+                            :
+                            "import-btn"
+                    }
+
+                    onClick={importSchedules}
+
+                >
+
+                    {
+                        loading
+                            ?
+                            "Importing..."
+                            :
+                            "Import Schedules"
+                    }
+
+
+                </button>
+
+
+            </div>
+
+
+
+
+
+
+            {
+                message &&
+
+                <div className="message">
+
+                    {message}
+
+                </div>
+
+            }
+
+
+
+
+
+
+
+            <div className="calendar-main">
+
+
+                <div className="calendar-grid">
+
+
+
+                    <div className="grid-header">
+
+
+                        <div className="time-label">
+                            TIME
+                        </div>
+
+
+
+
+                        {
+                            weekDays.map(day => (
+
+                                <div
+
+                                    key={day}
+
+                                    className="day-header"
+
+                                >
+
+                                    {day}
+
+                                </div>
+
+
+                            ))
+
+                        }
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                    {
+                        timeSlots.map(hour => (
+
+
+                            <div
+
+                                className="time-row"
+
+                                key={hour}
+
+                            >
+
+
+
+                                <div className="time-label">
+
+                                    {formatHour(hour)}
+
+                                </div>
+
+
+
+
+
+
+
+
+                                {
+                                    weekDays.map(day => (
+
+
+                                        <div
+
+                                            key={`${day}-${hour}`}
+
+                                            className="time-slot"
+
+
+
+                                            onMouseEnter={() =>
+                                                setHoveredSlot(
+                                                    `${day}-${hour}`
+                                                )
+                                            }
+
+
+                                            onMouseLeave={() =>
+                                                setHoveredSlot(null)
+                                            }
+
+
+                                        >
+
+
+
+                                            {
+                                                getSchedulesForSlot(
+                                                    day,
+                                                    hour
+                                                )
+                                                    .map((slot, index) => (
+
+
+                                                        <div
+
+                                                            key={index}
+
+                                                            className="schedule-card"
+
+                                                        >
+
+
+
+
+                                                            <div className="card-title">
+
+                                                                {
+                                                                    getCourseName(
+                                                                        slot.courseId
+                                                                    )
+                                                                }
+
+                                                            </div>
+
+
+
+
+
+                                                            <div className="card-time">
+
+                                                                {slot.startTime}
+
+                                                                -
+
+                                                                {slot.endTime}
+
+                                                            </div>
+
+
+
+
+
+                                                            <div>
+
+                                                                Trainer:
+
+                                                                {
+                                                                    getTrainerName(
+                                                                        slot.trainerId
+                                                                    )
+                                                                }
+
+                                                            </div>
+
+
+
+
+
+                                                            <div>
+
+                                                                Room:
+
+                                                                {slot.roomNo}
+
+                                                            </div>
+
+
+
+
+
+                                                            {
+                                                                slot.topic &&
+
+                                                                <div className="topic">
+
+                                                                    {slot.topic}
+
+                                                                </div>
+
+                                                            }
+
+
+
+
+                                                        </div>
+
+
+                                                    ))
+
+
+                                            }
+
+
+
+                                        </div>
+
+
+                                    ))
+
+
+                                }
+
+
+
+                            </div>
+
+
+                        ))
+
+                    }
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    );
+
 }
 
-onClick={importSchedules}
 
->
 
-{
-loading
-?
-"Importing..."
-:
-"Import Schedules"
-}
 
 
-</button>
 
 
-</div>
 
 
 
-
-
-{
-message &&
-
-<div className="message">
-{message}
-</div>
-
-}
-
-
-
-
-
-
-<div className="calendar-main">
-
-
-
-<div className="calendar-grid">
-
-
-
-<div className="grid-header">
-
-
-<div className="time-label">
-TIME
-</div>
-
-
-
-{
-weekDays.map(day=>(
-
-<div
-key={day}
-className="day-header"
->
-
-{day}
-
-</div>
-
-))
-}
-
-
-
-</div>
-
-
-
-
-
-
-
-{
-timeSlots.map(hour=>(
-
-
-<div
-className="time-row"
-key={hour}
->
-
-
-<div className="time-label">
-
-{formatHour(hour)}
-
-</div>
-
-
-
-
-{
-weekDays.map(day=>(
-
-
-<div
-
-key={
-`${day}-${hour}`
-}
-
-className="time-slot"
-
-
-onMouseEnter={()=>
-setHoveredSlot(
-`${day}-${hour}`
-)
-}
-
-onMouseLeave={()=>
-setHoveredSlot(null)
-}
-
-
->
-
-
-{
-getSchedulesForSlot(
-day,
-hour
-)
-.map((slot,index)=>(
-
-
-
-<div
-
-key={index}
-
-className="schedule-card"
-
->
-
-
-<div className="card-title">
-
-{
-getCourseName(
-slot.courseId
-)
-}
-
-</div>
-
-
-
-
-<div className="card-time">
-
-{slot.startTime}
--
-{slot.endTime}
-
-</div>
-
-
-
-
-<div>
-
-Trainer:
-
-{
-getTrainerName(
-slot.trainerId
-)
-}
-
-</div>
-
-
-
-
-<div>
-
-Room:
-
-{slot.roomNo}
-
-</div>
-
-
-
-
-{
-slot.topic &&
-
-<div className="topic">
-
-{slot.topic}
-
-</div>
-
-}
-
-
-
-</div>
-
-
-
-))
-
-}
-
-
-
-</div>
-
-
-
-))
-
-}
-
-
-
-
-</div>
-
-
-))
-
-}
-
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-);
-
-}
-
-
-// import "./CSVSchedulePreview.css";
 // import { useState } from "react";
+// // import "./CSVSchedulePreview.css";
 
 
 // export default function CSVSchedulePreview({
@@ -609,24 +713,29 @@ slot.topic &&
 // }) {
 
 
-//     // Developer switch
-//     const ENABLE_IMPORT = false;
-
-
-
-//     const days = [
-//         "monday",
-//         "tuesday",
-//         "wednesday",
-//         "thursday",
-//         "friday",
-//         "saturday"
-//     ];
+//     // const ENABLE_IMPORT = false;
+//     const ENABLE_IMPORT = true;
 
 
 
 //     const [loading,setLoading] = useState(false);
+
 //     const [message,setMessage] = useState("");
+
+//     const [hoveredSlot,setHoveredSlot] = useState(null);
+
+
+
+
+//     const weekDays = [
+//         "Monday",
+//         "Tuesday",
+//         "Wednesday",
+//         "Thursday",
+//         "Friday",
+//         "Saturday"
+//     ];
+
 
 
 
@@ -636,12 +745,14 @@ slot.topic &&
 //         return (
 //             AllCourses.find(
 //                 c=>c._id===id
-//             )?.courseCode
+//             )
+//             ?.courseCode
 //             ||
-//             "Unknown Course"
+//             "Unknown"
 //         );
 
 //     }
+
 
 
 
@@ -650,9 +761,10 @@ slot.topic &&
 //         return (
 //             AllTrainers.find(
 //                 t=>t._id===id
-//             )?.name
+//             )
+//             ?.name
 //             ||
-//             "Unknown Trainer"
+//             "Unknown"
 //         );
 
 //     }
@@ -661,45 +773,165 @@ slot.topic &&
 
 
 
-//     function getDaySlots(day){
+//     const convertHour=(time)=>{
+
+//         if(!time)
+//             return null;
 
 
-//         let result=[];
+//         return parseInt(
+//             time.split(":")[0]
+//         );
+
+//     };
+
+
+
+
+
+//     const formatHour=(hour)=>{
+
+
+//         const date=new Date();
+
+//         date.setHours(
+//             hour,
+//             0
+//         );
+
+
+//         return date.toLocaleTimeString(
+//             "en-US",
+//             {
+//                 hour:"numeric",
+//                 minute:"2-digit"
+//             }
+//         );
+
+
+//     };
+
+
+
+
+
+
+//     function generateTimeSlots(){
+
+
+//         const hours=new Set();
+
+
+//         for(let i=8;i<=17;i++){
+
+//             hours.add(i);
+
+//         }
+
 
 
 //         schedules.forEach(schedule=>{
 
 
-//             if(schedule.slots?.[day]){
+//             Object.values(
+//                 schedule.slots || {}
+//             )
+//             .flat()
+//             .forEach(slot=>{
 
 
-//                 schedule.slots[day]
-//                 .forEach(slot=>{
+//                 const start=
+//                 convertHour(
+//                     slot.startTime
+//                 );
 
 
-//                     result.push({
-
-//                         ...slot,
-
-//                         courseId:
-//                         schedule.courseId
-
-//                     });
+//                 const end=
+//                 convertHour(
+//                     slot.endTime
+//                 );
 
 
-//                 });
+//                 if(start!==null)
+//                     hours.add(start);
 
 
-//             }
+//                 if(end!==null)
+//                     hours.add(end);
+
+
+//             });
 
 
 //         });
 
 
-//         return result;
+
+//         return [...hours]
+//         .sort(
+//             (a,b)=>a-b
+//         );
 
 
 //     }
+
+
+
+
+//     const timeSlots =
+//     generateTimeSlots();
+
+
+
+
+
+
+
+//     function getSchedulesForSlot(day,hour){
+
+
+//         const dayKey =
+//         day.toLowerCase();
+
+
+
+//         return schedules.flatMap(
+//             schedule=>{
+
+
+//                 return (
+//                     schedule.slots?.[dayKey]
+//                     ||
+//                     []
+//                 )
+//                 .filter(slot=>
+
+//                     convertHour(
+//                         slot.startTime
+//                     )
+//                     ===
+//                     hour
+
+//                 )
+//                 .map(slot=>({
+
+//                     ...slot,
+
+//                     courseId:
+//                     schedule.courseId
+
+
+//                 }));
+
+
+
+//             }
+//         );
+
+
+//     }
+
+
 
 
 
@@ -726,36 +958,32 @@ slot.topic &&
 
 //             setLoading(true);
 
-//             setMessage("");
 
 
-
-//             for(const schedule of schedules){
-
+//             for(
+//                 const schedule
+//                 of schedules
+//             ){
 
 //                 await createSchedule(
 //                     schedule,
 //                     token
 //                 );
 
-
 //             }
 
 
 
 //             setMessage(
-//                 `${schedules.length} schedules created successfully`
+//                 "Schedules imported successfully"
 //             );
 
 
 //         }
 //         catch(err){
 
-//             console.error(err);
-
 //             setMessage(
-//                 err.message ||
-//                 "Import failed"
+//                 err.message
 //             );
 
 //         }
@@ -773,218 +1001,686 @@ slot.topic &&
 
 
 
-//     return (
 
-//         <div className="csv-preview-page">
 
+// return (
 
-//             <button
-//                 className="back-btn"
-//                 onClick={onBack}
-//             >
+// <div className="csv-calendar-container">
 
-//                 ← Back
 
-//             </button>
 
+// <button
+// className="back-btn"
+// onClick={onBack}
+// >
+// ← Back
+// </button>
 
 
-//             <div className="header">
 
 
-//                 <h2>
-//                     Schedule Preview
-//                 </h2>
+// <div className="csv-header">
 
 
-//                 <button
+// <h2>
+// CSV Schedule Preview
+// </h2>
 
-//                     className={
-//                         ENABLE_IMPORT
-//                         ?
-//                         "import-btn active"
-//                         :
-//                         "import-btn"
-//                     }
 
-//                     onClick={importSchedules}
 
-//                     disabled={loading}
+// <button
 
-//                 >
+// className={
+// ENABLE_IMPORT
+// ?
+// "import-btn active"
+// :
+// "import-btn"
+// }
 
-//                     {
-//                         loading
-//                         ?
-//                         "Importing..."
-//                         :
-//                         "Import Schedules"
-//                     }
+// onClick={importSchedules}
 
-//                 </button>
+// >
 
+// {
+// loading
+// ?
+// "Importing..."
+// :
+// "Import Schedules"
+// }
 
-//             </div>
 
+// </button>
 
 
-//             {
-//                 message &&
+// </div>
 
-//                 <div className="message">
 
-//                     {message}
 
-//                 </div>
 
-//             }
 
+// {
+// message &&
 
-
-
-
-//             <div className="calendar">
-
-
-//                 {
-//                     days.map(day=>(
-
-
-//                         <div
-//                             className="day-column"
-//                             key={day}
-//                         >
-
-
-//                             <div className="day-header">
-
-//                                 {
-//                                     day.toUpperCase()
-//                                 }
-
-//                             </div>
-
-
-
-
-
-//                             <div className="day-content">
-
-
-//                             {
-//                                 getDaySlots(day)
-//                                 .length===0
-
-//                                 ?
-
-//                                 <div className="empty">
-
-//                                     No Classes
-
-//                                 </div>
-
-
-//                                 :
-
-//                                 getDaySlots(day)
-//                                 .map((slot,index)=>(
-
-
-//                                     <div
-
-//                                         className="schedule-card"
-
-//                                         key={index}
-
-//                                     >
-
-
-//                                         <div className="course">
-
-//                                             {
-//                                                 getCourseName(
-//                                                     slot.courseId
-//                                                 )
-//                                             }
-
-//                                         </div>
-
-
-
-//                                         <div className="time">
-
-//                                             {slot.startTime}
-//                                             {" - "}
-//                                             {slot.endTime}
-
-//                                         </div>
-
-
-
-
-//                                         <div>
-
-//                                             Trainer:
-
-//                                             {
-//                                                 getTrainerName(
-//                                                     slot.trainerId
-//                                                 )
-//                                             }
-
-//                                         </div>
-
-
-
-//                                         <div>
-
-//                                             Room:
-//                                             {" "}
-//                                             {slot.roomNo}
-
-//                                         </div>
-
-
-
-
-//                                         {
-//                                             slot.topic &&
-
-//                                             <div className="topic">
-
-//                                                 {slot.topic}
-
-//                                             </div>
-
-//                                         }
-
-
-//                                     </div>
-
-
-//                                 ))
-
-//                             }
-
-
-
-//                             </div>
-
-
-//                         </div>
-
-
-//                     ))
-//                 }
-
-
-//             </div>
-
-
-//         </div>
-
-
-//     );
-
+// <div className="message">
+// {message}
+// </div>
 
 // }
+
+
+
+
+
+
+// <div className="calendar-main">
+
+
+
+// <div className="calendar-grid">
+
+
+
+// <div className="grid-header">
+
+
+// <div className="time-label">
+// TIME
+// </div>
+
+
+
+// {
+// weekDays.map(day=>(
+
+// <div
+// key={day}
+// className="day-header"
+// >
+
+// {day}
+
+// </div>
+
+// ))
+// }
+
+
+
+// </div>
+
+
+
+
+
+
+
+// {
+// timeSlots.map(hour=>(
+
+
+// <div
+// className="time-row"
+// key={hour}
+// >
+
+
+// <div className="time-label">
+
+// {formatHour(hour)}
+
+// </div>
+
+
+
+
+// {
+// weekDays.map(day=>(
+
+
+// <div
+
+// key={
+// `${day}-${hour}`
+// }
+
+// className="time-slot"
+
+
+// onMouseEnter={()=>
+// setHoveredSlot(
+// `${day}-${hour}`
+// )
+// }
+
+// onMouseLeave={()=>
+// setHoveredSlot(null)
+// }
+
+
+// >
+
+
+// {
+// getSchedulesForSlot(
+// day,
+// hour
+// )
+// .map((slot,index)=>(
+
+
+
+// <div
+
+// key={index}
+
+// className="schedule-card"
+
+// >
+
+
+// <div className="card-title">
+
+// {
+// getCourseName(
+// slot.courseId
+// )
+// }
+
+// </div>
+
+
+
+
+// <div className="card-time">
+
+// {slot.startTime}
+// -
+// {slot.endTime}
+
+// </div>
+
+
+
+
+// <div>
+
+// Trainer:
+
+// {
+// getTrainerName(
+// slot.trainerId
+// )
+// }
+
+// </div>
+
+
+
+
+// <div>
+
+// Room:
+
+// {slot.roomNo}
+
+// </div>
+
+
+
+
+// {
+// slot.topic &&
+
+// <div className="topic">
+
+// {slot.topic}
+
+// </div>
+
+// }
+
+
+
+// </div>
+
+
+
+// ))
+
+// }
+
+
+
+// </div>
+
+
+
+// ))
+
+// }
+
+
+
+
+// </div>
+
+
+// ))
+
+// }
+
+
+
+// </div>
+
+
+// </div>
+
+
+// </div>
+
+// );
+
+// }
+
+
+// // import "./CSVSchedulePreview.css";
+// // import { useState } from "react";
+
+
+// // export default function CSVSchedulePreview({
+
+// //     schedules = [],
+
+// //     AllCourses = [],
+// //     AllTrainers = [],
+
+// //     createSchedule,
+// //     token,
+
+// //     onBack
+
+// // }) {
+
+
+// //     // Developer switch
+// //     const ENABLE_IMPORT = false;
+
+
+
+// //     const days = [
+// //         "monday",
+// //         "tuesday",
+// //         "wednesday",
+// //         "thursday",
+// //         "friday",
+// //         "saturday"
+// //     ];
+
+
+
+// //     const [loading,setLoading] = useState(false);
+// //     const [message,setMessage] = useState("");
+
+
+
+
+// //     function getCourseName(id){
+
+// //         return (
+// //             AllCourses.find(
+// //                 c=>c._id===id
+// //             )?.courseCode
+// //             ||
+// //             "Unknown Course"
+// //         );
+
+// //     }
+
+
+
+// //     function getTrainerName(id){
+
+// //         return (
+// //             AllTrainers.find(
+// //                 t=>t._id===id
+// //             )?.name
+// //             ||
+// //             "Unknown Trainer"
+// //         );
+
+// //     }
+
+
+
+
+
+// //     function getDaySlots(day){
+
+
+// //         let result=[];
+
+
+// //         schedules.forEach(schedule=>{
+
+
+// //             if(schedule.slots?.[day]){
+
+
+// //                 schedule.slots[day]
+// //                 .forEach(slot=>{
+
+
+// //                     result.push({
+
+// //                         ...slot,
+
+// //                         courseId:
+// //                         schedule.courseId
+
+// //                     });
+
+
+// //                 });
+
+
+// //             }
+
+
+// //         });
+
+
+// //         return result;
+
+
+// //     }
+
+
+
+
+
+
+// //     async function importSchedules(){
+
+
+// //         if(!ENABLE_IMPORT){
+
+// //             setMessage(
+// //                 "Import disabled (developer mode)"
+// //             );
+
+// //             return;
+
+// //         }
+
+
+
+// //         try{
+
+
+// //             setLoading(true);
+
+// //             setMessage("");
+
+
+
+// //             for(const schedule of schedules){
+
+
+// //                 await createSchedule(
+// //                     schedule,
+// //                     token
+// //                 );
+
+
+// //             }
+
+
+
+// //             setMessage(
+// //                 `${schedules.length} schedules created successfully`
+// //             );
+
+
+// //         }
+// //         catch(err){
+
+// //             console.error(err);
+
+// //             setMessage(
+// //                 err.message ||
+// //                 "Import failed"
+// //             );
+
+// //         }
+// //         finally{
+
+// //             setLoading(false);
+
+// //         }
+
+
+// //     }
+
+
+
+
+
+
+// //     return (
+
+// //         <div className="csv-preview-page">
+
+
+// //             <button
+// //                 className="back-btn"
+// //                 onClick={onBack}
+// //             >
+
+// //                 ← Back
+
+// //             </button>
+
+
+
+// //             <div className="header">
+
+
+// //                 <h2>
+// //                     Schedule Preview
+// //                 </h2>
+
+
+// //                 <button
+
+// //                     className={
+// //                         ENABLE_IMPORT
+// //                         ?
+// //                         "import-btn active"
+// //                         :
+// //                         "import-btn"
+// //                     }
+
+// //                     onClick={importSchedules}
+
+// //                     disabled={loading}
+
+// //                 >
+
+// //                     {
+// //                         loading
+// //                         ?
+// //                         "Importing..."
+// //                         :
+// //                         "Import Schedules"
+// //                     }
+
+// //                 </button>
+
+
+// //             </div>
+
+
+
+// //             {
+// //                 message &&
+
+// //                 <div className="message">
+
+// //                     {message}
+
+// //                 </div>
+
+// //             }
+
+
+
+
+
+// //             <div className="calendar">
+
+
+// //                 {
+// //                     days.map(day=>(
+
+
+// //                         <div
+// //                             className="day-column"
+// //                             key={day}
+// //                         >
+
+
+// //                             <div className="day-header">
+
+// //                                 {
+// //                                     day.toUpperCase()
+// //                                 }
+
+// //                             </div>
+
+
+
+
+
+// //                             <div className="day-content">
+
+
+// //                             {
+// //                                 getDaySlots(day)
+// //                                 .length===0
+
+// //                                 ?
+
+// //                                 <div className="empty">
+
+// //                                     No Classes
+
+// //                                 </div>
+
+
+// //                                 :
+
+// //                                 getDaySlots(day)
+// //                                 .map((slot,index)=>(
+
+
+// //                                     <div
+
+// //                                         className="schedule-card"
+
+// //                                         key={index}
+
+// //                                     >
+
+
+// //                                         <div className="course">
+
+// //                                             {
+// //                                                 getCourseName(
+// //                                                     slot.courseId
+// //                                                 )
+// //                                             }
+
+// //                                         </div>
+
+
+
+// //                                         <div className="time">
+
+// //                                             {slot.startTime}
+// //                                             {" - "}
+// //                                             {slot.endTime}
+
+// //                                         </div>
+
+
+
+
+// //                                         <div>
+
+// //                                             Trainer:
+
+// //                                             {
+// //                                                 getTrainerName(
+// //                                                     slot.trainerId
+// //                                                 )
+// //                                             }
+
+// //                                         </div>
+
+
+
+// //                                         <div>
+
+// //                                             Room:
+// //                                             {" "}
+// //                                             {slot.roomNo}
+
+// //                                         </div>
+
+
+
+
+// //                                         {
+// //                                             slot.topic &&
+
+// //                                             <div className="topic">
+
+// //                                                 {slot.topic}
+
+// //                                             </div>
+
+// //                                         }
+
+
+// //                                     </div>
+
+
+// //                                 ))
+
+// //                             }
+
+
+
+// //                             </div>
+
+
+// //                         </div>
+
+
+// //                     ))
+// //                 }
+
+
+// //             </div>
+
+
+// //         </div>
+
+
+// //     );
+
+
+// // }

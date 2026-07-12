@@ -1,293 +1,232 @@
-/* NewCollegePage.css */
+/* ==========================================
+                TOKENS (local, derived)
+========================================== */
 
 .new-college-page {
-    margin: auto;
-    min-height: 50%;
-    max-height: 80%;
-    padding: 30px;
-    width: 100%;
-    font-family: "Inter", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .04);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, .06);
+
+    --ease: cubic-bezier(.4, 0, .2, 1);
 }
 
+/* ==========================================
+                PAGE SHELL
+========================================== */
 
-/* Back Button */
+.new-college-page {
+    max-width: 640px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.1rem;
+
+    padding: 1.5rem;
+
+    color: var(--text-primary);
+}
 
 .new-college-page > button {
-    background: transparent;
-    border: none;
-    color: #4f46e5;
-    font-size: 15px;
+    align-self: flex-start;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    padding: 0.5rem 0.9rem;
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+
+    background: var(--card-bg);
+    color: var(--text-secondary);
+
+    font-size: 0.82rem;
     font-weight: 600;
+
     cursor: pointer;
-    margin-bottom: 20px;
-    transition: 0.3s ease;
-    align-self:flex-start ;
+
+    transition:
+        background .18s var(--ease),
+        color .18s var(--ease),
+        transform .18s var(--ease);
 }
 
 .new-college-page > button:hover {
-    transform: translateX(-5px);
-    color: #3730a3;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateX(-2px);
 }
-
-
-/* Page Heading */
 
 .new-college-page h2 {
-    font-size: 30px;
+    margin: 0;
+
+    font-size: 1.3rem;
     font-weight: 700;
+    letter-spacing: -.01em;
+
     color: var(--text-primary);
-    margin-bottom: 25px;
 }
 
-
-
-/* Main Form Card */
+/* ==========================================
+                FORM CARD
+========================================== */
 
 .college-form {
+    display: flex;
+    flex-direction: column;
 
-    width: 100%;
-    max-width: 750px;
+    gap: 1rem;
 
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(15px);
+    padding: 1.75rem;
 
-    border-radius: 20px;
+    background: var(--card-bg);
 
-    padding: 35px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
 
-    box-shadow:
-        0 10px 30px rgba(0,0,0,0.08);
-
-    border: 1px solid rgba(255,255,255,0.6);
-
-    animation: slideUp 0.4s ease;
+    box-shadow: var(--shadow-md);
 }
-
-
-
-/* Animation */
-
-@keyframes slideUp {
-
-    from {
-        opacity:0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity:1;
-        transform: translateY(0);
-    }
-}
-
-
-
-/* Section Heading */
 
 .college-form h3 {
+    margin: 0;
 
-    font-size: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
 
-    color:#1f2937;
+    text-transform: uppercase;
+    letter-spacing: .07em;
 
-    margin-bottom:25px;
-
-    display:flex;
-    align-items:center;
-    gap:10px;
-
+    color: var(--accent);
 }
-
-
-.college-form h3::before {
-
-    content:"";
-
-    width:6px;
-    height:25px;
-
-    background:#4f46e5;
-
-    border-radius:10px;
-
-}
-
-
-
-/* Form Groups */
-
-.form-group {
-
-    display:flex;
-
-    flex-direction:column;
-
-    margin-bottom:20px;
-
-}
-
-
-
-.form-group label {
-
-    font-size:14px;
-
-    font-weight:600;
-
-    color:#374151;
-
-    margin-bottom:8px;
-
-}
-
-
-
-/* Inputs */
-
-.form-group input {
-
-    height:45px;
-
-    padding:0 15px;
-
-    border-radius:12px;
-
-    border:1px solid var(--border-color);
-
-    background:var(--bg-primary);
-
-    font-size:15px;
-
-    outline:none;
-
-    transition:all 0.3s ease;
-
-}
-
-
-
-.form-group input::placeholder {
-
-    color:var(--text-secondary);
-
-}
-
-
-
-.form-group input:focus {
-
-    border-color:#4f46e5;
-
-    box-shadow:
-        0 0 0 4px rgba(79,70,229,0.15);
-
-}
-
-
-
-/* Divider */
 
 .college-form hr {
+    margin: 0.4rem 0;
 
-    border:none;
-
-    height:1px;
-
-    background:var(--border-color);
-
-    margin:35px 0;
-
+    border: none;
+    border-top: 1px solid var(--border-color);
 }
 
+/* ==========================================
+                FORM FIELDS
+========================================== */
 
+.form-group {
+    display: flex;
+    flex-direction: column;
 
-/* Save Button */
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+.form-group input {
+    padding: 0.65rem 0.85rem;
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+
+    background: var(--bg-primary);
+    color: var(--text-primary);
+
+    font-size: 0.88rem;
+
+    transition:
+        border-color .18s var(--ease),
+        box-shadow .18s var(--ease),
+        background .18s var(--ease);
+}
+
+.form-group input::placeholder {
+    color: var(--text-secondary);
+    opacity: .6;
+}
+
+.form-group input:hover {
+    border-color: var(--text-secondary);
+}
+
+.form-group input:focus {
+    outline: none;
+
+    border-color: var(--accent);
+    background: var(--card-bg);
+
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* ==========================================
+                SAVE BUTTON
+========================================== */
 
 .save-btn {
+    align-self: flex-start;
 
-    width:100%;
+    margin-top: 0.4rem;
 
-    height:48px;
+    padding: 0.75rem 1.75rem;
 
-    margin-top:20px;
+    border: none;
+    border-radius: var(--radius-sm);
 
-    border:none;
+    background: var(--accent);
+    color: #1a1300;
 
-    border-radius:14px;
+    font-size: 0.88rem;
+    font-weight: 700;
 
-    background:
-        linear-gradient(
-            135deg,
-            #4f46e5,
-            #7c3aed
-        );
+    cursor: pointer;
 
-    color:white;
+    box-shadow: var(--shadow-sm);
 
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:0.3s ease;
-
-    box-shadow:
-        0 8px 20px rgba(79,70,229,0.3);
-
+    transition:
+        transform .18s var(--ease),
+        box-shadow .18s var(--ease),
+        opacity .18s var(--ease);
 }
 
-
-
-.save-btn:hover {
-
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 12px 25px rgba(79,70,229,0.4);
-
+.save-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
-
+.save-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
 
 .save-btn:disabled {
-
-    cursor:not-allowed;
-
-    opacity:0.7;
-
-    transform:none;
-
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
+/* ==========================================
+                RESPONSIVE
+========================================== */
 
+@media (max-width: 480px) {
 
-/* Responsive */
-
-@media(max-width:768px){
-
-    .new-college-page{
-
-        padding:20px;
-
+    .new-college-page {
+        padding: 1rem;
     }
 
-
-    .college-form{
-
-        padding:25px;
-
+    .college-form {
+        padding: 1.25rem;
     }
 
-
-    .new-college-page h2{
-
-        font-size:24px;
-
+    .save-btn {
+        width: 100%;
+        text-align: center;
     }
-
 }

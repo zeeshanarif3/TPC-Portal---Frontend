@@ -51,7 +51,7 @@ Dark admin sidebar with collapse-to-icons behavior
   position: sticky;
 
   border-radius: 14px;
-  /* border: 1px solid var(--border-color); */
+  /* border: 1px solid var(--border-color); */ 
 
   background: var(--sb-bg);
   color: var(--sb-text);
@@ -333,8 +333,8 @@ Dark admin sidebar with collapse-to-icons behavior
     font-size:15px;
 
 
-    box-shadow:
-        0 4px 12px rgba(0,0,0,.35);
+    /* box-shadow:
+        0 4px 12px rgba(0,0,0,.35); */
 
 
     transition:

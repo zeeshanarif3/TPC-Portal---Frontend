@@ -288,16 +288,18 @@ export function useTrainer(token) {
     // }, [selectedCollege, token]);
 
 
-    const refreshSchedules = useCallback(async () => {
-    try {
-        const all = await fetchSchedules(token, "2026-07-11");
-        setAllSchedules(all);
-    } catch (err) {
-        setError(err.message || 'Failed to fetch schedules');
-    }
+const refreshSchedules = useCallback(async () => {
+  try {
+    const all = await fetchSchedules(token, {
+      date: "2026-07-13"
+    });
+
+    setAllSchedules(all);
+
+  } catch (err) {
+    setError(err.message || "Failed to fetch schedules");
+  }
 }, [token]);
-
-
     // ── Effect: college changes ─────────────────────────────────────────────
     // Loads everything that only depends on the college, then resolves session
 

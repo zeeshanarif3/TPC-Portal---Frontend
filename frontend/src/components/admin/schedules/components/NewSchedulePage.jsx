@@ -1,7 +1,6 @@
 import "./NewSchedulePage.css";
 import { useState } from "react";
 
-
 export default function NewSchedulePage({
     token,
     onBack,
@@ -10,626 +9,299 @@ export default function NewSchedulePage({
     AllTrainers = [],
     createSchedule,
 }) {
-
-
-    const days = [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday"
-    ];
-
-
     const [courseId, setCourseId] = useState("");
     const [sessionId, setSessionId] = useState("");
-
-    const [selectedDay, setSelectedDay] = useState("monday");
-
+    const [date, setDate] = useState("");
 
     const [slot, setSlot] = useState({
-
-        startTime:"",
-        endTime:"",
-        trainerId:"",
-        roomNo:"",
-        topic:""
-
+        startTime: "",
+        endTime: "",
+        trainerId: "",
+        roomNo: "",
+        topic: ""
     });
 
+    const [slots, setSlots] = useState([]);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const [slots,setSlots] = useState({});
+    const handleSlotChange = (e) => {
+        setSlot((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
 
+    const addSlot = () => {
+        setError("");
+        setSuccess("");
 
-    const [error,setError] = useState("");
-    const [success,setSuccess] = useState("");
+        if (!date) {
+            setError("Date is required");
+            return;
+        }
 
-
-
-    function handleSlotChange(e){
-
-        setSlot({
-            ...slot,
-            [e.target.name]:e.target.value
-        });
-
-    }
-
-
-
-
-    function addSlot(){
-
-
-        if(
+        if (
             !slot.startTime ||
             !slot.endTime ||
             !slot.trainerId ||
             !slot.roomNo
-        ){
-
-            setError(
-                "Start time, end time, trainer and room are required"
-            );
-
+        ) {
+            setError("Start time, end time, trainer and room are required");
             return;
         }
 
+        if (slot.startTime >= slot.endTime) {
+            setError("End time must be after start time");
+            return;
+        }
 
+        const duplicate = slots.some((existing) =>
+            existing.startTime === slot.startTime &&
+            existing.endTime === slot.endTime &&
+            existing.roomNo === slot.roomNo
+        );
 
-        setSlots(prev=>({
+        if (duplicate) {
+            setError("This room is already booked for this time");
+            return;
+        }
 
+        setSlots((prev) => [
             ...prev,
-
-            [selectedDay]:[
-                ...(prev[selectedDay] || []),
-
-                {
-                    startTime:slot.startTime,
-                    endTime:slot.endTime,
-                    trainerId:slot.trainerId,
-                    roomNo:slot.roomNo,
-                    topic:slot.topic
-                }
-            ]
-
-        }));
-
+            {
+                startTime: slot.startTime,
+                endTime: slot.endTime,
+                trainerId: slot.trainerId,
+                roomNo: slot.roomNo,
+                topic: slot.topic || ""
+            }
+        ]);
 
         setSlot({
-
-            startTime:"",
-            endTime:"",
-            trainerId:"",
-            roomNo:"",
-            topic:""
-
+            startTime: "",
+            endTime: "",
+            trainerId: "",
+            roomNo: "",
+            topic: ""
         });
+    };
 
+    const removeSlot = (index) => {
+        setSlots((prev) => prev.filter((_, i) => i !== index));
+    };
 
-        setError("");
-
-    }
-
-
-
-
-
-    function removeSlot(day,index){
-
-
-        setSlots(prev=>({
-
-            ...prev,
-
-            [day]:
-                prev[day].filter(
-                    (_,i)=>i!==index
-                )
-
-        }));
-
-    }
-
-
-
-
-
-    async function handleSubmit(e){
-
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+        setSuccess("");
 
+        if (!courseId || !sessionId) {
+            setError("Course and session are required");
+            return;
+        }
 
-        try{
+        if (!date) {
+            setError("Date is required");
+            return;
+        }
 
+        if (slots.length === 0) {
+            setError("Add at least one slot");
+            return;
+        }
 
-            setError("");
-            setSuccess("");
+        const selectedSession = AllSessions.find((s) => s._id === sessionId);
 
+        if (!selectedSession) {
+            setError("Session not found");
+            return;
+        }
 
+        try {
+            setLoading(true);
 
-            const payload={
+            const promises = slots.map((item) => {
+                const payload = {
+                    courseId,
+                    sessionId,
+                    date,
+                    startTime: item.startTime,
+                    endTime: item.endTime,
+                    trainerId: item.trainerId,
+                    roomNo: item.roomNo,
+                    topic: item.topic
+                };
 
-                courseId,
-                sessionId,
-                slots
+                console.log("CREATE SCHEDULE:", payload);
 
-            };
+                return createSchedule(payload, token);
+            });
 
+            await Promise.all(promises);
 
-            console.log(
-                "Schedule Payload:",
-                JSON.stringify(payload,null,2)
-            );
-
-
-
-            await createSchedule(
-                payload,
-                token
-            );
-
-
-
-            setSuccess(
-                "Schedule created successfully"
-            );
-
-
+            setSuccess("Schedule created successfully");
             setCourseId("");
             setSessionId("");
-            setSlots({});
-
-
-        }
-        catch(err){
-
+            setDate("");
+            setSlots([]);
+            setSlot({
+                startTime: "",
+                endTime: "",
+                trainerId: "",
+                roomNo: "",
+                topic: ""
+            });
+        } catch (err) {
             console.error(err);
-
-            setError(
-                err.message ||
-                "Failed creating schedule"
-            );
-
+            setError(err.message || "Failed creating schedule");
+        } finally {
+            setLoading(false);
         }
-
-    }
-
-
-
-
+    };
 
     return (
-
         <div className="new-schedule-page">
-
-
-            <button
-                className="back-btn"
-                onClick={onBack}
-            >
+            <button className="back-btn" onClick={onBack}>
                 ← Back
             </button>
 
+            <h2>Create New Schedule</h2>
 
+            {error && <div className="error">{error}</div>}
+            {success && <div className="success">{success}</div>}
 
-            <h2>
-                Create New Schedule
-            </h2>
-
-
-
-
-            {
-                error &&
-                <div className="error">
-                    {error}
-                </div>
-            }
-
-
-
-            {
-                success &&
-                <div className="success">
-                    {success}
-                </div>
-            }
-
-
-
-
-            <form
-                onSubmit={handleSubmit}
-            >
-
-
+            <form onSubmit={handleSubmit}>
                 <div className="form-group">
-
-                    <label>
-                        Course
-                    </label>
-
-
+                    <label>Course</label>
                     <select
                         value={courseId}
-                        onChange={
-                            e=>setCourseId(e.target.value)
-                        }
+                        onChange={(e) => setCourseId(e.target.value)}
                         required
                     >
-
-                        <option value="">
-                            Select Course
-                        </option>
-
-
-                        {
-                            AllCourses.map(course=>(
-
-                                <option
-                                    key={course._id}
-                                    value={course._id}
-                                >
-                                    {
-                                        course.courseCode
-                                    }
-                                </option>
-
-                            ))
-                        }
-
-
+                        <option value="">Select Course</option>
+                        {AllCourses.map((course) => (
+                            <option key={course._id} value={course._id}>
+                                {course.courseCode}
+                            </option>
+                        ))}
                     </select>
-
                 </div>
-
-
-
-
 
                 <div className="form-group">
-
-                    <label>
-                        Session
-                    </label>
-
-
+                    <label>Session</label>
                     <select
-
                         value={sessionId}
-
-                        onChange={
-                            e=>setSessionId(e.target.value)
-                        }
-
+                        onChange={(e) => setSessionId(e.target.value)}
                         required
-
                     >
-
-                        <option value="">
-                            Select Session
-                        </option>
-
-
-
-                        {
-                            AllSessions.map(session=>(
-
-                                <option
-                                    key={session._id}
-                                    value={session._id}
-                                >
-
-                                    {
-                                        new Date(
-                                            session.startDate
-                                        )
-                                        .toLocaleDateString()
-                                    }
-
-                                    {" - "}
-
-                                    {
-                                        new Date(
-                                            session.endDate
-                                        )
-                                        .toLocaleDateString()
-                                    }
-
-                                </option>
-
-                            ))
-                        }
-
-
+                        <option value="">Select Session</option>
+                        {AllSessions.map((session) => (
+                            <option key={session._id} value={session._id}>
+                                {new Date(session.startDate).toLocaleDateString()} -{" "}
+                                {new Date(session.endDate).toLocaleDateString()}
+                            </option>
+                        ))}
                     </select>
-
-
                 </div>
 
-
-
-
+                <div className="form-group">
+                    <label>Date</label>
+                    <input
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+                    />
+                </div>
 
                 <hr />
 
-
-
-                <h3>
-                    Add Time Slot
-                </h3>
-
-
-
-
-                <div className="form-group">
-
-
-                    <label>
-                        Day
-                    </label>
-
-
-                    <select
-
-                        value={selectedDay}
-
-                        onChange={
-                            e=>setSelectedDay(e.target.value)
-                        }
-
-                    >
-
-                        {
-                            days.map(day=>(
-
-                                <option
-                                    key={day}
-                                    value={day}
-                                >
-                                    {
-                                        day.toUpperCase()
-                                    }
-                                </option>
-
-                            ))
-                        }
-
-                    </select>
-
-
-                </div>
-
-
-
-
+                <h3>Add Time Slot</h3>
 
                 <div className="slot-grid">
-
-
                     <input
-
                         type="time"
-
                         name="startTime"
-
                         value={slot.startTime}
-
                         onChange={handleSlotChange}
-
                     />
-
-
 
                     <input
-
                         type="time"
-
                         name="endTime"
-
                         value={slot.endTime}
-
                         onChange={handleSlotChange}
-
                     />
-
-
 
                     <select
-
                         name="trainerId"
-
                         value={slot.trainerId}
-
                         onChange={handleSlotChange}
-
                     >
-
-                        <option value="">
-                            Select Trainer
-                        </option>
-
-
-                        {
-                            AllTrainers.map(trainer=>(
-
-                                <option
-
-                                    key={trainer._id}
-
-                                    value={trainer._id}
-
-                                >
-
-                                    {
-                                        trainer.name
-                                    }
-
-                                </option>
-
-                            ))
-                        }
-
+                        <option value="">Select Trainer</option>
+                        {AllTrainers.map((trainer) => (
+                            <option key={trainer._id} value={trainer._id}>
+                                {trainer.name}
+                            </option>
+                        ))}
                     </select>
 
-
-
-
                     <input
-
                         name="roomNo"
-
                         placeholder="Room No"
-
                         value={slot.roomNo}
-
                         onChange={handleSlotChange}
-
                     />
-
-
 
                     <input
-
                         name="topic"
-
                         placeholder="Topic"
-
                         value={slot.topic}
-
                         onChange={handleSlotChange}
-
                     />
-
-
-
                 </div>
 
-
-
-
-                <button
-
-                    type="button"
-
-                    onClick={addSlot}
-
-                >
-
+                <button type="button" onClick={addSlot}>
                     + Add Slot
-
                 </button>
-
-
-
-
 
                 <div className="added-slots">
+                    {slots.map((item, index) => (
+                        <div className="slot-card" key={index}>
+                            <span>
+                                {item.startTime} - {item.endTime}
+                            </span>
 
-
-                    {
-                        Object.entries(slots)
-                        .map(([day,list])=>(
-
-
-                            <div
-                                key={day}
-                            >
-
-                                <h4>
-                                    {day.toUpperCase()}
-                                </h4>
-
-
+                            <span>
                                 {
-                                    list.map(
-                                        (item,index)=>(
-
-                                        <div
-                                            className="slot-card"
-                                            key={index}
-                                        >
-
-                                            <span>
-                                                {item.startTime}
-                                                {" - "}
-                                                {item.endTime}
-                                            </span>
-
-
-                                            <span>
-                                                {
-                                                    AllTrainers.find(
-                                                        t=>t._id===item.trainerId
-                                                    )?.name
-                                                }
-                                            </span>
-
-
-                                            <span>
-                                                Room:
-                                                {item.roomNo}
-                                            </span>
-
-
-
-                                            <button
-
-                                                type="button"
-
-                                                onClick={()=>
-                                                    removeSlot(
-                                                        day,
-                                                        index
-                                                    )
-                                                }
-
-                                            >
-                                                Remove
-                                            </button>
-
-
-                                        </div>
-
-                                    ))
+                                    AllTrainers.find(
+                                        (t) => t._id === item.trainerId
+                                    )?.name
                                 }
+                            </span>
 
+                            <span>Room: {item.roomNo}</span>
 
-                            </div>
+                            {item.topic && <span>Topic: {item.topic}</span>}
 
-
-                        ))
-                    }
-
-
+                            <button
+                                type="button"
+                                onClick={() => removeSlot(index)}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    ))}
                 </div>
 
-
-
-
-                <button
-
-                    className="submit-btn"
-
-                    type="submit"
-
-                >
-
-                    Create Schedule
-
+                <button className="submit-btn" disabled={loading}>
+                    {loading ? "Creating..." : "Create Schedule"}
                 </button>
-
-
-
             </form>
-
-
         </div>
-
     );
-
 }
 
 
@@ -637,23 +309,8 @@ export default function NewSchedulePage({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// after this the made was new from scratch
-
 // import "./NewSchedulePage.css";
-// import { useDashboard } from "../../../../hooks/useDashboard";
 // import { useState } from "react";
-// import Papa from "papaparse";
 
 
 // export default function NewSchedulePage({
@@ -663,304 +320,193 @@ export default function NewSchedulePage({
 //     AllSessions = [],
 //     AllTrainers = [],
 //     createSchedule,
-//     appendSlotsViaCSV
 // }) {
 
 
+//     const days = [
+//         "monday",
+//         "tuesday",
+//         "wednesday",
+//         "thursday",
+//         "friday",
+//         "saturday"
+//     ];
 
 
-//     const [mode, setMode] = useState("manual");
+//     const [courseId, setCourseId] = useState("");
+//     const [sessionId, setSessionId] = useState("");
 
-
-
-//     const [formData, setFormData] = useState({
-//         courseId: "",
-//         sessionId: "",
-//         slots: {}
-//     });
-
+//     const [selectedDay, setSelectedDay] = useState("monday");
 
 
 //     const [slot, setSlot] = useState({
 
-//         date: "",
-//         startTime: "",
-//         endTime: "",
-//         trainerId: "",
-//         roomNo: "",
-//         topic: ""
+//         startTime:"",
+//         endTime:"",
+//         trainerId:"",
+//         roomNo:"",
+//         topic:""
 
 //     });
 
 
-
-//     const [csvRows, setCsvRows] = useState([]);
-//     const [csvData, setCsvData] = useState({
-//         courseId: "",
-//         sessionId: ""
-//     });
+//     const [slots,setSlots] = useState({});
 
 
-
-//     const [loading, setLoading] = useState(false);
+//     const [error,setError] = useState("");
+//     const [success,setSuccess] = useState("");
 
 
 
-//     const handleChange = (field, value) => {
+//     function handleSlotChange(e){
 
-//         setFormData(prev => ({
-//             ...prev,
-//             [field]: value
-//         }));
+//         setSlot({
+//             ...slot,
+//             [e.target.name]:e.target.value
+//         });
 
-//     };
+//     }
 
 
 
 
-//     const addSlot = () => {
+//     function addSlot(){
 
 
-//         if (
-//             !slot.date ||
+//         if(
 //             !slot.startTime ||
 //             !slot.endTime ||
 //             !slot.trainerId ||
 //             !slot.roomNo
-//         ) {
+//         ){
 
-//             alert("Fill all slot details");
+//             setError(
+//                 "Start time, end time, trainer and room are required"
+//             );
+
 //             return;
-
 //         }
 
 
 
-//         setFormData(prev => ({
+//         setSlots(prev=>({
 
 //             ...prev,
 
-//             slots: {
+//             [selectedDay]:[
+//                 ...(prev[selectedDay] || []),
 
-//                 ...prev.slots,
-
-//                 [slot.date]: [
-
-//                     ...(prev.slots[slot.date] || []),
-
-//                     {
-//                         startTime: slot.startTime,
-//                         endTime: slot.endTime,
-//                         trainerId: slot.trainerId,
-//                         roomNo: slot.roomNo,
-//                         topic: slot.topic
-//                     }
-
-//                 ]
-
-//             }
+//                 {
+//                     startTime:slot.startTime,
+//                     endTime:slot.endTime,
+//                     trainerId:slot.trainerId,
+//                     roomNo:slot.roomNo,
+//                     topic:slot.topic
+//                 }
+//             ]
 
 //         }));
 
 
 //         setSlot({
-//             date: "",
-//             startTime: "",
-//             endTime: "",
-//             trainerId: "",
-//             roomNo: "",
-//             topic: ""
-//         });
 
-
-//     };
-
-
-
-
-
-//     const handleCSV = (file) => {
-
-
-//         Papa.parse(file, {
-
-//             header: true,
-//             skipEmptyLines: true,
-
-//             complete: (result) => {
-
-//                 setCsvRows(result.data);
-
-//             }
+//             startTime:"",
+//             endTime:"",
+//             trainerId:"",
+//             roomNo:"",
+//             topic:""
 
 //         });
 
 
-//     };
+//         setError("");
+
+//     }
 
 
 
 
 
+//     function removeSlot(day,index){
 
-//     const submitManual = async () => {
+
+//         setSlots(prev=>({
+
+//             ...prev,
+
+//             [day]:
+//                 prev[day].filter(
+//                     (_,i)=>i!==index
+//                 )
+
+//         }));
+
+//     }
 
 
-//         try {
 
-//             setLoading(true);
+
+
+//     async function handleSubmit(e){
+
+//         e.preventDefault();
+
+
+//         try{
+
+
+//             setError("");
+//             setSuccess("");
+
+
+
+//             const payload={
+
+//                 courseId,
+//                 sessionId,
+//                 slots
+
+//             };
+
+
+//             console.log(
+//                 "Schedule Payload:",
+//                 JSON.stringify(payload,null,2)
+//             );
+
 
 
 //             await createSchedule(
-//                 formData,
-//                 token
-//             );
-
-
-//             alert("Schedule created");
-
-//             onBack();
-
-
-//         }
-//         catch (err) {
-
-//             alert(err.message);
-
-//         }
-//         finally {
-
-//             setLoading(false);
-
-//         }
-
-
-//     };
-
-
-
-
-
-
-
-//     // const submitCSV = async()=>{
-
-
-//     //     if(csvRows.length===0){
-
-//     //         alert("Upload CSV first");
-//     //         return;
-
-//     //     }
-
-
-
-//     //     try{
-
-
-//     //         setLoading(true);
-
-
-
-//     //         await appendSlotsViaCSV(
-//     //             csvRows,
-//     //             token
-//     //         );
-
-
-
-//     //         alert("Slots added successfully");
-
-//     //         onBack();
-
-
-
-//     //     }
-//     //     catch(err){
-
-//     //         alert(err.message);
-
-//     //     }
-//     //     finally{
-
-//     //         setLoading(false);
-
-//     //     }
-
-
-//     // };
-
-//     const submitCSV = async () => {
-
-
-//         if (!csvData.courseId || !csvData.sessionId) {
-
-//             alert("Select course and session first");
-//             return;
-
-//         }
-
-
-//         if (csvRows.length === 0) {
-
-//             alert("Upload CSV first");
-//             return;
-
-//         }
-
-
-
-//         try {
-
-//             setLoading(true);
-
-
-//             const rows = csvRows.map(row => ({
-
-//                 courseId: csvData.courseId,
-
-//                 sessionId: csvData.sessionId,
-
-//                 date: row.date,
-
-//                 startTime: row.startTime,
-
-//                 endTime: row.endTime,
-
-//                 trainerId: row.trainerId,
-
-//                 roomNo: row.roomNo,
-
-//                 topic: row.topic
-
-//             }));
-
-
-//             await appendSlotsViaCSV(
-//                 rows,
+//                 payload,
 //                 token
 //             );
 
 
 
-//             alert("Slots added successfully");
+//             setSuccess(
+//                 "Schedule created successfully"
+//             );
 
-//             onBack();
 
+//             setCourseId("");
+//             setSessionId("");
+//             setSlots({});
 
-//         }
-//         catch (err) {
-
-//             alert(err.message);
-
-//         }
-//         finally {
-
-//             setLoading(false);
 
 //         }
+//         catch(err){
 
-//     };
+//             console.error(err);
+
+//             setError(
+//                 err.message ||
+//                 "Failed creating schedule"
+//             );
+
+//         }
+
+//     }
+
 
 
 
@@ -970,206 +516,245 @@ export default function NewSchedulePage({
 //         <div className="new-schedule-page">
 
 
-//             <button onClick={onBack}>
+//             <button
+//                 className="back-btn"
+//                 onClick={onBack}
+//             >
 //                 ← Back
 //             </button>
 
 
+
 //             <h2>
-//                 Create Schedule
+//                 Create New Schedule
 //             </h2>
 
 
 
 
-//             <div>
-
-//                 <button
-//                     onClick={() => setMode("manual")}
-//                 >
-//                     Manual
-//                 </button>
-
-
-//                 <button
-//                     onClick={() => setMode("csv")}
-//                 >
-//                     Upload CSV
-//                 </button>
-
-//             </div>
-
-
+//             {
+//                 error &&
+//                 <div className="error">
+//                     {error}
+//                 </div>
+//             }
 
 
 
 //             {
-//                 mode === "manual" &&
-
-//                 <div className="schedule-form">
-
-
-//                     <div className="form-group">
-
-//                         <label>
-//                             Course
-//                         </label>
-
-
-//                         <select
-//                             value={formData.courseId}
-//                             onChange={(e) =>
-//                                 handleChange(
-//                                     "courseId",
-//                                     e.target.value
-//                                 )
-//                             }>
-
-//                             <option value="">
-//                                 Select Course
-//                             </option>
-
-
-//                             {
-//                                 AllCourses.map(course => (
-
-//                                     <option
-//                                         key={course._id}
-//                                         value={course._id}
-//                                     >
-
-//                                         {course.courseCode}
-
-//                                     </option>
-
-//                                 ))
-
-//                             }
-
-
-//                         </select>
-
-//                     </div>
+//                 success &&
+//                 <div className="success">
+//                     {success}
+//                 </div>
+//             }
 
 
 
 
-
-//                     <div className="form-group">
-
-//                         <label>
-//                             Session
-//                         </label>
+//             <form
+//                 onSubmit={handleSubmit}
+//             >
 
 
-//                         <select
+//                 <div className="form-group">
 
-//                             value={formData.sessionId}
-
-//                             onChange={(e) =>
-//                                 handleChange(
-//                                     "sessionId",
-//                                     e.target.value
-//                                 )
-//                             }>
+//                     <label>
+//                         Course
+//                     </label>
 
 
-//                             <option value="">
-//                                 Select Session
-//                             </option>
-
-
-//                             {
-//                                 AllSessions.map(session => (
-
-//                                     <option
-//                                         key={session._id}
-//                                         value={session._id}
-//                                     >
-
-//                                         {session.collegeId?.name}
-//                                         -
-//                                         {
-//                                             new Date(
-//                                                 session.startDate
-//                                             ).toLocaleDateString()
-//                                         }
-
-//                                     </option>
-
-
-//                                 ))
-
-//                             }
-
-
-//                         </select>
-
-//                     </div>
-
-
-
-
-
-
-//                     <h3>
-//                         Add Slot
-//                     </h3>
-
-
-
-
-//                     <input
-//                         type="date"
-//                         value={slot.date}
-//                         onChange={(e) =>
-//                             setSlot({
-//                                 ...slot,
-//                                 date: e.target.value
-//                             })
+//                     <select
+//                         value={courseId}
+//                         onChange={
+//                             e=>setCourseId(e.target.value)
 //                         }
-//                     />
+//                         required
+//                     >
 
+//                         <option value="">
+//                             Select Course
+//                         </option>
+
+
+//                         {
+//                             AllCourses.map(course=>(
+
+//                                 <option
+//                                     key={course._id}
+//                                     value={course._id}
+//                                 >
+//                                     {
+//                                         course.courseCode
+//                                     }
+//                                 </option>
+
+//                             ))
+//                         }
+
+
+//                     </select>
+
+//                 </div>
+
+
+
+
+
+//                 <div className="form-group">
+
+//                     <label>
+//                         Session
+//                     </label>
+
+
+//                     <select
+
+//                         value={sessionId}
+
+//                         onChange={
+//                             e=>setSessionId(e.target.value)
+//                         }
+
+//                         required
+
+//                     >
+
+//                         <option value="">
+//                             Select Session
+//                         </option>
+
+
+
+//                         {
+//                             AllSessions.map(session=>(
+
+//                                 <option
+//                                     key={session._id}
+//                                     value={session._id}
+//                                 >
+
+//                                     {
+//                                         new Date(
+//                                             session.startDate
+//                                         )
+//                                         .toLocaleDateString()
+//                                     }
+
+//                                     {" - "}
+
+//                                     {
+//                                         new Date(
+//                                             session.endDate
+//                                         )
+//                                         .toLocaleDateString()
+//                                     }
+
+//                                 </option>
+
+//                             ))
+//                         }
+
+
+//                     </select>
+
+
+//                 </div>
+
+
+
+
+
+//                 <hr />
+
+
+
+//                 <h3>
+//                     Add Time Slot
+//                 </h3>
+
+
+
+
+//                 <div className="form-group">
+
+
+//                     <label>
+//                         Day
+//                     </label>
+
+
+//                     <select
+
+//                         value={selectedDay}
+
+//                         onChange={
+//                             e=>setSelectedDay(e.target.value)
+//                         }
+
+//                     >
+
+//                         {
+//                             days.map(day=>(
+
+//                                 <option
+//                                     key={day}
+//                                     value={day}
+//                                 >
+//                                     {
+//                                         day.toUpperCase()
+//                                     }
+//                                 </option>
+
+//                             ))
+//                         }
+
+//                     </select>
+
+
+//                 </div>
+
+
+
+
+
+//                 <div className="slot-grid">
 
 
 //                     <input
+
 //                         type="time"
+
+//                         name="startTime"
+
 //                         value={slot.startTime}
-//                         onChange={(e) =>
-//                             setSlot({
-//                                 ...slot,
-//                                 startTime: e.target.value
-//                             })
-//                         }
+
+//                         onChange={handleSlotChange}
+
 //                     />
 
 
 
 //                     <input
+
 //                         type="time"
+
+//                         name="endTime"
+
 //                         value={slot.endTime}
-//                         onChange={(e) =>
-//                             setSlot({
-//                                 ...slot,
-//                                 endTime: e.target.value
-//                             })
-//                         }
+
+//                         onChange={handleSlotChange}
+
 //                     />
-
-
 
 
 
 //                     <select
 
+//                         name="trainerId"
+
 //                         value={slot.trainerId}
 
-//                         onChange={(e) =>
-//                             setSlot({
-//                                 ...slot,
-//                                 trainerId: e.target.value
-//                             })
-//                         }
+//                         onChange={handleSlotChange}
 
 //                     >
 
@@ -1179,375 +764,177 @@ export default function NewSchedulePage({
 
 
 //                         {
-//                             AllTrainers.map(trainer => (
+//                             AllTrainers.map(trainer=>(
 
 //                                 <option
+
 //                                     key={trainer._id}
+
 //                                     value={trainer._id}
+
 //                                 >
 
-//                                     {trainer.name}
+//                                     {
+//                                         trainer.name
+//                                     }
 
 //                                 </option>
 
 //                             ))
-
 //                         }
-
 
 //                     </select>
 
 
 
 
-
 //                     <input
+
+//                         name="roomNo"
+
 //                         placeholder="Room No"
+
 //                         value={slot.roomNo}
-//                         onChange={(e) =>
-//                             setSlot({
-//                                 ...slot,
-//                                 roomNo: e.target.value
-//                             })
-//                         }
+
+//                         onChange={handleSlotChange}
+
 //                     />
-
-
 
 
 
 //                     <input
+
+//                         name="topic"
+
 //                         placeholder="Topic"
+
 //                         value={slot.topic}
-//                         onChange={(e) =>
-//                             setSlot({
-//                                 ...slot,
-//                                 topic: e.target.value
-//                             })
-//                         }
+
+//                         onChange={handleSlotChange}
+
 //                     />
 
 
 
-
-//                     <button onClick={addSlot}>
-//                         Add Slot
-//                     </button>
-
-
-
-//                     <button
-//                         className="save-btn"
-//                         disabled={loading}
-//                         onClick={submitManual}
-//                     >
-
-//                         {
-//                             loading
-//                                 ?
-//                                 "Creating..."
-//                                 :
-//                                 "Create Schedule"
-//                         }
-
-//                     </button>
-
-
 //                 </div>
-
-//             }
-
-
-
-
-
-//             {/* {
-//             mode==="csv" &&
-
-//             <div className="schedule-form">
-
-
-//                 <h3>
-//                     Upload Schedule CSV
-//                 </h3>
-
-
-
-//                 <input
-//                 type="file"
-//                 accept=".csv"
-//                 onChange={(e)=>
-//                     handleCSV(
-//                         e.target.files[0]
-//                     )
-//                 }
-//                 />
-
-
-
-
-//                 {
-//                 csvRows.length>0 &&
-
-//                 <div>
-
-//                     <h4>
-//                         Preview
-//                     </h4>
-
-
-//                     <pre>
-//                         {
-//                         JSON.stringify(
-//                             csvRows,
-//                             null,
-//                             2
-//                         )
-//                         }
-//                     </pre>
-
-
-//                 </div>
-
-//                 }
-
 
 
 
 
 //                 <button
 
-//                 className="save-btn"
+//                     type="button"
 
-//                 disabled={loading}
-
-//                 onClick={submitCSV}
+//                     onClick={addSlot}
 
 //                 >
 
-//                     {
-//                     loading
-//                     ?
-//                     "Uploading..."
-//                     :
-//                     "Append Slots"
-//                     }
-
+//                     + Add Slot
 
 //                 </button>
 
 
-//             </div>
 
-//             } */}
 
-//             {
-//                 mode === "csv" &&
 
-//                 <div className="schedule-form">
-
-
-//                     <h3>
-//                         Upload Schedule CSV
-//                     </h3>
-
-
-
-//                     <div className="form-group">
-
-//                         <label>
-//                             Course
-//                         </label>
-
-
-//                         <select
-
-//                             value={csvData.courseId}
-
-//                             onChange={(e) =>
-//                                 setCsvData({
-
-//                                     ...csvData,
-
-//                                     courseId: e.target.value
-
-//                                 })
-//                             }
-
-//                         >
-
-//                             <option value="">
-//                                 Select Course
-//                             </option>
-
-
-//                             {
-//                                 AllCourses.map(course => (
-
-//                                     <option
-//                                         key={course._id}
-//                                         value={course._id}
-//                                     >
-
-//                                         {course.courseCode}
-
-//                                     </option>
-
-//                                 ))
-
-//                             }
-
-
-//                         </select>
-
-//                     </div>
-
-
-
-
-
-//                     <div className="form-group">
-
-//                         <label>
-//                             Session
-//                         </label>
-
-
-//                         <select
-
-//                             value={csvData.sessionId}
-
-//                             onChange={(e) =>
-//                                 setCsvData({
-
-//                                     ...csvData,
-
-//                                     sessionId: e.target.value
-
-//                                 })
-//                             }
-
-//                         >
-
-//                             <option value="">
-//                                 Select Session
-//                             </option>
-
-
-//                             {
-//                                 AllSessions.map(session => (
-
-//                                     <option
-
-//                                         key={session._id}
-
-//                                         value={session._id}
-
-//                                     >
-
-//                                         {
-//                                             session.collegeId?.name
-//                                         }
-
-//                                         -
-
-//                                         {
-//                                             new Date(
-//                                                 session.startDate
-//                                             )
-//                                                 .toLocaleDateString()
-//                                         }
-
-
-//                                     </option>
-
-//                                 ))
-
-//                             }
-
-
-//                         </select>
-
-//                     </div>
-
-
-
-
-
-//                     <input
-
-//                         type="file"
-
-//                         accept=".csv"
-
-//                         onChange={(e) =>
-//                             handleCSV(
-//                                 e.target.files[0]
-//                             )
-//                         }
-
-//                     />
-
-
+//                 <div className="added-slots">
 
 
 //                     {
-//                         csvRows.length > 0 &&
-
-//                         <div>
-
-//                             <h4>
-//                                 Preview
-//                             </h4>
+//                         Object.entries(slots)
+//                         .map(([day,list])=>(
 
 
-//                             <pre>
+//                             <div
+//                                 key={day}
+//                             >
+
+//                                 <h4>
+//                                     {day.toUpperCase()}
+//                                 </h4>
+
 
 //                                 {
-//                                     JSON.stringify(
-//                                         csvRows,
-//                                         null,
-//                                         2
-//                                     )
+//                                     list.map(
+//                                         (item,index)=>(
+
+//                                         <div
+//                                             className="slot-card"
+//                                             key={index}
+//                                         >
+
+//                                             <span>
+//                                                 {item.startTime}
+//                                                 {" - "}
+//                                                 {item.endTime}
+//                                             </span>
+
+
+//                                             <span>
+//                                                 {
+//                                                     AllTrainers.find(
+//                                                         t=>t._id===item.trainerId
+//                                                     )?.name
+//                                                 }
+//                                             </span>
+
+
+//                                             <span>
+//                                                 Room:
+//                                                 {item.roomNo}
+//                                             </span>
+
+
+
+//                                             <button
+
+//                                                 type="button"
+
+//                                                 onClick={()=>
+//                                                     removeSlot(
+//                                                         day,
+//                                                         index
+//                                                     )
+//                                                 }
+
+//                                             >
+//                                                 Remove
+//                                             </button>
+
+
+//                                         </div>
+
+//                                     ))
 //                                 }
 
-//                             </pre>
+
+//                             </div>
 
 
-//                         </div>
-
+//                         ))
 //                     }
-
-
-
-
-
-//                     <button
-
-//                         className="save-btn"
-
-//                         disabled={loading}
-
-//                         onClick={submitCSV}
-
-//                     >
-
-//                         {
-//                             loading
-//                                 ?
-//                                 "Uploading..."
-//                                 :
-//                                 "Append Slots"
-
-//                         }
-
-//                     </button>
 
 
 //                 </div>
 
-//             }
 
+
+
+//                 <button
+
+//                     className="submit-btn"
+
+//                     type="submit"
+
+//                 >
+
+//                     Create Schedule
+
+//                 </button>
+
+
+
+//             </form>
 
 
 //         </div>
@@ -1572,11 +959,12 @@ export default function NewSchedulePage({
 
 
 
-
+// // after this the made was new from scratch
 
 // // import "./NewSchedulePage.css";
 // // import { useDashboard } from "../../../../hooks/useDashboard";
 // // import { useState } from "react";
+// // import Papa from "papaparse";
 
 
 // // export default function NewSchedulePage({
@@ -1584,22 +972,22 @@ export default function NewSchedulePage({
 // //     onBack,
 // //     AllCourses = [],
 // //     AllSessions = [],
-// //     AllTrainers = []
+// //     AllTrainers = [],
+// //     createSchedule,
+// //     appendSlotsViaCSV
 // // }) {
 
 
-// //     const {
-// //         createSchedule
-// //     } = useDashboard();
+
+
+// //     const [mode, setMode] = useState("manual");
 
 
 
 // //     const [formData, setFormData] = useState({
-
 // //         courseId: "",
 // //         sessionId: "",
 // //         slots: {}
-
 // //     });
 
 
@@ -1616,8 +1004,16 @@ export default function NewSchedulePage({
 // //     });
 
 
-// //     const [loading, setLoading] = useState(false);
 
+// //     const [csvRows, setCsvRows] = useState([]);
+// //     const [csvData, setCsvData] = useState({
+// //         courseId: "",
+// //         sessionId: ""
+// //     });
+
+
+
+// //     const [loading, setLoading] = useState(false);
 
 
 
@@ -1632,7 +1028,9 @@ export default function NewSchedulePage({
 
 
 
+
 // //     const addSlot = () => {
+
 
 // //         if (
 // //             !slot.date ||
@@ -1641,8 +1039,10 @@ export default function NewSchedulePage({
 // //             !slot.trainerId ||
 // //             !slot.roomNo
 // //         ) {
+
 // //             alert("Fill all slot details");
 // //             return;
+
 // //         }
 
 
@@ -1655,35 +1055,54 @@ export default function NewSchedulePage({
 
 // //                 ...prev.slots,
 
-// //                 [slot.date]:
+// //                 [slot.date]: [
 
-// //                     [
-// //                         ...(prev.slots[slot.date] || []),
+// //                     ...(prev.slots[slot.date] || []),
 
-// //                         {
-// //                             startTime: slot.startTime,
-// //                             endTime: slot.endTime,
-// //                             trainerId: slot.trainerId,
-// //                             roomNo: slot.roomNo,
-// //                             topic: slot.topic
-// //                         }
+// //                     {
+// //                         startTime: slot.startTime,
+// //                         endTime: slot.endTime,
+// //                         trainerId: slot.trainerId,
+// //                         roomNo: slot.roomNo,
+// //                         topic: slot.topic
+// //                     }
 
-// //                     ]
+// //                 ]
 
 // //             }
 
 // //         }));
 
 
-
 // //         setSlot({
-
 // //             date: "",
 // //             startTime: "",
 // //             endTime: "",
 // //             trainerId: "",
 // //             roomNo: "",
 // //             topic: ""
+// //         });
+
+
+// //     };
+
+
+
+
+
+// //     const handleCSV = (file) => {
+
+
+// //         Papa.parse(file, {
+
+// //             header: true,
+// //             skipEmptyLines: true,
+
+// //             complete: (result) => {
+
+// //                 setCsvRows(result.data);
+
+// //             }
 
 // //         });
 
@@ -1694,11 +1113,11 @@ export default function NewSchedulePage({
 
 
 
-// //     const handleSubmit = async () => {
+
+// //     const submitManual = async () => {
 
 
 // //         try {
-
 
 // //             setLoading(true);
 
@@ -1710,7 +1129,6 @@ export default function NewSchedulePage({
 
 
 // //             alert("Schedule created");
-
 
 // //             onBack();
 
@@ -1734,6 +1152,130 @@ export default function NewSchedulePage({
 
 
 
+
+
+// //     // const submitCSV = async()=>{
+
+
+// //     //     if(csvRows.length===0){
+
+// //     //         alert("Upload CSV first");
+// //     //         return;
+
+// //     //     }
+
+
+
+// //     //     try{
+
+
+// //     //         setLoading(true);
+
+
+
+// //     //         await appendSlotsViaCSV(
+// //     //             csvRows,
+// //     //             token
+// //     //         );
+
+
+
+// //     //         alert("Slots added successfully");
+
+// //     //         onBack();
+
+
+
+// //     //     }
+// //     //     catch(err){
+
+// //     //         alert(err.message);
+
+// //     //     }
+// //     //     finally{
+
+// //     //         setLoading(false);
+
+// //     //     }
+
+
+// //     // };
+
+// //     const submitCSV = async () => {
+
+
+// //         if (!csvData.courseId || !csvData.sessionId) {
+
+// //             alert("Select course and session first");
+// //             return;
+
+// //         }
+
+
+// //         if (csvRows.length === 0) {
+
+// //             alert("Upload CSV first");
+// //             return;
+
+// //         }
+
+
+
+// //         try {
+
+// //             setLoading(true);
+
+
+// //             const rows = csvRows.map(row => ({
+
+// //                 courseId: csvData.courseId,
+
+// //                 sessionId: csvData.sessionId,
+
+// //                 date: row.date,
+
+// //                 startTime: row.startTime,
+
+// //                 endTime: row.endTime,
+
+// //                 trainerId: row.trainerId,
+
+// //                 roomNo: row.roomNo,
+
+// //                 topic: row.topic
+
+// //             }));
+
+
+// //             await appendSlotsViaCSV(
+// //                 rows,
+// //                 token
+// //             );
+
+
+
+// //             alert("Slots added successfully");
+
+// //             onBack();
+
+
+// //         }
+// //         catch (err) {
+
+// //             alert(err.message);
+
+// //         }
+// //         finally {
+
+// //             setLoading(false);
+
+// //         }
+
+// //     };
+
+
+
+
 // //     return (
 
 // //         <div className="new-schedule-page">
@@ -1750,280 +1292,572 @@ export default function NewSchedulePage({
 
 
 
+
+// //             <div>
+
+// //                 <button
+// //                     onClick={() => setMode("manual")}
+// //                 >
+// //                     Manual
+// //                 </button>
+
+
+// //                 <button
+// //                     onClick={() => setMode("csv")}
+// //                 >
+// //                     Upload CSV
+// //                 </button>
+
+// //             </div>
+
+
+
+
+
+// //             {
+// //                 mode === "manual" &&
+
+// //                 <div className="schedule-form">
+
+
+// //                     <div className="form-group">
+
+// //                         <label>
+// //                             Course
+// //                         </label>
+
+
+// //                         <select
+// //                             value={formData.courseId}
+// //                             onChange={(e) =>
+// //                                 handleChange(
+// //                                     "courseId",
+// //                                     e.target.value
+// //                                 )
+// //                             }>
+
+// //                             <option value="">
+// //                                 Select Course
+// //                             </option>
+
+
+// //                             {
+// //                                 AllCourses.map(course => (
+
+// //                                     <option
+// //                                         key={course._id}
+// //                                         value={course._id}
+// //                                     >
+
+// //                                         {course.courseCode}
+
+// //                                     </option>
+
+// //                                 ))
+
+// //                             }
+
+
+// //                         </select>
+
+// //                     </div>
+
+
+
+
+
+// //                     <div className="form-group">
+
+// //                         <label>
+// //                             Session
+// //                         </label>
+
+
+// //                         <select
+
+// //                             value={formData.sessionId}
+
+// //                             onChange={(e) =>
+// //                                 handleChange(
+// //                                     "sessionId",
+// //                                     e.target.value
+// //                                 )
+// //                             }>
+
+
+// //                             <option value="">
+// //                                 Select Session
+// //                             </option>
+
+
+// //                             {
+// //                                 AllSessions.map(session => (
+
+// //                                     <option
+// //                                         key={session._id}
+// //                                         value={session._id}
+// //                                     >
+
+// //                                         {session.collegeId?.name}
+// //                                         -
+// //                                         {
+// //                                             new Date(
+// //                                                 session.startDate
+// //                                             ).toLocaleDateString()
+// //                                         }
+
+// //                                     </option>
+
+
+// //                                 ))
+
+// //                             }
+
+
+// //                         </select>
+
+// //                     </div>
+
+
+
+
+
+
+// //                     <h3>
+// //                         Add Slot
+// //                     </h3>
+
+
+
+
+// //                     <input
+// //                         type="date"
+// //                         value={slot.date}
+// //                         onChange={(e) =>
+// //                             setSlot({
+// //                                 ...slot,
+// //                                 date: e.target.value
+// //                             })
+// //                         }
+// //                     />
+
+
+
+// //                     <input
+// //                         type="time"
+// //                         value={slot.startTime}
+// //                         onChange={(e) =>
+// //                             setSlot({
+// //                                 ...slot,
+// //                                 startTime: e.target.value
+// //                             })
+// //                         }
+// //                     />
+
+
+
+// //                     <input
+// //                         type="time"
+// //                         value={slot.endTime}
+// //                         onChange={(e) =>
+// //                             setSlot({
+// //                                 ...slot,
+// //                                 endTime: e.target.value
+// //                             })
+// //                         }
+// //                     />
+
+
+
+
+
+// //                     <select
+
+// //                         value={slot.trainerId}
+
+// //                         onChange={(e) =>
+// //                             setSlot({
+// //                                 ...slot,
+// //                                 trainerId: e.target.value
+// //                             })
+// //                         }
+
+// //                     >
+
+// //                         <option value="">
+// //                             Select Trainer
+// //                         </option>
+
+
+// //                         {
+// //                             AllTrainers.map(trainer => (
+
+// //                                 <option
+// //                                     key={trainer._id}
+// //                                     value={trainer._id}
+// //                                 >
+
+// //                                     {trainer.name}
+
+// //                                 </option>
+
+// //                             ))
+
+// //                         }
+
+
+// //                     </select>
+
+
+
+
+
+// //                     <input
+// //                         placeholder="Room No"
+// //                         value={slot.roomNo}
+// //                         onChange={(e) =>
+// //                             setSlot({
+// //                                 ...slot,
+// //                                 roomNo: e.target.value
+// //                             })
+// //                         }
+// //                     />
+
+
+
+
+
+// //                     <input
+// //                         placeholder="Topic"
+// //                         value={slot.topic}
+// //                         onChange={(e) =>
+// //                             setSlot({
+// //                                 ...slot,
+// //                                 topic: e.target.value
+// //                             })
+// //                         }
+// //                     />
+
+
+
+
+// //                     <button onClick={addSlot}>
+// //                         Add Slot
+// //                     </button>
+
+
+
+// //                     <button
+// //                         className="save-btn"
+// //                         disabled={loading}
+// //                         onClick={submitManual}
+// //                     >
+
+// //                         {
+// //                             loading
+// //                                 ?
+// //                                 "Creating..."
+// //                                 :
+// //                                 "Create Schedule"
+// //                         }
+
+// //                     </button>
+
+
+// //                 </div>
+
+// //             }
+
+
+
+
+
+// //             {/* {
+// //             mode==="csv" &&
+
 // //             <div className="schedule-form">
 
 
-// //                 <div className="form-group">
-
-// //                     <label>
-// //                         Course
-// //                     </label>
-
-
-// //                     <select
-
-// //                         value={formData.courseId}
-
-// //                         onChange={(e) =>
-// //                             handleChange(
-// //                                 "courseId",
-// //                                 e.target.value
-// //                             )
-// //                         }
-
-// //                     >
-
-// //                         <option value="">
-// //                             Select Course
-// //                         </option>
-
-
-// //                         {
-// //                             AllCourses.map(course => (
-
-// //                                 <option
-// //                                     key={course._id}
-// //                                     value={course._id}
-// //                                 >
-
-// //                                     {course.courseCode}
-
-// //                                 </option>
-
-// //                             ))
-
-// //                         }
-
-
-// //                     </select>
-
-
-// //                 </div>
-
-
-
-
-// //                 <div className="form-group">
-
-// //                     <label>
-// //                         Session
-// //                     </label>
-
-
-// //                     <select
-
-// //                         value={formData.sessionId}
-
-// //                         onChange={(e) =>
-// //                             handleChange(
-// //                                 "sessionId",
-// //                                 e.target.value
-// //                             )
-// //                         }
-
-// //                     >
-
-
-// //                         <option value="">
-// //                             Select Session
-// //                         </option>
-
-
-
-// //                         {
-// //                             AllSessions.map(session => (
-
-// //                                 <option
-// //                                     key={session._id}
-// //                                     value={session._id}
-// //                                 >
-
-// //                                     {
-// //                                         session.collegeId?.name
-// //                                     }
-// //                                     -
-// //                                     {
-// //                                         new Date(
-// //                                             session.startDate
-// //                                         ).toLocaleDateString()
-// //                                     }
-
-// //                                 </option>
-
-// //                             ))
-
-// //                         }
-
-
-// //                     </select>
-
-
-// //                 </div>
-
-
-
-
-
 // //                 <h3>
-// //                     Add Slot
+// //                     Upload Schedule CSV
 // //                 </h3>
 
 
 
-
 // //                 <input
-// //                     type="date"
-// //                     value={slot.date}
-// //                     onChange={(e) =>
-// //                         setSlot({
-// //                             ...slot,
-// //                             date: e.target.value
-// //                         })
-// //                     }
-// //                 />
-
-
-
-// //                 <input
-// //                     type="time"
-// //                     value={slot.startTime}
-// //                     onChange={(e) =>
-// //                         setSlot({
-// //                             ...slot,
-// //                             startTime: e.target.value
-// //                         })
-// //                     }
-// //                 />
-
-
-
-// //                 <input
-// //                     type="time"
-// //                     value={slot.endTime}
-// //                     onChange={(e) =>
-// //                         setSlot({
-// //                             ...slot,
-// //                             endTime: e.target.value
-// //                         })
-// //                     }
+// //                 type="file"
+// //                 accept=".csv"
+// //                 onChange={(e)=>
+// //                     handleCSV(
+// //                         e.target.files[0]
+// //                     )
+// //                 }
 // //                 />
 
 
 
 
+// //                 {
+// //                 csvRows.length>0 &&
 
-// //                 <select
+// //                 <div>
 
-// //                     value={slot.trainerId}
-
-// //                     onChange={(e) =>
-// //                         setSlot({
-// //                             ...slot,
-// //                             trainerId: e.target.value
-// //                         })
-// //                     }
-
-// //                 >
+// //                     <h4>
+// //                         Preview
+// //                     </h4>
 
 
-// //                     <option>
-// //                         Select Trainer
-// //                     </option>
+// //                     <pre>
+// //                         {
+// //                         JSON.stringify(
+// //                             csvRows,
+// //                             null,
+// //                             2
+// //                         )
+// //                         }
+// //                     </pre>
 
 
-// //                     {
-// //                         AllTrainers.map(trainer => (
+// //                 </div>
 
-// //                             <option
-// //                                 key={trainer._id}
-// //                                 value={trainer._id}
-// //                             >
+// //                 }
 
-// //                                 {trainer.name}
-
-// //                             </option>
-
-// //                         ))
-
-// //                     }
-
-
-// //                 </select>
-
-
-
-
-
-// //                 <input
-
-// //                     placeholder="Room No"
-
-// //                     value={slot.roomNo}
-
-// //                     onChange={(e) =>
-// //                         setSlot({
-// //                             ...slot,
-// //                             roomNo: e.target.value
-// //                         })
-// //                     }
-
-// //                 />
-
-
-
-
-
-// //                 <input
-
-// //                     placeholder="Topic"
-
-// //                     value={slot.topic}
-
-// //                     onChange={(e) =>
-// //                         setSlot({
-// //                             ...slot,
-// //                             topic: e.target.value
-// //                         })
-// //                     }
-
-// //                 />
-
-
-
-// //                 <button
-// //                     type="button"
-// //                     onClick={addSlot}
-// //                 >
-// //                     Add Slot
-// //                 </button>
 
 
 
 
 // //                 <button
 
-// //                     className="save-btn"
+// //                 className="save-btn"
 
-// //                     disabled={loading}
+// //                 disabled={loading}
 
-// //                     onClick={handleSubmit}
+// //                 onClick={submitCSV}
 
 // //                 >
 
 // //                     {
-// //                         loading
-// //                             ?
-// //                             "Creating..."
-// //                             :
-// //                             "Create Schedule"
+// //                     loading
+// //                     ?
+// //                     "Uploading..."
+// //                     :
+// //                     "Append Slots"
 // //                     }
 
 
 // //                 </button>
-
 
 
 // //             </div>
+
+// //             } */}
+
+// //             {
+// //                 mode === "csv" &&
+
+// //                 <div className="schedule-form">
+
+
+// //                     <h3>
+// //                         Upload Schedule CSV
+// //                     </h3>
+
+
+
+// //                     <div className="form-group">
+
+// //                         <label>
+// //                             Course
+// //                         </label>
+
+
+// //                         <select
+
+// //                             value={csvData.courseId}
+
+// //                             onChange={(e) =>
+// //                                 setCsvData({
+
+// //                                     ...csvData,
+
+// //                                     courseId: e.target.value
+
+// //                                 })
+// //                             }
+
+// //                         >
+
+// //                             <option value="">
+// //                                 Select Course
+// //                             </option>
+
+
+// //                             {
+// //                                 AllCourses.map(course => (
+
+// //                                     <option
+// //                                         key={course._id}
+// //                                         value={course._id}
+// //                                     >
+
+// //                                         {course.courseCode}
+
+// //                                     </option>
+
+// //                                 ))
+
+// //                             }
+
+
+// //                         </select>
+
+// //                     </div>
+
+
+
+
+
+// //                     <div className="form-group">
+
+// //                         <label>
+// //                             Session
+// //                         </label>
+
+
+// //                         <select
+
+// //                             value={csvData.sessionId}
+
+// //                             onChange={(e) =>
+// //                                 setCsvData({
+
+// //                                     ...csvData,
+
+// //                                     sessionId: e.target.value
+
+// //                                 })
+// //                             }
+
+// //                         >
+
+// //                             <option value="">
+// //                                 Select Session
+// //                             </option>
+
+
+// //                             {
+// //                                 AllSessions.map(session => (
+
+// //                                     <option
+
+// //                                         key={session._id}
+
+// //                                         value={session._id}
+
+// //                                     >
+
+// //                                         {
+// //                                             session.collegeId?.name
+// //                                         }
+
+// //                                         -
+
+// //                                         {
+// //                                             new Date(
+// //                                                 session.startDate
+// //                                             )
+// //                                                 .toLocaleDateString()
+// //                                         }
+
+
+// //                                     </option>
+
+// //                                 ))
+
+// //                             }
+
+
+// //                         </select>
+
+// //                     </div>
+
+
+
+
+
+// //                     <input
+
+// //                         type="file"
+
+// //                         accept=".csv"
+
+// //                         onChange={(e) =>
+// //                             handleCSV(
+// //                                 e.target.files[0]
+// //                             )
+// //                         }
+
+// //                     />
+
+
+
+
+// //                     {
+// //                         csvRows.length > 0 &&
+
+// //                         <div>
+
+// //                             <h4>
+// //                                 Preview
+// //                             </h4>
+
+
+// //                             <pre>
+
+// //                                 {
+// //                                     JSON.stringify(
+// //                                         csvRows,
+// //                                         null,
+// //                                         2
+// //                                     )
+// //                                 }
+
+// //                             </pre>
+
+
+// //                         </div>
+
+// //                     }
+
+
+
+
+
+// //                     <button
+
+// //                         className="save-btn"
+
+// //                         disabled={loading}
+
+// //                         onClick={submitCSV}
+
+// //                     >
+
+// //                         {
+// //                             loading
+// //                                 ?
+// //                                 "Uploading..."
+// //                                 :
+// //                                 "Append Slots"
+
+// //                         }
+
+// //                     </button>
+
+
+// //                 </div>
+
+// //             }
 
 
 
@@ -2032,3 +1866,480 @@ export default function NewSchedulePage({
 // //     );
 
 // // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // // import "./NewSchedulePage.css";
+// // // import { useDashboard } from "../../../../hooks/useDashboard";
+// // // import { useState } from "react";
+
+
+// // // export default function NewSchedulePage({
+// // //     token,
+// // //     onBack,
+// // //     AllCourses = [],
+// // //     AllSessions = [],
+// // //     AllTrainers = []
+// // // }) {
+
+
+// // //     const {
+// // //         createSchedule
+// // //     } = useDashboard();
+
+
+
+// // //     const [formData, setFormData] = useState({
+
+// // //         courseId: "",
+// // //         sessionId: "",
+// // //         slots: {}
+
+// // //     });
+
+
+
+// // //     const [slot, setSlot] = useState({
+
+// // //         date: "",
+// // //         startTime: "",
+// // //         endTime: "",
+// // //         trainerId: "",
+// // //         roomNo: "",
+// // //         topic: ""
+
+// // //     });
+
+
+// // //     const [loading, setLoading] = useState(false);
+
+
+
+
+// // //     const handleChange = (field, value) => {
+
+// // //         setFormData(prev => ({
+// // //             ...prev,
+// // //             [field]: value
+// // //         }));
+
+// // //     };
+
+
+
+// // //     const addSlot = () => {
+
+// // //         if (
+// // //             !slot.date ||
+// // //             !slot.startTime ||
+// // //             !slot.endTime ||
+// // //             !slot.trainerId ||
+// // //             !slot.roomNo
+// // //         ) {
+// // //             alert("Fill all slot details");
+// // //             return;
+// // //         }
+
+
+
+// // //         setFormData(prev => ({
+
+// // //             ...prev,
+
+// // //             slots: {
+
+// // //                 ...prev.slots,
+
+// // //                 [slot.date]:
+
+// // //                     [
+// // //                         ...(prev.slots[slot.date] || []),
+
+// // //                         {
+// // //                             startTime: slot.startTime,
+// // //                             endTime: slot.endTime,
+// // //                             trainerId: slot.trainerId,
+// // //                             roomNo: slot.roomNo,
+// // //                             topic: slot.topic
+// // //                         }
+
+// // //                     ]
+
+// // //             }
+
+// // //         }));
+
+
+
+// // //         setSlot({
+
+// // //             date: "",
+// // //             startTime: "",
+// // //             endTime: "",
+// // //             trainerId: "",
+// // //             roomNo: "",
+// // //             topic: ""
+
+// // //         });
+
+
+// // //     };
+
+
+
+
+
+// // //     const handleSubmit = async () => {
+
+
+// // //         try {
+
+
+// // //             setLoading(true);
+
+
+// // //             await createSchedule(
+// // //                 formData,
+// // //                 token
+// // //             );
+
+
+// // //             alert("Schedule created");
+
+
+// // //             onBack();
+
+
+// // //         }
+// // //         catch (err) {
+
+// // //             alert(err.message);
+
+// // //         }
+// // //         finally {
+
+// // //             setLoading(false);
+
+// // //         }
+
+
+// // //     };
+
+
+
+
+
+// // //     return (
+
+// // //         <div className="new-schedule-page">
+
+
+// // //             <button onClick={onBack}>
+// // //                 ← Back
+// // //             </button>
+
+
+// // //             <h2>
+// // //                 Create Schedule
+// // //             </h2>
+
+
+
+// // //             <div className="schedule-form">
+
+
+// // //                 <div className="form-group">
+
+// // //                     <label>
+// // //                         Course
+// // //                     </label>
+
+
+// // //                     <select
+
+// // //                         value={formData.courseId}
+
+// // //                         onChange={(e) =>
+// // //                             handleChange(
+// // //                                 "courseId",
+// // //                                 e.target.value
+// // //                             )
+// // //                         }
+
+// // //                     >
+
+// // //                         <option value="">
+// // //                             Select Course
+// // //                         </option>
+
+
+// // //                         {
+// // //                             AllCourses.map(course => (
+
+// // //                                 <option
+// // //                                     key={course._id}
+// // //                                     value={course._id}
+// // //                                 >
+
+// // //                                     {course.courseCode}
+
+// // //                                 </option>
+
+// // //                             ))
+
+// // //                         }
+
+
+// // //                     </select>
+
+
+// // //                 </div>
+
+
+
+
+// // //                 <div className="form-group">
+
+// // //                     <label>
+// // //                         Session
+// // //                     </label>
+
+
+// // //                     <select
+
+// // //                         value={formData.sessionId}
+
+// // //                         onChange={(e) =>
+// // //                             handleChange(
+// // //                                 "sessionId",
+// // //                                 e.target.value
+// // //                             )
+// // //                         }
+
+// // //                     >
+
+
+// // //                         <option value="">
+// // //                             Select Session
+// // //                         </option>
+
+
+
+// // //                         {
+// // //                             AllSessions.map(session => (
+
+// // //                                 <option
+// // //                                     key={session._id}
+// // //                                     value={session._id}
+// // //                                 >
+
+// // //                                     {
+// // //                                         session.collegeId?.name
+// // //                                     }
+// // //                                     -
+// // //                                     {
+// // //                                         new Date(
+// // //                                             session.startDate
+// // //                                         ).toLocaleDateString()
+// // //                                     }
+
+// // //                                 </option>
+
+// // //                             ))
+
+// // //                         }
+
+
+// // //                     </select>
+
+
+// // //                 </div>
+
+
+
+
+
+// // //                 <h3>
+// // //                     Add Slot
+// // //                 </h3>
+
+
+
+
+// // //                 <input
+// // //                     type="date"
+// // //                     value={slot.date}
+// // //                     onChange={(e) =>
+// // //                         setSlot({
+// // //                             ...slot,
+// // //                             date: e.target.value
+// // //                         })
+// // //                     }
+// // //                 />
+
+
+
+// // //                 <input
+// // //                     type="time"
+// // //                     value={slot.startTime}
+// // //                     onChange={(e) =>
+// // //                         setSlot({
+// // //                             ...slot,
+// // //                             startTime: e.target.value
+// // //                         })
+// // //                     }
+// // //                 />
+
+
+
+// // //                 <input
+// // //                     type="time"
+// // //                     value={slot.endTime}
+// // //                     onChange={(e) =>
+// // //                         setSlot({
+// // //                             ...slot,
+// // //                             endTime: e.target.value
+// // //                         })
+// // //                     }
+// // //                 />
+
+
+
+
+
+// // //                 <select
+
+// // //                     value={slot.trainerId}
+
+// // //                     onChange={(e) =>
+// // //                         setSlot({
+// // //                             ...slot,
+// // //                             trainerId: e.target.value
+// // //                         })
+// // //                     }
+
+// // //                 >
+
+
+// // //                     <option>
+// // //                         Select Trainer
+// // //                     </option>
+
+
+// // //                     {
+// // //                         AllTrainers.map(trainer => (
+
+// // //                             <option
+// // //                                 key={trainer._id}
+// // //                                 value={trainer._id}
+// // //                             >
+
+// // //                                 {trainer.name}
+
+// // //                             </option>
+
+// // //                         ))
+
+// // //                     }
+
+
+// // //                 </select>
+
+
+
+
+
+// // //                 <input
+
+// // //                     placeholder="Room No"
+
+// // //                     value={slot.roomNo}
+
+// // //                     onChange={(e) =>
+// // //                         setSlot({
+// // //                             ...slot,
+// // //                             roomNo: e.target.value
+// // //                         })
+// // //                     }
+
+// // //                 />
+
+
+
+
+
+// // //                 <input
+
+// // //                     placeholder="Topic"
+
+// // //                     value={slot.topic}
+
+// // //                     onChange={(e) =>
+// // //                         setSlot({
+// // //                             ...slot,
+// // //                             topic: e.target.value
+// // //                         })
+// // //                     }
+
+// // //                 />
+
+
+
+// // //                 <button
+// // //                     type="button"
+// // //                     onClick={addSlot}
+// // //                 >
+// // //                     Add Slot
+// // //                 </button>
+
+
+
+
+// // //                 <button
+
+// // //                     className="save-btn"
+
+// // //                     disabled={loading}
+
+// // //                     onClick={handleSubmit}
+
+// // //                 >
+
+// // //                     {
+// // //                         loading
+// // //                             ?
+// // //                             "Creating..."
+// // //                             :
+// // //                             "Create Schedule"
+// // //                     }
+
+
+// // //                 </button>
+
+
+
+// // //             </div>
+
+
+
+// // //         </div>
+
+// // //     );
+
+// // // }

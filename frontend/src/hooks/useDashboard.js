@@ -24,7 +24,7 @@ import {
     // createSchedule,
     // updateSchedule,
     // deleteSchedule,
-    appendSlotsViaCSV,
+    // appendSlotsViaCSV,
     fetchUpcomingScheduleByCollege,
     deleteSchedule,
     updateSchedule,
@@ -65,6 +65,8 @@ import {
     createTrainer,
     deleteTrainer,
     updateTrainer,
+    fetchTrainerById,
+
 
     // moderator
     getAllModerators,
@@ -694,7 +696,7 @@ const handleDeleteModerator = async (id) => {
         createSchedule: handleCreateSchedule,
         updateSchedule: handleUpdateSchedule,
         deleteSchedule: handleDeleteSchedule,
-        appendSlotsViaCSV,
+        // appendSlotsViaCSV,
         UpcomingScheduleByColl,
         AllSchedules,
         // fetchUpcomingScheduleByCollege,
@@ -741,6 +743,7 @@ const handleDeleteModerator = async (id) => {
         // trainers
         AllTrainers,
         TrainersByColl,
+        fetchTrainerById,
         // createTrainer,
         createTrainer: handleCreateTrainer,
         updateTrainer: handleUpdateTrainer,

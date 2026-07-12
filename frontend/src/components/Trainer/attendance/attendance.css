@@ -51,7 +51,7 @@ HEADER
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 }
@@ -155,7 +155,7 @@ FILTERS
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 }
@@ -231,7 +231,7 @@ DATE FILTER
 
     background: var(--bg-primary);
 
-    border: 1px solid var(--border-color);
+    /* border: 1px solid var(--border-color); */
 
     border-radius: 16px;
 
@@ -270,7 +270,7 @@ LOADING / ERROR
 
     padding: 28px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 
@@ -357,7 +357,7 @@ RESPONSIVE
   min-width: 180px;
   height: 40px;
   padding: 0 12px;
-  border: 1px solid var(--border-color);
+  /* border: 1px solid var(--border-color); */
   border-radius: 8px;
   background: var(--bg-primary);
   font-size: 14px;

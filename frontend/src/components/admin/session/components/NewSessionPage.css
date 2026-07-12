@@ -1,620 +1,274 @@
-/* NewSessionPage.css */
-
+/* ==========================================
+                TOKENS (local, derived)
+========================================== */
 
 .new-session-page {
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
 
-    width:100%;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .04);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, .06);
 
-    min-height:100%;
-
-    padding:30px;
-
-
-    font-family:"Inter", sans-serif;
-
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    flex-direction:column;
-
-
-    overflow-y:auto;
-
+    --ease: cubic-bezier(.4, 0, .2, 1);
 }
 
+/* ==========================================
+                PAGE SHELL
+========================================== */
 
+.new-session-page {
+    max-width: 640px;
+    margin: 0 auto;
 
+    display: flex;
+    flex-direction: column;
 
+    gap: 1.1rem;
 
-/* Back Button */
+    padding: 1.5rem;
 
+    color: var(--text-primary);
+}
 
 .new-session-page > button {
+    align-self: flex-start;
 
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
 
-    background:transparent;
+    padding: 0.5rem 0.9rem;
 
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
 
-    border:none;
+    background: var(--card-bg);
+    color: var(--text-secondary);
 
+    font-size: 0.82rem;
+    font-weight: 600;
 
-    color:#4f46e5;
+    cursor: pointer;
 
-
-    font-size:15px;
-
-
-    font-weight:600;
-
-
-    cursor:pointer;
-
-
-    margin-bottom:20px;
-
-
-    transition:0.3s ease;
-
-
-    align-self:flex-start;
-
+    transition:
+        background .18s var(--ease),
+        color .18s var(--ease),
+        transform .18s var(--ease);
 }
-
-
 
 .new-session-page > button:hover {
-
-
-    transform:translateX(-5px);
-
-
-    color:#3730a3;
-
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateX(-2px);
 }
-
-
-
-
-
-/* Heading */
-
 
 .new-session-page h2 {
+    margin: 0;
 
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -.01em;
 
-    font-size:30px;
-
-
-    font-weight:700;
-
-
-    color:var(--text-primary);
-
-
-    margin-bottom:25px;
-
+    color: var(--text-primary);
 }
 
+/* ==========================================
+                FORM CARD
+========================================== */
 
+.session-form {
+    display: flex;
+    flex-direction: column;
 
+    gap: 1rem;
 
+    padding: 1.75rem;
 
-/* Form Card */
+    background: var(--card-bg);
 
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
 
-.new-session-page .session-form {
-
-
-    width:100%;
-
-
-    max-width:700px;
-
-
-
-    background:
-
-
-        rgba(255,255,255,0.85);
-
-
-
-    backdrop-filter:
-
-
-        blur(15px);
-
-
-
-    border-radius:20px;
-
-
-
-    padding:35px;
-
-
-
-    box-shadow:
-
-
-        0 10px 30px rgba(0,0,0,0.08);
-
-
-
-    border:
-
-
-        1px solid rgba(255,255,255,0.6);
-
-
-
-    animation:
-
-
-        slideUp 0.4s ease;
-
-
-
-    transition:0.3s ease;
-
+    box-shadow: var(--shadow-md);
 }
 
+/* ==========================================
+                FORM FIELDS
+========================================== */
 
+.form-group {
+    display: flex;
+    flex-direction: column;
 
-
-
-.new-session-page .session-form:hover {
-
-
-    transform:translateY(-3px);
-
-
-
-    box-shadow:
-
-
-        0 15px 40px rgba(0,0,0,0.12);
-
+    gap: 0.4rem;
 }
 
+.form-group label {
+    font-size: 0.78rem;
+    font-weight: 600;
 
-
-
-
-/* Animation */
-
-
-@keyframes slideUp {
-
-
-    from {
-
-
-        opacity:0;
-
-
-        transform:translateY(20px);
-
-
-    }
-
-
-
-    to {
-
-
-        opacity:1;
-
-
-        transform:translateY(0);
-
-
-    }
-
+    color: var(--text-secondary);
 }
 
+.form-group input,
+.form-group select {
+    padding: 0.65rem 0.85rem;
 
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
 
+    background: var(--bg-primary);
+    color: var(--text-primary);
 
+    font-size: 0.88rem;
+    font-family: inherit;
 
-/* Form Group */
-
-
-.new-session-page .form-group {
-
-
-    display:flex;
-
-
-    flex-direction:column;
-
-
-    margin-bottom:20px;
-
+    transition:
+        border-color .18s var(--ease),
+        box-shadow .18s var(--ease),
+        background .18s var(--ease);
 }
 
-
-
-
-
-/* Labels */
-
-
-.new-session-page .form-group label {
-
-
-    font-size:14px;
-
-
-    font-weight:600;
-
-
-    color:#374151;
-
-
-    margin-bottom:8px;
-
+.form-group input::placeholder {
+    color: var(--text-secondary);
+    opacity: .6;
 }
 
-
-
-
-
-/* Inputs + Select */
-
-
-.new-session-page input,
-.new-session-page select {
-
-
-    min-height:45px;
-
-
-    padding:0 15px;
-
-
-
-    border-radius:12px;
-
-
-
-   border:1px solid var(--border-color);
-
-
-
-    background:var(--bg-primary);
-
-
-
-    font-size:15px;
-
-
-
-    color:var(--text-primary);
-
-
-
-    outline:none;
-
-
-
-    transition:all 0.3s ease;
-
+.form-group input:hover,
+.form-group select:hover {
+    border-color: var(--text-secondary);
 }
 
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
 
+    border-color: var(--accent);
+    background: var(--card-bg);
 
-
-
-/* Focus */
-
-
-.new-session-page input:focus,
-.new-session-page select:focus {
-
-
-    border-color:#4f46e5;
-
-
-
-    box-shadow:
-
-
-        0 0 0 4px rgba(79,70,229,0.15);
-
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
-
-
-
-
-/* Normal Dropdown */
-
-
-.new-session-page select:not([multiple]) {
-
-
-    cursor:pointer;
-
-
-    appearance:none;
-
-
+/* single-line select gets the same chevron treatment as the rest of the app */
+.form-group select:not([multiple]) {
+    appearance: none;
 
     background-image:
-
-
-        linear-gradient(
-            45deg,
-            transparent 50%,
-            #4f46e5 50%
-        ),
-
-
-        linear-gradient(
-            135deg,
-            #4f46e5 50%,
-            transparent 50%
-        );
-
-
+        linear-gradient(45deg, transparent 50%, var(--text-secondary) 50%),
+        linear-gradient(135deg, var(--text-secondary) 50%, transparent 50%);
 
     background-position:
+        calc(100% - 20px) center,
+        calc(100% - 15px) center;
 
+    background-size: 5px 5px, 5px 5px;
 
-        calc(100% - 18px) 20px,
+    background-repeat: no-repeat;
 
+    padding-right: 2.25rem;
 
-        calc(100% - 12px) 20px;
-
-
-
-    background-size:
-
-
-        6px 6px,
-
-
-        6px 6px;
-
-
-
-    background-repeat:no-repeat;
-
+    cursor: pointer;
 }
 
-
-
-
-
-/* Multiple Course Selector */
-
-
-.new-session-page select[multiple] {
-
-
-    height:auto;
-
-
-    min-height:140px;
-
-
-    padding:10px;
-
-
-
-    cursor:pointer;
-
-
-    overflow-y:auto;
-
+.form-group select option {
+    background: var(--card-bg);
+    color: var(--text-primary);
 }
 
+/* ==========================================
+                MULTI-SELECT (Courses)
+========================================== */
 
+.form-group select[multiple] {
+    padding: 0.4rem;
 
-
-
-.new-session-page select[multiple] option {
-
-
-    padding:8px 10px;
-
-
-    border-radius:8px;
-
-
+    cursor: default;
 }
 
+.form-group select[multiple] option {
+    padding: 0.5rem 0.6rem;
 
+    border-radius: 8px;
 
-
-
-.new-session-page select[multiple] option:checked {
-
-
-    background:#4f46e5;
-
-
-    color:white;
-
+    margin-bottom: 2px;
 }
 
-
-
-
-
-/* Helper Text */
-
-
-.new-session-page small {
-
-
-    margin-top:8px;
-
-
-    color:#6b7280;
-
-
-    font-size:12px;
-
-
+.form-group select[multiple] option:checked {
+    background: color-mix(in srgb, var(--accent) 25%, var(--card-bg));
+    color: var(--text-primary);
 }
 
+/* helper text under the multi-select */
+.form-group small {
+    font-size: 0.72rem;
 
-
-
-
-/* Date Input */
-
-
-.new-session-page input[type="date"] {
-
-
-    cursor:pointer;
-
+    color: var(--text-secondary);
+    opacity: .8;
 }
 
+/* ==========================================
+                SAVE BUTTON
+========================================== */
 
+.save-btn {
+    align-self: flex-start;
 
+    margin-top: 0.4rem;
 
+    padding: 0.75rem 1.75rem;
 
-/* Save Button */
+    border: none;
+    border-radius: var(--radius-sm);
 
+    background: var(--accent);
+    color: #1a1300;
 
-.new-session-page .save-btn {
+    font-size: 0.88rem;
+    font-weight: 700;
 
+    cursor: pointer;
 
-    width:100%;
+    box-shadow: var(--shadow-sm);
 
-
-    height:48px;
-
-
-    margin-top:20px;
-
-
-
-    border:none;
-
-
-    border-radius:14px;
-
-
-
-    background:
-
-
-        linear-gradient(
-
-            135deg,
-
-            #4f46e5,
-
-            #7c3aed
-
-        );
-
-
-
-    color:white;
-
-
-
-    font-size:16px;
-
-
-
-    font-weight:600;
-
-
-
-    cursor:pointer;
-
-
-
-    transition:0.3s ease;
-
-
-
-    box-shadow:
-
-
-        0 8px 20px rgba(79,70,229,0.3);
-
+    transition:
+        transform .18s var(--ease),
+        box-shadow .18s var(--ease),
+        opacity .18s var(--ease);
 }
 
-
-
-
-
-.new-session-page .save-btn:hover {
-
-
-    transform:translateY(-2px);
-
-
-
-    box-shadow:
-
-
-        0 12px 25px rgba(79,70,229,0.4);
-
+.save-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
-
-
-
-
-.new-session-page .save-btn:disabled {
-
-
-    cursor:not-allowed;
-
-
-    opacity:0.7;
-
-
-    transform:none;
-
+.save-btn:active:not(:disabled) {
+    transform: translateY(0);
 }
 
+.save-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
 
+/* ==========================================
+                RESPONSIVE
+========================================== */
 
-
-
-/* Responsive */
-
-
-@media(max-width:768px){
-
+@media (max-width: 480px) {
 
     .new-session-page {
-
-
-        padding:20px;
-
+        padding: 1rem;
     }
 
-
-
-    .new-session-page h2 {
-
-
-        font-size:24px;
-
+    .session-form {
+        padding: 1.25rem;
     }
 
-
-
-    .new-session-page .session-form {
-
-
-        padding:25px;
-
+    .save-btn {
+        width: 100%;
+        text-align: center;
     }
-
 }

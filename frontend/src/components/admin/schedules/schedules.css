@@ -51,7 +51,7 @@ HEADER
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 }
@@ -93,7 +93,7 @@ CONTROLS
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 }
@@ -158,7 +158,7 @@ VIEW TOGGLES
 .btn-view-toggle.active {
     color: var(--text);
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow-hover);
 }
@@ -236,7 +236,7 @@ LOADING / ERROR
 
     padding: 28px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 
@@ -267,7 +267,7 @@ LOADING / ERROR
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 }
@@ -294,7 +294,7 @@ LOADING / ERROR
     font-size: 14px;
     color: var(--text-primary);
     background: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    /* border: 1px solid var(--border-color); */
     border-radius: 8px;
     outline: none;
     transition: all 0.2s ease;

@@ -6,13 +6,13 @@
     overflow: scroll;
 
 
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
     border-radius: 20px;
 
     box-shadow:
         0 10px 30px rgba(0,0,0,0.08);
 
-    color: var(--text-primary, #111827);
+    color: var(--text-primary, );
 
     animation: fadeIn .3s ease;
 }

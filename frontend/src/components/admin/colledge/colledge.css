@@ -68,7 +68,7 @@ HEADER
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 
@@ -220,7 +220,7 @@ FILTERS
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 
@@ -307,7 +307,7 @@ SELECT
 
     background: var(--bg-primary);
 
-    border: 1px solid var(--border-color);
+    /* border: 1px solid var(--border-color); */
 
     border-radius: 16px;
 
@@ -352,7 +352,7 @@ STATES
 
     padding: 28px;
 
-    border: 1px solid var(--border);
+/* border: 1px solid var(--border); */
 
     box-shadow: var(--shadow);
 

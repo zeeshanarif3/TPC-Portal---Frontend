@@ -1,3 +1,20 @@
+
+
+.Schedulees-calendar-container {
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04);
+    --shadow-md: 0 8px 24px rgba(15, 23, 42, .06);
+    --shadow-lg: 0 20px 45px rgba(15, 23, 42, .10);
+
+    --ease: cubic-bezier(.4, 0, .2, 1);
+
+    --accent: var(--accent);
+    --accent-soft: var(--bg-secondary);
+}
+
 /* ==========================================
                 LAYOUT
 ========================================== */
@@ -5,13 +22,26 @@
 .Schedulees-calendar-container {
     display: grid;
 
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: 1fr 340px;
 
-    gap: 1.5rem;
+    gap: 1.75rem;
 
     align-items: start;
     max-height: 100vh;
     overflow: scroll;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.Schedulees-calendar-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.Schedulees-calendar-container::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 999px;
 }
 
 /* ==========================================
@@ -21,14 +51,12 @@
 .calendar-main {
     background: var(--bg-primary);
 
-   border: 1px solid var(--border-color);
-    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
 
     overflow: auto;
-/* 
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 20px 40px rgba(0,0,0,.04); */
+
+    box-shadow: var(--shadow-md);
 }
 
 /* ==========================================
@@ -60,19 +88,37 @@
 
 .day-header,
 .time-label {
-    padding: 1rem;
+    padding: 1.1rem 1rem;
 
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 700;
 
     text-transform: uppercase;
-    letter-spacing: .05em;
+    letter-spacing: .08em;
 
     color: var(--text-secondary);
 }
 
 .day-header {
     text-align: center;
+    position: relative;
+}
+
+/* subtle divider between day columns, echoes the slot grid below */
+.day-header:not(:last-child)::after {
+    content: '';
+
+    position: absolute;
+    top: 50%;
+    right: 0;
+
+    height: 14px;
+    width: 1px;
+
+    transform: translateY(-50%);
+
+    background: var(--border-color);
+    opacity: .6;
 }
 
 /* ==========================================
@@ -84,7 +130,7 @@
 
     grid-template-columns: 90px repeat(5, 1fr);
 
-    min-height: 90px;
+    min-height: 92px;
 }
 
 .time-row:not(:last-child) {
@@ -98,7 +144,11 @@
     align-items: flex-start;
     justify-content: center;
 
-    padding-top: 1rem;
+    padding-top: 1.1rem;
+
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+    opacity: .85;
 }
 
 /* ==========================================
@@ -112,92 +162,167 @@
 
     border-right: 1px solid var(--border-color);
 
-    transition: background .25s ease;
+    transition: background .2s var(--ease);
 }
 
 .time-slot:hover {
-   background: var(--bg-primary);
+    background: color-mix(in srgb, var(--border-color) 35%, transparent);
 }
 
 /* ==========================================
-                Schedulee CARD
+                SCHEDULE CARD
 ========================================== */
 
 .Schedulee-card {
     position: relative;
 
-    background:
-        linear-gradient(
-            135deg,
-            #111827,
-            #1f2937
-        );
+    background: linear-gradient(150deg, var(--accent) 0%, var(--accent-soft) 100%);
 
-    color: var(--text-primary);
+    color: #fff;
 
-    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, .06);
+    border-radius: var(--radius-md);
 
-    padding: 0.75rem;
+    padding: 0.8rem 0.85rem;
 
     margin-bottom: 0.5rem;
 
+    box-shadow: var(--shadow-sm);
+
     transition:
-        transform .25s ease,
-        box-shadow .25s ease;
+        transform .22s var(--ease),
+        box-shadow .22s var(--ease),
+        border-color .22s var(--ease);
 
     cursor: pointer;
     height: auto;
 }
 
+.Schedulee-card::before {
+    content: '';
+
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+
+    width: 3px;
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, .35);
+}
+
 .Schedulee-card:hover,
 .Schedulee-card.hovered {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 
-    /* box-shadow:
-        0 12px 24px rgba(17,24,39,.18); */
+    border-color: rgba(255, 255, 255, .14);
+
+    box-shadow:
+        0 14px 28px rgba(17, 24, 39, .22),
+        0 4px 10px rgba(17, 24, 39, .14);
 }
 
 .card-title {
     font-size: 0.85rem;
     font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.3;
 
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
+
+    padding-right: 1.4rem; /* keep clear of delete button */
 }
 
 .card-trainer {
-    font-size: 0.75rem;
+    font-size: 0.74rem;
+    font-weight: 500;
+
+    opacity: .72;
+}
+
+.card-time {
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
 
     opacity: .8;
+
+    margin-top: 0.15rem;
+}
+
+/* plain Room: / topic divs the component renders with no class */
+.Schedulee-card > div:not(.card-title):not(.card-trainer):not(.card-time):not(.card-actions) {
+    font-size: 0.72rem;
+    font-weight: 500;
+
+    opacity: .7;
+
+    margin-top: 0.1rem;
 }
 
 /* ==========================================
-                DELETE BUTTON
+                CARD ACTIONS (edit / delete)
 ========================================== */
 
-.btn-delete-card {
+/* rendered conditionally by React only while the slot is hovered,
+   so this just needs to look right the instant it mounts */
+.card-actions {
     position: absolute;
 
     top: 8px;
     right: 8px;
 
+    display: flex;
+    gap: 4px;
+
+    animation: actions-in .14s var(--ease);
+}
+
+@keyframes actions-in {
+    from {
+        opacity: 0;
+        transform: scale(.85);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.btn-edit-card,
+.btn-delete-card {
     width: 22px;
     height: 22px;
 
-    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    border: none;
     border-radius: 50%;
 
-    background: rgba(255,255,255,.18);
+    background: rgba(255, 255, 255, .14);
+    color: #fff;
 
-    color: var(--text-primary);
+    font-size: 0.7rem;
+    line-height: 1;
 
     cursor: pointer;
 
-    transition: background .2s ease;
+    transition:
+        background .16s var(--ease),
+        transform .16s var(--ease);
+}
+
+.btn-edit-card:hover {
+    background: rgba(255, 255, 255, .3);
+    transform: scale(1.08);
 }
 
 .btn-delete-card:hover {
-    background: rgba(255,255,255,.30);
+    background: #dc2626;
+    transform: scale(1.08);
 }
 
 /* ==========================================
@@ -207,14 +332,12 @@
 .mini-calendar {
     background: var(--bg-primary);
 
-   border: 1px solid var(--border-color);
-    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
 
-    padding: 1.25rem;
+    padding: 1.4rem;
 
-    box-shadow:
-        0 2px 4px rgba(0,0,0,.02),
-        0 20px 40px rgba(0,0,0,.04);
+    box-shadow: var(--shadow-lg);
 
     position: sticky;
     top: 1rem;
@@ -234,30 +357,41 @@
 }
 
 .calendar-nav button {
-    width: 34px;
-    /* height: 34px; */
+    width: 32px;
+    height: 32px;
 
-    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
 
     background: var(--bg-primary);
+    color: var(--text-primary);
 
     cursor: pointer;
 
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1;
 
-    transition: all .2s ease;
+    transition: all .18s var(--ease);
 }
 
 .calendar-nav button:hover {
     background: var(--border-color);
-
     transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.calendar-nav button:active {
+    transform: translateY(0);
 }
 
 .calendar-month {
+    font-size: 0.95rem;
     font-weight: 700;
+    letter-spacing: -.01em;
 
     color: var(--text-primary);
 }
@@ -271,16 +405,20 @@
 
     grid-template-columns: repeat(7, 1fr);
 
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.85rem;
 }
 
 .weekday {
     text-align: center;
 
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 700;
 
+    text-transform: uppercase;
+    letter-spacing: .06em;
+
     color: var(--text-secondary);
+    opacity: .75;
 }
 
 /* ==========================================
@@ -302,46 +440,52 @@
     align-items: center;
     justify-content: center;
 
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
 
     cursor: pointer;
 
-    font-size: 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-primary);
 
     transition:
-        background .2s ease,
-        transform .2s ease;
+        background .18s var(--ease),
+        color .18s var(--ease),
+        transform .18s var(--ease);
 }
 
 .date:hover {
-    background: var(--bg-primary);
-
-    transform: scale(1.05);
+    background: color-mix(in srgb, var(--border-color) 60%, transparent);
+    transform: scale(1.06);
 }
 
 .date.empty {
     cursor: default;
+    pointer-events: none;
+}
+
+.date.empty:hover {
+    background: transparent;
+    transform: none;
 }
 
 .date.today {
-    background: #111827;
-
-    color: var(--text-primary);
-
+    background: var(--accent);
+    color: #fff;
     font-weight: 700;
 }
 
 .date.selected {
     background: var(--border-color);
-
     color: var(--text-primary);
-
     font-weight: 700;
+    box-shadow: inset 0 0 0 1.5px var(--accent);
 }
 
 .date.today.selected {
-    background: #111827;
-    color: var(--text-primary);
+    background: var(--accent);
+    color: #fff;
+    box-shadow: none;
 }
 
 /* ==========================================
@@ -349,18 +493,20 @@
 ========================================== */
 
 .calendar-today {
-    margin-top: 1.25rem;
+    margin-top: 1.4rem;
 
     text-align: center;
 
-    padding: 0.75rem;
+    padding: 0.8rem;
 
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px dashed var(--border-color);
 
-    background: var(--bg-primary);
+    background: transparent;
 
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
+    letter-spacing: .01em;
 
     color: var(--text-secondary);
 }
@@ -384,5 +530,9 @@
 
     .calendar-grid {
         min-width: 800px;
+    }
+
+    .mini-calendar {
+        padding: 1.1rem;
     }
 }

@@ -378,6 +378,11 @@ export async function fetchSubjectDistribution(collegeId, token) {
 
 
 
+// // schedules
+
+
+
+
 // schedules
 
 // Create schedule
@@ -391,16 +396,31 @@ export async function createSchedule(data, token) {
     }
   );
 
-  if (!res.ok) throw new Error("Failed to create schedule");
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to create schedule");
+  }
+
   return res.json();
 }
 
 
-// Get all schedules
-export async function fetchSchedules(token, date = null) {
-  const url = date
-    ? `${BASE_URL}/schedules?date=${date}`
+// Get schedules with optional filters
+export async function fetchSchedules(token, filters = {}) {
+
+  const params = new URLSearchParams();
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) {
+      params.append(key, value);
+    }
+  });
+
+
+  const url = params.toString()
+    ? `${BASE_URL}/schedules?${params.toString()}`
     : `${BASE_URL}/schedules`;
+
 
   const res = await fetch(
     url,
@@ -409,84 +429,296 @@ export async function fetchSchedules(token, date = null) {
     }
   );
 
-  if (!res.ok) throw new Error("Failed to fetch schedules");
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to fetch schedules");
+  }
+
+
   return res.json();
 }
 
 
+// Example:
+// fetchSchedules(token, {
+//    date:"2026-07-15",
+//    trainerId:"123"
+// })
+
+
 // Get schedule by ID
 export async function fetchScheduleById(id, token) {
+
   const res = await fetch(
     `${BASE_URL}/schedules/${id}`,
     {
-      headers: getHeaders(token)
+      headers:getHeaders(token)
     }
   );
 
-  if (!res.ok) throw new Error("Failed to fetch schedule");
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to fetch schedule");
+  }
+
+
   return res.json();
 }
 
 
 // Update schedule
 export async function updateSchedule(id, data, token) {
+
   const res = await fetch(
     `${BASE_URL}/schedules/${id}`,
     {
-      method: "PUT",
-      headers: getHeaders(token),
-      body: JSON.stringify(data)
+      method:"PUT",
+      headers:getHeaders(token),
+      body:JSON.stringify(data)
     }
   );
 
-  if (!res.ok) throw new Error("Failed to update schedule");
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to update schedule");
+  }
+
+
   return res.json();
 }
 
 
-// Delete schedule
+// Delete single schedule/class
 export async function deleteSchedule(id, token) {
+
   const res = await fetch(
     `${BASE_URL}/schedules/${id}`,
     {
-      method: "DELETE",
-      headers: getHeaders(token)
+      method:"DELETE",
+      headers:getHeaders(token)
     }
   );
 
-  if (!res.ok) throw new Error("Failed to delete schedule");
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to delete schedule");
+  }
+
+
   return res.json();
 }
 
 
 // Get upcoming schedules by college
 export async function fetchUpcomingScheduleByCollege(collegeId, token) {
+
   const res = await fetch(
     `${BASE_URL}/schedules/upcoming?collegeId=${collegeId}`,
     {
-      headers: getHeaders(token)
+      headers:getHeaders(token)
     }
   );
 
-  if (!res.ok) throw new Error("Failed to fetch upcoming schedules");
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(
+      error.message || "Failed to fetch upcoming schedules"
+    );
+  }
+
+
   return res.json();
 }
 
 
-// Append slots through CSV
-export async function appendSlotsViaCSV(rows, token) {
+
+// Upload CSV schedules
+export async function uploadSchedulesCSV(rows, token) {
+
   const res = await fetch(
     `${BASE_URL}/schedules/append-slots-csv`,
     {
-      method: "POST",
-      headers: getHeaders(token),
-      body: JSON.stringify(rows)
+      method:"POST",
+      headers:getHeaders(token),
+      body:JSON.stringify(rows)
     }
   );
 
-  if (!res.ok) throw new Error("Failed to append CSV slots");
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(
+      error.message || "Failed to upload CSV schedules"
+    );
+  }
+
+
   return res.json();
 }
+
+
+
+// Get trainer's schedules
+// Optional helper for trainer dashboard
+export async function fetchTrainerSchedules(date, token) {
+
+  const res = await fetch(
+    `${BASE_URL}/schedules?date=${date}`,
+    {
+      headers:getHeaders(token)
+    }
+  );
+
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(
+      error.message || "Failed to fetch trainer schedules"
+    );
+  }
+
+
+  return res.json();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Create schedule
+// export async function createSchedule(data, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules`,
+//     {
+//       method: "POST",
+//       headers: getHeaders(token),
+//       body: JSON.stringify(data)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to create schedule");
+//   return res.json();
+// }
+
+
+// // Get all schedules
+// export async function fetchSchedules(token, date = null) {
+//   const url = date
+//     ? `${BASE_URL}/schedules?date=${date}`
+//     : `${BASE_URL}/schedules`;
+
+//   const res = await fetch(
+//     url,
+//     {
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to fetch schedules");
+//   return res.json();
+// }
+
+
+// // Get schedule by ID
+// export async function fetchScheduleById(id, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/${id}`,
+//     {
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to fetch schedule");
+//   return res.json();
+// }
+
+
+// // Update schedule
+// export async function updateSchedule(id, data, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/${id}`,
+//     {
+//       method: "PUT",
+//       headers: getHeaders(token),
+//       body: JSON.stringify(data)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to update schedule");
+//   return res.json();
+// }
+
+
+// // Delete schedule
+// export async function deleteSchedule(id, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/${id}`,
+//     {
+//       method: "DELETE",
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to delete schedule");
+//   return res.json();
+// }
+
+
+// // Get upcoming schedules by college
+// export async function fetchUpcomingScheduleByCollege(collegeId, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/upcoming?collegeId=${collegeId}`,
+//     {
+//       headers: getHeaders(token)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to fetch upcoming schedules");
+//   return res.json();
+// }
+
+
+// // Append slots through CSV
+// export async function appendSlotsViaCSV(rows, token) {
+//   const res = await fetch(
+//     `${BASE_URL}/schedules/append-slots-csv`,
+//     {
+//       method: "POST",
+//       headers: getHeaders(token),
+//       body: JSON.stringify(rows)
+//     }
+//   );
+
+//   if (!res.ok) throw new Error("Failed to append CSV slots");
+//   return res.json();
+// }
 
 
 

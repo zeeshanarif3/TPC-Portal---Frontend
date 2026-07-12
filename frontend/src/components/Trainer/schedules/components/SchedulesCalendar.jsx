@@ -1,733 +1,298 @@
-
-
-
-
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./SchedulesCalendar.css";
 
 export default function SchedulesCalendar({
   schedules = [],
   selectedDate,
   onSelectDate,
-  onDelete,
-  onRefresh,
   token,
-}) {
 
+}) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [hoveredSlot, setHoveredSlot] = useState(null);
 
+  const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-  const weekDays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-  ];
+  const normalizeId = (value) => {
+    if (!value) return "";
+    if (typeof value === "string") return value;
+    if (typeof value === "object") return value._id || value.id || "";
+    return String(value);
+  };
+
+  const getTrainerNameFromResponse = (data) => {
+    if (!data) return "Unknown";
+    if (typeof data === "string") return data;
+    return data.name || data.fullName || data.trainerName || "Unknown";
+  };
 
 
-
-  // Convert backend time into 24 hour number
-  const convertHour = (time) => {
-
+  const parseTimeToHour = (time) => {
     if (!time) return null;
 
+    const raw = String(time).trim().toUpperCase();
 
-    let hour = parseInt(
-      time.split(":")[0],
-      10
-    );
+    // Handles "10:00 AM", "10 AM", "22:00", "22:00:00"
+    const hasAM = raw.includes("AM");
+    const hasPM = raw.includes("PM");
 
+    const match = raw.match(/^(\d{1,2})(?::(\d{2}))?(?::(\d{2}))?\s*(AM|PM)?$/);
+    if (!match) return null;
 
-    if (
-      time.includes("PM") &&
-      hour !== 12
-    ) {
-      hour += 12;
+    let hour = parseInt(match[1], 10);
+
+    if (hasAM || hasPM) {
+      if (hasPM && hour !== 12) hour += 12;
+      if (hasAM && hour === 12) hour = 0;
+      return hour;
     }
 
-
-    if (
-      time.includes("AM") &&
-      hour === 12
-    ) {
-      hour = 0;
-    }
-
-
-    return hour;
-
+    if (hour >= 0 && hour <= 23) return hour;
+    return null;
   };
 
-
-
-
-  // Convert 24 hour number to 12 hour display
   const formatHour = (hour) => {
-
     const date = new Date();
+    date.setHours(hour, 0, 0, 0);
 
-    date.setHours(
-      hour,
-      0,
-      0,
-      0
-    );
-
-
-    return date.toLocaleTimeString(
-      "en-US",
-      {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true
-      }
-    );
-
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
   };
 
+  const getScheduleDate = (schedule) => {
+    if (!schedule?.date) return null;
+    const d = new Date(schedule.date);
+    return Number.isNaN(d.getTime()) ? null : d;
+  };
 
+  const getScheduleDayName = (schedule) => {
+    const date = getScheduleDate(schedule);
+    if (!date) return null;
 
+    return date.toLocaleDateString("en-US", { weekday: "long" });
+  };
 
-  // Dynamic timetable hours
-  // Default 8AM - 5PM
-  // Extend according to schedules
+  const getTrainerName = (trainerId) => {
+    const id = normalizeId(trainerId);
+    if (!id) return "Unknown";
+    return trainers[id] || "Loading...";
+  };
 
   const generateTimeSlots = () => {
-
     const hours = new Set();
 
+    // default visible working hours
+    for (let i = 8; i <= 17; i++) hours.add(i);
 
-    // Default college timing
-    for (let i = 8; i <= 17; i++) {
+    schedules.forEach((schedule) => {
+      const start = parseTimeToHour(schedule.startTime);
+      const end = parseTimeToHour(schedule.endTime);
 
-      hours.add(i);
-
-    }
-
-
-
-    schedules.forEach(schedule => {
-
-
-      Object.values(
-        schedule.slots || {}
-      )
-        .flat()
-        .forEach(slot => {
-
-
-          const start =
-            convertHour(
-              slot.startTime
-            );
-
-
-          const end =
-            convertHour(
-              slot.endTime
-            );
-
-
-
-          if (start !== null) {
-            hours.add(start);
-          }
-
-
-          if (end !== null) {
-            hours.add(end);
-          }
-
-
-        });
-
-
+      if (start !== null) hours.add(start);
+      if (end !== null) hours.add(end);
     });
 
-
-
-    return [...hours]
-      .sort((a, b) => a - b);
-
-
+    return [...hours].sort((a, b) => a - b);
   };
 
+  const timeSlots = useMemo(() => generateTimeSlots(), [schedules]);
 
+  const handleDelete = async (id) => {
+    if (!id) return;
 
-  const timeSlots =
-    generateTimeSlots();
-
-
-
-
-
-
-  const handleDelete = async (scheduleId) => {
-
-
-    if (
-      window.confirm(
-        "Delete this schedule?"
-      )
-    ) {
-
-      await onDelete(
-        scheduleId,
-        token
-      );
-
-
-      onRefresh();
-
+    if (window.confirm("Delete this schedule?")) {
+      await onDelete(id, token);
     }
-
   };
-
-
-
-
-
-
 
   const getSchedulesForSlot = (day, hour) => {
+    return schedules
+      .filter((schedule) => {
+        const scheduleDay = getScheduleDayName(schedule);
+        const startHour = parseTimeToHour(schedule.startTime);
+        return scheduleDay === day && startHour === hour;
+      })
+      .map((schedule) => {
 
-
-    const dayKey =
-      day.toLowerCase();
-
-
-
-    return schedules.flatMap(
-      schedule => {
-
-
-        const slots =
-          schedule.slots?.[dayKey] || [];
-
-
-
-        return slots
-          .filter(slot => {
-
-
-            return (
-              convertHour(
-                slot.startTime
-              )
-              === hour
-            );
-
-
-          })
-
-
-          .map(slot => ({
-
-
-            id: slot._id,
-
-
-            scheduleId:
-              schedule._id,
-
-
-            course:
-              schedule.courseId
-                ?.courseCode ||
-              "Unknown",
-
-
-
-            trainer:
-              schedule.trainerId
-                ?.name ||
-              "",
-
-
-
-            startTime:
-              slot.startTime,
-
-
-            endTime:
-              slot.endTime
-
-
-
-          }));
-
-
-      }
-    );
-
-
+        return {
+          id: schedule._id,
+          scheduleId: schedule._id,
+          course: schedule.courseId?.courseCode || "Unknown",
+          roomNo: schedule.roomNo,
+          topic: schedule.topic,
+          startTime: schedule.startTime,
+          endTime: schedule.endTime,
+          originalSchedule: schedule,
+        };
+      });
   };
-
-
-
-
-
-
 
   const getDaysInMonth = (date) => {
-
-    return new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      0
-    ).getDate();
-
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   };
-
-
 
   const getFirstDayOfMonth = (date) => {
-
-    return new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      1
-    ).getDay();
-
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
   };
-
-
 
   const formatDate = (date) => {
-
-    return date.toLocaleDateString(
-      "en-US",
-      {
-        month: "long",
-        year: "numeric"
-      }
-    );
-
+    return date.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
   };
 
-
-
-  const getDayName = (index) => {
-
-    return [
-      "SUN",
-      "MON",
-      "TUE",
-      "WED",
-      "THU",
-      "FRI",
-      "SAT"
-    ][index];
-
-  };
-
-
-
-
-  const daysInMonth =
-    getDaysInMonth(
-      currentMonth
-    );
-
-
-  const firstDay =
-    getFirstDayOfMonth(
-      currentMonth
-    );
-
-
-
-
-
-
-
+  const daysInMonth = getDaysInMonth(currentMonth);
+  const firstDay = getFirstDayOfMonth(currentMonth);
 
   return (
-
     <div className="Schedulees-calendar-container">
-
-
-
       <div className="calendar-main">
-
-
-
         <div className="calendar-grid">
-
-
           <div className="grid-header">
+            <div className="time-label">TIME</div>
 
-
-            <div className="time-label">
-              TIME
-            </div>
-
-
-
-            {
-              weekDays.map(day => (
-
-                <div
-                  key={day}
-                  className="day-header"
-                >
-
-                  {day}
-
-                </div>
-
-              ))
-            }
-
-
+            {weekDays.map((day) => (
+              <div key={day} className="day-header">
+                {day}
+              </div>
+            ))}
           </div>
 
-
-
-
-
-
-
-          {
-            timeSlots.map(hour => (
-
-
-              <div
-                className="time-row"
-                key={hour}
-              >
-
-
-                <div className="time-label">
-
-                  {formatHour(hour)}
-
-                </div>
-
-
-
-
-
-                {
-                  weekDays.map(day => (
-
-
-                    <div
-
-                      key={`${day}-${hour}`}
-
-                      className="time-slot"
-
-
-                      onMouseEnter={() =>
-                        setHoveredSlot(
-                          `${day}-${hour}`
-                        )
-                      }
-
-
-                      onMouseLeave={() =>
-                        setHoveredSlot(null)
-                      }
-
-                    >
-
-
-                      {
-                        getSchedulesForSlot(
-                          day,
-                          hour
-                        )
-                          .map(schedule => (
-
-
-                            <div
-
-                              key={schedule.id}
-
-                              className="Schedulee-card"
-
-                            >
-
-
-                              <div className="card-title">
-
-                                {schedule.course}
-
-                              </div>
-
-
-
-                              {
-                                schedule.trainer &&
-
-                                <div className="card-trainer">
-
-                                  {schedule.trainer}
-
-                                </div>
-
-                              }
-
-
-
-                              <div className="card-time">
-
-                                {schedule.startTime}
-                                -
-                                {schedule.endTime}
-
-                              </div>
-
-
-
-
-                              {
-                                hoveredSlot === `${day}-${hour}` &&
-
-                                <button
-
-                                  className="btn-delete-card"
-
-                                  onClick={() =>
-                                    handleDelete(
-                                      schedule.scheduleId
-                                    )
-                                  }
-
-                                >
-
-                                  ×
-
-                                </button>
-
-                              }
-
-
-
-                            </div>
-
-
-                          ))
-
-                      }
-
-
-
+          {timeSlots.map((hour) => (
+            <div key={hour} className="time-row">
+              <div className="time-label">{formatHour(hour)}</div>
+
+              {weekDays.map((day) => (
+                <div
+                  key={`${day}-${hour}`}
+                  className="time-slot"
+                  onMouseEnter={() => setHoveredSlot(`${day}-${hour}`)}
+                  onMouseLeave={() => setHoveredSlot(null)}
+                >
+                  {getSchedulesForSlot(day, hour).map((schedule) => (
+                    <div key={schedule.id} className="Schedulee-card">
+                      <div className="card-title">{schedule.course}</div>
+
+
+                      <div className="card-time">
+                        {schedule.startTime} - {schedule.endTime}
+                      </div>
+
+                      <div>
+                        Room: {schedule.roomNo || "-"}
+                      </div>
+
+                      {schedule.topic && <div>{schedule.topic}</div>}
+
+                      {hoveredSlot === `${day}-${hour}` && (
+                        <div className="card-actions">
+                          <button
+                            className="btn-edit-card"
+                            onClick={() => {
+                              setUpdateScheduledata(schedule.originalSchedule);
+                              setshowUpdateSchedule(true);
+                            }}
+                          >
+                            ✎
+                          </button>
+
+                          <button
+                            className="btn-delete-card"
+                            onClick={() => handleDelete(schedule.scheduleId)}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      )}
                     </div>
-
-
-                  ))
-
-                }
-
-
-
-              </div>
-
-
-            ))
-
-          }
-
-
-
+                  ))}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
-
-
       </div>
 
-
-
-
-
-
-
-
-
       <div className="mini-calendar">
-
-
         <div className="calendar-nav">
-
-
           <button
-            onClick={() => setCurrentMonth(
-              new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth() - 1
+            onClick={() =>
+              setCurrentMonth(
+                new Date(
+                  currentMonth.getFullYear(),
+                  currentMonth.getMonth() - 1
+                )
               )
-            )}
+            }
           >
             ‹
           </button>
 
-
-
-          <span>
-
-            {formatDate(currentMonth)}
-
-          </span>
-
-
+          <span>{formatDate(currentMonth)}</span>
 
           <button
-            onClick={() => setCurrentMonth(
-              new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth() + 1
+            onClick={() =>
+              setCurrentMonth(
+                new Date(
+                  currentMonth.getFullYear(),
+                  currentMonth.getMonth() + 1
+                )
               )
-            )}
+            }
           >
-
             ›
-
           </button>
-
-
         </div>
-
-
-
-
 
         <div className="calendar-weekdays">
-
-          {
-            Array.from({ length: 7 })
-              .map((_, i) => (
-
-                <div
-                  key={i}
-                  className="weekday"
-                >
-
-                  {getDayName(i)}
-
-                </div>
-
-              ))
-          }
-
+          {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
+            <div key={day} className="weekday">
+              {day}
+            </div>
+          ))}
         </div>
-
-
-
-
 
         <div className="calendar-dates">
+          {Array.from({ length: firstDay }).map((_, i) => (
+            <div key={i} className="date empty" />
+          ))}
 
+          {Array.from({ length: daysInMonth }).map((_, i) => {
+            const date = new Date(
+              currentMonth.getFullYear(),
+              currentMonth.getMonth(),
+              i + 1
+            );
 
-          {
-            Array.from({
-              length: firstDay
-            })
-              .map((_, i) => (
+            const today = date.toDateString() === new Date().toDateString();
 
-                <div
-                  key={i}
-                  className="date empty"
-                />
+            const selected =
+              selectedDate &&
+              date.toDateString() === selectedDate.toDateString();
 
-              ))
-          }
-
-
-
-
-          {
-            Array.from({
-              length: daysInMonth
-            })
-              .map((_, i) => {
-
-
-                const date =
-                  new Date(
-                    currentMonth.getFullYear(),
-                    currentMonth.getMonth(),
-                    i + 1
-                  );
-
-
-
-                const today =
-                  date.toDateString()
-                  ===
-                  new Date()
-                    .toDateString();
-
-
-
-                const selected =
-                  selectedDate &&
-                  date.toDateString()
-                  ===
-                  selectedDate.toDateString();
-
-
-
-                return (
-
-                  <div
-
-                    key={i}
-
-                    className={
-                      `date
-${today ? "today" : ""}
-${selected ? "selected" : ""}`
-                    }
-
-                    onClick={() =>
-                      onSelectDate(date)
-                    }
-
-                  >
-
-                    {i + 1}
-
-                  </div>
-
-                )
-
-
-              })
-
-          }
-
-
+            return (
+              <div
+                key={i}
+                className={`date ${today ? "today" : ""} ${
+                  selected ? "selected" : ""
+                }`}
+                onClick={() => onSelectDate(date)}
+              >
+                {i + 1}
+              </div>
+            );
+          })}
         </div>
 
-
-
-
-        <div className="calendar-today">
-
-          Today
-
-        </div>
-
-
-
+        <div className="calendar-today">Today</div>
       </div>
-
-
-
     </div>
-
-
   );
-
-
 }
-
-
-
-
 
 
 
