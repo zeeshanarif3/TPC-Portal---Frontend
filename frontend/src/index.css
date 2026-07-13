@@ -18,12 +18,15 @@ html {
   --text-secondary: #555555;
   --card-bg: #ffffff;
   --border-color: #ddd;
-  --accent: #f1af07;
+  /* --accent: #f1af07; */
+  /* --accent: #16a34a; */
+  --accent: hsl(120, 72%, 44%);
+
   /* --stat-active-start:hsl(0, 0%, 98%); */
   --stat-active-start:hsl(102, 74%, 90%);
   --stat-expiring-start:hsl(54, 75%, 90%);
   --stat-expired-start:hsl(19, 76%, 90%);
-
+  
 }
 
 
@@ -35,7 +38,9 @@ html {
     --text-secondary: #aaaaaa;
     --card-bg: #1a1a1a;
     --border-color: #333;
-
+    /* --accent: #f1af07; */
+    --accent: hsl(42, 100%, 44%);
+    
     --stat-active-start:hsl(102, 74%, 10%);
     --stat-expiring-start:hsl(49, 73%, 10%);
     --stat-expiring-start:hsl(49, 73%, 10%);

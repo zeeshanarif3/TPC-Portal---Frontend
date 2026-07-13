@@ -11,7 +11,7 @@ import {
 
 // Professional categorical color palette
 const COLORS = [
-  "#15803d", 
+  "var(--accent)", 
 ];
 
 export default function SubjectDistribution({ data }) {

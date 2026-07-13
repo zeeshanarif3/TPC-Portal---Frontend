@@ -82,7 +82,7 @@
     justify-content: center;
     font-weight: 600;
     color:  var(--text-primary);
-    background: linear-gradient(135deg, var(--sb-accent), hsl(0, 0%, 83%));
+    background: linear-gradient(135deg, var(--sb-accent), var(--bg-primary));
     line-height: 1;
 }
 

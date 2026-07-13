@@ -178,7 +178,7 @@ ADD SLOT BUTTON
 
     border: none;
 
-    background: var(--bg-secondary);
+    /* background: var(--bg-secondary); */
     color: var(--text-primary);
 
     border-radius: 16px;
