@@ -37,7 +37,7 @@
 
     padding: 1.4rem 1.5rem;
 
-    border: 1px solid var(--border-color);
+    /* border: 1px solid var(--border-color); */
     border-radius: var(--radius-lg);
 
     overflow: hidden;
@@ -55,7 +55,7 @@
 }
 
 /* subtle gradient wash from the theme's stat-* tokens, fading into the card surface */
-.stat-active {
+/* .stat-active {
     background: linear-gradient(155deg, var(--stat-active-start) 0%, var(--card-bg) 65%);
 }
 
@@ -65,7 +65,35 @@
 
 .stat-expired {
     background: linear-gradient(155deg, var(--stat-expired-start) 0%, var(--card-bg) 65%);
+} */
+
+
+.stat-active {
+    background: radial-gradient(
+        circle at top left,
+        var(--stat-active-start),
+        var(--card-bg) 55%
+    );
 }
+
+.stat-expiring {
+    background: radial-gradient(
+        circle at top left,
+        var(--stat-expiring-start),
+        var(--card-bg) 55%
+    );
+}
+
+.stat-expired {
+    background: radial-gradient(
+        circle at top left,
+        var(--stat-expired-start),
+        var(--card-bg) 55%
+    );
+}
+
+
+
 
 /* ==========================================
                 NUMBER / LABEL

@@ -23,9 +23,9 @@ html {
   --accent: hsl(120, 72%, 44%);
 
   /* --stat-active-start:hsl(0, 0%, 98%); */
-  --stat-active-start:hsl(102, 74%, 90%);
-  --stat-expiring-start:hsl(54, 75%, 90%);
-  --stat-expired-start:hsl(19, 76%, 90%);
+--stat-active-start: hsl(102, 70%, 82%);
+--stat-expiring-start: hsl(54, 80%, 82%);
+--stat-expired-start: hsl(19, 80%, 82%);
   
 }
 
@@ -41,10 +41,9 @@ html {
     /* --accent: #f1af07; */
     --accent: hsl(42, 100%, 44%);
     
-    --stat-active-start:hsl(102, 74%, 10%);
-    --stat-expiring-start:hsl(49, 73%, 10%);
-    --stat-expiring-start:hsl(49, 73%, 10%);
-    --stat-expired-start:hsl(15, 73%, 10%);
+--stat-active-start: hsl(102, 55%, 18%);
+--stat-expiring-start: hsl(49, 65%, 18%);
+--stat-expired-start: hsl(15, 65%, 18%);
 }
 
 
