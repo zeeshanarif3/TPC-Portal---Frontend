@@ -33,14 +33,17 @@ export default function SchedulesPage({ token }) {
     refreshSchedules,
 
     fetchTrainerById,
+    setSelectedDate,
+    selectedDate
+
+
 
   } = useDashboard(token);
 
 
   const [view, setView] = useState("table");
 
-  const [selectedDate, setSelectedDate] =
-    useState(new Date());
+
 
   const [showNewSchedule, setShowNewSchedule] =
     useState(false);

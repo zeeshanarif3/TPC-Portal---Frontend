@@ -24,14 +24,17 @@ export default function SchedulesPage({ token }) {
   const {
     // AllSchedules,
     AllSlots,
+    AllUpcommingSlots,
     updateTopicAndFeedback,
     Allstudents,
     submitAttendance,
+    selectedDate,
+    setSelectedDate
   } = useTrainer(token);
 
 
   const [view, setView] = useState("table");
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  // const [selectedDate, setSelectedDate] = useState(new Date());
 
   const [showTopicFeedbackModal, setShowTopicFeedbackModal] = useState(false);
   const [showAttendanceModal, setshowAttendanceModal] = useState(false);
@@ -85,6 +88,7 @@ export default function SchedulesPage({ token }) {
   return (
     <div className="Schedulees-page">
       {/* Header */}
+      {/* <pre>{JSON.stringify(selectedDate, null, 2)}</pre> */}
       <div className="Schedulees-header">
         <div>
           <h1>Schedules</h1>
@@ -121,7 +125,8 @@ export default function SchedulesPage({ token }) {
       <>
         {view === "table" ? (
           <SchedulesTable
-            schedules={AllSlots}
+            // schedules={AllSlots}
+            schedules={AllUpcommingSlots}
             setTopicFeedbackData={setTopicFeedbackData}
             setShowTopicFeedbackModal={setShowTopicFeedbackModal}
             setshowAttendanceModal={setshowAttendanceModal}
@@ -130,11 +135,13 @@ export default function SchedulesPage({ token }) {
         ) : (
           <SchedulesCalendar
             token={token}
-            schedules={AllSlots}
+            // schedules={AllSlots}
+            schedules={AllUpcommingSlots}
             selectedDate={selectedDate}
             onSelectDate={setSelectedDate}
             setTopicFeedbackData={setTopicFeedbackData}
             setShowTopicFeedbackModal={setShowTopicFeedbackModal}
+            setshowAttendanceModal={setshowAttendanceModal}
 
           />
         )}

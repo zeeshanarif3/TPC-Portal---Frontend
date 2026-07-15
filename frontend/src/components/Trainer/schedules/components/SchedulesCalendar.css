@@ -1,0 +1,57 @@
+
+.btn-action2 {
+  width: 2.25rem;
+  height: 2.25rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: var(--text-secondary);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.btn-action2 svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 2;
+}
+
+.btn-action2:hover {
+  transform: translateY(-1px);
+}
+
+.btn-action2:active {
+  transform: scale(0.96);
+}
+
+.btn-edit:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: #7c3aed;
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+
+
+.card-actions2 {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+
+    transition: all 0.3s ease;
+}

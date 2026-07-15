@@ -19,21 +19,21 @@ export default function CSVScheduleUpload({
 }) {
 
 
-    const [file,setFile] = useState(null);
+    const [file, setFile] = useState(null);
 
-    const [schedules,setSchedules] = useState([]);
+    const [schedules, setSchedules] = useState([]);
 
-    const [showPreview,setShowPreview] = useState(false);
+    const [showPreview, setShowPreview] = useState(false);
 
-    const [error,setError] = useState("");
+    const [error, setError] = useState("");
 
-    const [success,setSuccess] = useState("");
-
-
+    const [success, setSuccess] = useState("");
 
 
 
-    function findCourse(courseCode){
+
+
+    function findCourse(courseCode) {
 
         return AllCourses.find(
             c =>
@@ -49,7 +49,7 @@ export default function CSVScheduleUpload({
 
 
 
-    function findTrainer(trainerName){
+    function findTrainer(trainerName) {
 
         return AllTrainers.find(
             t =>
@@ -65,17 +65,17 @@ export default function CSVScheduleUpload({
 
 
 
-    function findSession(startDate,endDate){
+    function findSession(startDate, endDate) {
 
         return AllSessions.find(
-            session=>{
+            session => {
 
                 const s =
-                session.startDate?.substring(0,10);
+                    session.startDate?.substring(0, 10);
 
 
                 const e =
-                session.endDate?.substring(0,10);
+                    session.endDate?.substring(0, 10);
 
 
 
@@ -100,39 +100,117 @@ export default function CSVScheduleUpload({
 
 
     // Convert day into real date, constrained to the session's date range
-    function getDateFromDay(sessionStartDate,sessionEndDate,day){
+    // function getDateFromDay(sessionStartDate, sessionEndDate, day) {
+
+
+    //     const start =
+    //         new Date(sessionStartDate);
+
+    //     const end =
+    //         new Date(sessionEndDate);
+
+
+
+    //     const days = {
+
+    //         sunday: 0,
+    //         monday: 1,
+    //         tuesday: 2,
+    //         wednesday: 3,
+    //         thursday: 4,
+    //         friday: 5,
+    //         saturday: 6
+
+    //     };
+
+
+
+    //     const targetDay =
+    //         days[
+    //         day.toLowerCase()
+    //         ];
+
+
+
+    //     if (targetDay === undefined) {
+
+    //         return null;
+
+    //     }
+
+
+
+    //     const current =
+    //         start.getDay();
+
+
+
+    //     let difference =
+    //         targetDay - current;
+
+
+
+    //     if (difference < 0) {
+
+    //         difference += 7;
+
+    //     }
+
+
+
+    //     start.setDate(
+    //         start.getDate() + difference
+    //     );
+
+
+
+    //     // Reject if the resolved date falls outside the session window
+    //     if (start > end) {
+
+    //         return null;
+
+    //     }
+
+
+
+    //     return start
+    //         .toISOString()
+    //         .substring(0, 10);
+
+    // }
+
+    // Validate the CSV's date falls within the session's date range, normalize to YYYY-MM-DD
+    function validateDate(dateStr, sessionStartDate, sessionEndDate) {
+
+        if (!dateStr || !dateStr.trim()) {
+
+            return null;
+
+        }
+
+
+        const parsed =
+            new Date(dateStr.trim());
+
+
+        if (isNaN(parsed.getTime())) {
+
+            return null;
+
+        }
+
 
 
         const start =
-        new Date(sessionStartDate);
+            new Date(sessionStartDate);
+
 
         const end =
-        new Date(sessionEndDate);
+            new Date(sessionEndDate);
 
 
 
-        const days = {
-
-            sunday:0,
-            monday:1,
-            tuesday:2,
-            wednesday:3,
-            thursday:4,
-            friday:5,
-            saturday:6
-
-        };
-
-
-
-        const targetDay =
-        days[
-            day.toLowerCase()
-        ];
-
-
-
-        if(targetDay === undefined){
+        if (parsed < start || parsed > end) {
 
             return null;
 
@@ -140,70 +218,35 @@ export default function CSVScheduleUpload({
 
 
 
-        const current =
-        start.getDay();
-
-
-
-        let difference =
-        targetDay - current;
-
-
-
-        if(difference < 0){
-
-            difference += 7;
-
-        }
-
-
-
-        start.setDate(
-            start.getDate()+difference
-        );
-
-
-
-        // Reject if the resolved date falls outside the session window
-        if(start > end){
-
-            return null;
-
-        }
-
-
-
-        return start
-        .toISOString()
-        .substring(0,10);
+        return parsed
+            .toISOString()
+            .substring(0, 10);
 
     }
 
 
 
-
-
     // Compare "HH:mm" (24h) or "hh:mm AM/PM" style strings as minutes-since-midnight
-    function timeToMinutes(time){
+    function timeToMinutes(time) {
 
         const clean = time.trim();
 
         const isPM = /pm/i.test(clean);
         const isAM = /am/i.test(clean);
 
-        const [hPart,mPart] =
-        clean
-        .replace(/am|pm/i,"")
-        .trim()
-        .split(":");
+        const [hPart, mPart] =
+            clean
+                .replace(/am|pm/i, "")
+                .trim()
+                .split(":");
 
-        let hour = parseInt(hPart,10);
-        const minute = parseInt(mPart,10) || 0;
+        let hour = parseInt(hPart, 10);
+        const minute = parseInt(mPart, 10) || 0;
 
-        if(isPM && hour !== 12) hour += 12;
-        if(isAM && hour === 12) hour = 0;
+        if (isPM && hour !== 12) hour += 12;
+        if (isAM && hour === 12) hour = 0;
 
-        return hour*60 + minute;
+        return hour * 60 + minute;
 
     }
 
@@ -211,21 +254,21 @@ export default function CSVScheduleUpload({
 
 
 
-    function handleFile(e){
+    function handleFile(e) {
 
 
         const uploaded =
-        e.target.files[0];
+            e.target.files[0];
 
 
-        if(!uploaded)
+        if (!uploaded)
             return;
 
 
 
-        if(
+        if (
             !uploaded.name.endsWith(".csv")
-        ){
+        ) {
 
             setError(
                 "Please upload CSV file"
@@ -248,10 +291,10 @@ export default function CSVScheduleUpload({
 
 
 
-    function processCSV(){
+    function processCSV() {
 
 
-        if(!file){
+        if (!file) {
 
             setError(
                 "Please select CSV file"
@@ -268,313 +311,342 @@ export default function CSVScheduleUpload({
             file,
             {
 
-            header:true,
+                header: true,
 
-            skipEmptyLines:true,
-
-
-            complete:(results)=>{
+                skipEmptyLines: true,
 
 
-                try{
+                complete: (results) => {
 
 
-                    const rows =
-                    results.data;
+                    try {
 
 
-
-                    const required=[
-
-                        "courseCode",
-                        "sessionStartDate",
-                        "sessionEndDate",
-                        "day",
-                        "startTime",
-                        "endTime",
-                        "trainerName",
-                        "roomNo"
-
-                    ];
+                        const rows =
+                            results.data;
 
 
 
-                    const missing =
-                    required.filter(
-                        col =>
-                        !Object.keys(rows[0])
-                        .includes(col)
-                    );
+                        // const required=[
+
+                        //     "courseCode",
+                        //     "sessionStartDate",
+                        //     "sessionEndDate",
+                        //     "day",
+                        //     "startTime",
+                        //     "endTime",
+                        //     "trainerName",
+                        //     "roomNo"
+
+                        // ];
+                        const required = [
+
+                            "courseCode",
+                            "sessionStartDate",
+                            "sessionEndDate",
+                            "date",
+                            "startTime",
+                            "endTime",
+                            "trainerName",
+                            "roomNo"
+
+                        ];
 
 
 
-                    if(missing.length){
+                        const missing =
+                            required.filter(
+                                col =>
+                                    !Object.keys(rows[0])
+                                        .includes(col)
+                            );
 
-                        throw new Error(
-                            `Missing CSV columns: ${missing.join(", ")}`
+
+
+                        if (missing.length) {
+
+                            throw new Error(
+                                `Missing CSV columns: ${missing.join(", ")}`
+                            );
+
+                        }
+
+
+
+
+
+
+                        const finalSchedules = [];
+
+
+
+
+
+
+
+                        rows.forEach(
+                            (row, index) => {
+
+
+                                const course =
+                                    findCourse(
+                                        row.courseCode
+                                    );
+
+
+
+                                const trainer =
+                                    findTrainer(
+                                        row.trainerName
+                                    );
+
+
+
+                                const session =
+                                    findSession(
+                                        row.sessionStartDate,
+                                        row.sessionEndDate
+                                    );
+
+
+
+
+
+                                if (!course) {
+
+                                    throw new Error(
+                                        `Row ${index + 1}: Course not found`
+                                    );
+
+                                }
+
+
+
+
+                                if (!trainer) {
+
+                                    throw new Error(
+                                        `Row ${index + 1}: Trainer not found`
+                                    );
+
+                                }
+
+
+
+
+
+                                if (!session) {
+
+                                    throw new Error(
+                                        `Row ${index + 1}: Session not found`
+                                    );
+
+                                }
+
+
+
+
+
+                                if (!row.roomNo) {
+
+                                    throw new Error(
+                                        `Row ${index + 1}: Room number missing`
+                                    );
+
+                                }
+
+
+
+
+
+                                if (
+                                    !row.startTime ||
+                                    !row.endTime ||
+                                    timeToMinutes(row.startTime) >= timeToMinutes(row.endTime)
+                                ) {
+
+                                    throw new Error(
+                                        `Row ${index + 1}: startTime must be before endTime`
+                                    );
+
+                                }
+
+
+
+
+
+
+                                // const date =
+                                //     getDateFromDay(
+                                //         row.sessionStartDate,
+                                //         row.sessionEndDate,
+                                //         row.day
+                                //     );
+
+
+
+
+
+                                // if (!date) {
+
+                                //     throw new Error(
+                                //         `Row ${index + 1}: Invalid day, or day falls outside session date range`
+                                //     );
+
+                                // }
+
+                                const date =
+                                    validateDate(
+                                        row.date,
+                                        row.sessionStartDate,
+                                        row.sessionEndDate
+                                    );
+
+
+
+
+
+                                if (!date) {
+
+                                    throw new Error(
+                                        `Row ${index + 1}: Invalid date, or date falls outside session date range`
+                                    );
+
+                                }
+
+
+
+
+                                const schedule = {
+
+
+                                    courseId:
+                                        course._id,
+
+
+
+                                    sessionId:
+                                        session._id,
+
+
+
+                                    date,
+
+
+
+                                    startTime:
+                                        row.startTime.trim(),
+
+
+
+                                    endTime:
+                                        row.endTime.trim(),
+
+
+
+                                    trainerId:
+                                        trainer._id,
+
+
+
+                                    roomNo:
+                                        row.roomNo.trim(),
+
+
+
+                                    topic:
+                                        row.topic?.trim() || ""
+
+
+                                };
+
+
+
+
+
+
+                                // Matches Mongo unique index
+                                const duplicate =
+                                    finalSchedules.some(
+                                        s =>
+
+                                            s.date === schedule.date
+
+                                            &&
+
+                                            s.startTime === schedule.startTime
+
+                                            &&
+
+                                            s.roomNo === schedule.roomNo
+
+                                    );
+
+
+
+
+
+                                if (!duplicate) {
+
+                                    finalSchedules.push(
+                                        schedule
+                                    );
+
+                                }
+
+
+
+                            });
+
+
+
+
+
+
+
+                        if (
+                            finalSchedules.length === 0
+                        ) {
+
+                            throw new Error(
+                                "No valid schedules found"
+                            );
+
+                        }
+
+
+
+
+
+                        setSchedules(
+                            finalSchedules
+                        );
+
+
+
+                        setSuccess(
+                            `${finalSchedules.length} schedules extracted`
+                        );
+
+
+
+                        setShowPreview(true);
+
+
+
+                    }
+                    catch (err) {
+
+                        setError(
+                            err.message
                         );
 
                     }
 
 
-
-
-
-
-                    const finalSchedules = [];
-
-
-
-
-
-
-
-                    rows.forEach(
-                    (row,index)=>{
-
-
-                        const course =
-                        findCourse(
-                            row.courseCode
-                        );
-
-
-
-                        const trainer =
-                        findTrainer(
-                            row.trainerName
-                        );
-
-
-
-                        const session =
-                        findSession(
-                            row.sessionStartDate,
-                            row.sessionEndDate
-                        );
-
-
-
-
-
-                        if(!course){
-
-                            throw new Error(
-                                `Row ${index+1}: Course not found`
-                            );
-
-                        }
-
-
-
-
-                        if(!trainer){
-
-                            throw new Error(
-                                `Row ${index+1}: Trainer not found`
-                            );
-
-                        }
-
-
-
-
-
-                        if(!session){
-
-                            throw new Error(
-                                `Row ${index+1}: Session not found`
-                            );
-
-                        }
-
-
-
-
-
-                        if(!row.roomNo){
-
-                            throw new Error(
-                                `Row ${index+1}: Room number missing`
-                            );
-
-                        }
-
-
-
-
-
-                        if(
-                            !row.startTime ||
-                            !row.endTime ||
-                            timeToMinutes(row.startTime) >= timeToMinutes(row.endTime)
-                        ){
-
-                            throw new Error(
-                                `Row ${index+1}: startTime must be before endTime`
-                            );
-
-                        }
-
-
-
-
-
-
-                        const date =
-                        getDateFromDay(
-                            row.sessionStartDate,
-                            row.sessionEndDate,
-                            row.day
-                        );
-
-
-
-
-
-                        if(!date){
-
-                            throw new Error(
-                                `Row ${index+1}: Invalid day, or day falls outside session date range`
-                            );
-
-                        }
-
-
-
-
-
-
-                        const schedule = {
-
-
-                            courseId:
-                            course._id,
-
-
-
-                            sessionId:
-                            session._id,
-
-
-
-                            date,
-
-
-
-                            startTime:
-                            row.startTime.trim(),
-
-
-
-                            endTime:
-                            row.endTime.trim(),
-
-
-
-                            trainerId:
-                            trainer._id,
-
-
-
-                            roomNo:
-                            row.roomNo.trim(),
-
-
-
-                            topic:
-                            row.topic?.trim() || ""
-
-
-                        };
-
-
-
-
-
-
-                        // Matches Mongo unique index
-                        const duplicate =
-                        finalSchedules.some(
-                            s =>
-
-                            s.date === schedule.date
-
-                            &&
-
-                            s.startTime === schedule.startTime
-
-                            &&
-
-                            s.roomNo === schedule.roomNo
-
-                        );
-
-
-
-
-
-                        if(!duplicate){
-
-                            finalSchedules.push(
-                                schedule
-                            );
-
-                        }
-
-
-
-                    });
-
-
-
-
-
-
-
-                    if(
-                        finalSchedules.length===0
-                    ){
-
-                        throw new Error(
-                            "No valid schedules found"
-                        );
-
-                    }
-
-
-
-
-
-                    setSchedules(
-                        finalSchedules
-                    );
-
-
-
-                    setSuccess(
-                        `${finalSchedules.length} schedules extracted`
-                    );
-
-
-
-                    setShowPreview(true);
-
-
-
-                }
-                catch(err){
-
-                    setError(
-                        err.message
-                    );
-
                 }
 
-
-            }
-
-        });
+            });
 
 
     }
@@ -585,7 +657,7 @@ export default function CSVScheduleUpload({
 
 
 
-    if(showPreview){
+    if (showPreview) {
 
         return (
 
@@ -601,7 +673,7 @@ export default function CSVScheduleUpload({
 
                 token={token}
 
-                onBack={()=>
+                onBack={() =>
                     setShowPreview(false)
                 }
 

@@ -162,6 +162,7 @@ export function useDashboard(token) {
     const [selectedCollege, setSelectedCollege] = useState('6a4107cea7404a5a7f287dd9');
     const [colleges, setColleges] = useState([]);
     const [stats, setStats] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [trainers, setTrainers] = useState([]);
     const [schedule, setSchedule] = useState([]);
     const [attendance, setAttendance] = useState([]);
@@ -805,6 +806,9 @@ const handleDeleteModerator = async (id) => {
         submitAttendance,
         fetchUpcomingClasses,
         fetchSlotAnalytics,
+
+        selectedDate,
+        setSelectedDate,
 
 
         // contracts

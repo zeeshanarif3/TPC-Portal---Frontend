@@ -12,7 +12,8 @@ function Debug() {
     const {
         // AllSchedules,
         AllSlots,
-        Allstudents
+        Allstudents,
+        AllUpcommingSlots
     } = useTrainer(token);
 
     // const {
@@ -268,6 +269,28 @@ function Debug() {
                 AllSlots :
                 
                  <pre>{JSON.stringify(AllSlots, null, 2)}</pre>   same, too long , but working
+                <br />
+                <br />
+              
+                <br />
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+                {/* <br />
+
+                    schedules
+                <br />
+                <br />
+                <br />
+                <br /> */}
+                {/* UpcomingScheduleByColl :
+                
+                 <pre>{JSON.stringify(UpcomingScheduleByColl, null, 2)}</pre>  too long , but working
+                <br /> */}
+                <br />
+                <br />
+                AllUpcommingSlots :
+                
+                 <pre>{JSON.stringify(AllUpcommingSlots, null, 2)}</pre>   same, too long , but working
                 <br />
                 <br />
               

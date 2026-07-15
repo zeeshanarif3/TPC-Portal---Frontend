@@ -49,7 +49,7 @@ export default function SchedulesTable({
 
 
       course:
-        schedule.courseId?.courseCode ||
+        schedule.course?.courseCode ||
         "-",
 
 
@@ -71,12 +71,12 @@ export default function SchedulesTable({
 
       session:
 
-        schedule.sessionId
+        schedule.session
 
           ?
 
           `${new Date(
-            schedule.sessionId.startDate
+            schedule.session.startDate
           )
             .toLocaleDateString()
 
@@ -85,7 +85,7 @@ export default function SchedulesTable({
       -
 
       ${new Date(
-            schedule.sessionId.endDate
+            schedule.session.endDate
           )
             .toLocaleDateString()
 

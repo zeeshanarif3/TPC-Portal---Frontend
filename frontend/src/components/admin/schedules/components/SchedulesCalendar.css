@@ -193,6 +193,8 @@
         box-shadow .22s var(--ease),
         border-color .22s var(--ease);
 
+    transition: all 0.3s ease;
+
     cursor: pointer;
     height: auto;
 }
@@ -515,6 +517,24 @@
     border-left: 5px solid color-mix(in srgb, var(--bg-schedule-cancelled) 50%, Black);
 }
 
+
+
+
+
+.calendar-week-row {
+  position: relative;
+}
+
+.active-week-dot {
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent, #f1af07);
+}
 
 /* ==========================================
                 RESPONSIVE

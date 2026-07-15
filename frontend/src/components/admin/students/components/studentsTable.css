@@ -2,7 +2,7 @@
    TABLE CONTAINER
 ========================================== */
 
-.Traineattendance-table-container {
+.trainers-table-container {
   flex: 1;
   min-height: 0;
   min-width: 0;
@@ -23,19 +23,19 @@
    TABLE
 ========================================== */
 
-.Traineattendance-table {
+.trainers-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
 
-.Traineattendance-table thead {
+.trainers-table thead {
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-.Traineattendance-table th {
+.trainers-table th {
   padding: 1rem 1.5rem;
 
  background: var(--bg-primary);
@@ -53,7 +53,7 @@
   white-space: nowrap;
 }
 
-.Traineattendance-table td {
+.trainers-table td {
   padding: 1.25rem 1.5rem;
 
   font-size: 0.92rem;
@@ -66,93 +66,80 @@
   vertical-align: middle;
 }
 
-.Traineattendance-table tbody tr {
+.trainers-table tbody tr {
   transition: background-color 0.2s ease;
 }
 
-.Traineattendance-table tbody tr:hover {
+.trainers-table tbody tr:hover {
  background: var(--bg-primary);
 }
 
-.Traineattendance-table tbody tr:last-child td {
+.trainers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
 /* ==========================================
-   COLUMN STYLES
+   COLUMNS
 ========================================== */
 
-.Traineattendance-date {
+.trainer-name {
   font-weight: 600;
+  color: var(--text-primary);
 }
 
-.Traineattendance-time {
+.trainer-id {
   font-family: monospace;
   color: var(--text-secondary);
 }
 
-.Traineattendance-course {
-  font-weight: 600;
-}
-
-.Traineattendance-session {
-  color: var(--text-secondary);
-}
-
 .actions-column {
-  width: 150px;
+  width: 180px;
 }
 
 /* ==========================================
-   HEAD COUNT
+   CONTRACT BADGES
 ========================================== */
 
-.head-count-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.head-count {
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.percentage {
+.contract-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  min-width: 56px;
-
-  padding: 0.35rem 0.65rem;
+  padding: 0.4rem 0.8rem;
 
   border-radius: 999px;
 
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
-.percentage-good {
+.contract-active {
   background: #dcfce7;
   color: #166534;
 }
 
-.percentage-warning {
+.contract-expired {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.contract-pending {
   background: #fef3c7;
   color: #92400e;
 }
 
-.percentage-low {
-  background: #fee2e2;
-  color: #991b1b;
+.contract-not-assigned {
+  background: #e2e8f0;
+  color: var(--text-secondary);
 }
 
 /* ==========================================
    ACTIONS
 ========================================== */
 
-.Traineattendance-actions {
+.trainer-actions {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -205,6 +192,11 @@
   color: #7c3aed;
 }
 
+.btn-contract:hover {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
+}
+
 .btn-delete:hover {
   background: rgba(239, 68, 68, 0.08);
   color: #dc2626;
@@ -229,17 +221,17 @@
    SCROLLBAR
 ========================================== */
 
-.Traineattendance-table-container::-webkit-scrollbar {
+.trainers-table-container::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
-.Traineattendance-table-container::-webkit-scrollbar-thumb {
+.trainers-table-container::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 999px;
 }
 
-.Traineattendance-table-container::-webkit-scrollbar-track {
+.trainers-table-container::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -248,7 +240,7 @@
 ========================================== */
 
 @media (max-width: 1200px) {
-  .Traineattendance-table {
-    min-width: 900px;
+  .trainers-table {
+    min-width: 1000px;
   }
 }
