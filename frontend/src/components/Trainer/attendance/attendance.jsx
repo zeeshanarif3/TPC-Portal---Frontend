@@ -1,126 +1,121 @@
 import { useState } from "react";
-import AttendanceTable from "./components/AttendanceTable";
-import AttendanceStats from "./components/AttendanceStats";
-// import { useDashboard } from "../../../hooks/useDashboard";
+// import { submitAttendance } from "../../services/dashboardapi";
 
-import "./attendance.css";
-import useTrainer from "../../../hooks/useTrainer";
+// import "./attendance.css";
 
-export default function AttendancePage({ token }) {
-  const {
-    // selectedCollege,
-    // setSelectedCollege,
-    // colleges,
-    // AllSessions,
-    // setCurrentSession,
-    // CurrentSession,
-    // stats,
-    // loading,
-    // error,
-    // AttendanceByCollegeAndSession,
-  } = useTrainer(token);
+export default function AttendanceModal({
+  slot,
+  students = [],
+  token,
+  onBack,
+  onSuccess,
+  submitAttendance,
+}) {
+  const [presentStudents, setPresentStudents] = useState(
+    slot?.presentStudents || []
+  );
+  const [feedback, setFeedback] = useState(slot?.feedback || "");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [dateFilter, setDateFilter] = useState("");
+  function toggleStudent(studentId) {
+    setPresentStudents((prev) =>
+      prev.includes(studentId)
+        ? prev.filter((id) => id !== studentId)
+        : [...prev, studentId]
+    );
+  }
 
-  const filteredAttendance = AttendanceByCollegeAndSession.filter((record) => {
-    const courseCode = record.courseId?.courseCode || "";
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const session = `${
-      new Date(record.sessionId?.startDate).toLocaleDateString()
-    } - ${new Date(record.sessionId?.endDate).toLocaleDateString()}`;
+    try {
+      const updated = await submitAttendance(
+        slot._id,
+        { presentStudents, feedback },
+        token
+      );
 
-    const matchesSearch =
-      courseCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      session.toLowerCase().includes(searchTerm.toLowerCase());
+      if (onSuccess) {
+        onSuccess(updated);
+      }
 
-    const matchesDate =
-      !dateFilter ||
-      new Date(record.date).toISOString().split("T")[0] === dateFilter;
+      onBack();
+    } catch (err) {
+      setError(err.message || "Failed to submit attendance");
+    } finally {
+      setLoading(false);
+    }
+  }
 
-    return matchesSearch && matchesDate;
-  });
-
-  const handleTakeAttendance = () => {
-    window.location.href = "/attendance/take";
-  };
-
-  const handleExportCSV = () => {
-    const headers = [
-      "DATE",
-      "TIME",
-      "COURSE",
-      "SESSION",
-      "HEAD COUNT",
-      "PRESENT STUDENTS",
-    ];
-
-    const rows = filteredAttendance.map((a) => [
-      new Date(a.date).toLocaleDateString(),
-      `${a.startTime} - ${a.endTime}`,
-      a.courseId?.courseCode,
-      `${new Date(a.sessionId?.startDate).toLocaleDateString()} - ${new Date(
-        a.sessionId?.endDate
-      ).toLocaleDateString()}`,
-      a.headCount,
-      a.presentStudents.length,
-    ]);
-
-    const csvContent = [headers, ...rows]
-      .map((row) => row.join(","))
-      .join("\n");
-
-    const blob = new Blob([csvContent], {
-      type: "text/csv;charset=utf-8;",
-    });
-
-    const url = window.URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "attendance.csv";
-    link.click();
-
-    window.URL.revokeObjectURL(url);
-  };
+  if (!slot) return null;
 
   return (
-   <div></div>
+    <div className="modal-overlay" onClick={onBack}>
+      <div
+        className="modal-content flat-card"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3>Mark Attendance</h3>
+
+        <p className="modal-subtitle">
+          {slot.courseId?.courseCode || "Slot"}
+          {" · "}
+          {slot.date ? new Date(slot.date).toLocaleDateString() : "-"}
+        </p>
+
+        {error && <div className="error">{error}</div>}
+
+        <form onSubmit={handleSubmit}>
+          <label>Present Students</label>
+
+          <div className="student-list">
+            {students.map((student) => (
+              <label key={student._id} className="student-checkbox">
+                <input
+                  type="checkbox"
+                  checked={presentStudents.includes(student._id)}
+                  onChange={() => toggleStudent(student._id)}
+                  disabled={loading}
+                />
+                {student.name}
+              </label>
+            ))}
+          </div>
+
+          <label htmlFor="feedback">Feedback</label>
+
+          <textarea
+            id="feedback"
+            rows={4}
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            placeholder="Enter feedback"
+            disabled={loading}
+          />
+
+          <div className="modal-actions">
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={onBack}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+
+            <button type="submit" className="btn-primary" disabled={loading}>
+              {loading ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 
-// import { useState, useEffect } from 'react';
-// import AttendanceTable from './components/AttendanceTable';
-// import AttendanceStats from './components/AttendanceStats';
-// // import useAttendance from './hooks/useAttendance';
-// import { useDashboard } from '../../../hooks/useDashboard';
-
-// import './attendance.css'
-
-// export default function AttendancePage({token}) {
-
-
-
-
-
-//     const {
-//         selectedCollege,
-//         setSelectedCollege,
-//         stats,
-
-//         loading,
-//         error,
-
-//         // attendance
-
-//         upcomingClasses,
-//         AttendanceChart,
-//         SubjectDistributionAttendance,
-//         AttendanceByCollegeAndSession,
-
-
-
-//     } = useDashboard(token);
 
 
 
@@ -130,98 +125,76 @@ export default function AttendancePage({ token }) {
 
 
 
+// import { useState } from "react";
+// // import { submitAttendance } from "../services/slotService"; // adjust path
 
+// export default function AttendanceForm({ 
+//   slotId, 
+//   students = [], 
+//   token, 
+//   onSuccess, 
+//   submitAttendance
+// }) {
+//   const [presentStudents, setPresentStudents] = useState([]);
+//   const [feedback, setFeedback] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(null);
 
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [dateFilter, setDateFilter] = useState('');
-
-//   useEffect(() => {
-//     fetchAttendance();
-//   }, []);
-
-//   const filteredAttendance = AttendanceByCollegeAndSession.filter(record => {
-//     const matchesSearch = 
-//       record.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       record.session.toLowerCase().includes(searchTerm.toLowerCase());
-    
-//     const matchesDate = !dateFilter || record.date === dateFilter;
-//     return matchesSearch && matchesDate;
-//   });
-
-//   const handleTakeAttendance = () => {
-//     window.location.href = '/attendance/take';
+//   const toggleStudent = (studentId) => {
+//     setPresentStudents((prev) =>
+//       prev.includes(studentId)
+//         ? prev.filter((id) => id !== studentId)
+//         : [...prev, studentId]
+//     );
 //   };
 
-//   const handleExportCSV = () => {
-//     const headers = ['DATE', 'TIME', 'COURSE', 'SESSION', 'HEAD COUNT', 'PERCENTAGE'];
-//     const rows = filteredAttendance.map(a => [
-//       a.date,
-//       a.time,
-//       a.course,
-//       a.session,
-//       a.headCount,
-//       a.percentage,
-//     ]);
-//     const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
-    
-//     const blob = new Blob([csvContent], { type: 'text/csv' });
-//     const url = window.URL.createObjectURL(blob);
-//     const a = document.createElement('a');
-//     a.href = url;
-//     a.download = 'attendance.csv';
-//     a.click();
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError(null);
+//     setLoading(true);
+
+//     try {
+//       const data = { presentStudents, feedback };
+//       const updatedSlot = await submitAttendance(slotId, data, token);
+//       onSuccess?.(updatedSlot);
+//     } catch (err) {
+//       setError(err.message || "Failed to submit attendance");
+//     } finally {
+//       setLoading(false);
+//     }
 //   };
 
 //   return (
-//     <div className="attendance-page">
-//       {/* Header */}
-//       <div className="attendance-header">
-//         <div>
-//           <h1>Attendance</h1>
-//           <p>Track and manage student attendance records</p>
-//         </div>
-//         <button className="btn-take-attendance" onClick={handleTakeAttendance}>
-//           + Take Attendance
-//         </button>
+//     <form onSubmit={handleSubmit} className="flat-card attendance-form">
+//       <h3>Mark Attendance</h3>
+
+//       {error && <div className="form-error">{error}</div>}
+
+//       <div className="student-list">
+//         {students.map((student) => (
+//           <label key={student._id} className="student-checkbox">
+//             <input
+//               type="checkbox"
+//               checked={presentStudents.includes(student._id)}
+//               onChange={() => toggleStudent(student._id)}
+//               disabled={loading}
+//             />
+//             {student.name}
+//           </label>
+//         ))}
 //       </div>
 
-//       {/* Stats Cards */}
-//       <AttendanceStats stats={stats} />
+//       <textarea
+//         placeholder="Feedback (optional)"
+//         value={feedback}
+//         onChange={(e) => setFeedback(e.target.value)}
+//         disabled={loading}
+//         rows={4}
+//       />
 
-//       {/* Filters */}
-//       <div className="attendance-filters">
-//         <div className="search-box">
-//           <span className="search-icon">🔍</span>
-//           <input
-//             type="text"
-//             placeholder="Search by course or session..."
-//             value={searchTerm}
-//             onChange={(e) => setSearchTerm(e.target.value)}
-//           />
-//         </div>
-
-//         <input
-//           type="date"
-//           className="date-filter"
-//           value={dateFilter}
-//           onChange={(e) => setDateFilter(e.target.value)}
-//         />
-
-//         <button className="btn-export-csv" onClick={handleExportCSV}>
-//           Export CSV
-//         </button>
-//       </div>
-
-//       {/* Table */}
-//       {loading && <p className="loading">Loading attendance records...</p>}
-//       {error && <p className="error">{error}</p>}
-//       {!loading && !error && (
-//         <AttendanceTable
-//           attendance={filteredAttendance}
-//           onDelete={deleteAttendance}
-//           onRefresh={fetchAttendance}
-//         />
-//       )}
-//     </div>
+//       <button type="submit" disabled={loading}>
+//         {loading ? "Submitting..." : "Submit Attendance"}
+//       </button>
+//     </form>
 //   );
 // }

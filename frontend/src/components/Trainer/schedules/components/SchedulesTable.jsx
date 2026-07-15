@@ -1,5 +1,5 @@
 import "./SchedulesTable.css";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, SendHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function SchedulesTable({
@@ -7,6 +7,9 @@ export default function SchedulesTable({
   schedules = [],
 
   token,
+  setTopicFeedbackData,
+  setShowTopicFeedbackModal,
+  setshowAttendanceModal,
 
 }) {
 
@@ -19,86 +22,102 @@ export default function SchedulesTable({
 
 
 
+  const rows = schedules.map(schedule => {
 
-  const rows = schedules.map(schedule => ({
+    const trainerId =
+      schedule.trainerId?._id ||
+      schedule.trainerId ||
+      "";
 
+    const isCompleted =
+      schedule.status === "completed" &&
+      schedule.headCount != null &&
+      schedule.topic?.trim();
 
-    id:
-      schedule._id,
+    const isCancelled =
+      schedule.status === "cancelled";
 
+    return {
 
-    scheduleId:
-      schedule._id,
-
-
-
-    course:
-      schedule.courseId?.courseCode ||
-      "-",
-
-
-
-
-
-    date:
-      schedule.date ||
-      "-",
+      id:
+        schedule._id,
 
 
-
-    timeSlot:
-
-      `${schedule.startTime || "-"} - ${schedule.endTime || "-"
-      }`,
+      scheduleId:
+        schedule._id,
 
 
 
-    session:
-
-      schedule.sessionId
-
-        ?
-
-        `${new Date(
-          schedule.sessionId.startDate
-        )
-          .toLocaleDateString()
-
-        }
-
-      -
-
-      ${new Date(
-          schedule.sessionId.endDate
-        )
-          .toLocaleDateString()
-
-        }`
-
-        :
-
+      course:
+        schedule.courseId?.courseCode ||
         "-",
 
 
 
 
-    roomNo:
 
-      schedule.roomNo || "-",
-
-
-
-    topic:
-
-      schedule.topic || "-",
+      date:
+        schedule.date ||
+        "-",
 
 
 
-    original:
-      schedule
+      timeSlot:
+
+        `${schedule.startTime || "-"} - ${schedule.endTime || "-"
+        }`,
 
 
-  }));
+
+      session:
+
+        schedule.sessionId
+
+          ?
+
+          `${new Date(
+            schedule.sessionId.startDate
+          )
+            .toLocaleDateString()
+
+          }
+
+      -
+
+      ${new Date(
+            schedule.sessionId.endDate
+          )
+            .toLocaleDateString()
+
+          }`
+
+          :
+
+          "-",
+
+
+
+
+      roomNo:
+
+        schedule.roomNo || "-",
+
+
+
+      topic:
+
+        schedule.topic || "-",
+
+      isCancelled,
+      isCompleted,
+
+
+      original:
+        schedule
+
+
+    }
+  });
 
 
 
@@ -172,8 +191,18 @@ export default function SchedulesTable({
             rows.map(schedule => (
 
 
-              <tr key={schedule.id}>
+              // <tr key={schedule.id}>
 
+              <tr
+                key={schedule.id}
+                className={
+                  schedule.isCancelled
+                    ? "schedule-cancelled"
+                    : schedule.isCompleted
+                      ? "schedule-completed"
+                      : ""
+                }
+              >
 
                 <td className="schedule-course">
 
@@ -254,14 +283,10 @@ export default function SchedulesTable({
                     onClick={() => {
 
 
-                      setUpdateScheduledata(
-                        schedule.original
-                      );
+                      setTopicFeedbackData(schedule.original);
 
 
-                      setshowUpdateSchedule(
-                        true
-                      );
+                      setShowTopicFeedbackModal(true);
 
 
                     }}
@@ -274,37 +299,40 @@ export default function SchedulesTable({
 
                   </button>
 
-
-
-
-
-
-
-
                   <button
 
-                    className="btn-action btn-delete"
+                    className="btn-action btn-edit"
 
-                    title="Delete Schedule"
-
-
-                    onClick={() =>
+                    title="Set Attendance"
 
 
-                      handleDelete(
-                        schedule.scheduleId
-                      )
+                    onClick={() => {
 
 
-                    }
+                      setTopicFeedbackData(schedule.original);
+
+
+                      setshowAttendanceModal(true);
+
+
+                    }}
 
 
                   >
 
 
-                    <Trash2 />
+                    <SendHorizontal />
 
                   </button>
+
+
+
+
+
+
+
+
+
 
 
 

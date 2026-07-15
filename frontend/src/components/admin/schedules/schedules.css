@@ -129,7 +129,7 @@ VIEW TOGGLES
         box-shadow .25s ease,
         color .25s ease;
 }
-
+/* 
 .btn-view-toggle::before {
     content: "";
 
@@ -145,18 +145,21 @@ VIEW TOGGLES
             transparent,
             rgba(255, 255, 255, .65),
             transparent);
-}
+} */
 
 .btn-view-toggle:hover {
     transform: translateY(-3px);
-
+    background: color-mix(in srgb, var(--accent) 50%, var(--bg-primary));
+    
     color: var(--text);
-
+    
     box-shadow: var(--shadow-hover);
 }
 
 .btn-view-toggle.active {
     color: var(--text);
+    background: color-mix(in srgb, var(--accent) 50%, var(--bg-primary));
+
 
 /* border: 1px solid var(--border); */
 
@@ -197,7 +200,7 @@ ADD SLOT BUTTON
         box-shadow .25s ease;
 }
 
-.btn-add-slot::before {
+/* .btn-add-slot::before {
     content: "";
 
     position: absolute;
@@ -212,7 +215,7 @@ ADD SLOT BUTTON
             transparent,
             rgba(255, 255, 255, .65),
             transparent);
-}
+} */
 
 .btn-add-slot:hover {
     transform: translateY(-3px);

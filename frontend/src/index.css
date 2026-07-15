@@ -11,6 +11,11 @@ html {
 
 
 
+
+
+
+
+
 :root {
   --bg-primary: hsl(0, 0%, 95%);
   --bg-secondary: hsl(0, 0%, 90%);
@@ -21,11 +26,15 @@ html {
   /* --accent: #f1af07; */
   /* --accent: #16a34a; */
   --accent: hsl(120, 72%, 44%);
-
+  /* --bg-schedule-complete:#d4edda; */
+  --bg-schedule-complete:hsl(139, 40%, 78%);
+  /* --bg-schedule-cancelled:#721c24; */
+  --bg-schedule-cancelled:hsl(0, 95%, 68%);
+  
   /* --stat-active-start:hsl(0, 0%, 98%); */
---stat-active-start: hsl(102, 70%, 82%);
---stat-expiring-start: hsl(54, 80%, 82%);
---stat-expired-start: hsl(19, 80%, 82%);
+  --stat-active-start: hsl(102, 70%, 82%);
+  --stat-expiring-start: hsl(54, 80%, 82%);
+  --stat-expired-start: hsl(19, 80%, 82%);
   
 }
 
@@ -41,9 +50,11 @@ html {
     /* --accent: #f1af07; */
     --accent: hsl(42, 100%, 44%);
     
---stat-active-start: hsl(102, 55%, 18%);
---stat-expiring-start: hsl(49, 65%, 18%);
---stat-expired-start: hsl(15, 65%, 18%);
+    --stat-active-start: hsl(102, 55%, 18%);
+    --stat-expiring-start: hsl(49, 65%, 18%);
+    --stat-expired-start: hsl(15, 65%, 18%);
+    --bg-schedule-complete:hsl(139, 13%, 24%);
+    --bg-schedule-cancelled:hsl(0, 68%, 24%);
 }
 
 

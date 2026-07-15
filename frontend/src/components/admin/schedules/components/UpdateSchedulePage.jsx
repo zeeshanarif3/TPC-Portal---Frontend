@@ -62,6 +62,11 @@ export default function UpdateSchedulePage({
       schedule?.topic ||
       "",
 
+
+    status:
+      schedule?.status ||
+      "scheduled",
+
   });
 
 
@@ -682,6 +687,47 @@ export default function UpdateSchedulePage({
 
           />
 
+
+        </div>
+
+        {/* Status */}
+
+        <div className="form-group">
+
+          <label>
+            Status
+          </label>
+
+          <select
+
+            value={formData.status}
+
+            onChange={(e) =>
+              handleChange(
+                "status",
+                e.target.value
+              )
+            }
+
+          >
+
+            <option value="scheduled">
+              Scheduled
+            </option>
+
+            <option value="ongoing">
+              Ongoing
+            </option>
+
+            <option value="completed">
+              Completed
+            </option>
+
+            <option value="cancelled">
+              Cancelled
+            </option>
+
+          </select>
 
         </div>
 

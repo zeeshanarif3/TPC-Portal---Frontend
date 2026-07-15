@@ -306,7 +306,68 @@ export default function CSVSchedulePreview({
 
 
 
-    async function importSchedules() {
+    // async function importSchedules() {
+
+
+    //     if (!ENABLE_IMPORT) {
+
+    //         setMessage(
+    //             "Import disabled"
+    //         );
+
+    //         return;
+
+    //     }
+
+
+
+
+    //     try {
+
+
+    //         setLoading(true);
+
+
+
+    //         for (
+    //             const schedule of schedules
+    //         ) {
+
+    //             await createSchedule(
+    //                 schedule,
+    //                 token
+    //             );
+
+    //         }
+
+
+
+    //         setMessage(
+    //             "Schedules imported successfully"
+    //         );
+
+
+    //     }
+    //     catch (err) {
+
+    //         setMessage(
+    //             err.message
+    //         );
+
+    //     }
+    //     finally {
+
+    //         setLoading(false);
+
+    //     }
+
+
+    // }
+
+
+
+
+async function importSchedules() {
 
 
         if (!ENABLE_IMPORT) {
@@ -322,52 +383,63 @@ export default function CSVSchedulePreview({
 
 
 
-        try {
+        setLoading(true);
+
+        let successCount = 0;
+        const failures = [];
 
 
-            setLoading(true);
 
+        for (
+            let i = 0;
+            i < schedules.length;
+            i++
+        ) {
 
+            const schedule = schedules[i];
 
-            for (
-                const schedule of schedules
-            ) {
+            try {
 
                 await createSchedule(
                     schedule,
                     token
                 );
 
+                successCount++;
+
+            }
+            catch (err) {
+
+                failures.push(
+                    `Row ${i+1} (${schedule.roomNo}, ${schedule.date}): ${err.message}`
+                );
+
             }
 
+        }
 
+
+
+        setLoading(false);
+
+
+
+        if (failures.length === 0) {
 
             setMessage(
-                "Schedules imported successfully"
+                `All ${successCount} schedules imported successfully`
             );
 
-
-        }
-        catch (err) {
+        } else {
 
             setMessage(
-                err.message
+                `${successCount} imported, ${failures.length} failed — ${failures.join("; ")}`
             );
-
-        }
-        finally {
-
-            setLoading(false);
 
         }
 
 
     }
-
-
-
-
-
 
 
 

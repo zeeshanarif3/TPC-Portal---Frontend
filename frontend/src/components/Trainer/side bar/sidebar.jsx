@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./sidebar.css";
 import UserInfo from "./component/userinfo";
+import { ThemeContext } from "../../../theme/ThemeContext";
+import { useContext } from "react";
 import {
     LayoutDashboard,
     Building2,
@@ -48,6 +50,7 @@ export default function Sidebar({
     const [collapsed, setCollapsed] = useState(defaultCollapsed);
     const [internalActive, setInternalActive] = useState("dashboard");
     const [expandedKey, setExpandedKey] = useState("attendance");
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     const activeItem = activeItemProp ?? internalActive;
 
@@ -138,6 +141,31 @@ export default function Sidebar({
         </div>
         
         <UserInfo></UserInfo> */}
+
+
+
+
+
+
+
+
+
+
+
+                <button
+                    className={`theme-toggle ${theme === "dark" ? "dark" : ""} ${collapsed ? "" : "horizontal"
+                        }`}
+                    onClick={toggleTheme}
+                >
+                    <span className="theme-thumb">
+                        {theme === "dark" ? "🌙" : "☀️"}
+                    </span>
+                </button>
+
+
+
+
+
                 {
                     (role) ? (
 

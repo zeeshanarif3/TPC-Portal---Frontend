@@ -159,8 +159,32 @@ export default function SchedulesCalendar({
         const startHour = parseTimeToHour(schedule.startTime);
         return scheduleDay === day && startHour === hour;
       })
+      // .map((schedule) => {
+      //   const trainerId = normalizeId(schedule.trainerId);
+
+      //   return {
+      //     id: schedule._id,
+      //     scheduleId: schedule._id,
+      //     course: schedule.courseId?.courseCode || "Unknown",
+      //     trainer: getTrainerName(trainerId),
+      //     trainerId,
+      //     roomNo: schedule.roomNo,
+      //     topic: schedule.topic,
+      //     startTime: schedule.startTime,
+      //     endTime: schedule.endTime,
+      //     originalSchedule: schedule,
+      //   };
+      // });
       .map((schedule) => {
         const trainerId = normalizeId(schedule.trainerId);
+
+        const isCompleted =
+          schedule.status === "completed" &&
+          schedule.headCount != null &&
+          schedule.topic?.trim();
+
+        const isCancelled =
+          schedule.status === "cancelled";
 
         return {
           id: schedule._id,
@@ -172,6 +196,11 @@ export default function SchedulesCalendar({
           topic: schedule.topic,
           startTime: schedule.startTime,
           endTime: schedule.endTime,
+
+          // Add this
+          isCompleted,
+          isCancelled,
+
           originalSchedule: schedule,
         };
       });
@@ -221,7 +250,22 @@ export default function SchedulesCalendar({
                   onMouseLeave={() => setHoveredSlot(null)}
                 >
                   {getSchedulesForSlot(day, hour).map((schedule) => (
-                    <div key={schedule.id} className="Schedulee-card">
+                    // <div key={schedule.id} className="Schedulee-card">
+                    // <div
+                    //   key={schedule.id}
+                    //   className={`Schedulee-card ${schedule.isCompleted ? "schedule-completed-card" : ""
+                    //     }`}
+                    // >
+                    <div
+                      key={schedule.id}
+                      className={`Schedulee-card
+    ${schedule.isCancelled
+                          ? "schedule-cancelled-card"
+                          : schedule.isCompleted
+                            ? "schedule-completed-card"
+                            : ""
+                        }`}
+                    >
                       <div className="card-title">{schedule.course}</div>
 
                       <div className="card-trainer">
@@ -327,9 +371,8 @@ export default function SchedulesCalendar({
             return (
               <div
                 key={i}
-                className={`date ${today ? "today" : ""} ${
-                  selected ? "selected" : ""
-                }`}
+                className={`date ${today ? "today" : ""} ${selected ? "selected" : ""
+                  }`}
                 onClick={() => onSelectDate(date)}
               >
                 {i + 1}

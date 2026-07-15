@@ -13,14 +13,18 @@ import "./schedules.css";
 export default function SchedulesPage({ token }) {
 
   const {
-    AllSchedules,
+    // AllSchedules,
+    AllSlots,
     AllCourses,
     loading,
     error,
 
-    createSchedule,
-    updateSchedule,
-    deleteSchedule,
+    // createSchedule,
+    // updateSchedule,
+    // deleteSchedule,
+    createSlot,
+    updateSlot,
+    deleteSlot,
 
     AllSessions,
     AllTrainers,
@@ -71,7 +75,7 @@ export default function SchedulesPage({ token }) {
   */
   const filteredSchedules = useMemo(() => {
 
-    let schedules = AllSchedules || [];
+    let schedules = AllSlots || [];
 
     if (selectedCourse) {
       schedules =
@@ -82,7 +86,7 @@ export default function SchedulesPage({ token }) {
     }
     return schedules;
   }, [
-    AllSchedules,
+    AllSlots,
     selectedCourse
   ]);
 
@@ -104,7 +108,7 @@ export default function SchedulesPage({ token }) {
         onBack={() =>
           setShowNewSchedule(false)
         }
-        createSchedule={createSchedule}
+        createSchedule={createSlot}
         AllCourses={AllCourses}
         AllSessions={AllSessions}
         AllTrainers={AllTrainers}
@@ -143,7 +147,7 @@ export default function SchedulesPage({ token }) {
         AllTrainers={AllTrainers}
 
 
-        updateSchedule={updateSchedule}
+        updateSchedule={updateSlot}
 
         AllTrainers={AllTrainers}
 
@@ -398,7 +402,7 @@ export default function SchedulesPage({ token }) {
               schedules={filteredSchedules}
 
 
-              onDelete={deleteSchedule}
+              onDelete={deleteSlot}
 
 
               onRefresh={refreshSchedules}
@@ -430,7 +434,7 @@ export default function SchedulesPage({ token }) {
               schedules={filteredSchedules}
               selectedDate={selectedDate}
               onSelectDate={setSelectedDate}
-              onDelete={deleteSchedule}
+              onDelete={deleteSlot}
               setUpdateScheduledata={setUpdateScheduleData}
               setshowUpdateSchedule={setShowUpdateSchedule}
               fetchTrainerById={fetchTrainerById}

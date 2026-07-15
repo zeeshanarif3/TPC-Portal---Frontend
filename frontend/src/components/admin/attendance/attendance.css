@@ -107,25 +107,6 @@ BUTTONS
         box-shadow .25s ease;
 }
 
-.btn-take-attendance::before,
-.btn-export-csv::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: -150%;
-
-    width: 60%;
-    height: 100%;
-
-    background: linear-gradient(
-        to right,
-        transparent,
-        var(--bg-secondary),
-        transparent
-    );
-}
 
 .btn-take-attendance:hover,
 .btn-export-csv:hover {
@@ -208,6 +189,7 @@ SEARCH
 }
 
 .search-box input {
+    color: var(--text-primary);    
     width: 100%;
 
     border: none;

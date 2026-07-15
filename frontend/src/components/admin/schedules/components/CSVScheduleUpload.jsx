@@ -99,12 +99,15 @@ export default function CSVScheduleUpload({
 
 
 
-    // Convert day into real date
-    function getDateFromDay(sessionStartDate,day){
+    // Convert day into real date, constrained to the session's date range
+    function getDateFromDay(sessionStartDate,sessionEndDate,day){
 
 
         const start =
         new Date(sessionStartDate);
+
+        const end =
+        new Date(sessionEndDate);
 
 
 
@@ -161,9 +164,46 @@ export default function CSVScheduleUpload({
 
 
 
+        // Reject if the resolved date falls outside the session window
+        if(start > end){
+
+            return null;
+
+        }
+
+
+
         return start
         .toISOString()
         .substring(0,10);
+
+    }
+
+
+
+
+
+    // Compare "HH:mm" (24h) or "hh:mm AM/PM" style strings as minutes-since-midnight
+    function timeToMinutes(time){
+
+        const clean = time.trim();
+
+        const isPM = /pm/i.test(clean);
+        const isAM = /am/i.test(clean);
+
+        const [hPart,mPart] =
+        clean
+        .replace(/am|pm/i,"")
+        .trim()
+        .split(":");
+
+        let hour = parseInt(hPart,10);
+        const minute = parseInt(mPart,10) || 0;
+
+        if(isPM && hour !== 12) hour += 12;
+        if(isAM && hour === 12) hour = 0;
+
+        return hour*60 + minute;
 
     }
 
@@ -364,10 +404,27 @@ export default function CSVScheduleUpload({
 
 
 
+                        if(
+                            !row.startTime ||
+                            !row.endTime ||
+                            timeToMinutes(row.startTime) >= timeToMinutes(row.endTime)
+                        ){
+
+                            throw new Error(
+                                `Row ${index+1}: startTime must be before endTime`
+                            );
+
+                        }
+
+
+
+
+
 
                         const date =
                         getDateFromDay(
                             row.sessionStartDate,
+                            row.sessionEndDate,
                             row.day
                         );
 
@@ -378,7 +435,7 @@ export default function CSVScheduleUpload({
                         if(!date){
 
                             throw new Error(
-                                `Row ${index+1}: Invalid day`
+                                `Row ${index+1}: Invalid day, or day falls outside session date range`
                             );
 
                         }
@@ -656,6 +713,8 @@ export default function CSVScheduleUpload({
 
 
 
+
+
 // import "./CSVScheduleUpload.css";
 // import { useState } from "react";
 // import Papa from "papaparse";
@@ -693,16 +752,12 @@ export default function CSVScheduleUpload({
 
 //     function findCourse(courseCode){
 
-//         if(!courseCode)
-//             return null;
-
-
 //         return AllCourses.find(
 //             c =>
-//             c.courseCode &&
-//             c.courseCode.toLowerCase()
-//             ===
-//             courseCode.toLowerCase()
+//                 c.courseCode &&
+//                 c.courseCode.trim().toLowerCase()
+//                 ===
+//                 courseCode.trim().toLowerCase()
 //         );
 
 //     }
@@ -713,16 +768,12 @@ export default function CSVScheduleUpload({
 
 //     function findTrainer(trainerName){
 
-//         if(!trainerName)
-//             return null;
-
-
 //         return AllTrainers.find(
 //             t =>
-//             t.name &&
-//             t.name.toLowerCase()
-//             ===
-//             trainerName.toLowerCase()
+//                 t.name &&
+//                 t.name.trim().toLowerCase()
+//                 ===
+//                 trainerName.trim().toLowerCase()
 //         );
 
 //     }
@@ -733,35 +784,103 @@ export default function CSVScheduleUpload({
 
 //     function findSession(startDate,endDate){
 
-//         if(!startDate || !endDate)
+//         return AllSessions.find(
+//             session=>{
+
+//                 const s =
+//                 session.startDate?.substring(0,10);
+
+
+//                 const e =
+//                 session.endDate?.substring(0,10);
+
+
+
+//                 return (
+
+//                     s === startDate.trim()
+
+//                     &&
+
+//                     e === endDate.trim()
+
+//                 );
+
+
+//             }
+//         );
+
+//     }
+
+
+
+
+
+//     // Convert day into real date
+//     function getDateFromDay(sessionStartDate,day){
+
+
+//         const start =
+//         new Date(sessionStartDate);
+
+
+
+//         const days = {
+
+//             sunday:0,
+//             monday:1,
+//             tuesday:2,
+//             wednesday:3,
+//             thursday:4,
+//             friday:5,
+//             saturday:6
+
+//         };
+
+
+
+//         const targetDay =
+//         days[
+//             day.toLowerCase()
+//         ];
+
+
+
+//         if(targetDay === undefined){
+
 //             return null;
 
-
-//         return AllSessions.find(session=>{
-
-
-//             const sessionStart =
-//             session.startDate.substring(0,10);
-
-
-//             const sessionEnd =
-//             session.endDate.substring(0,10);
+//         }
 
 
 
-//             return (
-
-//                 sessionStart === startDate
-
-//                 &&
-
-//                 sessionEnd === endDate
-
-//             );
+//         const current =
+//         start.getDay();
 
 
-//         });
 
+//         let difference =
+//         targetDay - current;
+
+
+
+//         if(difference < 0){
+
+//             difference += 7;
+
+//         }
+
+
+
+//         start.setDate(
+//             start.getDate()+difference
+//         );
+
+
+
+//         return start
+//         .toISOString()
+//         .substring(0,10);
 
 //     }
 
@@ -771,11 +890,30 @@ export default function CSVScheduleUpload({
 
 //     function handleFile(e){
 
-//         const uploadedFile =
+
+//         const uploaded =
 //         e.target.files[0];
 
 
-//         setFile(uploadedFile);
+//         if(!uploaded)
+//             return;
+
+
+
+//         if(
+//             !uploaded.name.endsWith(".csv")
+//         ){
+
+//             setError(
+//                 "Please upload CSV file"
+//             );
+
+//             return;
+
+//         }
+
+
+//         setFile(uploaded);
 
 //         setError("");
 
@@ -803,7 +941,9 @@ export default function CSVScheduleUpload({
 
 
 
-//         Papa.parse(file,{
+//         Papa.parse(
+//             file,
+//             {
 
 //             header:true,
 
@@ -820,12 +960,54 @@ export default function CSVScheduleUpload({
 //                     results.data;
 
 
-//                     const scheduleMap={};
+
+//                     const required=[
+
+//                         "courseCode",
+//                         "sessionStartDate",
+//                         "sessionEndDate",
+//                         "day",
+//                         "startTime",
+//                         "endTime",
+//                         "trainerName",
+//                         "roomNo"
+
+//                     ];
+
+
+
+//                     const missing =
+//                     required.filter(
+//                         col =>
+//                         !Object.keys(rows[0])
+//                         .includes(col)
+//                     );
+
+
+
+//                     if(missing.length){
+
+//                         throw new Error(
+//                             `Missing CSV columns: ${missing.join(", ")}`
+//                         );
+
+//                     }
 
 
 
 
-//                     rows.forEach(row=>{
+
+
+//                     const finalSchedules = [];
+
+
+
+
+
+
+
+//                     rows.forEach(
+//                     (row,index)=>{
 
 
 //                         const course =
@@ -850,30 +1032,35 @@ export default function CSVScheduleUpload({
 
 
 
+
+
 //                         if(!course){
 
 //                             throw new Error(
-//                                 `Course not found: ${row.courseCode}`
+//                                 `Row ${index+1}: Course not found`
 //                             );
 
 //                         }
+
 
 
 
 //                         if(!trainer){
 
 //                             throw new Error(
-//                                 `Trainer not found: ${row.trainerName}`
+//                                 `Row ${index+1}: Trainer not found`
 //                             );
 
 //                         }
+
+
 
 
 
 //                         if(!session){
 
 //                             throw new Error(
-//                                 `Session not found: ${row.sessionStartDate} - ${row.sessionEndDate}`
+//                                 `Row ${index+1}: Session not found`
 //                             );
 
 //                         }
@@ -881,77 +1068,119 @@ export default function CSVScheduleUpload({
 
 
 
-//                         const key =
-//                         `${course._id}_${session._id}`;
 
+//                         if(!row.roomNo){
 
-
-
-
-//                         if(!scheduleMap[key]){
-
-
-//                             scheduleMap[key]={
-
-
-//                                 courseId:
-//                                 course._id,
-
-
-//                                 sessionId:
-//                                 session._id,
-
-
-//                                 slots:{}
-
-
-//                             };
-
+//                             throw new Error(
+//                                 `Row ${index+1}: Room number missing`
+//                             );
 
 //                         }
 
 
 
 
-//                         if(
-//                             !scheduleMap[key]
-//                             .slots[row.day]
-//                         ){
 
-//                             scheduleMap[key]
-//                             .slots[row.day]=[];
+
+//                         const date =
+//                         getDateFromDay(
+//                             row.sessionStartDate,
+//                             row.day
+//                         );
+
+
+
+
+
+//                         if(!date){
+
+//                             throw new Error(
+//                                 `Row ${index+1}: Invalid day`
+//                             );
 
 //                         }
 
 
 
 
-//                         scheduleMap[key]
-//                         .slots[row.day]
-//                         .push({
+
+
+//                         const schedule = {
+
+
+//                             courseId:
+//                             course._id,
+
+
+
+//                             sessionId:
+//                             session._id,
+
+
+
+//                             date,
+
 
 
 //                             startTime:
-//                             row.startTime,
+//                             row.startTime.trim(),
+
 
 
 //                             endTime:
-//                             row.endTime,
+//                             row.endTime.trim(),
+
 
 
 //                             trainerId:
 //                             trainer._id,
 
 
+
 //                             roomNo:
-//                             row.roomNo,
+//                             row.roomNo.trim(),
+
 
 
 //                             topic:
-//                             row.topic || ""
+//                             row.topic?.trim() || ""
 
 
-//                         });
+//                         };
+
+
+
+
+
+
+//                         // Matches Mongo unique index
+//                         const duplicate =
+//                         finalSchedules.some(
+//                             s =>
+
+//                             s.date === schedule.date
+
+//                             &&
+
+//                             s.startTime === schedule.startTime
+
+//                             &&
+
+//                             s.roomNo === schedule.roomNo
+
+//                         );
+
+
+
+
+
+//                         if(!duplicate){
+
+//                             finalSchedules.push(
+//                                 schedule
+//                             );
+
+//                         }
 
 
 
@@ -960,8 +1189,19 @@ export default function CSVScheduleUpload({
 
 
 
-//                     const finalSchedules =
-//                     Object.values(scheduleMap);
+
+
+
+//                     if(
+//                         finalSchedules.length===0
+//                     ){
+
+//                         throw new Error(
+//                             "No valid schedules found"
+//                         );
+
+//                     }
+
 
 
 
@@ -994,7 +1234,6 @@ export default function CSVScheduleUpload({
 
 //             }
 
-
 //         });
 
 
@@ -1004,8 +1243,9 @@ export default function CSVScheduleUpload({
 
 
 
-//     if(showPreview){
 
+
+//     if(showPreview){
 
 //         return (
 
@@ -1013,16 +1253,13 @@ export default function CSVScheduleUpload({
 
 //                 schedules={schedules}
 
-
 //                 AllCourses={AllCourses}
 
 //                 AllTrainers={AllTrainers}
 
-
 //                 createSchedule={createSchedule}
 
 //                 token={token}
-
 
 //                 onBack={()=>
 //                     setShowPreview(false)
@@ -1032,8 +1269,8 @@ export default function CSVScheduleUpload({
 
 //         );
 
-
 //     }
+
 
 
 
@@ -1046,18 +1283,13 @@ export default function CSVScheduleUpload({
 
 
 //             <button
-
 //                 className="back-btn"
-
 //                 onClick={onBack}
-
 //             >
 
 //                 ← Back
 
 //             </button>
-
-
 
 
 
@@ -1083,7 +1315,6 @@ export default function CSVScheduleUpload({
 
 
 
-
 //             {
 //                 success &&
 
@@ -1094,7 +1325,6 @@ export default function CSVScheduleUpload({
 //                 </div>
 
 //             }
-
 
 
 
@@ -1116,9 +1346,7 @@ export default function CSVScheduleUpload({
 
 
 //                 <button
-
 //                     onClick={processCSV}
-
 //                 >
 
 //                     Read CSV
@@ -1126,16 +1354,19 @@ export default function CSVScheduleUpload({
 //                 </button>
 
 
-
 //             </div>
-
 
 
 //         </div>
 
 //     );
 
+
 // }
+
+
+
+
 
 
 
@@ -1145,13 +1376,19 @@ export default function CSVScheduleUpload({
 // // import "./CSVScheduleUpload.css";
 // // import { useState } from "react";
 // // import Papa from "papaparse";
+// // import CSVSchedulePreview from "./CSVSchedulePreview";
 
 
 // // export default function CSVScheduleUpload({
 
+// //     token,
+
 // //     AllCourses = [],
 // //     AllSessions = [],
 // //     AllTrainers = [],
+
+// //     createSchedule,
+
 // //     onBack
 
 // // }) {
@@ -1161,6 +1398,8 @@ export default function CSVScheduleUpload({
 
 // //     const [schedules,setSchedules] = useState([]);
 
+// //     const [showPreview,setShowPreview] = useState(false);
+
 // //     const [error,setError] = useState("");
 
 // //     const [success,setSuccess] = useState("");
@@ -1169,104 +1408,95 @@ export default function CSVScheduleUpload({
 
 
 
-// //     // function findCourse(courseCode){
+// //     function findCourse(courseCode){
 
-// //     //     return AllCourses.find(
-// //     //         c =>
-// //     //         c.courseCode.toLowerCase()
-// //     //         === courseCode.toLowerCase()
-// //     //     );
-
-// //     // }
-
-// // function findCourse(courseCode){
-
-// //     if(!courseCode)
-// //         return null;
+// //         if(!courseCode)
+// //             return null;
 
 
-// //     return AllCourses.find(
-// //         c =>
-// //         c.courseCode &&
-// //         c.courseCode.toLowerCase()
-// //         ===
-// //         courseCode.toLowerCase()
-// //     );
-
-// // }
-
-// // function findTrainer(trainerName){
-
-// //     if(!trainerName)
-// //         return null;
-
-
-// //     return AllTrainers.find(
-// //         t =>
-// //         t.name &&
-// //         t.name.toLowerCase()
-// //         ===
-// //         trainerName.toLowerCase()
-// //     );
-
-// // }
-
-// // // function findSession(startDate,endDate){
-
-// // //     if(!startDate || !endDate)
-// // //         return null;
-
-
-// // //     return AllSessions.find(
-// // //         s =>
-
-// // //         s.startDate.substring(0,10)
-// // //         === startDate
-
-// // //         &&
-
-// // //         s.endDate.substring(0,10)
-// // //         === endDate
-
-// // //     );
-
-// // // }
-// // function findSession(startDate, endDate){
-
-// //     if(!startDate || !endDate)
-// //         return null;
-
-
-// //     return AllSessions.find(session => {
-
-// //         const sessionStart =
-// //         session.startDate.substring(0,10);
-
-
-// //         const sessionEnd =
-// //         session.endDate.substring(0,10);
-
-
-
-// //         return (
-// //             sessionStart === startDate &&
-// //             sessionEnd === endDate
+// //         return AllCourses.find(
+// //             c =>
+// //             c.courseCode &&
+// //             c.courseCode.toLowerCase()
+// //             ===
+// //             courseCode.toLowerCase()
 // //         );
 
-// //     });
+// //     }
 
-// // }
+
+
+
+
+// //     function findTrainer(trainerName){
+
+// //         if(!trainerName)
+// //             return null;
+
+
+// //         return AllTrainers.find(
+// //             t =>
+// //             t.name &&
+// //             t.name.toLowerCase()
+// //             ===
+// //             trainerName.toLowerCase()
+// //         );
+
+// //     }
+
+
+
+
+
+// //     function findSession(startDate,endDate){
+
+// //         if(!startDate || !endDate)
+// //             return null;
+
+
+// //         return AllSessions.find(session=>{
+
+
+// //             const sessionStart =
+// //             session.startDate.substring(0,10);
+
+
+// //             const sessionEnd =
+// //             session.endDate.substring(0,10);
+
+
+
+// //             return (
+
+// //                 sessionStart === startDate
+
+// //                 &&
+
+// //                 sessionEnd === endDate
+
+// //             );
+
+
+// //         });
+
+
+// //     }
+
 
 
 
 
 // //     function handleFile(e){
 
-// //         const uploadedFile = e.target.files[0];
+// //         const uploadedFile =
+// //         e.target.files[0];
+
 
 // //         setFile(uploadedFile);
 
 // //         setError("");
+
+// //         setSuccess("");
 
 // //     }
 
@@ -1303,17 +1533,12 @@ export default function CSVScheduleUpload({
 // //                 try{
 
 
-// //                     const rows = results.data;
-
-
-// //                     console.log(
-// //                         "CSV Rows:",
-// //                         rows
-// //                     );
-
+// //                     const rows =
+// //                     results.data;
 
 
 // //                     const scheduleMap={};
+
 
 
 
@@ -1326,17 +1551,19 @@ export default function CSVScheduleUpload({
 // //                         );
 
 
+
 // //                         const trainer =
 // //                         findTrainer(
 // //                             row.trainerName
 // //                         );
 
 
-// //                        const session =
-// //                             findSession(
-// //                                 row.sessionStartDate,
-// //                                 row.sessionEndDate
-// //                             );
+
+// //                         const session =
+// //                         findSession(
+// //                             row.sessionStartDate,
+// //                             row.sessionEndDate
+// //                         );
 
 
 
@@ -1363,7 +1590,7 @@ export default function CSVScheduleUpload({
 // //                         if(!session){
 
 // //                             throw new Error(
-// //                                 `Session not found: ${row.sessionName}`
+// //                                 `Session not found: ${row.sessionStartDate} - ${row.sessionEndDate}`
 // //                             );
 
 // //                         }
@@ -1377,10 +1604,12 @@ export default function CSVScheduleUpload({
 
 
 
+
 // //                         if(!scheduleMap[key]){
 
 
 // //                             scheduleMap[key]={
+
 
 // //                                 courseId:
 // //                                 course._id,
@@ -1391,6 +1620,7 @@ export default function CSVScheduleUpload({
 
 
 // //                                 slots:{}
+
 
 // //                             };
 
@@ -1417,6 +1647,7 @@ export default function CSVScheduleUpload({
 // //                         .slots[row.day]
 // //                         .push({
 
+
 // //                             startTime:
 // //                             row.startTime,
 
@@ -1436,6 +1667,7 @@ export default function CSVScheduleUpload({
 // //                             topic:
 // //                             row.topic || ""
 
+
 // //                         });
 
 
@@ -1450,9 +1682,11 @@ export default function CSVScheduleUpload({
 
 
 
+
 // //                     setSchedules(
 // //                         finalSchedules
 // //                     );
+
 
 
 // //                     setSuccess(
@@ -1461,10 +1695,7 @@ export default function CSVScheduleUpload({
 
 
 
-// //                     console.log(
-// //                         "Converted schedules:",
-// //                         finalSchedules
-// //                     );
+// //                     setShowPreview(true);
 
 
 
@@ -1490,17 +1721,59 @@ export default function CSVScheduleUpload({
 
 
 
+// //     if(showPreview){
+
+
+// //         return (
+
+// //             <CSVSchedulePreview
+
+// //                 schedules={schedules}
+
+
+// //                 AllCourses={AllCourses}
+
+// //                 AllTrainers={AllTrainers}
+
+
+// //                 createSchedule={createSchedule}
+
+// //                 token={token}
+
+
+// //                 onBack={()=>
+// //                     setShowPreview(false)
+// //                 }
+
+// //             />
+
+// //         );
+
+
+// //     }
+
+
+
+
+
+
 // //     return (
 
 // //         <div className="csv-upload-page">
 
 
 // //             <button
+
 // //                 className="back-btn"
+
 // //                 onClick={onBack}
+
 // //             >
+
 // //                 ← Back
+
 // //             </button>
+
 
 
 
@@ -1512,22 +1785,34 @@ export default function CSVScheduleUpload({
 
 
 
+
 // //             {
 // //                 error &&
+
 // //                 <div className="error">
+
 // //                     {error}
+
 // //                 </div>
+
 // //             }
+
 
 
 
 
 // //             {
 // //                 success &&
+
 // //                 <div className="success">
+
 // //                     {success}
+
 // //                 </div>
+
 // //             }
+
+
 
 
 
@@ -1558,40 +1843,8 @@ export default function CSVScheduleUpload({
 // //                 </button>
 
 
+
 // //             </div>
-
-
-
-
-
-// //             {
-// //                 schedules.length>0 &&
-
-// //                 <div className="preview">
-
-
-// //                     <h3>
-// //                         Generated Schedule JSON
-// //                     </h3>
-
-
-// //                     <pre>
-
-// //                         {
-// //                             JSON.stringify(
-// //                                 schedules,
-// //                                 null,
-// //                                 2
-// //                             )
-// //                         }
-
-// //                     </pre>
-
-
-// //                 </div>
-
-// //             }
-
 
 
 
@@ -1600,3 +1853,467 @@ export default function CSVScheduleUpload({
 // //     );
 
 // // }
+
+
+
+
+
+
+// // // import "./CSVScheduleUpload.css";
+// // // import { useState } from "react";
+// // // import Papa from "papaparse";
+
+
+// // // export default function CSVScheduleUpload({
+
+// // //     AllCourses = [],
+// // //     AllSessions = [],
+// // //     AllTrainers = [],
+// // //     onBack
+
+// // // }) {
+
+
+// // //     const [file,setFile] = useState(null);
+
+// // //     const [schedules,setSchedules] = useState([]);
+
+// // //     const [error,setError] = useState("");
+
+// // //     const [success,setSuccess] = useState("");
+
+
+
+
+
+// // //     // function findCourse(courseCode){
+
+// // //     //     return AllCourses.find(
+// // //     //         c =>
+// // //     //         c.courseCode.toLowerCase()
+// // //     //         === courseCode.toLowerCase()
+// // //     //     );
+
+// // //     // }
+
+// // // function findCourse(courseCode){
+
+// // //     if(!courseCode)
+// // //         return null;
+
+
+// // //     return AllCourses.find(
+// // //         c =>
+// // //         c.courseCode &&
+// // //         c.courseCode.toLowerCase()
+// // //         ===
+// // //         courseCode.toLowerCase()
+// // //     );
+
+// // // }
+
+// // // function findTrainer(trainerName){
+
+// // //     if(!trainerName)
+// // //         return null;
+
+
+// // //     return AllTrainers.find(
+// // //         t =>
+// // //         t.name &&
+// // //         t.name.toLowerCase()
+// // //         ===
+// // //         trainerName.toLowerCase()
+// // //     );
+
+// // // }
+
+// // // // function findSession(startDate,endDate){
+
+// // // //     if(!startDate || !endDate)
+// // // //         return null;
+
+
+// // // //     return AllSessions.find(
+// // // //         s =>
+
+// // // //         s.startDate.substring(0,10)
+// // // //         === startDate
+
+// // // //         &&
+
+// // // //         s.endDate.substring(0,10)
+// // // //         === endDate
+
+// // // //     );
+
+// // // // }
+// // // function findSession(startDate, endDate){
+
+// // //     if(!startDate || !endDate)
+// // //         return null;
+
+
+// // //     return AllSessions.find(session => {
+
+// // //         const sessionStart =
+// // //         session.startDate.substring(0,10);
+
+
+// // //         const sessionEnd =
+// // //         session.endDate.substring(0,10);
+
+
+
+// // //         return (
+// // //             sessionStart === startDate &&
+// // //             sessionEnd === endDate
+// // //         );
+
+// // //     });
+
+// // // }
+
+
+
+
+// // //     function handleFile(e){
+
+// // //         const uploadedFile = e.target.files[0];
+
+// // //         setFile(uploadedFile);
+
+// // //         setError("");
+
+// // //     }
+
+
+
+
+
+// // //     function processCSV(){
+
+
+// // //         if(!file){
+
+// // //             setError(
+// // //                 "Please select CSV file"
+// // //             );
+
+// // //             return;
+
+// // //         }
+
+
+
+
+// // //         Papa.parse(file,{
+
+// // //             header:true,
+
+// // //             skipEmptyLines:true,
+
+
+// // //             complete:(results)=>{
+
+
+// // //                 try{
+
+
+// // //                     const rows = results.data;
+
+
+// // //                     console.log(
+// // //                         "CSV Rows:",
+// // //                         rows
+// // //                     );
+
+
+
+// // //                     const scheduleMap={};
+
+
+
+// // //                     rows.forEach(row=>{
+
+
+// // //                         const course =
+// // //                         findCourse(
+// // //                             row.courseCode
+// // //                         );
+
+
+// // //                         const trainer =
+// // //                         findTrainer(
+// // //                             row.trainerName
+// // //                         );
+
+
+// // //                        const session =
+// // //                             findSession(
+// // //                                 row.sessionStartDate,
+// // //                                 row.sessionEndDate
+// // //                             );
+
+
+
+// // //                         if(!course){
+
+// // //                             throw new Error(
+// // //                                 `Course not found: ${row.courseCode}`
+// // //                             );
+
+// // //                         }
+
+
+
+// // //                         if(!trainer){
+
+// // //                             throw new Error(
+// // //                                 `Trainer not found: ${row.trainerName}`
+// // //                             );
+
+// // //                         }
+
+
+
+// // //                         if(!session){
+
+// // //                             throw new Error(
+// // //                                 `Session not found: ${row.sessionName}`
+// // //                             );
+
+// // //                         }
+
+
+
+
+// // //                         const key =
+// // //                         `${course._id}_${session._id}`;
+
+
+
+
+// // //                         if(!scheduleMap[key]){
+
+
+// // //                             scheduleMap[key]={
+
+// // //                                 courseId:
+// // //                                 course._id,
+
+
+// // //                                 sessionId:
+// // //                                 session._id,
+
+
+// // //                                 slots:{}
+
+// // //                             };
+
+
+// // //                         }
+
+
+
+
+// // //                         if(
+// // //                             !scheduleMap[key]
+// // //                             .slots[row.day]
+// // //                         ){
+
+// // //                             scheduleMap[key]
+// // //                             .slots[row.day]=[];
+
+// // //                         }
+
+
+
+
+// // //                         scheduleMap[key]
+// // //                         .slots[row.day]
+// // //                         .push({
+
+// // //                             startTime:
+// // //                             row.startTime,
+
+
+// // //                             endTime:
+// // //                             row.endTime,
+
+
+// // //                             trainerId:
+// // //                             trainer._id,
+
+
+// // //                             roomNo:
+// // //                             row.roomNo,
+
+
+// // //                             topic:
+// // //                             row.topic || ""
+
+// // //                         });
+
+
+
+// // //                     });
+
+
+
+
+// // //                     const finalSchedules =
+// // //                     Object.values(scheduleMap);
+
+
+
+// // //                     setSchedules(
+// // //                         finalSchedules
+// // //                     );
+
+
+// // //                     setSuccess(
+// // //                         `${finalSchedules.length} schedules extracted`
+// // //                     );
+
+
+
+// // //                     console.log(
+// // //                         "Converted schedules:",
+// // //                         finalSchedules
+// // //                     );
+
+
+
+// // //                 }
+// // //                 catch(err){
+
+// // //                     setError(
+// // //                         err.message
+// // //                     );
+
+// // //                 }
+
+
+// // //             }
+
+
+// // //         });
+
+
+// // //     }
+
+
+
+
+
+// // //     return (
+
+// // //         <div className="csv-upload-page">
+
+
+// // //             <button
+// // //                 className="back-btn"
+// // //                 onClick={onBack}
+// // //             >
+// // //                 ← Back
+// // //             </button>
+
+
+
+
+// // //             <h2>
+// // //                 Import Schedule From CSV
+// // //             </h2>
+
+
+
+
+// // //             {
+// // //                 error &&
+// // //                 <div className="error">
+// // //                     {error}
+// // //                 </div>
+// // //             }
+
+
+
+
+// // //             {
+// // //                 success &&
+// // //                 <div className="success">
+// // //                     {success}
+// // //                 </div>
+// // //             }
+
+
+
+
+// // //             <div className="upload-box">
+
+
+// // //                 <input
+
+// // //                     type="file"
+
+// // //                     accept=".csv"
+
+// // //                     onChange={handleFile}
+
+// // //                 />
+
+
+
+// // //                 <button
+
+// // //                     onClick={processCSV}
+
+// // //                 >
+
+// // //                     Read CSV
+
+// // //                 </button>
+
+
+// // //             </div>
+
+
+
+
+
+// // //             {
+// // //                 schedules.length>0 &&
+
+// // //                 <div className="preview">
+
+
+// // //                     <h3>
+// // //                         Generated Schedule JSON
+// // //                     </h3>
+
+
+// // //                     <pre>
+
+// // //                         {
+// // //                             JSON.stringify(
+// // //                                 schedules,
+// // //                                 null,
+// // //                                 2
+// // //                             )
+// // //                         }
+
+// // //                     </pre>
+
+
+// // //                 </div>
+
+// // //             }
+
+
+
+
+// // //         </div>
+
+// // //     );
+
+// // // }

@@ -215,7 +215,7 @@ SEARCH
 }
 
 .search-box input {
-    width: 100%;
+    color: var(--text-primary);    width: 100%;
 
 
     border: none;

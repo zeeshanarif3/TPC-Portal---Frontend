@@ -32,16 +32,16 @@ pre{
 
     --ease: cubic-bezier(.4, 0, .2, 1);
 
-    --accent: #111827;
+    /* --accent: var(--accent); */
     --accent-soft: #1f2937;
 
     --danger: #b91c1c;
-    --danger-bg: #fef2f2;
-    --danger-border: #fecaca;
+    --danger-bg: var(--bg-primary);
+    --danger-border: var(--border);
 
-    --success: #15803d;
-    --success-bg: #f0fdf4;
-    --success-border: #bbf7d0;
+    --success: var(--accent);
+    --success-bg: var(--bg-primary);
+    --success-border: var(--border);
 }
 
 /* ==========================================
@@ -142,7 +142,7 @@ pre{
 .success {
     background: var(--success-bg);
     border-color: var(--success-border);
-    color: var(--success);
+    color: var(--accent);
 }
 
 .success::before {
@@ -231,9 +231,9 @@ pre{
     transition: background .18s var(--ease);
 }
 
-.upload-box input[type="file"]::file-selector-button:hover {
+/* .upload-box input[type="file"]::file-selector-button:hover {
     background: var(--accent-soft);
-}
+} */
 
 /* ==========================================
                 PRIMARY BUTTON
@@ -245,7 +245,7 @@ pre{
     border: none;
     border-radius: var(--radius-sm);
 
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-soft) 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 50%, var(--bg-primary)) 100%);
     color: #fff;
 
     font-size: 0.85rem;

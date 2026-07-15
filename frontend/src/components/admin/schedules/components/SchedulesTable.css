@@ -199,6 +199,29 @@
   background: transparent;
 }
 
+
+
+
+
+
+
+
+
+/* ==========================================
+   completed css
+========================================== */
+
+.schedule-completed {
+    background: var(--bg-schedule-complete) !important;
+    color: black;
+}
+
+
+.schedule-cancelled {
+    background: var(--bg-schedule-cancelled) !important;
+}
+
+
 /* ==========================================
    RESPONSIVE
 ========================================== */

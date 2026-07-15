@@ -105,7 +105,7 @@
     overflow: hidden;
 
     border: none;
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
     color: var(--text-primary);
 
     border-radius: 16px;
@@ -201,7 +201,7 @@
 }
 
 .search-box input {
-    flex: 1;
+    color: var(--text-primary);    flex: 1;
 
     border: none;
     outline: none;

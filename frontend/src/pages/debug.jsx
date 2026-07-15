@@ -10,7 +10,9 @@ function Debug() {
     const [token, setT] = useState(null);
 
     const {
-        AllSchedules
+        // AllSchedules,
+        AllSlots,
+        Allstudents
     } = useTrainer(token);
 
     // const {
@@ -250,22 +252,22 @@ function Debug() {
                 <br /> */}
             
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                <br />
+                {/* <br />
 
                     schedules
                 <br />
                 <br />
                 <br />
-                <br />
+                <br /> */}
                 {/* UpcomingScheduleByColl :
                 
                  <pre>{JSON.stringify(UpcomingScheduleByColl, null, 2)}</pre>  too long , but working
                 <br /> */}
                 <br />
                 <br />
-                AllSchedules :
+                AllSlots :
                 
-                 <pre>{JSON.stringify(AllSchedules, null, 2)}</pre>   same, too long , but working
+                 <pre>{JSON.stringify(AllSlots, null, 2)}</pre>   same, too long , but working
                 <br />
                 <br />
               
@@ -307,7 +309,7 @@ function Debug() {
                 <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 <br />
-{/* 
+
                     students
                 <br />
                 <br />
@@ -318,7 +320,7 @@ function Debug() {
                  <pre>{JSON.stringify(Allstudents, null, 2)}</pre>                   working , but too long
                  <br />
 
-                <br /> */}
+                <br />
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 {/* <br />
 

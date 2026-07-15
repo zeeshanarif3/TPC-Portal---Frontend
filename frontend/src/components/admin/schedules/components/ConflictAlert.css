@@ -61,7 +61,7 @@
                 LEFT ACCENT
 ========================================== */
 
-.conflict-alert::before {
+/* .conflict-alert::before {
     content: "";
 
     position: absolute;
@@ -73,7 +73,7 @@
     height: 100%;
 
     background: #f59e0b;
-}
+} */
 
 /* ==========================================
                 CONTENT

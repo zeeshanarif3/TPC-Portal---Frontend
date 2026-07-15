@@ -18,7 +18,7 @@ import SchedulesPage from "../../components/Trainer/schedules/schedules";
 
 function Trainer_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("attendance"); //Default
+    const [page, setPage] = useState("schedule"); //Default
     // const [page, setPage] = useState("sessions"); //Default
 
 

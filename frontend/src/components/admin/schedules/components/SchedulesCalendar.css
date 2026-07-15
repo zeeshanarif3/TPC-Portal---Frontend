@@ -11,7 +11,6 @@
 
     --ease: cubic-bezier(.4, 0, .2, 1);
 
-    --accent: var(--accent);
     --accent-soft: var(--bg-secondary);
 }
 
@@ -28,7 +27,7 @@
 
     align-items: start;
     max-height: 100vh;
-    overflow: scroll;
+    /* overflow: scroll; */
 
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
@@ -176,7 +175,7 @@
 .Schedulee-card {
     position: relative;
 
-    background: linear-gradient(150deg, var(--accent) 0%, var(--accent-soft) 100%);
+    /* background: var(--bg-primary); */
 
     color: var(--text-primary);
 
@@ -302,7 +301,7 @@
 }
 
 .btn-edit-card:hover {
-    background: color-mix(in srgb, var(--accent) 100%, var(--bg-primary));
+    /* background: color-mix(in srgb, var(--accent) 100%, var(--bg-primary)); */
     transform: scale(1.08);
 }
 
@@ -496,6 +495,26 @@
 
     color: var(--text-secondary);
 }
+
+
+
+
+
+/* ==========================================
+                completed 
+========================================== */
+
+.schedule-completed-card {
+    background: var(--bg-schedule-complete) !important;
+    border-left: 5px solid color-mix(in srgb, var(--bg-schedule-complete) 50%, Black);
+}
+
+
+.schedule-cancelled-card {
+    background: var(--bg-schedule-cancelled);
+    border-left: 5px solid color-mix(in srgb, var(--bg-schedule-cancelled) 50%, Black);
+}
+
 
 /* ==========================================
                 RESPONSIVE

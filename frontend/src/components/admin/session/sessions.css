@@ -81,32 +81,21 @@ BUTTONS
 
 .btn-new-session,
 .btn-export-csv {
-    position: relative;
-
+  position: relative;
     overflow: hidden;
-
     border: none;
-
     background: var(--bg-primary);
     color: var(--text-primary);
-
     border-radius: 16px;
-
     padding: 13px 20px;
-
     font-size: .9rem;
     font-weight: 600;
-
     cursor: pointer;
-
     box-shadow: var(--shadow);
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
+    transition: transform .25s ease, box-shadow .25s ease;
 }
 
-.btn-new-session::before,
+/* .btn-new-session::before,
 .btn-export-csv::before {
     content: "";
 
@@ -124,7 +113,7 @@ BUTTONS
         rgba(255,255,255,.65),
         transparent
     );
-}
+} */
 
 .btn-new-session:hover,
 .btn-export-csv:hover {
@@ -207,7 +196,7 @@ SEARCH
 }
 
 .search-box input {
-    width: 100%;
+    color: var(--text-primary);    width: 100%;
 
     border: none;
     outline: none;

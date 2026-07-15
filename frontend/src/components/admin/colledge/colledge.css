@@ -143,30 +143,6 @@ BUTTONS
 
 }
 
-.btn-add-college::before,
-.btn-bulk-archive::before,
-.btn-export-csv::before {
-    content: "";
-
-
-    position: absolute;
-
-    top: 0;
-    left: -150%;
-
-    width: 60%;
-    height: 100%;
-
-    background:
-        linear-gradient(to right,
-            transparent,
-            rgba(255, 255, 255, .65),
-            transparent);
-
-    /* animation: buttonShine 5s linear infinite; */
-
-
-}
 
 /* @keyframes buttonShine {
 to {
@@ -278,7 +254,7 @@ SEARCH
 }
 
 .search-box input {
-    width: 100%;
+    color: var(--text-primary);    width: 100%;
 
 
     border: none;

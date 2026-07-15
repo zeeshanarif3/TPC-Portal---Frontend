@@ -12,11 +12,11 @@ import {
 
 
     // attendance
-    fetchAttendanceChart,
-    fetchSubjectDistribution,
-    fetchAttendanceByCollegeAndSession,
-    createAttendance,
-    updateAttendance,
+    // fetchAttendanceChart,
+    // fetchSubjectDistribution,
+    // fetchAttendanceByCollegeAndSession,
+    // createAttendance,
+    // updateAttendance,
 
     // schedules
     // fetchUpcomingSchedule,
@@ -25,12 +25,12 @@ import {
     // updateSchedule,
     // deleteSchedule,
     // appendSlotsViaCSV,
-    fetchUpcomingScheduleByCollege,
-    deleteSchedule,
-    updateSchedule,
-    fetchSchedules,
-    createSchedule,
-    fetchScheduleById,
+    // fetchUpcomingScheduleByCollege,
+    // deleteSchedule,
+    // updateSchedule,
+    // fetchSchedules,
+    // createSchedule,
+    // fetchScheduleById,
 
     // contracts
     fetchContracts,
@@ -73,6 +73,25 @@ import {
     createModerator,
     updateModerator,
     deleteModerator,
+
+    // slots
+    // slots
+    fetchSlots,
+    fetchSlotById,
+    createSlot,
+    updateSlot,
+    deleteSlot,
+    fetchUpcomingSlots,
+    appendSlotsViaCSV,
+    updateTopicAndFeedback,
+    fetchUpcomingClasses,
+    submitAttendance,
+    fetchAttendanceById,
+    fetchSlotAnalytics,
+    fetchAttendanceChart,
+    fetchSubjectDistribution,
+    fetchAttendanceByCollegeAndSession,
+
 
 
 
@@ -159,9 +178,12 @@ export function useDashboard(token) {
     const [AttendanceByCollegeAndSession, setAttendanceByCollegeAndSession] = useState([]);
 
     // schedule
-    const [UpcomingScheduleByColl, setUpcomingScheduleByColl] = useState([]);
-    const [AllSchedules, setAllSchedules] = useState([]);
-
+    // const [UpcomingScheduleByColl, setUpcomingScheduleByColl] = useState([]);
+    // const [AllSchedules, setAllSchedules] = useState([]);
+    
+    // slots
+    const [AllSlots, setAllSlots] = useState([]);
+    const [UpcomingSlotsByColl, setUpcomingSlotsByColl] = useState([]);
 
     // contracts
     const [AllContracts, setAllContracts] = useState([]);
@@ -216,22 +238,48 @@ export function useDashboard(token) {
         }
     }, [selectedCollege, token]);
 
-    const refreshSchedules = useCallback(async () => {
+    // const refreshSchedules = useCallback(async () => {
+    //     if (USE_MOCK) {
+    //         setSchedule(MOCK_SCHEDULE);
+    //         return;
+    //     }
+    //     try {
+    //         const [upcoming, all] = await Promise.all([
+    //             fetchUpcomingScheduleByCollege(selectedCollege, token),
+    //             fetchSchedules(token),
+    //         ]);
+    //         setUpcomingScheduleByColl(upcoming);
+    //         setAllSchedules(all);
+    //     } catch (err) {
+    //         setError(err.message || 'Failed to fetch schedules');
+    //     }
+    // }, [selectedCollege, token]);
+
+
+
+    const refreshSlots = useCallback(async () => {
         if (USE_MOCK) {
-            setSchedule(MOCK_SCHEDULE);
+            setAllSlots(MOCK_SCHEDULE);
             return;
         }
+
         try {
             const [upcoming, all] = await Promise.all([
-                fetchUpcomingScheduleByCollege(selectedCollege, token),
-                fetchSchedules(token),
+                fetchUpcomingSlots(selectedCollege, token),
+                fetchSlots({}, token),
             ]);
-            setUpcomingScheduleByColl(upcoming);
-            setAllSchedules(all);
+
+            setUpcomingSlotsByColl(upcoming);
+            setAllSlots(all);
+
         } catch (err) {
-            setError(err.message || 'Failed to fetch schedules');
+            setError(err.message || 'Failed to fetch slots');
         }
+
     }, [selectedCollege, token]);
+
+
+
 
     const refreshContracts = useCallback(async () => {
         if (USE_MOCK) {
@@ -363,7 +411,8 @@ export function useDashboard(token) {
                 } else {
                     await Promise.all([
                         refreshDashboard(),
-                        refreshSchedules(),
+                        // // refreshSchedules()
+                        refreshSlots(), 
                         refreshContracts(),
                         refreshStudents(),
                         refreshCourses(),
@@ -378,7 +427,8 @@ export function useDashboard(token) {
         })();
 
         return () => { cancelled = true; };
-    }, [selectedCollege, refreshDashboard, refreshSchedules, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions]);
+    // }, [selectedCollege, refreshDashboard, refreshSchedules,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions]);
+    }, [selectedCollege, refreshDashboard,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions]);
 
     // ── Effect: session changes ─────────────────────────────────────────────
     // Only reloads attendance-related data, never runs without a valid session
@@ -404,7 +454,8 @@ export function useDashboard(token) {
     const refresh = useCallback(async () => {
         await Promise.all([
             refreshDashboard(),
-            refreshSchedules(),
+            // refreshSchedules()
+            refreshSlots(),
             refreshContracts(),
             refreshStudents(),
             refreshCourses(),
@@ -413,7 +464,8 @@ export function useDashboard(token) {
             refreshSessions(),
         ]);
         await refreshAttendance();
-    }, [refreshDashboard, refreshSchedules, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions, refreshAttendance]);
+    // }, [refreshDashboard, refreshSchedules, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions, refreshAttendance]);
+    }, [refreshDashboard, refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions, refreshAttendance]);
 
 
 
@@ -454,46 +506,79 @@ const handleDeleteCollege = async (id) => {
 
 
 
-// Attendance
+// // Attendance
 
-const handleCreateAttendance = async (data) => {
-    const res = await createAttendance(data, token);
-    await refreshAttendance();
+// const handleCreateAttendance = async (data) => {
+//     const res = await createAttendance(data, token);
+//     await refreshAttendance();
+//     return res;
+// };
+
+
+// const handleUpdateAttendance = async (data) => {
+//     const res = await updateAttendance(data, token);
+//     await refreshAttendance();
+//     return res;
+// };
+
+
+
+
+// // Schedule
+
+// const handleCreateSchedule = async (data) => {
+//     const res = await createSchedule(data, token);
+//     await refresh();
+//     return res;
+// };
+
+
+// const handleUpdateSchedule = async (id, data) => {
+//     const res = await updateSchedule(id, data, token);
+//     await refresh();
+//     return res;
+// };
+
+
+// const handleDeleteSchedule = async (id) => {
+//     await deleteSchedule(id, token);
+//     await refresh();
+// };
+
+// Slots
+
+const handleCreateSlot = async (data) => {
+    const res = await createSlot(data, token);
+    await refreshSlots();
     return res;
 };
 
 
-const handleUpdateAttendance = async (data) => {
-    const res = await updateAttendance(data, token);
-    await refreshAttendance();
+const handleUpdateSlot = async (id, data) => {
+    const res = await updateSlot(id, data, token);
+    await refreshSlots();
     return res;
 };
 
 
+const handleDeleteSlot = async (id) => {
+    await deleteSlot(id, token);
+    await refreshSlots();
+};
 
 
-// Schedule
-
-const handleCreateSchedule = async (data) => {
-    const res = await createSchedule(data, token);
-    await refresh();
+const handleAppendSlotsCSV = async (data) => {
+    const res = await appendSlotsViaCSV(data, token);
+    await refreshSlots();
     return res;
 };
 
 
-const handleUpdateSchedule = async (id, data) => {
-    const res = await updateSchedule(id, data, token);
-    await refresh();
+const handleUpdateTopicFeedback = async (id, data) => {
+    const res = await updateTopicAndFeedback(id, data, token);
+    await refreshSlots();
     return res;
 };
-
-
-const handleDeleteSchedule = async (id) => {
-    await deleteSchedule(id, token);
-    await refresh();
-};
-
-
 
 
 // Contracts
@@ -685,26 +770,41 @@ const handleDeleteModerator = async (id) => {
         AttendanceChart,
         SubjectDistributionAttendance,
         AttendanceByCollegeAndSession,
-        createAttendance: handleCreateAttendance,
-        updateAttendance: handleUpdateAttendance,
+        // createAttendance: handleCreateAttendance,
+        // updateAttendance: handleUpdateAttendance,
 
 
-        // schedule
+        // // schedule
+        // // UpcomingScheduleByColl,
+        // // AllSchedules,
+        // // createSchedule,
+        // createSchedule: handleCreateSchedule,
+        // updateSchedule: handleUpdateSchedule,
+        // deleteSchedule: handleDeleteSchedule,
+        // // appendSlotsViaCSV,
         // UpcomingScheduleByColl,
         // AllSchedules,
-        // createSchedule,
-        createSchedule: handleCreateSchedule,
-        updateSchedule: handleUpdateSchedule,
-        deleteSchedule: handleDeleteSchedule,
-        // appendSlotsViaCSV,
-        UpcomingScheduleByColl,
-        AllSchedules,
-        // fetchUpcomingScheduleByCollege,
-        // deleteSchedule,
-        // updateSchedule,`
-        // fetchSchedules,
-        // createSchedule,
-        // fetchScheduleById,
+        // // fetchUpcomingScheduleByCollege,
+        // // deleteSchedule,
+        // // updateSchedule,`
+        // // fetchSchedules,
+        // // createSchedule,
+        // // fetchScheduleById,
+
+        // slots
+        AllSlots,
+        UpcomingSlotsByColl,
+
+        createSlot: handleCreateSlot,
+        updateSlot: handleUpdateSlot,
+        deleteSlot: handleDeleteSlot,
+        appendSlotsViaCSV: handleAppendSlotsCSV,
+        updateTopicAndFeedback: handleUpdateTopicFeedback,
+        fetchSlotById,
+        fetchAttendanceById,
+        submitAttendance,
+        fetchUpcomingClasses,
+        fetchSlotAnalytics,
 
 
         // contracts
@@ -755,6 +855,7 @@ const handleDeleteModerator = async (id) => {
         createModerator: handleCreateModerator,
         updateModerator: handleUpdateModerator,
         deleteModerator: handleDeleteModerator,
+        
 
         refresh,
     };
