@@ -13,7 +13,8 @@ function Debug() {
         // AllSchedules,
         AllSlots,
         Allstudents,
-        AllUpcommingSlots
+        AllUpcommingSlots,
+        studentsbycoll,
     } = useTrainer(token);
 
     const {
@@ -34,7 +35,7 @@ function Debug() {
     //     upcomingClasses,
     //     AttendanceChart,
     //     SubjectDistributionAttendance,
-    //     AttendanceByCollegeAndSession,
+        AttendanceByCollegeAndSession,
 
 
     //     // schedules
@@ -182,7 +183,7 @@ function Debug() {
                 
                 
                 
-                <br />
+                {/* <br />
                 stats  :
                  <pre>{JSON.stringify(stats, null, 2)}</pre>
                 
@@ -203,7 +204,7 @@ function Debug() {
                 <br />
                 <br />
                 <br />
-                <br />
+                <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 {/* 
                  <br />
@@ -230,13 +231,13 @@ function Debug() {
                 <br />
                 <br />
                 <br /> */}
-                {/* AttendanceByCollegeAndSession :
+                AttendanceByCollegeAndSession :
                 
                  <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> 
                 <br />
                 <br />
                     
-                <br /> */}
+                <br />
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 
@@ -251,6 +252,21 @@ function Debug() {
                  <pre>{JSON.stringify(AllModerators, null, 2)}</pre> it will work , trainer login is currently not made
                 <br />
                 <br /> */}
+            
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+
+                 <br />
+                    studentsbycoll
+                <br />
+                <br />
+                <br />
+                <br />
+                studentsbycoll :
+                
+                 <pre>{JSON.stringify(studentsbycoll, null, 2)}</pre> it will work , trainer login is currently not made
+                <br />
+                <br />
             
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 {/* <br />

@@ -19,6 +19,7 @@ export default function AttendancePage({ token }) {
     error,
     AttendanceByCollegeAndSession,
     Allstudents,
+    fetchStudentsByCourse,
 
     updateAttendance,
   } = useDashboard(token);
@@ -126,6 +127,7 @@ if (showUpdateAttendancePage) {
     <div className="attendance-page">
               {/* {selectedCollege } ///////////////////   {CurrentSession} debug */}
       {/* Header */}
+      {/* <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> */}
       <div className="attendance-header">
         <div>
           <h1>Attendance</h1>
@@ -278,8 +280,10 @@ if (showUpdateAttendancePage) {
       {!loading && !error && (
         <AttendanceTable
           attendance={filteredAttendance}
+          token={token}
           setUpdateAttendancedata = {setUpdateAttendancedata}
           setshowUpdateAttendancePage = {setshowUpdateAttendancePage}
+          fetchStudentsByCourse={fetchStudentsByCourse}
         />
       )}
     </div>

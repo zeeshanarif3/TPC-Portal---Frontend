@@ -44,6 +44,7 @@ export default function AttendanceWorkspace({
   onBack,
   onSuccess,
   submitAttendance,
+  // setselectedcourse,
 }) {
   const [attendanceMap, setAttendanceMap] = useState({});
   const [feedback, setFeedback] = useState(slot?.feedback || "");
@@ -51,21 +52,43 @@ export default function AttendanceWorkspace({
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
 
+  // useEffect(() => {
+  //   const nextMap = {};
+  //   const presentSet = new Set((slot?.presentStudents || []).map(String));
+
+  //   for (const student of students) {
+  //     const id = getStudentId(student);
+  //     if (!id) continue;
+  //     nextMap[id] = presentSet.has(String(id));
+  //   }
+
+  //   setAttendanceMap(nextMap);
+  //   setFeedback(slot?.feedback || "");
+  //   setSearch("");
+  //   setError("");
+  // }, [slot, students]);
+
   useEffect(() => {
-    const nextMap = {};
-    const presentSet = new Set((slot?.presentStudents || []).map(String));
+  const nextMap = {};
+  const presentSet = new Set((slot?.presentStudents || []).map(String));
 
-    for (const student of students) {
-      const id = getStudentId(student);
-      if (!id) continue;
-      nextMap[id] = presentSet.has(String(id));
-    }
+  // Set the selected course from the slot
+  // if (slot?.courseId?._id) {
+  //   setselectedcourse(slot.courseId._id);
+  //   console.log(slot.courseId._id)
+  // }
 
-    setAttendanceMap(nextMap);
-    setFeedback(slot?.feedback || "");
-    setSearch("");
-    setError("");
-  }, [slot, students]);
+  for (const student of students) {
+    const id = getStudentId(student);
+    if (!id) continue;
+    nextMap[id] = presentSet.has(String(id));
+  }
+
+  setAttendanceMap(nextMap);
+  setFeedback(slot?.feedback || "");
+  setSearch("");
+  setError("");
+}, [slot, students]);
 
   const normalizedSearch = search.trim().toLowerCase();
 

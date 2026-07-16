@@ -51,6 +51,7 @@ import {
     createStudent,
     updateStudent,
     deleteStudent,
+    fetchStudentsByCourse,
 
     // course
     fetchCourses,
@@ -833,6 +834,7 @@ const handleDeleteModerator = async (id) => {
         createStudent: handleCreateStudent,
         updateStudent: handleUpdateStudent,
         deleteStudent: handleDeleteStudent,
+        fetchStudentsByCourse,
 
         // courses
         AllCourses,

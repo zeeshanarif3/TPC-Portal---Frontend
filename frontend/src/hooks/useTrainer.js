@@ -4,14 +4,17 @@ import {
     fetchSlots,
     updateTopicAndFeedback,
     fetchStudents,
+    fetchStudentsByCourse,
     submitAttendance,
     fetchUpcomingClasses,
 } from "../services/dashboardapi";
 
 export function useTrainer(token) {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedcourse, setselectedcourse] = useState("6a4d31ca127623f6f5335784");
 
     const [AllSlots, setAllSlots] = useState([]);
+    const [studentsbycoll, setstudentsbycoll] = useState([]);
     const [AllUpcommingSlots, setAllUpcommingSlots] = useState([]);
     const [Allstudents, setAllstudents] = useState([]);
     const [error, setError] = useState(null);
@@ -76,11 +79,21 @@ export function useTrainer(token) {
     const refreshStudents = useCallback(async () => {
         try {
             const data = await fetchStudents(token);
+            // const databycoll = await fetchStudentsByCourse(token);
             setAllstudents(data);
         } catch (err) {
             setError(err.message || "Failed to fetch students");
         }
     }, [token]);
+
+    const refreshStudentsbycoll = useCallback(async () => {
+        try {
+            const databycoll = await fetchStudentsByCourse(selectedcourse,token);
+            setstudentsbycoll(databycoll);
+        } catch (err) {
+            setError(err.message || "Failed to fetch students");
+        }
+    }, [selectedcourse,token]);
 
     // -------------------- Update Slot --------------------
     const updateSlot = useCallback(
@@ -109,13 +122,17 @@ export function useTrainer(token) {
 
     useEffect(() => {
         refreshStudents();
-    }, [refreshStudents]);
+        refreshStudentsbycoll();
+    }, [refreshStudents,refreshStudentsbycoll]);
 
     return {
         // Data
         AllSlots,
         AllUpcommingSlots,
         Allstudents,
+        studentsbycoll,
+        setselectedcourse,
+        selectedcourse,
         error,
 
         // Date
@@ -126,6 +143,7 @@ export function useTrainer(token) {
         refreshSchedules,
         refreshUpcommingSchedules,
         refreshStudents,
+        refreshStudentsbycoll,
         updateTopicAndFeedback: updateSlot,
         submitAttendance: submitAttendanceWithRefresh,
     };

@@ -1006,7 +1006,18 @@ export async function deleteStudent(id, token) {
 }
 
 
+// Get students by course
+export async function fetchStudentsByCourse(courseId, token) {
+  const res = await fetch(
+    `${BASE_URL}/students/course/${courseId}`,
+    {
+      headers: getHeaders(token),
+    }
+  );
 
+  if (!res.ok) throw new Error("Failed to fetch students by course");
+  return res.json();
+}
 
 
 
