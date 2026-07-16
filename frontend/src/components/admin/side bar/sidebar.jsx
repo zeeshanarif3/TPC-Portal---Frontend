@@ -18,6 +18,7 @@ import {
     ChevronRight,
     ChevronsLeft,
     ChevronsRight,
+    Users,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -30,6 +31,7 @@ const NAV_ITEMS = [
     { key: "schedule", label: "Schedule", icon: CalendarDays },
     { key: "attendance", label: "Attendance", icon: ClipboardCheck },
     { key: "course", label: "Course", icon: BookOpen },
+    { key: "students", label: "Students", icon: Users },
     //   {
     //     key: "",
     //     label: "",

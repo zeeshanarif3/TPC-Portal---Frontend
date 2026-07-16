@@ -16,11 +16,14 @@
 ========================================== */
 
 .contracts-stats {
-    display: grid;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr);
 
-    gap: 1.1rem;
+    gap: 1.1rem; */
 }
 
 /* ==========================================
@@ -29,6 +32,7 @@
 
 .stat-card {
     position: relative;
+    width: stretch;
 
     display: flex;
     flex-direction: column;
@@ -126,6 +130,7 @@
 @media (max-width: 720px) {
 
     .contracts-stats {
-        grid-template-columns: 1fr;
+        /* grid-template-columns: 1fr; */
+        flex-direction: column;
     }
 }

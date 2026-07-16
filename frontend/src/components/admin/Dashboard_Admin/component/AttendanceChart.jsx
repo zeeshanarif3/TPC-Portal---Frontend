@@ -12,7 +12,7 @@ export default function Attendance_chart({
   data,
   currentWeekOnly = false,
 }) {
-  if (!data?.length) return null;
+  // if (!data?.length) return null;
 
   const chartData = (() => {
     let filtered = [...data];
@@ -52,7 +52,18 @@ export default function Attendance_chart({
     }));
   })();
 
-  if (!chartData.length) return null;
+  // if (!chartData.length) return null;
+
+
+  if (!data || data.length === 0) {
+  return (
+    <div className="attendance-chart">
+        <div className="log">
+      No Data Available
+       </div>
+      </div>
+  );
+}
 
   return (
     <div className="attendance-chart">

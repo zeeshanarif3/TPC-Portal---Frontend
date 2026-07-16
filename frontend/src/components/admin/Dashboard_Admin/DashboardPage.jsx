@@ -29,7 +29,7 @@ export default function DashboardPage({ token }) {
 
 
         // schedules
-        UpcomingScheduleByColl,
+        UpcomingSlotsByColl,
         // AllSchedules,
 
 
@@ -101,7 +101,7 @@ export default function DashboardPage({ token }) {
             <div className="dashboard__bottom-row">
                 <div className="Schedulle-card">
                     <UpcomingSchedule
-                        schedule={loading ? [] : UpcomingScheduleByColl}
+                        schedule={loading ? [] : UpcomingSlotsByColl}
                         onViewAll={() => { }}
                     />
                 </div>

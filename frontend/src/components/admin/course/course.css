@@ -323,6 +323,131 @@ STATES
     border-color: #fecaca;
 }
 
+
+
+
+
+
+
+
+
+/* ==========================================
+HEADER ACTIONS
+========================================== */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ==========================================
+STATS
+========================================== */
+
+.students-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+}
+
+.stat-card {
+    background: var(--bg-primary);
+    border-radius: 18px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    transition: .25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-card span {
+    color: var(--text-secondary);
+    font-size: .82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.stat-card h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+/* ==========================================
+RESULTS
+========================================== */
+
+.students-results {
+    color: var(--text-secondary);
+    font-size: .9rem;
+    padding: 0 .25rem;
+}
+
+.students-results strong {
+    color: var(--text-primary);
+}
+
+/* ==========================================
+COLLEGE FILTER
+========================================== */
+
+.college-filter {
+    min-width: 220px;
+    padding: 14px 18px;
+
+    background: var(--bg-primary);
+
+    color: var(--text-primary);
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    transition: .25s ease;
+}
+
+.college-filter:hover,
+.college-filter:focus {
+    outline: none;
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow);
+}
+
+@media (max-width:768px){
+
+    .header-actions{
+        width:100%;
+        display:flex;
+        flex-direction:column;
+    }
+
+    .header-actions button{
+        width:100%;
+    }
+
+    .college-filter{
+        width:100%;
+    }
+}
+
+
+
+
 /* ==========================================
 TABLE WRAPPER
 ========================================== */

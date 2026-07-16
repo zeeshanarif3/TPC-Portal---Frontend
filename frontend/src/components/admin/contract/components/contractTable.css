@@ -216,6 +216,64 @@
   background: transparent;
 }
 
+
+
+
+
+
+
+.contract-id{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.btn-copy{
+    width:28px;
+    height:28px;
+    border:none;
+    background:transparent;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--text-secondary);
+    transition:.2s;
+}
+
+.btn-copy:hover{
+    background:var(--bg-secondary);
+    color:var(--text-primary);
+}
+
+.trainer-info{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+.trainer-info small{
+    color:var(--text-secondary);
+    font-size:.8rem;
+}
+
+.session-info{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+.session-info small{
+    color:var(--text-secondary);
+}
+
+.btn-action:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    transform:none !important;
+}
+
 /* ==========================================
    RESPONSIVE
 ========================================== */

@@ -91,8 +91,11 @@ export default function ContractsPage({ token }) {
 
     expiringSoon: ExpContracts?.length || 0,
 
-    expired: AllContracts.filter(
-      (c) => c.status.toLowerCase() === 'expired'
+    Cancelled: AllContracts.filter(
+      (c) => c.status.toLowerCase() === 'cancelled'
+    ).length,
+    Completed: AllContracts.filter(
+      (c) => c.status.toLowerCase() === 'completed'
     ).length,
   };
 
@@ -181,8 +184,8 @@ export default function ContractsPage({ token }) {
         >
           <option value="All">All Status</option>
           <option value="Active">Active</option>
-          <option value="Expiring Soon">Expiring Soon</option>
-          <option value="Expired">Expired</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
 
         <button

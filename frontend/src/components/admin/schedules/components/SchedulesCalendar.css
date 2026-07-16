@@ -27,6 +27,7 @@
 
     align-items: start;
     max-height: 100vh;
+    min-height: stretch;
     /* overflow: scroll; */
 
     scrollbar-width: thin;
@@ -55,7 +56,10 @@
 
     overflow: auto;
 
-    box-shadow: var(--shadow-md);
+    /* box-shadow: var(--shadow-md); */
+        max-height: 100vh;
+    min-height: stretch;
+
 }
 
 /* ==========================================

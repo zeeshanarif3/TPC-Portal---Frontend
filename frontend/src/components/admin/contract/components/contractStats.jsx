@@ -20,8 +20,12 @@ export default function ContractsStats({
       </div>
 
       <div className="stat-card stat-expired">
-        <div className="stat-number">{stats.expired}</div>
-        <div className="stat-label">Expired</div>
+        <div className="stat-number">{stats.Completed}</div>
+        <div className="stat-label">Completed</div>
+      </div>
+      <div className="stat-card stat-expired">
+        <div className="stat-number">{stats.Cancelled}</div>
+        <div className="stat-label">Cancelled</div>
       </div>
     </div>
   );

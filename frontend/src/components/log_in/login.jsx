@@ -6,17 +6,39 @@ function Login({ handleLogout, setUser, setToken, user, token }) {
   const [password, setPassword] = useState('');
 
   // Restore session on refresh
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem('tpctoken');
+  //   const storedUser = localStorage.getItem('tpcuser');
+
+  //   if (storedToken && storedUser) {
+  //     setToken(storedToken);
+  //     setUser(JSON.parse(storedUser));
+  //   }
+  // }, [setToken, setUser]);
   useEffect(() => {
-    const storedToken = localStorage.getItem('tpctoken');
-    const storedUser = localStorage.getItem('tpcuser');
+    const storedToken = localStorage.getItem("tpctoken");
+    const storedUser = localStorage.getItem("tpcuser");
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+    if (!storedToken || !storedUser) return;
+
+    if (isTokenExpired(storedToken)) {
+      localStorage.removeItem("tpctoken");
+      localStorage.removeItem("tpcuser");
+      return;
     }
-  }, [setToken, setUser]);
 
+    setToken(storedToken);
+    setUser(JSON.parse(storedUser));
+  }, []);
+  function isTokenExpired(token) {
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
 
+      return payload.exp * 1000 < Date.now();
+    } catch {
+      return true;
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

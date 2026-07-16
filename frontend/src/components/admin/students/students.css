@@ -2,7 +2,7 @@
 PAGE
 ========================================== */
 
-.trainers-page {
+.students-page {
     height: stretch;
     width: stretch;
     /* min-height: 100vh; */
@@ -48,7 +48,7 @@ PAGE
 HEADER
 ========================================== */
 
-.trainers-header {
+.students-header {
     position: relative;
 
 
@@ -73,7 +73,7 @@ HEADER
 
 }
 
-.trainers-header h1 {
+.students-header h1 {
     font-size: 2.2rem;
     font-weight: 800;
 
@@ -88,7 +88,7 @@ HEADER
 
 }
 
-.trainers-header p {
+.students-header p {
     color: var(--muted);
 
 
@@ -104,7 +104,7 @@ ACTIONS
 
 
 
-.btn-add-trainer,
+.btn-add-student,
 .btn-export-csv {
     position: relative;
 
@@ -134,7 +134,7 @@ ACTIONS
 
 }
 
-.btn-add-trainer:hover,
+.btn-add-student:hover,
 .btn-export-csv:hover {
     transform: translateY(-3px);
 
@@ -148,7 +148,7 @@ ACTIONS
 FILTERS
 ========================================== */
 
-.trainers-filters {
+.students-filters {
     position: relative;
 
 
@@ -196,6 +196,8 @@ SEARCH
         transform .25s ease,
         border-color .25s ease,
         box-shadow .25s ease;
+    color: var(--text-primary);    
+    
 
 
 }
@@ -215,7 +217,8 @@ SEARCH
 }
 
 .search-box input {
-    color: var(--text-primary);    width: 100%;
+    color: var(--text-primary);    
+    width: 100%;
 
 
     border: none;
@@ -308,6 +311,146 @@ TABLE WRAPPER
 
 }
 
+
+
+
+
+
+
+
+
+
+/* ==========================================
+HEADER ACTIONS
+========================================== */
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.btn-refresh{
+    border:none;
+    padding:13px 20px;
+    border-radius:16px;
+    cursor:pointer;
+
+    background:var(--bg-secondary);
+    color:var(--text-primary);
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.btn-refresh:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--shadow-hover);
+}
+
+/* ==========================================
+STATS
+========================================== */
+
+.students-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.stat-card{
+    background:var(--bg-primary);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+}
+
+.stat-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-hover);
+}
+
+.stat-card span{
+    display:block;
+    font-size:.85rem;
+    color:var(--text-secondary);
+    margin-bottom:10px;
+}
+
+.stat-card h2{
+    margin:0;
+    font-size:2rem;
+    font-weight:700;
+}
+
+/* ==========================================
+FILTER SELECT
+========================================== */
+
+.students-filters select{
+    min-width:220px;
+
+    padding:14px 18px;
+
+    border:none;
+    border-radius:16px;
+
+    background:var(--bg-secondary);
+    color:var(--text-primary);
+
+    outline:none;
+    cursor:pointer;
+}
+
+/* ==========================================
+RESULTS
+========================================== */
+
+.students-results{
+    font-size:.9rem;
+    color:var(--text-secondary);
+
+    padding:0 4px;
+}
+
+/* ==========================================
+RESPONSIVE
+========================================== */
+
+@media(max-width:1000px){
+
+.students-stats{
+    grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:650px){
+
+.students-stats{
+    grid-template-columns:1fr;
+}
+
+.header-actions{
+    width:100%;
+    flex-direction:column;
+}
+
+.header-actions button{
+    width:100%;
+}
+
+}
+
+
+
+
+
+
+
 /* ==========================================
 RESPONSIVE
 ========================================== */
@@ -315,7 +458,7 @@ RESPONSIVE
 @media (max-width:1100px) {
 
 
-    .trainers-filters {
+    .students-filters {
         flex-wrap: wrap;
     }
 
@@ -329,18 +472,18 @@ RESPONSIVE
 @media (max-width:768px) {
 
 
-    .trainers-header {
+    .students-header {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .trainers-filters {
+    .students-filters {
         flex-direction: column;
         align-items: stretch;
     }
 
     .contract-filter,
-    .btn-add-trainer,
+    .btn-add-student,
     .btn-export-csv {
         width: 100%;
     }
@@ -349,7 +492,7 @@ RESPONSIVE
         width: 100%;
     }
 
-    .trainers-header h1 {
+    .students-header h1 {
         font-size: 1.75rem;
     }
 

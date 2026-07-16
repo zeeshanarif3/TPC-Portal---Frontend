@@ -16,11 +16,11 @@ function Debug() {
         AllUpcommingSlots
     } = useTrainer(token);
 
-    // const {
+    const {
     //     selectedCollege,
     //     setSelectedCollege,
     //     colleges,
-    //     stats,
+        stats,
     //     trainers,
     //     schedule,
     //     attendance,
@@ -67,7 +67,7 @@ function Debug() {
 
     //     //Moderator
     //     AllModerators,
-    // } = useDashboard(token);
+    } = useDashboard(token);
 
 
 
@@ -150,7 +150,7 @@ function Debug() {
                 {token}
                 <br />
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                {/* <br />
+                <br />
                 Dash
 
 
@@ -170,12 +170,12 @@ function Debug() {
 
 
 
-                selected coll id  :   {selectedCollege}
+                {/* selected coll id  :   {selectedCollege} */}
                 
                 
-                <br />
+                {/* <br />
                 colledges : 
-                <pre>{JSON.stringify(colleges, null, 2)}</pre>
+                <pre>{JSON.stringify(colleges, null, 2)}</pre> */}
                 
                 
                 
@@ -203,7 +203,7 @@ function Debug() {
                 <br />
                 <br />
                 <br />
-                <br /> */}
+                <br />
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 {/* 
                  <br />

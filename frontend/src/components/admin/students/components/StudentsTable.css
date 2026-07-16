@@ -2,7 +2,7 @@
    TABLE CONTAINER
 ========================================== */
 
-.courses-table-container {
+.students-table-container {
   flex: 1;
   min-height: 0;
   min-width: 0;
@@ -14,31 +14,31 @@
 
   overflow: auto;
 
-  /* box-shadow:
+  box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.04),
-    0 12px 32px rgba(15, 23, 42, 0.05); */
+    0 12px 32px rgba(15, 23, 42, 0.05);
 }
 
 /* ==========================================
    TABLE
 ========================================== */
 
-.courses-table {
+.students-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
 
-.courses-table thead {
+.students-table thead {
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-.courses-table th {
+.students-table th {
   padding: 1rem 1.5rem;
 
-  background: var(--bg-primary);
+ background: var(--bg-primary);
 
   text-align: left;
 
@@ -53,7 +53,7 @@
   white-space: nowrap;
 }
 
-.courses-table td {
+.students-table td {
   padding: 1.25rem 1.5rem;
 
   font-size: 0.92rem;
@@ -66,15 +66,15 @@
   vertical-align: middle;
 }
 
-.courses-table tbody tr {
+.students-table tbody tr {
   transition: background-color 0.2s ease;
 }
 
-.courses-table tbody tr:hover {
-  background: var(--bg-primary);
+.students-table tbody tr:hover {
+ background: var(--bg-primary);
 }
 
-.courses-table tbody tr:last-child td {
+.students-table tbody tr:last-child td {
   border-bottom: none;
 }
 
@@ -82,12 +82,12 @@
    COLUMNS
 ========================================== */
 
-.course-name {
+.student-name {
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.course-id {
+.student-id {
   font-family: monospace;
   color: var(--text-secondary);
 }
@@ -116,22 +116,22 @@
 }
 
 .contract-active {
-  /* background: #dcfce7; */
+  background: #dcfce7;
   color: #166534;
 }
 
 .contract-expired {
-  /* background: #fee2e2; */
+  background: #fee2e2;
   color: #991b1b;
 }
 
 .contract-pending {
-  /* background: #fef3c7; */
+  background: #fef3c7;
   color: #92400e;
 }
 
 .contract-not-assigned {
-  /* background: #e2e8f0; */
+  background: #e2e8f0;
   color: var(--text-secondary);
 }
 
@@ -139,7 +139,7 @@
    ACTIONS
 ========================================== */
 
-.course-actions {
+.student-actions {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -158,7 +158,7 @@
 
   background: transparent;
 
-  color:var(--text-secondary);
+  color: var(--text-secondary);
 
   cursor: pointer;
 
@@ -221,17 +221,17 @@
    SCROLLBAR
 ========================================== */
 
-.courses-table-container::-webkit-scrollbar {
+.students-table-container::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
-.courses-table-container::-webkit-scrollbar-thumb {
-  background: var(--bg-primary);
+.students-table-container::-webkit-scrollbar-thumb {
+  background: #d1d5db;
   border-radius: 999px;
 }
 
-.courses-table-container::-webkit-scrollbar-track {
+.students-table-container::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -240,33 +240,128 @@
 
 
 
+
+
+
 /* ==========================================
-COURSE ID
+SORTABLE HEADERS
 ========================================== */
 
-.course-id{
+.students-table th{
+    user-select:none;
+}
+
+.students-table th svg{
+    width:14px;
+    height:14px;
+    margin-left:6px;
+    opacity:.5;
+}
+
+.students-table th:not(:last-child){
+    cursor:pointer;
+}
+
+/* ==========================================
+CHECKBOX
+========================================== */
+
+.students-table input[type="checkbox"]{
+    width:17px;
+    height:17px;
+    cursor:pointer;
+}
+
+/* ==========================================
+SELECTED ROW
+========================================== */
+
+.selected-row{
+    background:rgba(59,130,246,.08);
+}
+
+.selected-row:hover{
+    background:rgba(59,130,246,.12)!important;
+}
+
+/* ==========================================
+BULK ACTION BAR
+========================================== */
+
+.students-bulk-bar{
+
+    position:sticky;
+    top:0;
+
+    z-index:20;
+
     display:flex;
     align-items:center;
-    gap:.45rem;
+    justify-content:space-between;
 
-    font-family:monospace;
-    color:var(--text-secondary);
+    padding:16px 22px;
+
+    background:var(--bg-primary);
+
+    border-bottom:1px solid var(--border-color);
+}
+
+.students-bulk-bar span{
+    font-weight:600;
+}
+
+/* ==========================================
+DELETE SELECTED
+========================================== */
+
+.btn-delete-selected{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    border:none;
+
+    background:#ef4444;
+    color:white;
+
+    border-radius:12px;
+
+    padding:10px 18px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.btn-delete-selected:hover{
+    background:#dc2626;
 }
 
 /* ==========================================
 COPY BUTTON
 ========================================== */
 
+.student-id{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    font-family:monospace;
+}
+
 .btn-copy{
+
     width:28px;
     height:28px;
+
+    border:none;
+    border-radius:8px;
 
     display:flex;
     align-items:center;
     justify-content:center;
-
-    border:none;
-    border-radius:8px;
 
     background:transparent;
 
@@ -274,27 +369,32 @@ COPY BUTTON
 
     cursor:pointer;
 
-    transition:.2s ease;
+    transition:.2s;
 }
 
 .btn-copy:hover{
-    background:rgba(59,130,246,.08);
-    color:#2563eb;
-}
 
-.btn-copy:active{
-    transform:scale(.94);
+    background:var(--bg-secondary);
+    color:var(--text-primary);
 }
 
 /* ==========================================
-COURSE CODE
+ACTION BUTTONS
 ========================================== */
 
-.course-code{
-    font-weight:700;
-    color:var(--text-primary);
+.student-actions{
+    justify-content:flex-start;
+}
 
-    white-space:nowrap;
+.btn-action{
+    transition:
+        transform .2s,
+        background .2s,
+        color .2s;
+}
+
+.btn-action:hover{
+    transform:translateY(-2px);
 }
 
 /* ==========================================
@@ -302,15 +402,49 @@ EMPTY STATE
 ========================================== */
 
 .no-data h3{
-    margin:0 0 .5rem;
-    color:var(--text-primary);
+    margin-bottom:8px;
 }
 
 .no-data p{
-    margin:0;
     color:var(--text-secondary);
 }
 
+/* ==========================================
+STICKY HEADER
+========================================== */
+
+.students-table thead th{
+    position:sticky;
+    top:0;
+    z-index:5;
+}
+
+/* ==========================================
+HOVER EFFECT
+========================================== */
+
+.students-table tbody tr{
+    transition:
+        background .2s,
+        transform .15s;
+}
+
+.students-table tbody tr:hover{
+
+    background:var(--bg-secondary);
+}
+
+/* ==========================================
+SMOOTHER SCROLLBAR
+========================================== */
+
+.students-table-container::-webkit-scrollbar-thumb{
+    background:rgba(150,150,150,.45);
+}
+
+.students-table-container::-webkit-scrollbar-thumb:hover{
+    background:rgba(150,150,150,.65);
+}
 
 
 
@@ -321,7 +455,7 @@ EMPTY STATE
 ========================================== */
 
 @media (max-width: 1200px) {
-  .courses-table {
+  .students-table {
     min-width: 1000px;
   }
 }

@@ -1,170 +1,260 @@
-import { useState, useEffect } from 'react';
-import TrainersTable from './components/TrainersTable';
-import useTrainers from './hooks/usetrainer';
+import { useMemo, useState } from "react";
+import StudentsTable from "./components/StudentsTable";
+import NewStudentPage from "./components/NewStudentPage";
+import UpdateStudentPage from "./components/UpdateStudentPage";
+import CSVScheduleUpload from "./components/CSVScheduleUpload";
 import { useDashboard } from "../../../hooks/useDashboard";
+import "./students.css";
 
-import NewTrainerPage from './components/NewtrainerPage';
-import UpdateTrainerPage from './components/UpdateTrainerPage';
-import './trainer.css';
+export default function StudentsPage({ token }) {
+  const [showNewStudent, setShowNewStudent] = useState(false);
+  const [showCSVScheduleUpload, setShowCSVScheduleUpload] = useState(false);
+  const [showUpdateStudent, setShowUpdateStudent] = useState(false);
+  const [selectedStudentData, setSelectedStudentData] = useState(null);
 
-export default function TrainersPage({ token }) {
-    const [showNewTrainer, setShowNewTrainer] = useState(false);
-    const [showUpdateTrainer, setShowUpdateTrainer] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState("all");
 
   const {
     loading,
     error,
 
-    //Trainers
-    AllTrainers = [],
-    TrainersByColl= [],
-    createTrainer,
-    deleteTrainer,
-    updateTrainer,
-
+    // Students
+    Allstudents = [],
+    AllCourses = [],
+    createStudent,
+    updateStudent,
+    deleteStudent,
+    refreshStudents,
   } = useDashboard(token);
 
-  // const { trainers, loading, error, fetchTrainers, deleteTrainer } = useTrainers();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [contractFilter, setContractFilter] = useState('All');
-  const [selectedTrainerData, setSelectedTrainerData] = useState(null);
 
+  const filteredStudents = useMemo(() => {
+    return Allstudents.filter((student) => {
+      const matchesSearch =
+        student.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.rollNumber
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        student.courseId?.courseCode
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        student._id?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    if (showNewTrainer) {
-      return (
-        <NewTrainerPage
-          token={token}
-          onBack={() => setShowNewTrainer(false)}
-          createTrainer={createTrainer}
-          updateTrainer={updateTrainer}
-        />
-      );
-    }
-    if (showUpdateTrainer) {
-      return (
-        <UpdateTrainerPage
-          token={token}
-          onBack={() => setShowUpdateTrainer(false)}
-          trainer={selectedTrainerData}
-          updateTrainer={updateTrainer}
-        />
-      );
-    }
-        
-  const filteredTrainers = AllTrainers.filter((trainer) => {
-    const matchesSearch =
-      trainer.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      trainer._id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      trainer.speciality?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      trainer.userId?.email?.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCourse =
+        selectedCourse === "all" ||
+        student.courseId?._id === selectedCourse;
 
-    // Backend doesn't provide contract status yet
-    const trainerContract = trainer.contractStatus || 'Active';
+      return matchesSearch && matchesCourse;
+    });
+  }, [Allstudents, searchTerm, selectedCourse]);
 
-    const matchesFilter =
-      contractFilter === 'All' ||
-      trainerContract === contractFilter;
-
-    return matchesSearch && matchesFilter;
-  });
-
-  const handleExportCSV = () => {
+  const handleExportCSV = (students = filteredStudents) => {
     const headers = [
-      'TRAINER NAME',
-      'TRAINER ID',
-      'EMAIL',
-      'SPECIALITY',
-      'CONTRACT',
-      'CURRENT SESSION',
+      "STUDENT NAME",
+      "ROLL NUMBER",
+      "COURSE",
+      "STUDENT ID",
     ];
 
-    const rows = filteredTrainers.map((t) => [
-      t.name,
-      t._id,
-      t.userId?.email || '—',
-      t.speciality || '—',
-      t.contractStatus || 'Active',
-      t.currentSession || '—',
+    const rows = students.map((student) => [
+      student.name,
+      student.rollNumber,
+      student.courseId?.courseCode || "—",
+      student._id,
     ]);
 
-    const csvContent = [headers, ...rows]
-      .map((row) => row.join(','))
-      .join('\n');
+    const csv = [headers, ...rows]
+      .map((r) => r.join(","))
+      .join("\n");
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
+    const blob = new Blob([csv], {
+      type: "text/csv;charset=utf-8;",
+    });
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'trainers.csv';
-    a.click();
+    const url = URL.createObjectURL(blob);
 
-    window.URL.revokeObjectURL(url);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "students.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
   };
 
+  // const assignedStudents = Allstudents.filter(
+  //   (s) => s.courseId
+  // ).length;
+  const assignedStudents = Allstudents.filter(
+  (s) => s.courseId?._id
+).length;
+
+  const unassignedStudents =
+    Allstudents.length - assignedStudents;
+
+
+
+
+
+
+
+  if (showCSVScheduleUpload) {
+    return (
+      <CSVScheduleUpload
+        token={token}
+        onBack={() => setShowCSVScheduleUpload(false)}
+        createStudent={createStudent}
+        AllCourses={AllCourses}
+      />
+    );
+  }
+
+
+  if (showNewStudent) {
+    return (
+      <NewStudentPage
+        token={token}
+        onBack={() => setShowNewStudent(false)}
+        createStudent={createStudent}
+        courses={AllCourses}
+        setShowCSVScheduleUpload={setShowCSVScheduleUpload}
+        setShowNewStudent={setShowNewStudent}
+      />
+    );
+  }
+
+  if (showUpdateStudent) {
+    return (
+      <UpdateStudentPage
+        token={token}
+        onBack={() => setShowUpdateStudent(false)}
+        student={selectedStudentData}
+        updateStudent={updateStudent}
+        courses={AllCourses}
+      />
+    );
+  }
+
+
+
+
   return (
-    <div className="trainers-page">
+    <div className="students-page">
       {/* Header */}
-      <div className="trainers-header">
+      <div className="students-header">
         <div>
-          <h1>Trainers</h1>
-          <p>{AllTrainers.length} trainers on record</p>
+          <h1>Students</h1>
+          <p>{Allstudents.length} students on record</p>
         </div>
 
-        <button
-          className="btn-add-trainer"
-          onClick={() => setShowNewTrainer(true)}
-        >
-          + Add Trainer
-        </button>
+        <div className="header-actions">
+          {/* <button
+            className="btn-refresh"
+            onClick={refreshStudents}
+          >
+            Refresh
+          </button> */}
 
+          <button
+            className="btn-add-student"
+            onClick={() => setShowNewStudent(true)}
+          >
+            + Add Student
+          </button>
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="students-stats">
+        <div className="stat-card">
+          <span>Total Students</span>
+          <h2>{Allstudents.length}</h2>
+        </div>
+
+        <div className="stat-card">
+          <span>Assigned</span>
+          <h2>{assignedStudents}</h2>
+        </div>
+
+        <div className="stat-card">
+          <span>Unassigned</span>
+          <h2>{unassignedStudents}</h2>
+        </div>
+
+        <div className="stat-card">
+          <span>Courses</span>
+          <h2>{AllCourses.length}</h2>
+        </div>
       </div>
 
       {/* Filters */}
-      <div className="trainers-filters">
+      <div className="students-filters">
         <div className="search-box">
           <span className="search-icon">🔍</span>
 
           <input
             type="text"
-            placeholder="Search trainers..."
+            placeholder="Search by name, roll no, ID..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) =>
+              setSearchTerm(e.target.value)
+            }
           />
         </div>
 
+        <select
+          value={selectedCourse}
+          onChange={(e) =>
+            setSelectedCourse(e.target.value)
+          }
+        >
+          <option value="all">All Courses</option>
+
+          {AllCourses.map((course) => (
+            <option
+              key={course._id}
+              value={course._id}
+            >
+              {course.courseCode}
+            </option>
+          ))}
+        </select>
+
 
         <button
-          className="btn-export-csv"
-          onClick={handleExportCSV}
+          className="btn-export-csv secondary"
+          onClick={() => handleExportCSV(Allstudents)}
         >
-          Export CSV
+          Export All
         </button>
       </div>
 
+      {/* Search Result Counter */}
+      <div className="students-results">
+        Showing{" "}
+        <strong>{filteredStudents.length}</strong> of{" "}
+        <strong>{Allstudents.length}</strong> students
+      </div>
+
       {/* Table */}
-      {loading && <p className="loading">Loading trainers...</p>}
-      {error && <p className="error">{error}</p>}
+      {loading && (
+        <p className="loading">
+          Loading students...
+        </p>
+      )}
+
+      {error && (
+        <p className="error">{error}</p>
+      )}
 
       {!loading && !error && (
-        <TrainersTable
-          trainers={filteredTrainers.map((trainer) => ({
-            ...trainer,
-
-            // Old fields expected by TrainersTable
-            id: trainer._id,
-            subject: trainer.speciality,
-            email: trainer.userId?.email || '',
-
-            // Backend doesn't provide these yet
-            colleges: trainer.colleges || '—',
-            contractStatus: trainer.contractStatus || 'Active',
-            currentSession: trainer.currentSession || '—',
-          }))}
-          onDelete={deleteTrainer}
+        <StudentsTable
+          students={filteredStudents}
           token={token}
-          setShowUpdateTrainer={setShowUpdateTrainer}
-          setSelectedTrainerData={setSelectedTrainerData}
+          onDelete={deleteStudent}
+          onRefresh={refreshStudents}
+          setShowUpdateStudent={setShowUpdateStudent}
+          setSelectedStudentData={setSelectedStudentData}
         />
       )}
     </div>
@@ -177,133 +267,155 @@ export default function TrainersPage({ token }) {
 
 
 
-// import { useState, useEffect } from 'react';
-// import TrainersTable from './components/TrainersTable';
-// import useTrainers from './hooks/usetrainer';
-// import CollegeSelector from "./components/CollegeSelector";
+
+
+
+
+
+
+// import { useState } from "react";
+// import StudentsTable from "./components/StudentsTable";
+// import NewStudentPage from "./components/NewStudentPage";
+// import UpdateStudentPage from "./components/UpdateStudentPage";
 // import { useDashboard } from "../../../hooks/useDashboard";
+// import "./students.css";
 
-// import './trainer.css';
+// export default function StudentsPage({ token }) {
+//   const [showNewStudent, setShowNewStudent] = useState(false);
+//   const [showUpdateStudent, setShowUpdateStudent] = useState(false);
+//   const [selectedStudentData, setSelectedStudentData] = useState(null);
 
+//   const {
+//     loading,
+//     error,
 
+//     // Students
+//     Allstudents = [],
+//     AllCourses,
+//     createStudent,
+//     updateStudent,
+//     deleteStudent,
+//   } = useDashboard(token);
 
-// export default function TrainersPage({ token }) {
+//   const [searchTerm, setSearchTerm] = useState("");
 
+//   if (showNewStudent) {
+//     return (
+//       <NewStudentPage
+//         token={token}
+//         onBack={() => setShowNewStudent(false)}
+//         createStudent={createStudent}
+//         courses={AllCourses}
+//       />
+//     );
+//   }
 
-//    const {
-//         selectedCollege,
-//         setSelectedCollege,
-//         colleges,
-//         loading,
-//         error,
+//   if (showUpdateStudent) {
+//     return (
+//       <UpdateStudentPage
+//         token={token}
+//         onBack={() => setShowUpdateStudent(false)}
+//         student={selectedStudentData}
+//         updateStudent={updateStudent}
+//         courses={AllCourses}
+//       />
+//     );
+//   }
 
-//         //Trainers
-//         AllTrainers = [],
-//         TrainersByColl,
-
-
-
-
-//     } = useDashboard(token);
-
-
-
-
-
-
-
-
-//   // const { trainers, loading, error, fetchTrainers, deleteTrainer } = useTrainers();
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [contractFilter, setContractFilter] = useState('All');
-
-
-
-//   const filteredTrainers = AllTrainers.filter(trainer => {
-//     const matchesSearch = 
-//       trainer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       trainer.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       trainer.subject.toLowerCase().includes(searchTerm.toLowerCase());
-    
-//     const matchesFilter = contractFilter === 'All' || trainer.contractStatus === contractFilter;
-//     return matchesSearch && matchesFilter;
+//   const filteredStudents = Allstudents.filter((student) => {
+//     return (
+//       student.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       student.rollNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       student.courseId?.courseCode
+//         ?.toLowerCase()
+//         .includes(searchTerm.toLowerCase()) ||
+//       student._id?.toLowerCase().includes(searchTerm.toLowerCase())
+//     );
 //   });
 
 //   const handleExportCSV = () => {
-//     const headers = ['TRAINER NAME', 'TRAINER ID', 'SUBJECT', 'COLLEGES', 'CONTRACT', 'CURRENT SESSION'];
-//     const rows = filteredTrainers.map(t => [
-//       t.name,
-//       t.id,
-//       t.subject,
-//       t.colleges,
-//       t.contractStatus,
-//       t.currentSession || '—'
+//     const headers = [
+//       "STUDENT NAME",
+//       "ROLL NUMBER",
+//       "COURSE",
+//       "STUDENT ID",
+//     ];
+
+//     const rows = filteredStudents.map((student) => [
+//       student.name,
+//       student.rollNumber,
+//       student.courseId?.courseCode || "—",
+//       student._id,
 //     ]);
-//     const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
-    
-//     const blob = new Blob([csvContent], { type: 'text/csv' });
+
+//     const csvContent = [headers, ...rows]
+//       .map((row) => row.join(","))
+//       .join("\n");
+
+//     const blob = new Blob([csvContent], { type: "text/csv" });
 //     const url = window.URL.createObjectURL(blob);
-//     const a = document.createElement('a');
+
+//     const a = document.createElement("a");
 //     a.href = url;
-//     a.download = 'trainers.csv';
+//     a.download = "students.csv";
 //     a.click();
+
+//     window.URL.revokeObjectURL(url);
 //   };
 
 //   return (
-//     <div className="trainers-page">
+//     <div className="students-page">
 //       {/* Header */}
-//       <div className="trainers-header">
+//       <div className="students-header">
 //         <div>
-//           <h1>Trainers</h1>
-//           <p>{AllTrainers.length} trainers on record</p>
+//           <h1>Students</h1>
+//           <p>{Allstudents.length} students on record</p>
 //         </div>
-//         <button className="btn-add-trainer" onClick={() => window.location.href = '/trainers/add'}>
-//           + Add Trainer
-//         </button>
-//                 <div className="collselcont">
 
-//           <CollegeSelector
-//               colleges={colleges}
-//               selected={selectedCollege}
-//               onSelect={setSelectedCollege}
-//               />
-//           </div>
+//         <button
+//           className="btn-add-student"
+//           onClick={() => setShowNewStudent(true)}
+//         >
+//           + Add Student
+//         </button>
 //       </div>
 
 //       {/* Filters */}
-//       <div className="trainers-filters">
+//       <div className="students-filters">
 //         <div className="search-box">
 //           <span className="search-icon">🔍</span>
+
 //           <input
 //             type="text"
-//             placeholder="Search trainers..."
+//             placeholder="Search students..."
 //             value={searchTerm}
 //             onChange={(e) => setSearchTerm(e.target.value)}
 //           />
 //         </div>
 
-//         <select
-//           className="contract-filter"
-//           value={contractFilter}
-//           onChange={(e) => setContractFilter(e.target.value)}
+//         <button
+//           className="btn-export-csv"
+//           onClick={handleExportCSV}
 //         >
-//           <option value="All">All</option>
-//           <option value="Active">Active</option>
-//           <option value="Expiring Soon">Expiring Soon</option>
-//           <option value="Expired">Expired</option>
-//         </select>
-
-//         <button className="btn-export-csv" onClick={handleExportCSV}>
 //           Export CSV
 //         </button>
 //       </div>
 
 //       {/* Table */}
-//       {loading && <p className="loading">Loading trainers...</p>}
+//       {loading && <p className="loading">Loading students...</p>}
 //       {error && <p className="error">{error}</p>}
+
 //       {!loading && !error && (
-//         <TrainersTable
-//           trainers={filteredTrainers}
+//         <StudentsTable
+//           students={filteredStudents.map((student) => ({
+//             ...student,
+//             id: student._id,
+//             courseCode: student.courseId?.courseCode || "—",
+//           }))}
+//           token={token}
+//           onDelete={deleteStudent}
+//           setShowUpdateStudent={setShowUpdateStudent}
+//           setSelectedStudentData={setSelectedStudentData}
 //         />
 //       )}
 //     </div>

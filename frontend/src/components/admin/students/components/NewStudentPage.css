@@ -2,7 +2,7 @@
                 TOKENS (local, derived)
 ========================================== */
 
-.new-trainer-page {
+.new-student-page {
     --radius-sm: 10px;
     --radius-md: 14px;
     --radius-lg: 18px;
@@ -17,7 +17,7 @@
                 PAGE SHELL
 ========================================== */
 
-.new-trainer-page {
+.new-student-page {
     max-width: 640px;
     margin: 0 auto;
 
@@ -31,7 +31,7 @@
     color: var(--text-primary);
 }
 
-.new-trainer-page > button {
+.new-student-page > button {
     align-self: flex-start;
 
     display: inline-flex;
@@ -57,13 +57,13 @@
         transform .18s var(--ease);
 }
 
-.new-trainer-page > button:hover {
+.new-student-page > button:hover {
     background: var(--bg-secondary);
     color: var(--text-primary);
     transform: translateX(-2px);
 }
 
-.new-trainer-page h2 {
+.new-student-page h2 {
     margin: 0;
 
     font-size: 1.3rem;
@@ -77,7 +77,7 @@
                 FORM CARD
 ========================================== */
 
-.trainer-form {
+.student-form {
     display: flex;
     flex-direction: column;
 
@@ -199,11 +199,11 @@
 
 @media (max-width: 480px) {
 
-    .new-trainer-page {
+    .new-student-page {
         padding: 1rem;
     }
 
-    .trainer-form {
+    .student-form {
         padding: 1.25rem;
     }
 
