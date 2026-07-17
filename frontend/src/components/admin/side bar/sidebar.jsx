@@ -180,7 +180,8 @@ export default function Sidebar({
                 <button
                     className={`theme-toggle ${theme === "dark" ? "dark" : ""} ${collapsed ? "" : "horizontal"
                         }`}
-                    onClick={toggleTheme}
+                    // // onClick={toggleTheme}
+                    onClick={(e) => toggleTheme(e)}
                 >
                     <span className="theme-thumb">
                         {theme === "dark" ? "🌙" : "☀️"}

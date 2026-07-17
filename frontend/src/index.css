@@ -61,27 +61,25 @@ html {
         stroke .25s ease;
 }
  */
-
 ::view-transition-old(root),
 ::view-transition-new(root) {
-    animation-duration: 600ms;
-    animation-timing-function: cubic-bezier(.87,0,.13,1);
+    animation-duration: 700ms;
+    animation-timing-function: cubic-bezier(.4, 0, .2, 1);
 }
 
 ::view-transition-new(root) {
-    animation: reveal 1.5s forwards;
+    animation: reveal 700ms forwards;
 }
 
 @keyframes reveal {
     from {
-        clip-path: circle(0% at 50% 50%);
+        clip-path: circle(0px at var(--x) var(--y));
     }
 
     to {
-        clip-path: circle(150% at 50% 50%);
+        clip-path: circle(150vmax at var(--x) var(--y));
     }
 }
-
 
 
 
