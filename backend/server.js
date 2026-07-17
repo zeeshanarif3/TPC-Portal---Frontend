@@ -30,8 +30,7 @@ const courseRoutes = require('./routes/courses');
 const studentRoutes = require('./routes/students');
 const sessionRoutes = require('./routes/sessions');
 const contractRoutes = require('./routes/contracts');
-const scheduleRoutes = require('./routes/schedules');
-const attendanceRoutes = require('./routes/attendance');
+const slotRoutes = require('./routes/slots');
 const dashboardRoutes = require('./routes/dashboard');
 const moderatorRoutes = require('./routes/moderators');
 
@@ -43,8 +42,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/contracts', contractRoutes);
-app.use('/api/schedules', scheduleRoutes);
-app.use('/api/attendance', attendanceRoutes);
+app.use('/api/slots', slotRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/moderators', moderatorRoutes);
 

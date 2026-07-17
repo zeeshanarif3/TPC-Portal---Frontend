@@ -18,7 +18,7 @@ export default function ContractExpiry({ contracts }) {
     });
 
   return (
-    <div className="contract-expiry">
+    <div className="contract-expiry no-scrollbar">
       <h3 className="contract-expiry__title">Contract Expiry</h3>
 
       <ul className="contract-expiry__list">

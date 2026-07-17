@@ -12,9 +12,37 @@ html {
 
 
 
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-secondary);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+    display: none;
+    background: #222;
+}
 
 
 
+
+.no-scrollbar {
+    overflow: auto;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* IE */
+    -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
 
 :root {
   --bg-primary: hsl(0, 0%, 95%);

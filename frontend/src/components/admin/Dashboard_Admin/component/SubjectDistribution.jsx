@@ -17,7 +17,7 @@ const COLORS = [
 export default function SubjectDistribution({ data }) {
   if (!data || data.length === 0) {
     return (
-      <div className="subject-distribution">
+      <div className="subject-distribution no-scrollbar">
         <h3 className="subject-distribution__title">
           Subject Distribution
         </h3>
@@ -38,7 +38,7 @@ export default function SubjectDistribution({ data }) {
   }));
 
   return (
-    <div className="subject-distribution">
+    <div className="subject-distribution no-scrollbar">
       <div className="subject-distribution__header">
         <h3 className="subject-distribution__title">
           Subject Distribution
@@ -58,8 +58,8 @@ export default function SubjectDistribution({ data }) {
   nameKey="name"
   innerRadius={45}
   outerRadius={80}
-  paddingAngle={8}
-  cornerRadius={5}
+  // paddingAngle={8}
+  // cornerRadius={5}
 >
   {chartData.map((entry, index) => (
     <Cell

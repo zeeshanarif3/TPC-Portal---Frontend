@@ -197,7 +197,7 @@
    SCROLLBAR
 ========================================== */
 
-.sessions-table-container::-webkit-scrollbar {
+/* .sessions-table-container::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
@@ -209,7 +209,7 @@
 
 .sessions-table-container::-webkit-scrollbar-track {
   background: transparent;
-}
+} */
 
 /* ==========================================
    RESPONSIVE

@@ -24,7 +24,8 @@ exports.createModerator = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'moderator'
+      role: 'moderator',
+      active: true
     });
     await user.save();
 

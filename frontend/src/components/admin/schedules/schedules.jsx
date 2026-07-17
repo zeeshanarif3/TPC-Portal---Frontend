@@ -5,6 +5,10 @@ import SchedulesCalendar from "./components/SchedulesCalendar";
 import UpdateSchedulePage from "./components/UpdateSchedulePage";
 import CSVScheduleUpload from "./components/CSVScheduleUpload";
 import { useDashboard } from "../../../hooks/useDashboard";
+
+import { ChevronDown } from "lucide-react";
+import { useRef } from "react";
+
 import "./schedules.css";
 
 export default function SchedulesPage({ token }) {
@@ -22,6 +26,31 @@ export default function SchedulesPage({ token }) {
     setSelectedDate,
     selectedDate,
   } = useDashboard(token);
+
+
+  const contentRef = useRef(null);
+
+  const scrollToBottom = () => {
+    contentRef.current?.scrollTo({
+      top: contentRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+  const [showButton, setShowButton] = useState(false);
+
+  const handleScroll = () => {
+    const el = contentRef.current;
+    if (!el) return;
+
+    // Is scrolling even possible?
+    const scrollable = el.scrollHeight > el.clientHeight;
+
+    // Is the user at the bottom?
+    const atBottom =
+      el.scrollTop + el.clientHeight >= el.scrollHeight - 10;
+
+    setShowButton(scrollable && !atBottom);
+  };
 
   const [view, setView] = useState("table");
   const [showNewSchedule, setShowNewSchedule] = useState(false);
@@ -230,155 +259,171 @@ export default function SchedulesPage({ token }) {
   }
 
   return (
-    <div className="Schedulees-page">
-      <div className="Schedulees-header">
-        <div>
-          <h1>Schedules</h1>
-          <p>{totalSchedules} schedule slots across all colleges</p>
-        </div>
+    <>
 
-        <div className="Schedulees-controls">
-          <button
-            className={`btn-view-toggle ${view === "table" ? "active" : ""}`}
-            onClick={() => setView("table")}
-          >
-            Table
-          </button>
-
-          <button
-            className={`btn-view-toggle ${view === "calendar" ? "active" : ""}`}
-            onClick={() => setView("calendar")}
-          >
-            Calendar
-          </button>
-
-
-
-          <button
-            className="btn-add-slot"
-            onClick={() => setShowNewSchedule(true)}
-          >
-            + Add Schedule
-          </button>
-        </div>
+      <div
+        className={`scroll-bottom-btn ${showButton ? "" : "hidden"}`}
+        onClick={scrollToBottom}
+      >
+        <ChevronDown />
       </div>
+      <div ref={contentRef} onScroll={handleScroll} className="Schedulees-page ">
 
-      <div className="students-stats sessions-stats">
-        <div className="stat-card">
-          <span>Total Slots</span>
-          <h2>{totalSchedules}</h2>
+        <div className="Schedulees-header">
+          <div>
+            <h1>Schedules</h1>
+            <p>{totalSchedules} schedule slots across all colleges</p>
+          </div>
+
+          <div className="Schedulees-controls">
+            <button
+              className={`btn-view-toggle ${view === "table" ? "active" : ""}`}
+              onClick={() => {
+                setView("table")
+                setShowButton(false);
+              }}
+            >
+              Table
+            </button>
+
+            <button
+              className={`btn-view-toggle ${view === "calendar" ? "active" : ""}`}
+              onClick={() => {
+                setView("calendar");
+                setShowButton(true);
+              }}
+            >
+              Calendar
+            </button>
+
+
+
+            <button
+              className="btn-add-slot"
+              onClick={() => setShowNewSchedule(true)}
+            >
+              + Add Schedule
+            </button>
+          </div>
         </div>
 
-        {/* <div className="stat-card">
+        <div className="students-stats sessions-stats">
+          <div className="stat-card">
+            <span>Total Slots</span>
+            <h2>{totalSchedules}</h2>
+          </div>
+
+          {/* <div className="stat-card">
           <span>Active</span>
           <h2>{activeSchedules}</h2>
         </div> */}
 
-        {/* <div className="stat-card">
+          {/* <div className="stat-card">
           <span>Upcoming</span>
           <h2>{upcomingSchedules}</h2>
         </div> */}
 
-        <div className="stat-card">
-          <span>Completed</span>
-          <h2>{completedSchedules}</h2>
+          <div className="stat-card">
+            <span>Completed</span>
+            <h2>{completedSchedules}</h2>
+          </div>
         </div>
-      </div>
 
-      <div className="filter">
-        <div className="filterContainer">
+        <div className="filter">
+          <div className="filterContainer">
 
-          <div className="filter-group">
-            <label htmlFor="schedule-search">Search</label>
-            <input
-              id="schedule-search"
-              className="search-box"
-              type="text"
-              placeholder="Course, trainer, room, topic..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+            <div className="filter-group">
+              <label htmlFor="schedule-search">Search</label>
+              <input
+                id="schedule-search"
+                className="search-box"
+                type="text"
+                placeholder="Course, trainer, room, topic..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
-          </div>
+            </div>
 
-          <div className="filter-group">
-            <label htmlFor="course-filter">Course</label>
-            <select
-              id="course-filter"
-              className="filter-select"
-              value={selectedCourse}
-              onChange={(e) => setSelectedCourse(e.target.value)}
-            >
-              <option value="">All Courses</option>
-              {(AllCourses || []).map((course) => (
-                <option key={course._id} value={course._id}>
-                  {course.courseCode}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="status-filter">Status</label>
-            <select
-              id="status-filter"
-              className="filter-select"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
+            <div className="filter-group">
+              <label htmlFor="course-filter">Course</label>
+              <select
+                id="course-filter"
+                className="filter-select"
+                value={selectedCourse}
+                onChange={(e) => setSelectedCourse(e.target.value)}
               >
-              <option value="All">All Status</option>
-              <option value="Scheduled">Scheduled</option>
-              {/* <option value="Active">Active</option> */}
-              {/* <option value="Upcoming">Upcoming</option> */}
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-              {/* <option value="Pending">Pending</option> */}
-            </select>
+                <option value="">All Courses</option>
+                {(AllCourses || []).map((course) => (
+                  <option key={course._id} value={course._id}>
+                    {course.courseCode}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="status-filter">Status</label>
+              <select
+                id="status-filter"
+                className="filter-select"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="All">All Status</option>
+                <option value="Scheduled">Scheduled</option>
+                {/* <option value="Active">Active</option> */}
+                {/* <option value="Upcoming">Upcoming</option> */}
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+                {/* <option value="Pending">Pending</option> */}
+              </select>
+            </div>
+
           </div>
-
+          <button
+            className="btn-export-csv"
+            onClick={() => handleExportCSV(filteredSchedules)}
+          >
+            Export CSV
+          </button>
         </div>
-        <button
-          className="btn-export-csv"
-          onClick={() => handleExportCSV(filteredSchedules)}
-        >
-          Export CSV
-        </button>
+
+        <div className="students-results">
+          Showing <strong>{filteredSchedules.length}</strong> of{" "}
+          <strong>{totalSchedules}</strong> schedules
+        </div>
+
+        {loading && <p className="loading">Loading schedules...</p>}
+
+        {error && <p className="error">{error}</p>}
+
+        {!loading && !error && (
+          view === "table" ? (
+            <SchedulesTable
+              schedules={filteredSchedules}
+              onDelete={deleteSlot}
+              onRefresh={refreshSchedules}
+              setUpdateScheduledata={setUpdateScheduleData}
+              setshowUpdateSchedule={setShowUpdateSchedule}
+              token={token}
+              trainerMap={trainerMap}
+            />
+          ) : (
+            <SchedulesCalendar
+              token={token}
+              schedules={filteredSchedules}
+              selectedDate={selectedDate}
+              onSelectDate={setSelectedDate}
+              onDelete={deleteSlot}
+              onRefresh={refreshSchedules}
+              setUpdateScheduledata={setUpdateScheduleData}
+              setshowUpdateSchedule={setShowUpdateSchedule}
+              trainerMap={trainerMap}
+            />
+          )
+        )}
       </div>
-
-      <div className="students-results">
-        Showing <strong>{filteredSchedules.length}</strong> of{" "}
-        <strong>{totalSchedules}</strong> schedules
-      </div>
-
-      {loading && <p className="loading">Loading schedules...</p>}
-
-      {error && <p className="error">{error}</p>}
-
-      {!loading && !error && (
-        view === "table" ? (
-          <SchedulesTable
-            schedules={filteredSchedules}
-            onDelete={deleteSlot}
-            onRefresh={refreshSchedules}
-            setUpdateScheduledata={setUpdateScheduleData}
-            setshowUpdateSchedule={setShowUpdateSchedule}
-            token={token}
-            trainerMap={trainerMap}
-          />
-        ) : (
-          <SchedulesCalendar
-            token={token}
-            schedules={filteredSchedules}
-            selectedDate={selectedDate}
-            onSelectDate={setSelectedDate}
-            onDelete={deleteSlot}
-            onRefresh={refreshSchedules}
-            setUpdateScheduledata={setUpdateScheduleData}
-            setshowUpdateSchedule={setShowUpdateSchedule}
-            trainerMap={trainerMap}
-          />
-        )
-      )}
-    </div>
+    </>
   );
 }
 

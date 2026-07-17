@@ -201,7 +201,7 @@
 /* ==========================================
    SCROLLBAR
 ========================================== */
-
+/* 
 .contracts-table-container::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -214,7 +214,7 @@
 
 .contracts-table-container::-webkit-scrollbar-track {
   background: transparent;
-}
+} */
 
 
 

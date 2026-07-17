@@ -3,7 +3,7 @@
     margin: 30px auto;
     padding: 30px;
     height: stretch;
-    overflow: scroll;
+    overflow: auto;
 
 
     background: var(--bg-primary);

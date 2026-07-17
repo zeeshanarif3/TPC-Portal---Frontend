@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
-    overflow: scroll;
+    overflow: auto;
     border-radius: 18px;
     background: var(--bg-primary);
     
@@ -157,7 +157,7 @@
                 SCROLLBAR
 ========================================== */
 
-.upcoming-Schedulle::-webkit-scrollbar {
+/* .upcoming-Schedulle::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
@@ -169,7 +169,7 @@
 
 .upcoming-Schedulle::-webkit-scrollbar-track {
     background: transparent;
-}
+} */
 
 /* ==========================================
                 MOBILE

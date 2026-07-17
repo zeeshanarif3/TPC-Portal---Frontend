@@ -167,7 +167,7 @@
 
     background: var(--bg-primary);
 }
-
+/* 
 .student-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -175,7 +175,7 @@
 .student-list::-webkit-scrollbar-thumb {
     background: var(--border-color);
     border-radius: 999px;
-}
+} */
 
 .student-list label {
     display: flex;

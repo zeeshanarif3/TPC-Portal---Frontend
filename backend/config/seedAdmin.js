@@ -10,7 +10,13 @@ const seedAdmin = async () => {
     const adminExists = await User.findOne({ email: adminEmail });
     
     if (adminExists) {
-      console.log('Default admin account already exists. Skipping initialization.');
+      if (adminExists.active !== true) {
+        adminExists.active = true;
+        await adminExists.save();
+        console.log('Updated existing default admin account to be active.');
+      } else {
+        console.log('Default admin account already exists. Skipping initialization.');
+      }
       return;
     }
 
@@ -23,6 +29,7 @@ const seedAdmin = async () => {
       email: adminEmail,
       password: hashedPassword,
       role: 'admin',
+      active: true
     });
 
     await defaultAdmin.save();
@@ -33,3 +40,4 @@ const seedAdmin = async () => {
 };
 
 module.exports = seedAdmin;
+

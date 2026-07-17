@@ -221,7 +221,7 @@
    SCROLLBAR
 ========================================== */
 
-.students-table-container::-webkit-scrollbar {
+/* .students-table-container::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
@@ -234,7 +234,7 @@
 .students-table-container::-webkit-scrollbar-track {
   background: transparent;
 }
-
+ */
 
 
 
@@ -438,13 +438,13 @@ HOVER EFFECT
 SMOOTHER SCROLLBAR
 ========================================== */
 
-.students-table-container::-webkit-scrollbar-thumb{
+/* .students-table-container::-webkit-scrollbar-thumb{
     background:rgba(150,150,150,.45);
 }
 
 .students-table-container::-webkit-scrollbar-thumb:hover{
     background:rgba(150,150,150,.65);
-}
+} */
 
 
 

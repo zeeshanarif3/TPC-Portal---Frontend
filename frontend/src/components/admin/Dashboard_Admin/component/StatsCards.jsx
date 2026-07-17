@@ -45,7 +45,7 @@ export default function StatsCards({ stats }) {
     ];
 
     return (
-        <div className="stats-cards">
+        <div className="stats-cards no-scrollbar">
             {cards.map((card) => (
                 <div key={card.label} className="stats-card">
                     <span className="stats-card__label">{card.label}</span>

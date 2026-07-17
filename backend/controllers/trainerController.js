@@ -25,7 +25,8 @@ exports.createTrainer = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'trainer'
+      role: 'trainer',
+      active: true
     });
     await user.save();
 

@@ -221,7 +221,7 @@
    SCROLLBAR
 ========================================== */
 
-.trainers-table-container::-webkit-scrollbar {
+/* .trainers-table-container::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
@@ -233,7 +233,7 @@
 
 .trainers-table-container::-webkit-scrollbar-track {
   background: transparent;
-}
+} */
 
 /* ==========================================
    RESPONSIVE

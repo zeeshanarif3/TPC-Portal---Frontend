@@ -11,7 +11,7 @@ PAGE
     flex-direction: column;
     gap: 1rem;
 
-    overflow: scroll;
+    overflow: auto;
     border-radius: 18px;
 
     color: var(--text-primary);
@@ -353,9 +353,51 @@ border: 1px solid var(--border);
 
 
 
+.scroll-bottom-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    /* Translucent */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* Smooth animation */
+    opacity: 1;
+    visibility: visible;
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease,
+        transform 0.25s ease,
+        background-color 0.25s ease;
+
+    z-index: 999;
+    cursor: pointer;
+}
+
+/* Hidden state */
+.scroll-bottom-btn.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(10px);
+}
+
+/* Optional hover effect */
+.scroll-bottom-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-50%) translateY(-2px);
+}
 
 /* ==========================================
 CONTENT ANIMATION

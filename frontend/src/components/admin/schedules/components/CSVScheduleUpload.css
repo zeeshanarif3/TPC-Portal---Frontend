@@ -1,15 +1,15 @@
 pre{
-    overflow: scroll;
+    overflow: auto;
     height: stretch;
     max-height: 100%;
 }
 
 .preview{
-    overflow: scroll;
+    overflow: auto;
 }
 
 .csv-calendar-container{
-    overflow: scroll;
+    overflow: auto;
     height: 600px;
 }
 .calendar-main{

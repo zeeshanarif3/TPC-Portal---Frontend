@@ -230,7 +230,7 @@
    SCROLLBAR
 ========================================== */
 
-.attendance-table-container::-webkit-scrollbar {
+/* .attendance-table-container::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
@@ -242,7 +242,7 @@
 
 .attendance-table-container::-webkit-scrollbar-track {
   background: transparent;
-}
+} */
 
 /* ==========================================
    RESPONSIVE

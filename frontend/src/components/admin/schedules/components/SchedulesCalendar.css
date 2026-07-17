@@ -28,13 +28,13 @@
     align-items: start;
     max-height: 100vh;
     min-height: stretch;
-    /* overflow: scroll; */
+    /* overflow: auto; */
 
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
 }
 
-.Schedulees-calendar-container::-webkit-scrollbar {
+/* .Schedulees-calendar-container::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
@@ -42,7 +42,7 @@
 .Schedulees-calendar-container::-webkit-scrollbar-thumb {
     background: var(--border-color);
     border-radius: 999px;
-}
+} */
 
 /* ==========================================
                 MAIN CALENDAR

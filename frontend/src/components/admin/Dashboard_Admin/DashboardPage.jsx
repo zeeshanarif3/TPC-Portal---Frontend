@@ -66,7 +66,7 @@ export default function DashboardPage({ token }) {
     }
 
     return (
-        <div className="dashboard">
+        <div className="dashboard no-scrollbar">
 
              <div className="dashboard__top-row">
                 <div className="left  ">

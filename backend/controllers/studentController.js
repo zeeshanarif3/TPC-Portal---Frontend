@@ -221,3 +221,34 @@ exports.deleteStudent = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Get students belonging to a particular course
+exports.getStudentByCourse = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // Verify that the course exists
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    // If moderator, verify the course belongs to their college
+    if (userRole === 'moderator') {
+      const moderatorCollege = await College.findOne({ moderatorId: userId });
+      if (!moderatorCollege) {
+        return res.status(404).json({ message: 'College not found for this moderator' });
+      }
+      if (course.collegeId.toString() !== moderatorCollege._id.toString()) {
+        return res.status(403).json({ message: 'Moderators can only access students from courses in their own college' });
+      }
+    }
+
+    const students = await Student.find({ courseId }).populate('courseId', 'courseCode');
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

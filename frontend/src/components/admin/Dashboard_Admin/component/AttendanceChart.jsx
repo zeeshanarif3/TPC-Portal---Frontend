@@ -57,7 +57,7 @@ export default function Attendance_chart({
 
   if (!data || data.length === 0) {
   return (
-    <div className="attendance-chart">
+    <div className="attendance-chart no-scrollbar">
         <div className="log">
       No Data Available
        </div>
@@ -66,7 +66,7 @@ export default function Attendance_chart({
 }
 
   return (
-    <div className="attendance-chart">
+    <div className="attendance-chart no-scrollbar">
       <div className="attendance-chart__header">
         <span className="attendance-chart__title">
           Daily Attendance

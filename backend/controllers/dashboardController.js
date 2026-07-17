@@ -2,7 +2,7 @@ const College = require('../models/College');
 const Session = require('../models/Session');
 const Course = require('../models/Course');
 const Student = require('../models/Student');
-const Attendance = require('../models/Attendance');
+const Slot = require('../models/Slot');
 const Contract = require('../models/Contract');
 
 /**
@@ -48,9 +48,9 @@ exports.getDashboardStats = async (req, res) => {
       totalStudents += count;
     }
 
-    // Get total attendance records for sessions in this college
+    // Get total attendance records (slots where attendance has been taken) for sessions in this college
     const sessionIds = sessions.map(s => s._id);
-    const totalAttendanceRecords = await Attendance.countDocuments({ sessionId: { $in: sessionIds } });
+    const totalAttendanceRecords = await Slot.countDocuments({ sessionId: { $in: sessionIds }, attendanceTaken: true });
 
     // Get active contracts for sessions in this college
     const activeContracts = await Contract.countDocuments({

@@ -10,7 +10,7 @@ export default function CollegeSelector({ colleges, selected, onSelect }) {
     );
 
     return (
-        <div className="college-selector">
+        <div className="college-selector no-scrollbar">
 
             <div className="parts">
                 <span className="college-selector__heading">College</span>

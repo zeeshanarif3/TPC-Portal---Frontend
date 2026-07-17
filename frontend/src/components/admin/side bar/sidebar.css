@@ -134,10 +134,10 @@ Dark admin sidebar with collapse-to-icons behavior
   flex-direction: column;
   gap: 2px;
 }
-
+/* 
 .sb__nav::-webkit-scrollbar {
   width: 0;
-}
+} */
 
 .sb__group {
   display: flex;
