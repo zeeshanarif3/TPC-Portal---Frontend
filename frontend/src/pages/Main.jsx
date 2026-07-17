@@ -7,8 +7,8 @@ import useLenis from "../hooks/useLenis";
 import './Main.css'
 import Anim from "../anim/anim";
 
-// function Main() {
-function Main({t}) {
+function Main() {
+// function Main({t}) {
     
     ////////// for smooth scrolling , for future components, currently not used ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -24,7 +24,7 @@ function Main({t}) {
     const [user, setUser] = useState(null); // {name, email, role}
     const [ready, setReady] = useState(false);
     
-    t(token) //delete this , its for debug purposes
+    // t(token) //delete this , its for debug purposes
 
     // main func states
     const handleLogout = () => {
@@ -85,7 +85,10 @@ function Main({t}) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return (
         <>
-        <div className="app-layout">
+        <div className="theme-overlay"/>
+
+       
+        <div className="app-layout ">
             {!animDone ? (
 
                 <Anim />
@@ -118,6 +121,7 @@ function Main({t}) {
             ))}
 
         </div>
+
         </>
     );
 

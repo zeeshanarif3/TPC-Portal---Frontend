@@ -269,7 +269,7 @@
 }
 
 .status-switch input:checked + .status-slider {
-  background: #22c55e;
+  background: var(--accent);
 }
 
 .status-switch input:checked + .status-slider::before {

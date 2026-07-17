@@ -5,17 +5,24 @@ export const ThemeContext = createContext();
 
 function ThemeProvider({children}) {
 
-    // const [theme,setTheme] = useState("light");
-    const [theme,setTheme] = useState("dark");
+    const [theme,setTheme] = useState("light"); //default
+    // const [theme,setTheme] = useState("dark");
 
 
-    const toggleTheme = ()=>{
-        setTheme(
-            theme === "light" 
-            ? "dark" 
-            : "light"
-        );
+const toggleTheme = () => {
+    const changeTheme = () => {
+        setTheme(prev => prev === "light" ? "dark" : "light");
     };
+
+    if (!document.startViewTransition) {
+        changeTheme();
+        return;
+    }
+
+    document.startViewTransition(() => {
+        changeTheme();
+    });
+};
 
 
     return (

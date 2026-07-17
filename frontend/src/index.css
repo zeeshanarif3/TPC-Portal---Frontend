@@ -44,6 +44,47 @@ html {
     display: none;
 }
 
+
+
+
+
+
+
+/* 
+.theme-transition {
+    transition:
+        background-color .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        fill .25s ease,
+        stroke .25s ease;
+}
+ */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 600ms;
+    animation-timing-function: cubic-bezier(.87,0,.13,1);
+}
+
+::view-transition-new(root) {
+    animation: reveal 1.5s forwards;
+}
+
+@keyframes reveal {
+    from {
+        clip-path: circle(0% at 50% 50%);
+    }
+
+    to {
+        clip-path: circle(150% at 50% 50%);
+    }
+}
+
+
+
+
 :root {
   --bg-primary: hsl(0, 0%, 95%);
   --bg-secondary: hsl(0, 0%, 90%);
