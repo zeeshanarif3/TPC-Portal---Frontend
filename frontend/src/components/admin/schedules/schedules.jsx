@@ -267,7 +267,7 @@ export default function SchedulesPage({ token }) {
       >
         <ChevronDown />
       </div>
-      <div ref={contentRef} onScroll={handleScroll} className="Schedulees-page ">
+      <div ref={contentRef} onScroll={handleScroll} className="Schedulees-page no-scrollbar">
 
         <div className="Schedulees-header">
           <div>
