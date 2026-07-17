@@ -34,7 +34,33 @@ export async function fetchDashboardStats(collegeId, token) {
 //   return res.json();
 // }
 
+// Update user active status
+export async function updateUserActiveStatus(id, active, token) {
+  const res = await fetch(
+    `${BASE_URL}/admin/users/${id}/active`,
+    {
+      method: "PATCH",
+      headers: getHeaders(token),
+      body: JSON.stringify({ active }),
+    }
+  );
 
+  if (!res.ok) throw new Error("Failed to update user active status");
+  return res.json();
+}
+
+// Fetch all moderators and trainers (Admin)
+export async function fetchUsersForAdmin(token) {
+  const res = await fetch(
+    `${BASE_URL}/admin/users`,
+    {
+      headers: getHeaders(token),
+    }
+  );
+
+  if (!res.ok) throw new Error("Failed to fetch users");
+  return res.json();
+}
 
 //colleges //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

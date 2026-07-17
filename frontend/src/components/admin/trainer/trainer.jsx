@@ -21,7 +21,8 @@ export default function TrainersPage({ token }) {
     createTrainer,
     deleteTrainer,
     updateTrainer,
-
+    updateUserActiveStatus,
+    AllUsers,
   } = useDashboard(token);
 
   // const { trainers, loading, error, fetchTrainers, deleteTrainer } = useTrainers();
@@ -165,6 +166,8 @@ export default function TrainersPage({ token }) {
           token={token}
           setShowUpdateTrainer={setShowUpdateTrainer}
           setSelectedTrainerData={setSelectedTrainerData}
+          updateUserActiveStatus={updateUserActiveStatus}
+          AllUsers={AllUsers}
         />
       )}
     </div>

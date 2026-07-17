@@ -68,6 +68,8 @@ function Debug() {
 
     //     //Moderator
     //     AllModerators,
+
+    AllUsers,
     } = useDashboard(token);
 
 
@@ -231,13 +233,46 @@ function Debug() {
                 <br />
                 <br />
                 <br /> */}
-                AttendanceByCollegeAndSession :
+                AllUsers :
+                
+                 <pre>{JSON.stringify(AllUsers, null, 2)}</pre> 
+                <br />
+                <br />
+                    
+                <br />
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
+{/* 
+                 <br />
+                    attendance
+                <br />
+                <br />
+                <br />
+                <br />
+                upcoming-classes :
+                
+                 <pre>{JSON.stringify(upcomingClasses, null, 2)}</pre> it will work , trainer login is currently not made
+                <br />
+                <br />
+                <br />
+                AttendanceChart :
+                
+                 <pre>{JSON.stringify(AttendanceChart, null, 2)}</pre> 
+                <br />
+                <br />
+                <br />
+                SubjectDistributionAttendance :
+                
+                 <pre>{JSON.stringify(SubjectDistributionAttendance, null, 2)}</pre> 
+                <br />
+                <br />
+                <br /> */}
+                {/* AttendanceByCollegeAndSession :
                 
                  <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> 
                 <br />
                 <br />
                     
-                <br />
+                <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 

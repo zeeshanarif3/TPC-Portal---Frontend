@@ -2,6 +2,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
     fetchDashboardStats,
+    updateUserActiveStatus,
+    fetchUsersForAdmin,
     
     // colleges
 
@@ -207,6 +209,11 @@ export function useDashboard(token) {
 
     // moderator
     const [AllModerators, setAllModerators] = useState([]);
+    
+    const [AllUsers, setAllUsers] = useState([]);
+    
+
+
     // ── Load colleges once on mount ────────────────────────────────────────
 
     useEffect(() => {
@@ -337,6 +344,17 @@ export function useDashboard(token) {
         }
     }, [selectedCollege, token]);
 
+    const refreshAllUsers = useCallback(async () => {
+        try {
+            const [all] = await Promise.all([
+                fetchUsersForAdmin(token),
+            ]);
+            setAllUsers(all);
+        } catch (err) {
+            setError(err.message || 'Failed to fetch trainers');
+        }
+    }, [token]);
+
     const refreshModerators = useCallback(async () => {
         if (USE_MOCK) {
             setAllModerators(MOCK_TRAINERS);
@@ -419,6 +437,7 @@ export function useDashboard(token) {
                         refreshStudents(),
                         refreshCourses(),
                         refreshTrainers(),
+                        refreshAllUsers(),
                         refreshSessions(),
                         refreshModerators(),
                     ]);
@@ -430,7 +449,7 @@ export function useDashboard(token) {
 
         return () => { cancelled = true; };
     // }, [selectedCollege, refreshDashboard, refreshSchedules,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions]);
-    }, [selectedCollege, refreshDashboard,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions]);
+    }, [selectedCollege, refreshDashboard,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers ,refreshAllUsers, refreshModerators, refreshSessions]);
 
     // ── Effect: session changes ─────────────────────────────────────────────
     // Only reloads attendance-related data, never runs without a valid session
@@ -462,12 +481,13 @@ export function useDashboard(token) {
             refreshStudents(),
             refreshCourses(),
             refreshTrainers(),
+            refreshAllUsers(),
             refreshModerators(),
             refreshSessions(),
         ]);
         await refreshAttendance();
     // }, [refreshDashboard, refreshSchedules, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions, refreshAttendance]);
-    }, [refreshDashboard, refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions, refreshAttendance]);
+    }, [refreshDashboard, refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshAllUsers , refreshModerators, refreshSessions, refreshAttendance]);
 
 
 
@@ -709,6 +729,12 @@ const handleUpdateTrainer = async (id, data) => {
     await refresh();
     return res;
 };
+const handleupdateUserActiveStatus = async (id, active) => {
+    const res = await updateUserActiveStatus(id, active, token);
+    await refreshTrainers();
+    await refreshAllUsers();
+    return res;
+};
 
 
 const handleDeleteTrainer = async (id) => {
@@ -749,6 +775,7 @@ const handleDeleteModerator = async (id) => {
 
 
     return {
+        updateUserActiveStatus:handleupdateUserActiveStatus,
         selectedCollege,
         setSelectedCollege,
         colleges,
@@ -862,6 +889,7 @@ const handleDeleteModerator = async (id) => {
         updateModerator: handleUpdateModerator,
         deleteModerator: handleDeleteModerator,
         
+        AllUsers,
 
         refresh,
     };
