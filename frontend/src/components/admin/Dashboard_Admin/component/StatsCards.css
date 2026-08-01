@@ -91,5 +91,26 @@
     color: var(--accent);
 
     font-size: 12px;
+    
+}
 
+
+@media (max-width: 768px) {
+ /* .stats-cards{
+    min-height: 6000px;
+ }
+
+  */
+    .stats-card__label{
+        font-size: 10px;
+        
+    }
+    .stats-card__value{
+        font-size: 8px;
+        
+    }
+    .stats-card__sub{
+        font-size: 8px;
+
+    }
 }

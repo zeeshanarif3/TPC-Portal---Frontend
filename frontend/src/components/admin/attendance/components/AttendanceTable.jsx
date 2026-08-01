@@ -94,6 +94,8 @@ export default function AttendanceTable({
             <th>TIME</th>
             <th>COURSE</th>
             <th>SESSION</th>
+            <th>TRAINER</th>
+            <th>SUBJECT</th>
             <th>HEAD COUNT</th>
           </tr>
         </thead>
@@ -136,6 +138,9 @@ export default function AttendanceTable({
                     record.sessionId?.endDate
                   ).toLocaleDateString()}
                 </td>
+
+                <td>{record.trainerId?.name || "-"}</td>
+                <td>{record.trainerId?.speciality || "-"}</td>
 
                 <td>
                   <div className="head-count-wrapper">

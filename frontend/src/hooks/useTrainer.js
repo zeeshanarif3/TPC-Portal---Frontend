@@ -11,7 +11,7 @@ import {
 
 export function useTrainer(token) {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedcourse, setselectedcourse] = useState("6a4d31ca127623f6f5335784");
+    const [selectedcourse, setselectedcourse] = useState("");
 
     const [AllSlots, setAllSlots] = useState([]);
     const [studentsbycoll, setstudentsbycoll] = useState([]);
@@ -27,22 +27,43 @@ export function useTrainer(token) {
     }, []);
 
     // -------------------- Refresh Slots --------------------
+    // const refreshSchedules = useCallback(async () => {
+    //     try {
+    //         const formattedDate = formatDate(selectedDate);
+
+    //         const all = await fetchSlots(
+    //             {
+    //                 date: formattedDate,
+    //             },
+    //             token
+    //         );
+
+    //         setAllSlots(all);
+    //     } catch (err) {
+    //         setError(err.message || "Failed to fetch schedules");
+    //     }
+    // }, [selectedDate, token, formatDate]);
     const refreshSchedules = useCallback(async () => {
-        try {
-            const formattedDate = formatDate(selectedDate);
+    try {
+        const formattedDate = formatDate(selectedDate);
 
-            const all = await fetchSlots(
-                {
-                    date: formattedDate,
-                },
-                token
-            );
+        const all = await fetchSlots(
+            {
+                date: formattedDate,
+            },
+            token
+        );
 
-            setAllSlots(all);
-        } catch (err) {
-            setError(err.message || "Failed to fetch schedules");
+        setAllSlots(all);
+
+        // Select the first course from the fetched slots
+        if (!selectedcourse && all.length > 0) {
+            setselectedcourse(all[0].course._id);
         }
-    }, [selectedDate, token, formatDate]);
+    } catch (err) {
+        setError(err.message || "Failed to fetch schedules");
+    }
+}, [selectedDate, token, formatDate, selectedcourse]);
     
     const refreshUpcommingSchedules = useCallback(async () => {
         try {

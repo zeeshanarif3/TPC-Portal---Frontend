@@ -7,8 +7,8 @@ import useLenis from "../hooks/useLenis";
 import './Main.css'
 import Anim from "../anim/anim";
 
-function Main() {
-// function Main({t}) {
+// function Main() {
+function Main({t}) {   //comment this , its for debug purposes
     
     ////////// for smooth scrolling , for future components, currently not used ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -18,13 +18,12 @@ function Main() {
     
     
     
-    
     // main states
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null); // {name, email, role}
     const [ready, setReady] = useState(false);
     
-    // t(token) //delete this , its for debug purposes
+    t(token) //comment this , its for debug purposes
 
     // main func states
     const handleLogout = () => {
@@ -95,7 +94,7 @@ function Main() {
             ) : (ready && user ? (
                 <>
                     {/* {user.role === "admin" && (  */}
-                    {((user.role === "admin") ||(user.role === "moderator")) && (
+                    {((user.role === "admin")) && (
                         <Admin_portal
                             token={token}
                             user={user}
@@ -103,6 +102,20 @@ function Main() {
                         />
                     )}
                     {((user.role === "trainer"))  && (
+                        <Trainer_portal
+                            token={token}
+                            user={user}
+                            handleLogout={handleLogout}
+                        />
+                    )}
+                    {((user.role === "moderator"))  && (
+                        <Trainer_portal
+                            token={token}
+                            user={user}
+                            handleLogout={handleLogout}
+                        />
+                    )}
+                    {((user.role === "student"))  && (
                         <Trainer_portal
                             token={token}
                             user={user}

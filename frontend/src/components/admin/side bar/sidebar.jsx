@@ -4,6 +4,7 @@ import "./sidebar.css";
 import UserInfo from "./component/userinfo";
 // import {ThemeContext} from "./ThemeContext";
 import { ThemeContext } from "../../../theme/ThemeContext";
+import tpcLogo from '/logo.png';
 
 import {
     LayoutDashboard,
@@ -94,11 +95,12 @@ export default function Sidebar({
             <div className="sb_cont">
 
                 <div className="sb__brand">
-                    <div className="sb__brand-mark">IC</div>
+                    {/* <div className="sb__brand-mark">IC</div> */}
+                    <img src={tpcLogo} alt="TPC Logo" className="brand-mark" />
                     {!collapsed && (
                         <div className="sb__brand-text">
-                            <span className="sb__brand-line">ICON /</span>
-                            <span className="sb__brand-line">COMPANY</span>
+                            <span className="sb__brand-line">TPC Global</span>
+                            {/* <span className="sb__brand-line">COMPANY</span> */}
                         </div>
                     )}
                 </div>

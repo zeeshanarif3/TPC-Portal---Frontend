@@ -4,7 +4,8 @@ import SchedulesCalendar from "./components/SchedulesCalendar";
 import AttendanceForm from "../attendance/attendance";
 import { useTrainer } from "../../../hooks/useTrainer";
 import TopicFeedbackModal from "./components/TopicFeedbackModal";
-
+import { ChevronDown } from "lucide-react";
+import { useRef } from "react";
 import "./schedules.css";
 
 export default function SchedulesPage({ token }) {
@@ -18,6 +19,32 @@ export default function SchedulesPage({ token }) {
     selectedcourse,
     studentsbycoll,
   } = useTrainer(token);
+
+
+
+    const contentRef = useRef(null);
+  
+    const scrollToBottom = () => {
+      contentRef.current?.scrollTo({
+        top: contentRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    };
+    const [showButton, setShowButton] = useState(false);
+  
+    const handleScroll = () => {
+      const el = contentRef.current;
+      if (!el) return;
+  
+      // Is scrolling even possible?
+      const scrollable = el.scrollHeight > el.clientHeight;
+  
+      // Is the user at the bottom?
+      const atBottom =
+        el.scrollTop + el.clientHeight >= el.scrollHeight - 10;
+  
+      setShowButton(scrollable && !atBottom);
+    };
 
   const [view, setView] = useState("table");
   const [searchTerm, setSearchTerm] = useState("");
@@ -181,7 +208,19 @@ export default function SchedulesPage({ token }) {
   }
 
   return (
-    <div className="Schedulees-page">
+    <>
+      <div
+        className={`scroll-bottom-btn ${showButton ? "" : "hidden"}`}
+        onClick={scrollToBottom}
+      >
+        <ChevronDown />
+      </div>
+      <div ref={contentRef} onScroll={handleScroll} className="Schedulees-page no-scrollbar">
+    {/* <div className="Schedulees-page"> */}
+
+
+
+
       <div className="Schedulees-header">
       {/* <pre>{JSON.stringify(selectedcourse, null, 2)}</pre> */}
         <div>
@@ -195,27 +234,31 @@ export default function SchedulesPage({ token }) {
         </div>
 
         <div className="Schedulees-controls">
-          <button
-            className={`btn-view-toggle ${view === "table" ? "active" : ""}`}
-            onClick={() => setView("table")}
-          >
-            Table
-          </button>
-
-          <button
-            className={`btn-view-toggle ${view === "calendar" ? "active" : ""}`}
-            onClick={() => setView("calendar")}
-          >
-            Calendar
-          </button>
-
+            <button
+              className={`btn-view-toggle ${view === "table" ? "active" : ""}`}
+              onClick={() => {
+                setView("table")
+                setShowButton(false);
+              }}
+            >
+              Table
+            </button>
+            <button
+              className={`btn-view-toggle ${view === "calendar" ? "active" : ""}`}
+              onClick={() => {
+                setView("calendar");
+                setShowButton(true);
+              }}
+            >
+              Calendar
+            </button>
           {/* <button
             className="btn-view-toggle"
             onClick={() => setSelectedDate(new Date())}
             title="Jump to today"
-          >
+            >
             Today
-          </button> */}
+            </button> */}
         </div>
       </div>
 
@@ -228,7 +271,7 @@ export default function SchedulesPage({ token }) {
         {/* <div className="stat-card">
           <span>Today</span>
           <h2>{todaySchedules}</h2>
-        </div> */}
+          </div> */}
 
         <div className="stat-card">
           <span>Active</span>
@@ -261,7 +304,7 @@ export default function SchedulesPage({ token }) {
           className="status-filter"
           value={courseFilter}
           onChange={(e) => setCourseFilter(e.target.value)}
-        >
+          >
           <option value="All">All Courses</option>
           {courseOptions
             .filter((course) => course !== "All")
@@ -276,7 +319,7 @@ export default function SchedulesPage({ token }) {
           className="status-filter"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-        >
+          >
           <option value="All">All Status</option>
           <option value="Active">Active</option>
           <option value="Completed">Completed</option>
@@ -291,25 +334,26 @@ export default function SchedulesPage({ token }) {
 
       {view === "table" ? (
         <SchedulesTable
-          schedules={filteredSchedules}
-          setTopicFeedbackData={setTopicFeedbackData}
-          setShowTopicFeedbackModal={setShowTopicFeedbackModal}
-          setshowAttendanceModal={setshowAttendanceModal}
-          token={token}
-          setselectedcourse={setselectedcourse}
+        schedules={filteredSchedules}
+        setTopicFeedbackData={setTopicFeedbackData}
+        setShowTopicFeedbackModal={setShowTopicFeedbackModal}
+        setshowAttendanceModal={setshowAttendanceModal}
+        token={token}
+        setselectedcourse={setselectedcourse}
         />
       ) : (
         <SchedulesCalendar
-          token={token}
-          schedules={filteredSchedules}
-          selectedDate={selectedDate}
-          onSelectDate={setSelectedDate}
-          setTopicFeedbackData={setTopicFeedbackData}
-          setShowTopicFeedbackModal={setShowTopicFeedbackModal}
-          setshowAttendanceModal={setshowAttendanceModal}
+        token={token}
+        schedules={filteredSchedules}
+        selectedDate={selectedDate}
+        onSelectDate={setSelectedDate}
+        setTopicFeedbackData={setTopicFeedbackData}
+        setShowTopicFeedbackModal={setShowTopicFeedbackModal}
+        setshowAttendanceModal={setshowAttendanceModal}
         />
       )}
     </div>
+    </>
   );
 }
 

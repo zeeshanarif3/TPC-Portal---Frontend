@@ -13,6 +13,7 @@ export default function ModeratorPage({ token }) {
     loading,
     error,
     AllModerators = [],
+    colleges = [],
     createModerator,
     updateModerator,
     deleteModerator,
@@ -147,6 +148,7 @@ export default function ModeratorPage({ token }) {
           token={token}
           setShowUpdateModeratorPage={setShowUpdateModeratorPage}
           setUpdateModeratordata={setUpdateModeratordata}
+          colleges = {colleges}
         />
       )}
     </div>

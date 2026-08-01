@@ -83,7 +83,7 @@ Dark admin sidebar with collapse-to-icons behavior
 .sb__brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  /* gap: 10px; */
   padding: 20px 16px;
   border-bottom: 1px solid var(--sb-border);
   flex-shrink: 0;
@@ -412,4 +412,20 @@ Dark admin sidebar with collapse-to-icons behavior
 
     transform:scale(1.06);
 
+}
+
+
+
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }

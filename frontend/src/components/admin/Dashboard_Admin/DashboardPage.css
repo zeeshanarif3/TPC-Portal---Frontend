@@ -170,64 +170,120 @@ BOTTOM ROW
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0,0,0,.25);
 } */
-
 /* ==========================================
              RESPONSIVE
 ========================================== */
 
+/* ---------- Large Tablets ---------- */
 @media (max-width: 1200px) {
 
     .dashboard {
-        padding: 24px;
+        padding: 20px;
+        gap: 1rem;
     }
 
     .dashboard__top-row,
     .dashboard__mid-row,
-    .dashboard__bottom-row {
-        gap: 20px;
+    .dashboard__bottom-row,
+    .right {
+        height: auto;
+        min-height: auto;
+        gap: 1rem;
+    }
+
+    .disp_cont {
+        flex-wrap: wrap;
     }
 }
 
-@media (max-width: 1000px) {
+
+/* ---------- Tablets ---------- */
+@media (max-width: 992px) {
 
     .dashboard {
-        padding: 18px;
+        padding: 16px;
     }
 
-    /* .dashboard__top-row,
+    .dashboard__top-row,
     .dashboard__mid-row,
-    .dashboard__bottom-row {
-        grid-template-columns: 1fr;
-    } */
-
-    .dashboard__top-row .left{
+    .dashboard__bottom-row,
+    .right {
         flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        height: auto;
+        min-height: auto;
+
+        gap: 1rem;
+    }
+
+    .left {
+        width: 100%;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        min-height: auto;
+    }
+
+    .disp_cont {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .dashboard-card,
     .panel {
-        padding: 22px;
-    }
-
-    .dashboard__mid-row{
-        flex-direction: column;
-        height: auto;
-    }
-    .dashboard__bottom-row{
-        flex-direction: column;
-        height: auto;
+        width: 100%;
     }
 }
 
-@media (max-width: 600px) {
+
+/* ---------- Phones ---------- */
+@media (max-width: 768px) {
 
     .dashboard {
-        padding: 14px;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .dashboard__top-row,
+    .dashboard__mid-row,
+    .dashboard__bottom-row,
+    .right,
+    .left,
+    .disp_cont {
+        width: 100%;
+        height: auto;
+        min-height: auto;
     }
 
     .dashboard-card,
     .panel {
-        border-radius: 16px;
-        padding: 18px;
+        width: 100%;
+        min-width: 0;
+
+        border-radius: 14px;
+        padding: 16px;
+    }
+}
+
+
+/* ---------- Small Phones ---------- */
+@media (max-width: 480px) {
+
+    .dashboard {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .dashboard-card,
+    .panel {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .dashboard__error {
+        padding: 14px 16px;
     }
 }

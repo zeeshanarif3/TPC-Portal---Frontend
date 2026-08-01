@@ -98,6 +98,58 @@ import {
 
 
 
+    // ==========================
+    // Content Skeleton
+    // ==========================
+    createContentSkeleton,
+    fetchContentSkeletons,
+    fetchContentSkeletonById,
+    updateContentSkeleton,
+    deleteContentSkeleton,
+
+    // ==========================
+    // Content
+    // ==========================
+    createContent,
+    fetchContents,
+    fetchContentById,
+    updateContent,
+    deleteContent,
+    downloadContent,
+    fetchProgramStructure,
+
+    // ==========================
+    // Assessments
+    // ==========================
+    createAssessment,
+    fetchAssessments,
+    fetchAssessmentById,
+    updateAssessment,
+    deleteAssessment,
+
+    // Assessment Submissions
+    submitAssessment,
+    fetchMyAssessmentSubmission,
+    fetchAssessmentSubmissions,
+
+    // ==========================
+    // Feedback
+    // ==========================
+    createFeedback,
+    fetchFeedback,
+    fetchMyFeedback,
+    updateFeedback,
+    deleteFeedback,
+
+    // ==========================
+    // Performance
+    // ==========================
+    fetchMyPerformance,
+    fetchStudentPerformance,
+
+
+
+
 
 } from '../services/dashboardapi';
 
@@ -162,7 +214,7 @@ const MOCK_CONTRACT_EXPIRY = [
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useDashboard(token) {
-    const [selectedCollege, setSelectedCollege] = useState('6a4107cea7404a5a7f287dd9');
+    const [selectedCollege, setSelectedCollege] = useState('');
     const [colleges, setColleges] = useState([]);
     const [stats, setStats] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -216,17 +268,39 @@ export function useDashboard(token) {
 
     // ── Load colleges once on mount ────────────────────────────────────────
 
-    useEffect(() => {
-        if (USE_MOCK) {
-            setColleges(MOCK_COLLEGES);
-            return;
+    // useEffect(() => {
+    //     if (USE_MOCK) {
+    //         setColleges(MOCK_COLLEGES);
+    //         return;
+    //     }
+
+    //     fetchColleges(token)
+    //         .then(setColleges)
+    //         .catch(err => setError(err.message || 'Failed to fetch colleges'));
+    // }, [token]);
+
+useEffect(() => {
+    if (USE_MOCK) {
+        setColleges(MOCK_COLLEGES);
+
+        if (MOCK_COLLEGES.length > 0) {
+            setSelectedCollege(MOCK_COLLEGES[0]._id);
         }
 
-        fetchColleges(token)
-            .then(setColleges)
-            .catch(err => setError(err.message || 'Failed to fetch colleges'));
-    }, [token]);
+        return;
+    }
 
+    fetchColleges(token)
+        .then((data) => {
+            setColleges(data);
+
+            // Select first college if none is selected
+            if (data.length > 0) {
+                setSelectedCollege(data[0]._id);
+            }
+        })
+        .catch(err => setError(err.message || 'Failed to fetch colleges'));
+}, [token]);
     // ── Feature loaders ─────────────────────────────────────────────────────
 
     const refreshDashboard = useCallback(async () => {

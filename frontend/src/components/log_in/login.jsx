@@ -1,5 +1,6 @@
 import './login.css';
 import { useState, useEffect } from 'react';
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 function Login({ handleLogout, setUser, setToken, user, token }) {
   const [email, setEmail] = useState('');
@@ -45,7 +46,7 @@ function Login({ handleLogout, setUser, setToken, user, token }) {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/auth/login',
+        `${BASE_URL}/auth/login`,
         {
           method: 'POST',
           headers: {

@@ -39,6 +39,7 @@ export default function SubjectDistribution({ data }) {
 
   return (
     <div className="subject-distribution no-scrollbar">
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <div className="subject-distribution__header">
         <h3 className="subject-distribution__title">
           Subject Distribution
