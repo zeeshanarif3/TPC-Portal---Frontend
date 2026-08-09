@@ -131,7 +131,7 @@ const copyID = async (id) => {
 };
   return (
     <div className="students-table-container">
-
+{/* 
       {selected.length > 0 && (
         <div className="students-bulk-bar">
           <span>
@@ -146,12 +146,12 @@ const copyID = async (id) => {
             Delete Selected
           </button>
         </div>
-      )}
+      )} */}
 
       <table className="students-table">
         <thead>
           <tr>
-            <th>
+            {/* <th>
               <input
                 type="checkbox"
                 checked={
@@ -161,7 +161,7 @@ const copyID = async (id) => {
                 }
                 onChange={selectAll}
               />
-            </th>
+            </th> */}
 
             <th
               onClick={() =>
@@ -201,7 +201,7 @@ const copyID = async (id) => {
               <ArrowUpDown size={14} />
             </th>
 
-            <th>ACTIONS</th>
+            {/* <th>ACTIONS</th> */}
           </tr>
         </thead>
 
@@ -219,7 +219,7 @@ const copyID = async (id) => {
               //   setShowUpdateStudent(true);
               // }}
             >
-              <td>
+              {/* <td>
                 <input
                   type="checkbox"
                   checked={selected.includes(
@@ -229,7 +229,7 @@ const copyID = async (id) => {
                     toggleSelection(student._id)
                   }
                 />
-              </td>
+              </td> */}
 
               <td>{student.name || "—"}</td>
 
@@ -265,7 +265,7 @@ const copyID = async (id) => {
                   : "—"}
               </td>
 
-              <td className="student-actions">
+              {/* <td className="student-actions">
                 <button
                   className="btn-action btn-edit"
                   onClick={() => {
@@ -290,7 +290,7 @@ const copyID = async (id) => {
                 >
                   <Trash2 size={17} />
                 </button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

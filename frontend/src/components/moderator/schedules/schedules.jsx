@@ -231,32 +231,32 @@ export default function SchedulesPage({ token }) {
     window.URL.revokeObjectURL(url);
   };
 
-  if (showNewSchedule) {
-    return (
-      <CSVScheduleUpload
-        token={token}
-        onBack={() => setShowNewSchedule(false)}
-        createSchedule={createSlot}
-        AllCourses={AllCourses}
-        AllSessions={AllSessions}
-        AllTrainers={AllTrainers}
-      />
-    );
-  }
+  // if (showNewSchedule) {
+  //   return (
+  //     <CSVScheduleUpload
+  //       token={token}
+  //       onBack={() => setShowNewSchedule(false)}
+  //       createSchedule={createSlot}
+  //       AllCourses={AllCourses}
+  //       AllSessions={AllSessions}
+  //       AllTrainers={AllTrainers}
+  //     />
+  //   );
+  // }
 
-  if (showUpdateSchedule) {
-    return (
-      <UpdateSchedulePage
-        token={token}
-        onBack={() => setShowUpdateSchedule(false)}
-        schedule={updateScheduleData}
-        AllCourses={AllCourses}
-        AllSessions={AllSessions}
-        AllTrainers={AllTrainers}
-        updateSchedule={updateSlot}
-      />
-    );
-  }
+  // if (showUpdateSchedule) {
+  //   return (
+  //     <UpdateSchedulePage
+  //       token={token}
+  //       onBack={() => setShowUpdateSchedule(false)}
+  //       schedule={updateScheduleData}
+  //       AllCourses={AllCourses}
+  //       AllSessions={AllSessions}
+  //       AllTrainers={AllTrainers}
+  //       updateSchedule={updateSlot}
+  //     />
+  //   );
+  // }
 
   return (
     <>
@@ -298,12 +298,12 @@ export default function SchedulesPage({ token }) {
 
 
 
-            <button
+            {/* <button
               className="btn-add-slot"
               onClick={() => setShowNewSchedule(true)}
             >
               + Add Schedule
-            </button>
+            </button> */}
           </div>
         </div>
 

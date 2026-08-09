@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import AttendanceTable from "./components/AttendanceTable";
 import AttendanceStats from "./components/AttendanceStats";
 // import UpdateAttendancePage from "./components/UpdateAttendancePage";
@@ -11,14 +11,14 @@ export default function AttendancePage({ token }) {
     // selectedCollege,
     // setSelectedCollege,
     // colleges,
-    AllSessions,
+    AllSessions = [],
     setCurrentSession,
     CurrentSession,
     stats,
     loading,
     error,
-    AttendanceByCollegeAndSession,
-    Allstudents,
+    AttendanceByCollegeAndSession = [],
+    Allstudents = [],
     fetchStudentsByCourse,
 
     // updateAttendance,
@@ -27,58 +27,50 @@ export default function AttendancePage({ token }) {
   // const [showUpdateAttendancePage, setshowUpdateAttendancePage] = useState(false);
   // const [UpdateAttendancedata, setUpdateAttendancedata] = useState(null);
 
-
-
   const [searchTerm, setSearchTerm] = useState("");
   const [dateFilter, setDateFilter] = useState("");
 
+  // if (showUpdateAttendancePage) {
+  //   return (
+  //     <UpdateAttendancePage
+  //       token={token}
+  //       onBack={() => setshowUpdateAttendancePage(false)}
+  //       attendance = {UpdateAttendancedata}
+  //       AllStudents ={Allstudents}
+  //       updateAttendance= {updateAttendance}
+  //     />
+  //   );
+  // }
 
+  // Flatten the grouped college/session/attendance response into a flat
+  // list of attendance records — this is what AttendanceTable expects.
+  const attendanceRows = useMemo(
+    () =>
+      AttendanceByCollegeAndSession?.flatMap(
+        (group) => group.attendance || []
+      ) || [],
+    [AttendanceByCollegeAndSession]
+  );
 
+  const filteredAttendance = useMemo(() => {
+    return attendanceRows.filter((record) => {
+      const courseCode = record.courseId?.courseCode || "";
 
+      const session = `${
+        new Date(record.sessionId?.startDate).toLocaleDateString()
+      } - ${new Date(record.sessionId?.endDate).toLocaleDateString()}`;
 
+      const matchesSearch =
+        courseCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        session.toLowerCase().includes(searchTerm.toLowerCase());
 
+      const matchesDate =
+        !dateFilter ||
+        new Date(record.date).toISOString().split("T")[0] === dateFilter;
 
-
-// if (showUpdateAttendancePage) {
-//     return (
-//       <UpdateAttendancePage
-//         token={token}
-//         onBack={() => setshowUpdateAttendancePage(false)}
-//         attendance = {UpdateAttendancedata}
-//         AllStudents ={Allstudents}
-//         updateAttendance= {updateAttendance}
-//       />
-//     );
-//   }
-
-
-
-
-
-
-
-
-
-
-
-
-  const filteredAttendance = AttendanceByCollegeAndSession.filter((record) => {
-    const courseCode = record.courseId?.courseCode || "";
-
-    const session = `${
-      new Date(record.sessionId?.startDate).toLocaleDateString()
-    } - ${new Date(record.sessionId?.endDate).toLocaleDateString()}`;
-
-    const matchesSearch =
-      courseCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      session.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesDate =
-      !dateFilter ||
-      new Date(record.date).toISOString().split("T")[0] === dateFilter;
-
-    return matchesSearch && matchesDate;
-  });
+      return matchesSearch && matchesDate;
+    });
+  }, [attendanceRows, searchTerm, dateFilter]);
 
   const handleTakeAttendance = () => {
     window.location.href = "/attendance/take";
@@ -97,12 +89,12 @@ export default function AttendancePage({ token }) {
     const rows = filteredAttendance.map((a) => [
       new Date(a.date).toLocaleDateString(),
       `${a.startTime} - ${a.endTime}`,
-      a.courseId?.courseCode,
+      a.courseId?.courseCode || "",
       `${new Date(a.sessionId?.startDate).toLocaleDateString()} - ${new Date(
         a.sessionId?.endDate
       ).toLocaleDateString()}`,
       a.headCount,
-      a.presentStudents.length,
+      a.presentStudents?.length ?? 0,
     ]);
 
     const csvContent = [headers, ...rows]
@@ -125,9 +117,7 @@ export default function AttendancePage({ token }) {
 
   return (
     <div className="attendance-page">
-              {/* {selectedCollege } ///////////////////   {CurrentSession} debug */}
       {/* Header */}
-      {/* <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> */}
       <div className="attendance-header">
         <div>
           <h1>Attendance</h1>
@@ -146,35 +136,7 @@ export default function AttendancePage({ token }) {
       <AttendanceStats stats={stats} />
 
       {/* Filters */}
-      {/* <div className="attendance-filters">
-        <div className="search-box">
-          <span className="search-icon">🔍</span>
-
-          <input
-            type="text"
-            placeholder="Search by course or session..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <input
-          type="date"
-          className="date-filter"
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-        />
-
-        <button
-          className="btn-export-csv"
-          onClick={handleExportCSV}
-        >
-          Export CSV
-        </button>
-      </div> */}
-      {/* Filters */}
       <div className="attendance-filters">
-
         <div className="search-box">
           <span className="search-icon">🔍</span>
           <input
@@ -185,64 +147,43 @@ export default function AttendancePage({ token }) {
           />
         </div>
 
-{/* College Selector */}
-{/* <select
-  className="filter-select"
-  value={selectedCollege}
-  onChange={(e) => {
-    const collegeId = e.target.value;
+        {/* College Selector */}
+        {/* <select
+          className="filter-select"
+          value={selectedCollege}
+          onChange={(e) => {
+            const collegeId = e.target.value;
 
-    setSelectedCollege(collegeId);
+            setSelectedCollege(collegeId);
 
-    // Select the first session of the chosen college
-    const firstSession = AllSessions.find(
-      (session) => session.collegeId._id === collegeId
-    );
+            const firstSession = AllSessions.find(
+              (session) => session.collegeId._id === collegeId
+            );
 
-    setCurrentSession(firstSession ? firstSession._id : "");
-  }}
->
-  {colleges.map((college) => (
-    <option key={college._id} value={college._id}>
-      {college.name}
-    </option>
-  ))}
-</select> */}
+            setCurrentSession(firstSession ? firstSession._id : "");
+          }}
+        >
+          {colleges.map((college) => (
+            <option key={college._id} value={college._id}>
+              {college.name}
+            </option>
+          ))}
+        </select> */}
 
-{/* Session Selector
-<select
-  className="filter-select"
-  value={CurrentSession}
-  onChange={(e) => {
-    setCurrentSession(e.target.value);
-  }}
->
-  {AllSessions.filter(
-    (session) =>
-      !selectedCollege ||
-      session.collegeId._id === selectedCollege
-  ).map((session) => (
-    <option key={session._id} value={session._id}>
-      {new Date(session.startDate).toLocaleDateString("en-GB")} -{" "}
-      {new Date(session.endDate).toLocaleDateString("en-GB")}
-    </option>
-  ))}
-</select> */}
-<select
-  className="filter-select"
-  value={CurrentSession}
-  onChange={(e) => {
-    setCurrentSession(e.target.value);
-  }}
->
-  {AllSessions
-    .map((session) => (
-      <option key={session._id} value={session._id}>
-        {new Date(session.startDate).toLocaleDateString("en-GB")} -{" "}
-        {new Date(session.endDate).toLocaleDateString("en-GB")}
-      </option>
-    ))}
-</select>
+        <select
+          className="filter-select"
+          value={CurrentSession}
+          onChange={(e) => {
+            setCurrentSession(e.target.value);
+          }}
+        >
+          {AllSessions.map((session) => (
+            <option key={session._id} value={session._id}>
+              {new Date(session.startDate).toLocaleDateString("en-GB")} -{" "}
+              {new Date(session.endDate).toLocaleDateString("en-GB")}
+            </option>
+          ))}
+        </select>
 
         <input
           type="date"
@@ -271,6 +212,7 @@ export default function AttendancePage({ token }) {
           {error}
         </p>
       )}
+            {/* <pre>{JSON.stringify(filteredAttendance, null, 2)}</pre> */}
 
       {!loading && !error && (
         <AttendanceTable
@@ -285,109 +227,192 @@ export default function AttendancePage({ token }) {
   );
 }
 
-// import { useState, useEffect } from 'react';
-// import AttendanceTable from './components/AttendanceTable';
-// import AttendanceStats from './components/AttendanceStats';
-// // import useAttendance from './hooks/useAttendance';
-// import { useDashboard } from '../../../hooks/useDashboard';
-
-// import './attendance.css'
-
-// export default function AttendancePage({token}) {
 
 
+// import { useState } from "react";
+// import AttendanceTable from "./components/AttendanceTable";
+// import AttendanceStats from "./components/AttendanceStats";
+// // import UpdateAttendancePage from "./components/UpdateAttendancePage";
+// import { useModer } from "../../../hooks/useModer";
 
+// import "./attendance.css";
 
+// export default function AttendancePage({ token }) {
+//   const {
+//     // selectedCollege,
+//     // setSelectedCollege,
+//     // colleges,
+//     AllSessions = [],
+//     setCurrentSession,
+//     CurrentSession,
+//     stats,
+//     loading,
+//     error,
+//     AttendanceByCollegeAndSession = [],
+//     Allstudents = [],
+//     fetchStudentsByCourse,
 
-//     const {
-//         selectedCollege,
-//         setSelectedCollege,
-//         stats,
+//     // updateAttendance,
+//   } = useModer(token);
 
-//         loading,
-//         error,
-
-//         // attendance
-
-//         upcomingClasses,
-//         AttendanceChart,
-//         SubjectDistributionAttendance,
-//         AttendanceByCollegeAndSession,
-
-
-
-//     } = useDashboard(token);
+//   // const [showUpdateAttendancePage, setshowUpdateAttendancePage] = useState(false);
+//   // const [UpdateAttendancedata, setUpdateAttendancedata] = useState(null);
 
 
 
-
-
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [dateFilter, setDateFilter] = useState("");
 
 
 
 
 
 
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [dateFilter, setDateFilter] = useState('');
 
-//   useEffect(() => {
-//     fetchAttendance();
-//   }, []);
 
-//   const filteredAttendance = AttendanceByCollegeAndSession.filter(record => {
-//     const matchesSearch = 
-//       record.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       record.session.toLowerCase().includes(searchTerm.toLowerCase());
-    
-//     const matchesDate = !dateFilter || record.date === dateFilter;
+// // if (showUpdateAttendancePage) {
+// //     return (
+// //       <UpdateAttendancePage
+// //         token={token}
+// //         onBack={() => setshowUpdateAttendancePage(false)}
+// //         attendance = {UpdateAttendancedata}
+// //         AllStudents ={Allstudents}
+// //         updateAttendance= {updateAttendance}
+// //       />
+// //     );
+// //   }
+
+
+
+
+
+
+
+
+
+
+
+
+//   const filteredAttendance = AttendanceByCollegeAndSession.filter((record) => {
+//     const courseCode = record.courseId?.courseCode || "";
+
+//     const session = `${
+//       new Date(record.sessionId?.startDate).toLocaleDateString()
+//     } - ${new Date(record.sessionId?.endDate).toLocaleDateString()}`;
+
+//     const matchesSearch =
+//       courseCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       session.toLowerCase().includes(searchTerm.toLowerCase());
+
+//     const matchesDate =
+//       !dateFilter ||
+//       new Date(record.date).toISOString().split("T")[0] === dateFilter;
+
 //     return matchesSearch && matchesDate;
 //   });
 
 //   const handleTakeAttendance = () => {
-//     window.location.href = '/attendance/take';
+//     window.location.href = "/attendance/take";
 //   };
 
 //   const handleExportCSV = () => {
-//     const headers = ['DATE', 'TIME', 'COURSE', 'SESSION', 'HEAD COUNT', 'PERCENTAGE'];
-//     const rows = filteredAttendance.map(a => [
-//       a.date,
-//       a.time,
-//       a.course,
-//       a.session,
-//       a.headCount,
-//       a.percentage,
-//     ]);
-//     const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
-    
-//     const blob = new Blob([csvContent], { type: 'text/csv' });
+//     const headers = [
+//       "DATE",
+//       "TIME",
+//       "COURSE",
+//       "SESSION",
+//       "HEAD COUNT",
+//       "PRESENT STUDENTS",
+//     ];
+
+//     // const rows = filteredAttendance.map((a) => [
+//     //   new Date(a.date).toLocaleDateString(),
+//     //   `${a.startTime} - ${a.endTime}`,
+//     //   a.courseId?.courseCode,
+//     //   `${new Date(a.sessionId?.startDate).toLocaleDateString()} - ${new Date(
+//     //     a.sessionId?.endDate
+//     //   ).toLocaleDateString()}`,
+//     //   a.headCount,
+//     //   a.presentStudents.length,
+//     // ]);
+
+// const rows = useMemo(() => {
+//   return attendance.map((record) => {
+//     const totalStudents = studentCounts[record.courseId?._id] ?? 0;
+//     const percentage =
+//       totalStudents > 0
+//         ? Math.round((record.headCount / totalStudents) * 100)
+//         : 0;
+
+//     return {
+//       _id: record._id,
+//       dateRaw: record.date,
+//       date: record.date ? new Date(record.date).toISOString().split("T")[0] : "—",
+//       time: `${record.startTime || "—"} - ${record.endTime || "—"}`,
+//       course: record.courseId?.courseCode || "—",
+//       session: record.sessionId
+//         ? `${formatDate(record.sessionId.startDate)} - ${formatDate(
+//             record.sessionId.endDate
+//           )}`
+//         : "—",
+//       trainer: record.trainerId?.name || "—",
+//       subject: record.topic || "—",   // <-- changed from record.trainerId?.speciality
+//       headCount: record.headCount ?? 0,
+//       totalStudents,
+//       percentage,
+//       original: record,
+//     };
+//   });
+// }, [attendance, studentCounts]);
+//     const csvContent = [headers, ...rows]
+//       .map((row) => row.join(","))
+//       .join("\n");
+
+//     const blob = new Blob([csvContent], {
+//       type: "text/csv;charset=utf-8;",
+//     });
+
 //     const url = window.URL.createObjectURL(blob);
-//     const a = document.createElement('a');
-//     a.href = url;
-//     a.download = 'attendance.csv';
-//     a.click();
+
+//     const link = document.createElement("a");
+//     link.href = url;
+//     link.download = "attendance.csv";
+//     link.click();
+
+//     window.URL.revokeObjectURL(url);
 //   };
+
+//   const attendanceRows = AttendanceByCollegeAndSession?.flatMap(
+//   (group) => group.attendance || []
+//   );
 
 //   return (
 //     <div className="attendance-page">
+//               {/* {selectedCollege } ///////////////////   {CurrentSession} debug */}
 //       {/* Header */}
+//       {/* <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> */}
 //       <div className="attendance-header">
 //         <div>
 //           <h1>Attendance</h1>
 //           <p>Track and manage student attendance records</p>
 //         </div>
-//         <button className="btn-take-attendance" onClick={handleTakeAttendance}>
+
+//         {/* <button
+//           className="btn-take-attendance"
+//           onClick={handleTakeAttendance}
+//         >
 //           + Take Attendance
-//         </button>
+//         </button> */}
 //       </div>
 
-//       {/* Stats Cards */}
+//       {/* Statistics */}
 //       <AttendanceStats stats={stats} />
 
 //       {/* Filters */}
-//       <div className="attendance-filters">
+//       {/* <div className="attendance-filters">
 //         <div className="search-box">
 //           <span className="search-icon">🔍</span>
+
 //           <input
 //             type="text"
 //             placeholder="Search by course or session..."
@@ -403,21 +428,259 @@ export default function AttendancePage({ token }) {
 //           onChange={(e) => setDateFilter(e.target.value)}
 //         />
 
-//         <button className="btn-export-csv" onClick={handleExportCSV}>
+//         <button
+//           className="btn-export-csv"
+//           onClick={handleExportCSV}
+//         >
+//           Export CSV
+//         </button>
+//       </div> */}
+//       {/* Filters */}
+//       <div className="attendance-filters">
+
+//         <div className="search-box">
+//           <span className="search-icon">🔍</span>
+//           <input
+//             type="text"
+//             placeholder="Search by course or session..."
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+//         </div>
+
+// {/* College Selector */}
+// {/* <select
+//   className="filter-select"
+//   value={selectedCollege}
+//   onChange={(e) => {
+//     const collegeId = e.target.value;
+
+//     setSelectedCollege(collegeId);
+
+//     // Select the first session of the chosen college
+//     const firstSession = AllSessions.find(
+//       (session) => session.collegeId._id === collegeId
+//     );
+
+//     setCurrentSession(firstSession ? firstSession._id : "");
+//   }}
+// >
+//   {colleges.map((college) => (
+//     <option key={college._id} value={college._id}>
+//       {college.name}
+//     </option>
+//   ))}
+// </select> */}
+
+// {/* Session Selector
+// <select
+//   className="filter-select"
+//   value={CurrentSession}
+//   onChange={(e) => {
+//     setCurrentSession(e.target.value);
+//   }}
+// >
+//   {AllSessions.filter(
+//     (session) =>
+//       !selectedCollege ||
+//       session.collegeId._id === selectedCollege
+//   ).map((session) => (
+//     <option key={session._id} value={session._id}>
+//       {new Date(session.startDate).toLocaleDateString("en-GB")} -{" "}
+//       {new Date(session.endDate).toLocaleDateString("en-GB")}
+//     </option>
+//   ))}
+// </select> */}
+// <select
+//   className="filter-select"
+//   value={CurrentSession}
+//   onChange={(e) => {
+//     setCurrentSession(e.target.value);
+//   }}
+// >
+//   {AllSessions
+//     .map((session) => (
+//       <option key={session._id} value={session._id}>
+//         {new Date(session.startDate).toLocaleDateString("en-GB")} -{" "}
+//         {new Date(session.endDate).toLocaleDateString("en-GB")}
+//       </option>
+//     ))}
+// </select>
+
+//         <input
+//           type="date"
+//           className="date-filter"
+//           value={dateFilter}
+//           onChange={(e) => setDateFilter(e.target.value)}
+//         />
+
+//         <button
+//           className="btn-export-csv"
+//           onClick={handleExportCSV}
+//         >
 //           Export CSV
 //         </button>
 //       </div>
 
 //       {/* Table */}
-//       {loading && <p className="loading">Loading attendance records...</p>}
-//       {error && <p className="error">{error}</p>}
+//       {loading && (
+//         <p className="loading">
+//           Loading attendance records...
+//         </p>
+//       )}
+
+//       {error && (
+//         <p className="error">
+//           {error}
+//         </p>
+//       )}
+
 //       {!loading && !error && (
 //         <AttendanceTable
 //           attendance={filteredAttendance}
-//           onDelete={deleteAttendance}
-//           onRefresh={fetchAttendance}
+//           token={token}
+//           // setUpdateAttendancedata = {setUpdateAttendancedata}
+//           // setshowUpdateAttendancePage = {setshowUpdateAttendancePage}
+//           fetchStudentsByCourse={attendanceRows}
 //         />
 //       )}
 //     </div>
 //   );
 // }
+
+// // import { useState, useEffect } from 'react';
+// // import AttendanceTable from './components/AttendanceTable';
+// // import AttendanceStats from './components/AttendanceStats';
+// // // import useAttendance from './hooks/useAttendance';
+// // import { useDashboard } from '../../../hooks/useDashboard';
+
+// // import './attendance.css'
+
+// // export default function AttendancePage({token}) {
+
+
+
+
+
+// //     const {
+// //         selectedCollege,
+// //         setSelectedCollege,
+// //         stats,
+
+// //         loading,
+// //         error,
+
+// //         // attendance
+
+// //         upcomingClasses,
+// //         AttendanceChart,
+// //         SubjectDistributionAttendance,
+// //         AttendanceByCollegeAndSession,
+
+
+
+// //     } = useDashboard(token);
+
+
+
+
+
+
+
+
+
+
+
+// //   const [searchTerm, setSearchTerm] = useState('');
+// //   const [dateFilter, setDateFilter] = useState('');
+
+// //   useEffect(() => {
+// //     fetchAttendance();
+// //   }, []);
+
+// //   const filteredAttendance = AttendanceByCollegeAndSession.filter(record => {
+// //     const matchesSearch = 
+// //       record.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
+// //       record.session.toLowerCase().includes(searchTerm.toLowerCase());
+    
+// //     const matchesDate = !dateFilter || record.date === dateFilter;
+// //     return matchesSearch && matchesDate;
+// //   });
+
+// //   const handleTakeAttendance = () => {
+// //     window.location.href = '/attendance/take';
+// //   };
+
+// //   const handleExportCSV = () => {
+// //     const headers = ['DATE', 'TIME', 'COURSE', 'SESSION', 'HEAD COUNT', 'PERCENTAGE'];
+// //     const rows = filteredAttendance.map(a => [
+// //       a.date,
+// //       a.time,
+// //       a.course,
+// //       a.session,
+// //       a.headCount,
+// //       a.percentage,
+// //     ]);
+// //     const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
+    
+// //     const blob = new Blob([csvContent], { type: 'text/csv' });
+// //     const url = window.URL.createObjectURL(blob);
+// //     const a = document.createElement('a');
+// //     a.href = url;
+// //     a.download = 'attendance.csv';
+// //     a.click();
+// //   };
+
+// //   return (
+// //     <div className="attendance-page">
+// //       {/* Header */}
+// //       <div className="attendance-header">
+// //         <div>
+// //           <h1>Attendance</h1>
+// //           <p>Track and manage student attendance records</p>
+// //         </div>
+// //         <button className="btn-take-attendance" onClick={handleTakeAttendance}>
+// //           + Take Attendance
+// //         </button>
+// //       </div>
+
+// //       {/* Stats Cards */}
+// //       <AttendanceStats stats={stats} />
+
+// //       {/* Filters */}
+// //       <div className="attendance-filters">
+// //         <div className="search-box">
+// //           <span className="search-icon">🔍</span>
+// //           <input
+// //             type="text"
+// //             placeholder="Search by course or session..."
+// //             value={searchTerm}
+// //             onChange={(e) => setSearchTerm(e.target.value)}
+// //           />
+// //         </div>
+
+// //         <input
+// //           type="date"
+// //           className="date-filter"
+// //           value={dateFilter}
+// //           onChange={(e) => setDateFilter(e.target.value)}
+// //         />
+
+// //         <button className="btn-export-csv" onClick={handleExportCSV}>
+// //           Export CSV
+// //         </button>
+// //       </div>
+
+// //       {/* Table */}
+// //       {loading && <p className="loading">Loading attendance records...</p>}
+// //       {error && <p className="error">{error}</p>}
+// //       {!loading && !error && (
+// //         <AttendanceTable
+// //           attendance={filteredAttendance}
+// //           onDelete={deleteAttendance}
+// //           onRefresh={fetchAttendance}
+// //         />
+// //       )}
+// //     </div>
+// //   );
+// // }

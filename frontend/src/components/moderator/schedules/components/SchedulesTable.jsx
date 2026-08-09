@@ -172,7 +172,7 @@ export default function SchedulesTable({
 
   return (
     <div className="schedules-table-container">
-      {selected.length > 0 && (
+      {/* {selected.length > 0 && (
         <div className="schedules-bulk-bar">
           <span>{selected.length} selected</span>
 
@@ -184,12 +184,12 @@ export default function SchedulesTable({
             Delete Selected
           </button>
         </div>
-      )}
+      )} */}
 
       <table className="schedules-table">
         <thead>
           <tr>
-            <th>
+            {/* <th>
               <input
                 type="checkbox"
                 checked={
@@ -198,7 +198,7 @@ export default function SchedulesTable({
                 }
                 onChange={selectAll}
               />
-            </th>
+            </th> */}
 
             <th onClick={() => toggleSort("course")}>
               COURSE <ArrowUpDown size={14} />
@@ -252,7 +252,7 @@ export default function SchedulesTable({
                   : ""
               }`}
             >
-              <td>
+              {/* <td>
                 <input
                   type="checkbox"
                   checked={selected.includes(schedule.id)}
@@ -260,7 +260,7 @@ export default function SchedulesTable({
                     toggleSelection(schedule.id)
                   }
                 />
-              </td>
+              </td> */}
 
               <td
                 className="schedule-course"
@@ -313,7 +313,7 @@ export default function SchedulesTable({
                   <Copy size={14} />
                 </button>
 
-                <button
+                {/* <button
                   className="btn-action btn-edit"
                   title="Edit Schedule"
                   onClick={() => {
@@ -334,7 +334,7 @@ export default function SchedulesTable({
                   }
                 >
                   <Trash2 />
-                </button>
+                </button> */}
               </td>
             </tr>
           ))}

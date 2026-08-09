@@ -13,9 +13,12 @@ import SessionsPage from "../../components/moderator/session/sessions";
 import SchedulesPage from "../../components/moderator/schedules/schedules";
 import AttendancePage from "../../components/moderator/attendance/attendance";
 
-// import CoursesPage from "../../components/moderator/course/course";
+import CoursesPage from "../../components/moderator/course/course";
 import StudentsPage from "../../components/moderator/students/students"
 import Content from "../../components/moderator/Content/content"
+import Assessment from "../../components/moderator/assessment/assessment"
+import FeedbackList from "../../components/moderator/feedback/feedback"
+import StudentPerformance from "../../components/moderator/StudentPerformance/StudentPerformance"
 
 function Moderator_portal({ token, user, handleLogout }) {
 
@@ -41,9 +44,12 @@ function Moderator_portal({ token, user, handleLogout }) {
                     {page === "sessions" && <SessionsPage token={token} />}       
                     {page === "schedule" && <SchedulesPage token={token} />}
                     {page === "attendance" && <AttendancePage token={token} />}
-                    {/* {page === "course" && <CoursesPage token={token} />}          */}
+                    {page === "course" && <CoursesPage token={token} />}         
                     {page === "students" && <StudentsPage token={token} />}
                     {page === "content" && <Content token={token} />} 
+                    {page === "assessment" && <Assessment token={token} />}
+                    {page === "feedback" && <FeedbackList token={token} />}                     
+                    {page === "performance" && <StudentPerformance token={token} />} 
 
                 </div>
 

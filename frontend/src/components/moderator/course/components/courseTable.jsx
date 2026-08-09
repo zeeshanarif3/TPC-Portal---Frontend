@@ -101,7 +101,7 @@ export default function CoursesTable({
       <table className="courses-table">
         <thead>
           <tr>
-            <th>
+            {/* <th>
               <input
                 type="checkbox"
                 checked={
@@ -111,7 +111,7 @@ export default function CoursesTable({
                 }
                 onChange={selectAll}
               />
-            </th>
+            </th> */}
 
             <th
               onClick={() =>
@@ -149,9 +149,9 @@ export default function CoursesTable({
               <ArrowUpDown size={14} />
             </th>
 
-            <th className="actions-column">
+            {/* <th className="actions-column">
               ACTIONS
-            </th>
+            </th> */}
           </tr>
         </thead>
 
@@ -165,7 +165,7 @@ export default function CoursesTable({
                   : ""
               }
             >
-              <td>
+              {/* <td>
                 <input
                   type="checkbox"
                   checked={selected.includes(
@@ -175,7 +175,7 @@ export default function CoursesTable({
                     toggleSelection(course._id)
                   }
                 />
-              </td>
+              </td> */}
 
               <td className="course-code">
                 {course.courseCode || "—"}
@@ -204,7 +204,7 @@ export default function CoursesTable({
               <td>
                 {formatDate(course.createdAt)}
               </td>
-
+{/* 
               <td className="course-actions">
                 <button
                   className="btn-action btn-edit"
@@ -226,7 +226,7 @@ export default function CoursesTable({
                 >
                   <Trash2 />
                 </button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

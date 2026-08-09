@@ -100,7 +100,8 @@ import {
     fetchSlotAnalytics,
     fetchAttendanceChart,
     fetchSubjectDistribution,
-    fetchAttendanceByCollegeAndSession,
+    // fetchAttendanceByCollegeAndSession,
+    fetchModeratorAttendanceBySession,
 
 
 
@@ -198,7 +199,7 @@ export function useModer(token) {
 
     // sessions
     const [AllSessions, setAllSessions] = useState([]);
-    const [CurrentSession, setCurrentSession] = useState('');
+    const [CurrentSession, setCurrentSession] = useState('6a5909bf1a6056691437015b');
 
     // students
     const [Allstudents, setAllstudents] = useState([]);
@@ -316,7 +317,7 @@ export function useModer(token) {
         // }
 
         try {
-            const [upcoming, all] = await Promise.all([
+            const [all] = await Promise.all([
                 // fetchUpcomingSlots("a", token),
                 fetchSlots({}, token),
             ]);
@@ -433,24 +434,37 @@ export function useModer(token) {
     }, [token]);
 
     // Only runs once a valid session exists
-    const refreshAttendance = useCallback(async () => {
-        // if (USE_MOCK) {
-        //     setAttendance(MOCK_ATTENDANCE);
-        //     setCourseDist(MOCK_COURSE_DISTRIBUTION);
-        //     return;
-        // }
-        // if (!selectedCollege || !CurrentSession) return;
-        try {
-            const [byCollegeAndSession] = await Promise.all([
-                fetchAttendanceByCollegeAndSession("", CurrentSession, token),
-            ]);
+    // const refreshAttendance = useCallback(async () => {
+    //     // if (USE_MOCK) {
+    //     //     setAttendance(MOCK_ATTENDANCE);
+    //     //     setCourseDist(MOCK_COURSE_DISTRIBUTION);
+    //     //     return;
+    //     // }
+    //     // if (!selectedCollege || !CurrentSession) return;
+    //     try {
+    //         const [byCollegeAndSession] = await Promise.all([
+    //             fetchAttendanceByCollegeAndSession("a", CurrentSession, token),
+    //         ]);
 
-            setAttendanceByCollegeAndSession(byCollegeAndSession);
-        } catch (err) {
-            setError(err.message || 'Failed to fetch attendance');
-        }
-    }, [CurrentSession, token]);
+    //         setAttendanceByCollegeAndSession(byCollegeAndSession);
+    //     } catch (err) {
+    //         setError(err.message || 'Failed to fetch attendance');
+    //     }
+    // }, [CurrentSession, token]);
+const refreshAttendance = useCallback(async () => {
+    if (!CurrentSession) return;
 
+    try {
+        const attendance = await fetchModeratorAttendanceBySession(
+            CurrentSession,
+            token
+        );
+
+        setAttendanceByCollegeAndSession([attendance]);
+    } catch (err) {
+        setError(err.message || "Failed to fetch attendance");
+    }
+}, [CurrentSession, token]);
 
     const refreshContentSkeletons = useCallback(async (query = {}) => {
         try {
@@ -563,16 +577,17 @@ export function useModer(token) {
                                                             // // refreshSchedules()
                     refreshSlots(),
                                                        // refreshContracts(),
-                    // refreshStudents(),
-                    // refreshCourses(),
+                    refreshStudents(),
+                    refreshCourses(),
                                                     // refreshTrainers(),
                                                     // refreshAllUsers(),
-                    // refreshSessions(),
+                    refreshSessions(),
                                                              // refreshModerators(),
-                    // refreshContentSkeletons(),
-                    // refreshContents(),
-                    // refreshAssessments(),
-                    // refreshFeedback(),
+                    refreshContentSkeletons(),
+                    refreshContents(),
+                    refreshAssessments(),
+                    refreshFeedback(),
+                    refreshAttendance(),
                                                           // refreshPerformance(),
                 ]);
                 // }

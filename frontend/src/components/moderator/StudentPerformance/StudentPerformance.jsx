@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useDashboard } from "../../../hooks/useDashboard";
+import { useModer } from "../../../hooks/useModer";
 import "./StudentPerformance.css";
 
 const StudentPerformancePage = ({ token }) => {
@@ -7,7 +7,7 @@ const StudentPerformancePage = ({ token }) => {
     Allstudents = [],
     StudentPerformance,
     getStuPerformance,
-  } = useDashboard(token);
+  } = useModer(token);
 
   const [selectedCourse, setSelectedCourse] = useState("all");
   const [search, setSearch] = useState("");

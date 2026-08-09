@@ -4,7 +4,7 @@ import CoursesTable from "./components/courseTable";
 // import NewCoursePage from "./components/NewCoursePage";
 import NewCoursePage from "./components/NewcoursePage";
 import UpdateCoursePage from "./components/UpdateCoursePage";
-import { useDashboard } from "../../../hooks/useDashboard";
+import { useModer } from "../../../hooks/useModer";
 
 import "./course.css";
 
@@ -23,7 +23,7 @@ export default function CoursesPage({ token }) {
     deleteCourse,
     updateCourse,
     createCourse,
-  } = useDashboard(token);
+  } = useModer(token);
 
   const formatDate = (date) => {
     if (!date) return "—";
@@ -94,28 +94,28 @@ export default function CoursesPage({ token }) {
     window.URL.revokeObjectURL(url);
   };
 
-  if (showNewCourse) {
-    return (
-      <NewCoursePage
-        token={token}
-        onBack={() => setShowNewCourse(false)}
-        AllColleges={colleges}
-        createCourse={createCourse}
-      />
-    );
-  }
+  // if (showNewCourse) {
+  //   return (
+  //     <NewCoursePage
+  //       token={token}
+  //       onBack={() => setShowNewCourse(false)}
+  //       AllColleges={colleges}
+  //       createCourse={createCourse}
+  //     />
+  //   );
+  // }
 
-  if (showUpdateCourse) {
-    return (
-      <UpdateCoursePage
-        token={token}
-        onBack={() => setShowUpdateCourse(false)}
-        course={selectedCourse}
-        AllColleges={colleges}
-        updateCourse={updateCourse}
-      />
-    );
-  }
+  // if (showUpdateCourse) {
+  //   return (
+  //     <UpdateCoursePage
+  //       token={token}
+  //       onBack={() => setShowUpdateCourse(false)}
+  //       course={selectedCourse}
+  //       AllColleges={colleges}
+  //       updateCourse={updateCourse}
+  //     />
+  //   );
+  // }
 
   return (
     <div className="courses-page">
@@ -133,12 +133,12 @@ export default function CoursesPage({ token }) {
             Export All
           </button>
 
-          <button
+          {/* <button
             className="btn-add-course"
             onClick={() => setShowNewCourse(true)}
           >
             + Add Course
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -176,7 +176,7 @@ export default function CoursesPage({ token }) {
           />
         </div>
 
-        <select
+        {/* <select
           className="college-filter"
           value={selectedCollege}
           onChange={(e) => setSelectedCollege(e.target.value)}
@@ -187,7 +187,7 @@ export default function CoursesPage({ token }) {
               {college.name}
             </option>
           ))}
-        </select>
+        </select> */}
 
         <button
           className="btn-export-csv"

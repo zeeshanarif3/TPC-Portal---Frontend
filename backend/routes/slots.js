@@ -17,7 +17,8 @@ const {
   getAnalytics,
   getAttendanceChartByCollege,
   getSubjectDistributionByCollege,
-  getAttendanceByCollegeAndSession
+  getAttendanceByCollegeAndSession,
+  getModeratorAttendanceBySession
 } = require('../controllers/slotController');
 
 // Middlewares
@@ -60,9 +61,11 @@ router.get('/analytics', verifyToken, moderatorMiddleware, getAnalytics);
 router.get('/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
 router.get('/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
 router.get('/college/:collegeId/session/:sessionId', verifyToken, adminModeratorMiddleware, getAttendanceByCollegeAndSession);
+
+router.get("/session/:sessionId/attendance",verifyToken ,adminModeratorMiddleware,getModeratorAttendanceBySession);
 router.post('/', verifyToken, adminModeratorMiddleware, createSlot);
 router.post('/append-slots-csv', verifyToken, adminModeratorMiddleware, appendSlotsViaCSV);
-router.get('/', verifyToken, getScheduleMiddleware, getAllSlots);
+router.get('/', verifyToken, getAllSlots);
 
 
 // Dynamic routes LAST

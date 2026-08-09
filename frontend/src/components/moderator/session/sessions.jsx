@@ -1,8 +1,8 @@
 // SessionsPage.jsx
 import { useMemo, useState } from "react";
 import SessionsTable from "./components/SessionsTable";
-import NewSessionPage from "./components/NewSessionPage";
-import UpdateSessionPage from "./components/UpdateSessionPage";
+// import NewSessionPage from "./components/NewSessionPage";
+// import UpdateSessionPage from "./components/UpdateSessionPage";
 import { useModer } from "../../../hooks/useModer";
 import "./sessions.css";
 
@@ -160,12 +160,12 @@ export default function SessionsPage({ token }) {
         <div className="header-actions">
 
 
-          <button
+          {/* <button
             className="btn-new-session"
             onClick={() => setShowNewSession(true)}
           >
             + New Session
-          </button>
+          </button> */}
         </div>
       </div>
 

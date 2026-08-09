@@ -85,6 +85,7 @@ export default function AttendanceTable({
   };
 
   const rows = useMemo(() => {
+    
     return attendance.map((record) => {
       const totalStudents = studentCounts[record.courseId?._id] ?? 0;
       const percentage =
@@ -170,24 +171,25 @@ export default function AttendanceTable({
 
   return (
     <div className="attendance-table-container">
-      {selected.length > 0 && (
+      {/* {selected.length > 0 && (
         <div className="attendance-bulk-bar">
           <span>{selected.length} selected</span>
 
           <button
             className="btn-delete-selected"
             onClick={handleBulkDelete}
-          >
+            >
             <Trash2 size={16} />
             Delete Selected
           </button>
         </div>
-      )}
+      )} */}
+
 
       <table className="attendance-table">
         <thead>
           <tr>
-            <th>
+            {/* <th>
               <input
                 type="checkbox"
                 checked={
@@ -196,7 +198,7 @@ export default function AttendanceTable({
                 }
                 onChange={selectAll}
               />
-            </th>
+            </th> */}
 
             <th onClick={() => toggleSort("date")}>
               ATTENDANCE ID <ArrowUpDown size={14} />
@@ -230,11 +232,13 @@ export default function AttendanceTable({
               HEAD COUNT <ArrowUpDown size={14} />
             </th>
 
-            <th className="actions-column">ACTIONS</th>
+            {/* <th className="actions-column">ACTIONS</th> */}
           </tr>
         </thead>
 
         <tbody>
+          {/* <pre>{JSON.stringify(sortedAttendance, null, 2)}</pre> */}
+          
           {sortedAttendance.map((record) => (
             <tr
               key={record._id}
@@ -244,13 +248,13 @@ export default function AttendanceTable({
                   : ""
               }
             >
-              <td>
+              {/* <td>
                 <input
                   type="checkbox"
                   checked={selected.includes(record._id)}
                   onChange={() => toggleSelection(record._id)}
                 />
-              </td>
+              </td> */}
 
               <td className="attendance-id">
                 <span title={record._id}>
@@ -304,7 +308,7 @@ export default function AttendanceTable({
                 </div>
               </td>
 
-              <td className="attendance-actions">
+              {/* <td className="attendance-actions">
                 <button
                   className="btn-action btn-edit"
                   title="Edit Attendance"
@@ -325,7 +329,7 @@ export default function AttendanceTable({
                     <Trash2 size={18} />
                   </button>
                 )}
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

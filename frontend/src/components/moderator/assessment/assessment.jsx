@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import NewAssessment from "./components/newassessment";
 import UpdateAssessment from "./components/updateAssessment";
-import { useDashboard } from "../../../hooks/useDashboard";
+import { useModer } from "../../../hooks/useModer";
 
 import "./assessment.css";
 
@@ -18,7 +18,7 @@ export default function Assessment({ token }) {
         deleteAssessment,
         // getAllAssessments, // optional, if your hook exposes it
         refresh
-    } = useDashboard(token);
+    } = useModer(token);
 
     const [showNewAssessment, setshowNewAssessment] = useState(false);
     const [editingAssessment, setEditingAssessment] = useState(null);
@@ -153,32 +153,32 @@ export default function Assessment({ token }) {
         );
     }
 
-    if (showNewAssessment) {
-        return (
-            <NewAssessment
-                token={token}
-                mode="create"
-                onBack={() => setshowNewAssessment(false)}
-                AllCourses={AllCourses}
-                AllContentSkeletons={AllContentSkeletons}
-                createAssessment={createAssessment}
-            />
-        );
-    }
+    // if (showNewAssessment) {
+    //     return (
+    //         <NewAssessment
+    //             token={token}
+    //             mode="create"
+    //             onBack={() => setshowNewAssessment(false)}
+    //             AllCourses={AllCourses}
+    //             AllContentSkeletons={AllContentSkeletons}
+    //             createAssessment={createAssessment}
+    //         />
+    //     );
+    // }
 
-    if (editingAssessment) {
-        return (
-            <UpdateAssessment
-                token={token}
-                mode="edit"
-                activeAssessment={editingAssessment}
-                onBack={() => setEditingAssessment(null)}
-                AllCourses={AllCourses}
-                AllContentSkeletons={AllContentSkeletons}
-                updateAssessment={updateAssessment}
-            />
-        );
-    }
+    // if (editingAssessment) {
+    //     return (
+    //         <UpdateAssessment
+    //             token={token}
+    //             mode="edit"
+    //             activeAssessment={editingAssessment}
+    //             onBack={() => setEditingAssessment(null)}
+    //             AllCourses={AllCourses}
+    //             AllContentSkeletons={AllContentSkeletons}
+    //             updateAssessment={updateAssessment}
+    //         />
+    //     );
+    // }
 
     return (
         <div className="assessment-page">
@@ -188,12 +188,12 @@ export default function Assessment({ token }) {
                     <p>Create, schedule and monitor assessments.</p>
                 </div>
 
-                <button
+                {/* <button
                     className="new-assessment-btn"
                     onClick={() => setshowNewAssessment(true)}
                 >
                     + New Assessment
-                </button>
+                </button> */}
             </div>
 
             <div className="assessment-stats">
@@ -297,9 +297,9 @@ export default function Assessment({ token }) {
                             </div>
 
                             <div className="assessment-actions">
-                                <button onClick={() => setEditingAssessment(assessment)}>
+                                {/* <button onClick={() => setEditingAssessment(assessment)}>
                                     Edit
-                                </button>
+                                </button> */}
 
                                 <button
                                     onClick={() => {
@@ -315,7 +315,7 @@ export default function Assessment({ token }) {
                                         : "Results"}
                                 </button>
 
-                                <button
+                                {/* <button
                                     className="delete-btn"
                                     disabled={deletingId === assessment._id}
                                     onClick={() => handleDeleteAssessment(assessment)}
@@ -323,7 +323,7 @@ export default function Assessment({ token }) {
                                     {deletingId === assessment._id
                                         ? "Deleting..."
                                         : "Delete"}
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     );

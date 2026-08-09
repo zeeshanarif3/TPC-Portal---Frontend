@@ -20,7 +20,7 @@ function Debug() {
     //     AllContents,
     //     ProgramStructure,
     // } = useStu(token);
-    // const {
+    const {
     //     colleges,
 
 
@@ -33,10 +33,10 @@ function Debug() {
     //     Analytics,
     //     AttendanceChart,
     //     SubjectDistributionAttendance,
-    //     AttendanceByCollegeAndSession,
+        AttendanceByCollegeAndSession,
 
     //     // slots
-    //     AllSlots,
+        AllSlots,
     //     UpcomingSlotsByColl,
 
     //     fetchSlotById,
@@ -52,23 +52,23 @@ function Debug() {
 
 
     //     // sessions
-    //     AllSessions,
+        AllSessions,
     //     setCurrentSession,
     //     CurrentSession,
 
     //     // students
-    //     Allstudents,
+        Allstudents,
 
     //     fetchStudentsByCourse,
 
     //     // courses
-    //     AllCourses,
+        AllCourses,
     //     fetchCourseById,
 
-    //     AllContentSkeletons,
+        AllContentSkeletons,
 
     //     // Content
-    //     AllContents,
+        AllContents,
     //     ProgramStructure,
 
     //     previewContent,
@@ -89,7 +89,7 @@ function Debug() {
     //     getStuPerformance,    
     
     
-    // } = useModer(token);
+    } = useModer(token);
     
     
     // const {
@@ -257,136 +257,73 @@ function Debug() {
                 <br />
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
                 <br />
-        colleges,
 
-
-        stats,
-
-        loading,
-        error,
-
-        UpcomingClasses,
-        Analytics,
-        AttendanceChart,
-        SubjectDistributionAttendance,
-        AttendanceByCollegeAndSession,
-
-        // slots
-        AllSlots,
-        UpcomingSlotsByColl,
-
-        fetchSlotById,
-        fetchAttendanceById,
-        // submitAttendance,
-        fetchUpcomingClasses,
-        fetchSlotAnalytics,
-
-        selectedDate,
-        setSelectedDate,
-
-
-
-
-        // sessions
-        AllSessions,
-        setCurrentSession,
-        CurrentSession,
-
-        // students
-        Allstudents,
-
-        fetchStudentsByCourse,
-
-        // courses
-        AllCourses,
-        fetchCourseById,
-
-        AllContentSkeletons,
-
-        // Content
-        AllContents,
-        ProgramStructure,
-
-        previewContent,
-
-
-        // Assessments,
-        AllAssessments,
-        AssessmentSubmissions,
-        getAssessmentSubmissions,
-
-
-        // Feedback
-        AllFeedback,
-
-
-        // performance
-        StudentPerformance,
-        getStuPerformance,    
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 
                  {/* <br />
-                    colleges
+                    AllSlots
+                <br /> */}
+                 {/* <pre>{JSON.stringify(AllSlots, null, 2)}</pre> */}
+                {/* <br />
                 <br />
-                <br />
-                <br />
-                <br />
-                -colleges :
+                <br /> */}
+                {/* Allstudents :
                 
-                 <pre>{JSON.stringify(colleges, null, 2)}</pre>
+                 <pre>{JSON.stringify(Allstudents, null, 2)}</pre>  */}
                 <br />
+                {/* <br />
                 <br />
-                <br />
-                stats :
+                AllCourses :
                 
-                 <pre>{JSON.stringify(stats, null, 2)}</pre> 
+                 <pre>{JSON.stringify(AllCourses, null, 2)}</pre> 
                 <br />
-                <br />
-                <br />
-                AttendanceChart :
-                
-                 <pre>{JSON.stringify(AttendanceChart, null, 2)}</pre> 
-                <br />
-                <br />
+                <br /> */}
                 <br /> 
-                SubjectDistribution :
-                
-                 <pre>{JSON.stringify(SubjectDistribution, null, 2)}</pre> 
-                <br />
-                <br />
-                <br /> 
-                AllSessions :
+                {/* AllSessions :
                 
                  <pre>{JSON.stringify(AllSessions, null, 2)}</pre> 
                 <br />
                 <br />
                 <br /> 
-                CurrentSession :
                 
-                 <pre>{JSON.stringify(CurrentSession, null, 2)}</pre> 
+                AllContentSkeletons:
+                
+                 <pre>{JSON.stringify(AllContentSkeletons, null, 2)}</pre> 
+                <br />                
                 <br />
+                <br /> */}
+                AllContents :
+                
+                 <pre>{JSON.stringify(AllContents, null, 2)}</pre> 
                 <br />
                 <br /> 
+                <br /> 
+                AttendanceByCollegeAndSession :
+                
+                 <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> 
+                <br />
+                <br />
+                {/* <br /> 
                 AllSlots :
                 
                  <pre>{JSON.stringify(AllSlots, null, 2)}</pre> 
                  {console.log(AllSlots)}
+                <br /> */}
                 <br />
-                <br />
-                <br /> 
+                {/* <br /> 
                 UpcomingSlotsByColl :
                 
                  <pre>{JSON.stringify(UpcomingSlotsByColl, null, 2)}</pre> 
+                <br /> */}
+                <br />
+                {/* <br /> 
+                Allstudents :
+                
+                 <pre>{JSON.stringify(Allstudents, null, 2)}</pre>  */}
                 <br />
                 <br />
                 <br /> 
-                Allstudents :
-                
-                 <pre>{JSON.stringify(Allstudents, null, 2)}</pre> 
-                <br />
-                <br />
-                <br />  */}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
 {/* 

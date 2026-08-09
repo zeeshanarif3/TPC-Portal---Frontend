@@ -1,7 +1,7 @@
 
 import { useMemo, useState } from "react";
 import "./feedback.css";
-import { useDashboard } from "../../../hooks/useDashboard";
+import { useModer } from "../../../hooks/useModer";
 import NewFeedback from "./components/newfeedback";
 import UpdateFeedback from "./components/updatefeedback";
 import {
@@ -48,7 +48,7 @@ export default function FeedbackList({ token }) {
         refresh,
         AllContentSkeletons,
         deleteFeedback,
-    } = useDashboard(token);
+    } = useModer(token);
 
     const feedbackData = useMemo(
         () => normalizeFeedbackInput(AllFeedback),
@@ -135,34 +135,34 @@ export default function FeedbackList({ token }) {
             setDeletingId(null);
         }
     }
-    if (showNewFeedback) {
-        return (
-            <NewFeedback
-                token={token}
-                AllContentSkeletons={AllContentSkeletons}
-                onBack={() => setShowNewFeedback(false)}
-                onSuccess={() => {
-                    refresh();
-                    setShowNewFeedback(false);
-                }}
-            />
-        );
-    }
+    // if (showNewFeedback) {
+    //     return (
+    //         <NewFeedback
+    //             token={token}
+    //             AllContentSkeletons={AllContentSkeletons}
+    //             onBack={() => setShowNewFeedback(false)}
+    //             onSuccess={() => {
+    //                 refresh();
+    //                 setShowNewFeedback(false);
+    //             }}
+    //         />
+    //     );
+    // }
 
-    if (editingFeedback) {
-        return (
-            <UpdateFeedback
-                token={token}
-                feedback={editingFeedback}
-                AllContentSkeletons={AllContentSkeletons}
-                onSuccess={() => {
-                    refresh();
-                    setEditingFeedback(null);
-                }}
-                onCancel={() => setEditingFeedback(null)}
-            />
-        );
-    }
+    // if (editingFeedback) {
+    //     return (
+    //         <UpdateFeedback
+    //             token={token}
+    //             feedback={editingFeedback}
+    //             AllContentSkeletons={AllContentSkeletons}
+    //             onSuccess={() => {
+    //                 refresh();
+    //                 setEditingFeedback(null);
+    //             }}
+    //             onCancel={() => setEditingFeedback(null)}
+    //         />
+    //     );
+    // }
 
     return (
         <div className="feedback-list-page">
@@ -176,12 +176,12 @@ export default function FeedbackList({ token }) {
                         </p>
                     </div>
 
-                    <button
+                    {/* <button
                         className="btn-add-course"
                         onClick={() => setShowNewFeedback(true)}
                     >
                         + Add feedback
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className="feedback-list-stat-feeds">
@@ -316,7 +316,7 @@ export default function FeedbackList({ token }) {
                                                 {formatDate(item.date || item.createdAt)}
                                             </span>
 
-                                            <div className="feedback-actions">
+                                            {/* <div className="feedback-actions">
                                                 <button
                                                     type="button"
                                                     className="btn-action btn-edit"
@@ -335,7 +335,7 @@ export default function FeedbackList({ token }) {
                                                         ? "Deleting..."
                                                         : <Trash2 />}
                                                 </button>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
 

@@ -258,7 +258,7 @@ export default function SchedulesCalendar({
 
                       {schedule.topic && <div>{schedule.topic}</div>}
 
-                      {hoveredSlot === `${day}-${hour}` && (
+                      {/* {hoveredSlot === `${day}-${hour}` && (
                         <div className="card-actions">
                           <button
                             className="btn-edit-card"
@@ -277,7 +277,7 @@ export default function SchedulesCalendar({
                             <Trash2 size={14} />
                           </button>
                         </div>
-                      )}
+                      )} */}
                     </div>
                   ))}
                 </div>

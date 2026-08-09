@@ -1,15 +1,27 @@
 import { useState, useMemo } from 'react';
-import { useDashboard } from "../../../hooks/useDashboard";
+import { useModer } from "../../../hooks/useModer";
 import ContentManager from './components/newcontent';
 import PDFPreviewModal from "./components/PDFPreviewModal";
 import UpdateContentSkeleton from "./components/UpdateContentSkeleton";
+
 import {
     Pencil,
     Upload,
     Trash2,
     LoaderCircle,
+    FolderOpen,
+    GraduationCap,
+    CalendarDays,
+    Clock3,
+    Files,
+    ChevronDown,
+    ChevronUp,
+    Eye,
+    Download,
+    FileText,
+    Video,
+    File,
 } from "lucide-react";
-
 import './content.css';
 
 const STATUS_FILTERS = ['All', 'Draft', 'Published'];
@@ -66,7 +78,7 @@ export default function Content({ token }) {
         deleteContent,
         previewContent,
         downloadContent,
-    } = useDashboard(token);
+    } = useModer(token);
 
     const [showManager, setShowManager] = useState(false);
     const [updateManager, setupdateManager] = useState(false);
@@ -352,10 +364,10 @@ export default function Content({ token }) {
                     <h1>Content Library</h1>
                     <p className="cl-subtitle">Manage content skeletons, uploaded files and program resources.</p>
                 </div>
-                <div className="cl-header-actions">
+                {/* <div className="cl-header-actions">
                     <button className="btn btn-secondary" onClick={openNewSkeleton}>+ New Skeleton</button>
                     <button className="btn btn-primary" onClick={() => openUpload(null)}>+ Upload Content</button>
-                </div>
+                </div> */}
             </div>
 
             <div className="cl-stats">
@@ -416,7 +428,7 @@ export default function Content({ token }) {
                 </select>
             </div>
 
-            <div className="cl-table-wrap">
+            {/* <div className="cl-table-wrap">
                 {filteredSkeletons.length === 0 ? (
                     <div className="cl-empty">
                         <div className="cl-empty-icon">📂</div>
@@ -470,24 +482,7 @@ export default function Content({ token }) {
                                                 )}
                                             </td>
                                             <td>{formatDate(skeleton.timeline?.deadline)}</td>
-                                            {/* <td className="cl-actions" onClick={(e) => e.stopPropagation()}>
-                                                <button
-                                                    className="icon-btn"
-                                                    title="Edit Skeleton"
-                                                    onClick={() => openUpdateSkeleton(skeleton)}
-                                                >✏️</button>
-                                                <button
-                                                    className="icon-btn"
-                                                    title="Upload Content"
-                                                    onClick={() => openUpload(skeleton)}
-                                                >📤</button>
-                                                <button
-                                                    className="icon-btn icon-btn-danger"
-                                                    title="Delete Skeleton"
-                                                    disabled={deletingId === skeleton._id}
-                                                    onClick={() => handleDelete(skeleton)}
-                                                >{deletingId === skeleton._id ? '…' : '🗑'}</button>
-                                            </td> */}
+
                                             <td
                                                 className="cl-actions"
                                                 onClick={(e) => e.stopPropagation()}
@@ -589,36 +584,8 @@ export default function Content({ token }) {
                                                                                         >{deletingFileId === file._id ? '…' : '🗑'}
                                                                                         </button> */}
 
-                                                                                {/* <StatusBadge status={file.status} />
+            {/* <StatusBadge status={file.status} />
 
-                                                                                <div className="cl-file-actions">
-
-                                                                                    <button
-                                                                                        className="icon-btn"
-                                                                                        title="Preview"
-                                                                                        onClick={() => handlePreviewFile(file)}
-                                                                                    >
-                                                                                        👁
-                                                                                    </button>
-
-                                                                                    <button
-                                                                                        className="icon-btn"
-                                                                                        title="Download"
-                                                                                        onClick={() => handleDownloadFile(file)}
-                                                                                    >
-                                                                                        ⬇
-                                                                                    </button>
-
-                                                                                    <button
-                                                                                        className="icon-btn icon-btn-danger"
-                                                                                        title="Delete File"
-                                                                                        disabled={deletingFileId === file._id}
-                                                                                        onClick={() => handleDeleteFile(file)}
-                                                                                    >
-                                                                                        {deletingFileId === file._id ? "…" : "🗑"}
-                                                                                    </button>
-
-                                                                                </div> */}
                                                                                 <StatusBadge status={file.status} />
 
                                                                                 <div className="cl-file-actions">
@@ -679,6 +646,588 @@ export default function Content({ token }) {
                             })}
                         </tbody>
                     </table>
+                )}
+            </div> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div className="cl-card-wrap">
+                {filteredSkeletons.length === 0 ? (
+                    <div className="cl-empty">
+                        <div className="cl-empty-icon">
+                            <FolderOpen size={42} strokeWidth={1.6} />
+                        </div>
+
+                        <h3>No content has been created yet.</h3>
+
+                        <p>
+                            Create your first content skeleton to begin.
+                        </p>
+
+                        <button
+                            className="btn btn-primary"
+                            onClick={openNewSkeleton}
+                        >
+                            + New Skeleton
+                        </button>
+                    </div>
+                ) : (
+                    <div className="cl-card-grid">
+                        {filteredSkeletons.map((skeleton) => {
+                            const contents = getContentsForSkeleton(skeleton._id);
+                            const isExpanded = expandedId === skeleton._id;
+
+                            return (
+                                <article
+                                    className={`content-skeleton-card ${isExpanded ? "is-expanded" : ""
+                                        }`}
+                                    key={skeleton._id}
+                                >
+                                    {/* =====================================================
+                            CARD HEADER
+                        ====================================================== */}
+                                    <div className="skeleton-card-header">
+
+                                        <div className="skeleton-card-class">
+                                            <span className="class-label">
+                                                CLASS
+                                            </span>
+
+                                            <span className="class-number">
+                                                {skeleton.classNumber}
+                                            </span>
+                                        </div>
+
+                                        <div className="skeleton-card-badges">
+                                            <span className="format-badge">
+                                                {skeleton.expectedFormat?.toUpperCase()}
+                                            </span>
+
+                                            <StatusBadge
+                                                status={skeleton.status}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* =====================================================
+                            TITLE
+                        ====================================================== */}
+                                    <div className="skeleton-card-title-section">
+
+                                        <h3>
+                                            {skeleton.title}
+                                        </h3>
+
+                                        <p>
+                                            {skeleton.metadata?.topic ||
+                                                "No topic specified"}
+                                        </p>
+
+                                    </div>
+
+                                    {/* =====================================================
+                            PROGRAM
+                        ====================================================== */}
+                                    <div className="skeleton-program">
+
+                                        <div className="skeleton-info-icon">
+                                            <GraduationCap
+                                                size={18}
+                                                strokeWidth={1.8}
+                                            />
+                                        </div>
+
+                                        <div className="skeleton-program-info">
+                                            <span className="info-label">
+                                                PROGRAM
+                                            </span>
+
+                                            <strong>
+                                                {getProgramName(
+                                                    skeleton.programId
+                                                )}
+                                            </strong>
+
+                                            {getCollegeName(
+                                                skeleton.programId
+                                            ) && (
+                                                    <small>
+                                                        {getCollegeName(
+                                                            skeleton.programId
+                                                        )}
+                                                    </small>
+                                                )}
+                                        </div>
+
+                                    </div>
+
+                                    {/* =====================================================
+                            META INFORMATION
+                        ====================================================== */}
+                                    <div className="skeleton-meta-grid">
+
+                                        <div className="skeleton-meta-item">
+
+                                            <CalendarDays
+                                                size={16}
+                                                strokeWidth={1.8}
+                                            />
+
+                                            <div>
+                                                <span>
+                                                    Scheduled
+                                                </span>
+
+                                                <strong>
+                                                    {formatDate(
+                                                        skeleton.timeline
+                                                            ?.scheduledDate
+                                                    )}
+                                                </strong>
+                                            </div>
+
+                                        </div>
+
+                                        <div className="skeleton-meta-item">
+
+                                            <Clock3
+                                                size={16}
+                                                strokeWidth={1.8}
+                                            />
+
+                                            <div>
+                                                <span>
+                                                    Deadline
+                                                </span>
+
+                                                <strong>
+                                                    {formatDate(
+                                                        skeleton.timeline
+                                                            ?.deadline
+                                                    )}
+                                                </strong>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    {/* =====================================================
+                            FILE SUMMARY
+                        ====================================================== */}
+                                    <div className="skeleton-file-summary">
+
+                                        <div className="file-summary-left">
+
+                                            <div className="file-summary-icon">
+                                                <Files
+                                                    size={18}
+                                                    strokeWidth={1.8}
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <strong>
+                                                    {contents.length}
+                                                </strong>
+
+                                                <span>
+                                                    {contents.length === 1
+                                                        ? "uploaded file"
+                                                        : "uploaded files"}
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        {contents.length === 0 ? (
+                                            <span className="no-upload-badge">
+                                                No Upload
+                                            </span>
+                                        ) : (
+                                            <span className="uploaded-badge">
+                                                Uploaded
+                                            </span>
+                                        )}
+
+                                    </div>
+
+                                    {/* =====================================================
+                            ACTION BAR
+                        ====================================================== */}
+                                    <div className="skeleton-card-actions">
+
+                                        {/* <button
+                                            className="card-action-btn"
+                                            title="Edit Skeleton"
+                                            onClick={() =>
+                                                openUpdateSkeleton(skeleton)
+                                            }
+                                        >
+                                            <Pencil
+                                                size={16}
+                                                strokeWidth={1.9}
+                                            />
+
+                                            <span>Edit</span>
+                                        </button>
+
+                                        <button
+                                            className="card-action-btn"
+                                            title="Upload Content"
+                                            onClick={() =>
+                                                openUpload(skeleton)
+                                            }
+                                        >
+                                            <Upload
+                                                size={16}
+                                                strokeWidth={1.9}
+                                            />
+
+                                            <span>Upload</span>
+                                        </button> */}
+
+                                        <button
+                                            className={`card-action-btn ${isExpanded
+                                                    ? "active"
+                                                    : ""
+                                                }`}
+                                            onClick={() =>
+                                                setExpandedId(
+                                                    isExpanded
+                                                        ? null
+                                                        : skeleton._id
+                                                )
+                                            }
+                                        >
+                                            {isExpanded ? (
+                                                <ChevronUp
+                                                    size={16}
+                                                    strokeWidth={1.9}
+                                                />
+                                            ) : (
+                                                <ChevronDown
+                                                    size={16}
+                                                    strokeWidth={1.9}
+                                                />
+                                            )}
+
+                                            <span>
+                                                {isExpanded
+                                                    ? "Collapse"
+                                                    : "Details"}
+                                            </span>
+                                        </button>
+
+                                        {/* <button
+                                            className="card-action-btn card-action-danger"
+                                            title="Delete Skeleton"
+                                            disabled={
+                                                deletingId === skeleton._id
+                                            }
+                                            onClick={() =>
+                                                handleDelete(skeleton)
+                                            }
+                                        >
+                                            {deletingId === skeleton._id ? (
+                                                <LoaderCircle
+                                                    size={16}
+                                                    className="spin"
+                                                />
+                                            ) : (
+                                                <Trash2
+                                                    size={16}
+                                                    strokeWidth={1.9}
+                                                />
+                                            )}
+
+                                            <span>Delete</span>
+                                        </button> */}
+
+                                    </div>
+
+                                    {/* =====================================================
+                            EXPANDED CONTENT
+                        ====================================================== */}
+                                    {isExpanded && (
+                                        <div className="skeleton-expanded">
+
+                                            <div className="expanded-divider" />
+
+                                            {/* DETAILS */}
+                                            <div className="expanded-details">
+
+                                                <div className="expanded-detail">
+                                                    <span>
+                                                        Description
+                                                    </span>
+
+                                                    <p>
+                                                        {skeleton.metadata
+                                                            ?.description ||
+                                                            "No description provided."}
+                                                    </p>
+                                                </div>
+
+                                                <div className="expanded-detail">
+                                                    <span>
+                                                        Duration
+                                                    </span>
+
+                                                    <p>
+                                                        {skeleton.metadata
+                                                            ?.durationMinutes ||
+                                                            0}{" "}
+                                                        minutes
+                                                    </p>
+                                                </div>
+
+                                                <div className="expanded-detail">
+                                                    <span>
+                                                        Tags
+                                                    </span>
+
+                                                    <div className="tag-list">
+                                                        {(skeleton.metadata
+                                                            ?.tags || []
+                                                        ).length > 0 ? (
+                                                            skeleton.metadata.tags.map(
+                                                                (tag) => (
+                                                                    <span
+                                                                        key={tag}
+                                                                        className="content-tag"
+                                                                    >
+                                                                        #{tag}
+                                                                    </span>
+                                                                )
+                                                            )
+                                                        ) : (
+                                                            <span className="muted-text">
+                                                                No tags
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            {/* FILES */}
+                                            <div className="expanded-files">
+
+                                                <div className="expanded-section-header">
+
+                                                    <div>
+                                                        <h4>
+                                                            Uploaded Content
+                                                        </h4>
+
+                                                        <span>
+                                                            {contents.length}{" "}
+                                                            {contents.length === 1
+                                                                ? "file"
+                                                                : "files"}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* <button
+                                                        className="btn btn-sm btn-secondary"
+                                                        onClick={() =>
+                                                            openUpload(
+                                                                skeleton
+                                                            )
+                                                        }
+                                                    >
+                                                        <Upload
+                                                            size={14}
+                                                        />
+
+                                                        Upload
+                                                    </button> */}
+
+                                                </div>
+
+                                                {contents.length === 0 ? (
+                                                    <div className="expanded-no-files">
+
+                                                        <Files
+                                                            size={28}
+                                                            strokeWidth={1.5}
+                                                        />
+
+                                                        <div>
+                                                            <strong>
+                                                                No files uploaded
+                                                            </strong>
+
+                                                            <span>
+                                                                Upload the first
+                                                                resource for this
+                                                                skeleton.
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                ) : (
+                                                    <div className="expanded-file-list">
+
+                                                        {contents.map((file) => {
+                                                            const kind =
+                                                                fileKind(
+                                                                    file.mimeType
+                                                                );
+
+                                                            return (
+                                                                <div
+                                                                    className="expanded-file"
+                                                                    key={file._id}
+                                                                >
+
+                                                                    <div className="expanded-file-icon">
+                                                                        {kind.label ===
+                                                                            "PDF" ? (
+                                                                            <FileText
+                                                                                size={
+                                                                                    19
+                                                                                }
+                                                                            />
+                                                                        ) : kind.label ===
+                                                                            "VIDEO" ? (
+                                                                            <Video
+                                                                                size={
+                                                                                    19
+                                                                                }
+                                                                            />
+                                                                        ) : (
+                                                                            <File
+                                                                                size={
+                                                                                    19
+                                                                                }
+                                                                            />
+                                                                        )}
+                                                                    </div>
+
+                                                                    <div className="expanded-file-info">
+
+                                                                        <strong>
+                                                                            {
+                                                                                file.fileName
+                                                                            }
+                                                                        </strong>
+
+                                                                        <span>
+                                                                            {
+                                                                                kind.label
+                                                                            }{" "}
+                                                                            · v
+                                                                            {
+                                                                                file.version
+                                                                            }{" "}
+                                                                            ·{" "}
+                                                                            {formatFileSize(
+                                                                                file.fileSize
+                                                                            )}
+                                                                        </span>
+
+                                                                    </div>
+
+                                                                    <StatusBadge
+                                                                        status={
+                                                                            file.status
+                                                                        }
+                                                                    />
+
+                                                                    <div className="expanded-file-actions">
+
+                                                                        <button
+                                                                            className="icon-btn"
+                                                                            title="Preview"
+                                                                            onClick={() =>
+                                                                                handlePreviewFile(
+                                                                                    file
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <Eye
+                                                                                size={
+                                                                                    16
+                                                                                }
+                                                                            />
+                                                                        </button>
+
+                                                                        <button
+                                                                            className="icon-btn"
+                                                                            title="Download"
+                                                                            onClick={() =>
+                                                                                handleDownloadFile(
+                                                                                    file
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <Download
+                                                                                size={
+                                                                                    16
+                                                                                }
+                                                                            />
+                                                                        </button>
+
+                                                                        {/* <button
+                                                                            className="icon-btn icon-btn-danger"
+                                                                            title="Delete"
+                                                                            disabled={
+                                                                                deletingFileId ===
+                                                                                file._id
+                                                                            }
+                                                                            onClick={() =>
+                                                                                handleDeleteFile(
+                                                                                    file
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            {deletingFileId ===
+                                                                                file._id ? (
+                                                                                <LoaderCircle
+                                                                                    size={
+                                                                                        16
+                                                                                    }
+                                                                                    className="spin"
+                                                                                />
+                                                                            ) : (
+                                                                                <Trash2
+                                                                                    size={
+                                                                                        16
+                                                                                    }
+                                                                                />
+                                                                            )}
+                                                                        </button> */}
+
+                                                                    </div>
+
+                                                                </div>
+                                                            );
+                                                        })}
+
+                                                    </div>
+                                                )}
+
+                                            </div>
+
+                                        </div>
+                                    )}
+                                </article>
+                            );
+                        })}
+                    </div>
                 )}
             </div>
             {/* <PDFPreviewModal

@@ -10,7 +10,7 @@ import useTable from "../../hook/useTable";
 
 export default function SessionsTable({
   sessions = [],
-  onDelete,
+  // onDelete,
   onRefresh,
   token,
   setShowUpdateSession,
@@ -97,10 +97,9 @@ export default function SessionsTable({
 
       if (
         !window.confirm(
-          `Delete ${selected.length} session${
-            selected.length === 1
-              ? ""
-              : "s"
+          `Delete ${selected.length} session${selected.length === 1
+            ? ""
+            : "s"
           }?`
         )
       )
@@ -116,41 +115,41 @@ export default function SessionsTable({
 
   return (
     <div className="sessions-table-container">
-      {selected.length > 0 && (
-        <div className="sessions-bulk-bar">
-          <span>
-            {selected.length} selected
-          </span>
+      {/* {selected.length > 0 && ( */}
+        {/* // <div className="sessions-bulk-bar">
+        //   <span>
+        //     {selected.length} selected
+        //   </span>
 
-          <button
-            className="btn-delete-selected"
-            onClick={
-              handleBulkDelete
-            }
-          >
-            <Trash2 size={16} />
-            Delete Selected
-          </button>
-        </div>
-      )}
+        //   <button
+        //     className="btn-delete-selected"
+        //     onClick={
+        //       handleBulkDelete
+        //     }
+        //   >
+        //     <Trash2 size={16} />
+        //     Delete Selected
+        //   </button> 
+        // </div> */}
+      {/* )} */}
 
       <table className="sessions-table">
         <thead>
           <tr>
-            <th>
+            {/* <th>
               <input
                 type="checkbox"
                 checked={
                   sortedSessions.length >
-                    0 &&
+                  0 &&
                   selected.length ===
-                    sortedSessions.length
+                  sortedSessions.length
                 }
                 onChange={
                   selectAll
                 }
               />
-            </th>
+            </th> */}
 
             <th
               onClick={() =>
@@ -214,9 +213,9 @@ export default function SessionsTable({
               <ArrowUpDown size={14} />
             </th>
 
-            <th className="actions-column">
+            {/* <th className="actions-column">
               ACTIONS
-            </th>
+            </th> */}
           </tr>
         </thead>
 
@@ -245,7 +244,7 @@ export default function SessionsTable({
                       : ""
                   }
                 >
-                  <td>
+                  {/* <td>
                     <input
                       type="checkbox"
                       checked={selected.includes(
@@ -257,7 +256,7 @@ export default function SessionsTable({
                         )
                       }
                     />
-                  </td>
+                  </td> */}
 
                   <td className="session-id">
                     <span
@@ -305,7 +304,7 @@ export default function SessionsTable({
 
                   <td>
                     {courses.length >
-                    0 ? (
+                      0 ? (
                       <div className="session-courses">
                         {courses
                           .slice(
@@ -332,13 +331,13 @@ export default function SessionsTable({
 
                         {courses.length >
                           2 && (
-                          <span className="course-chip course-more">
-                            +
-                            {courses.length -
-                              2}{" "}
-                            more
-                          </span>
-                        )}
+                            <span className="course-chip course-more">
+                              +
+                              {courses.length -
+                                2}{" "}
+                              more
+                            </span>
+                          )}
                       </div>
                     ) : (
                       "—"
@@ -352,7 +351,7 @@ export default function SessionsTable({
                       {status}
                     </span>
                   </td>
-
+                  {/* 
                   <td className="session-actions">
                     <button
                       className="btn-action btn-edit"
@@ -378,7 +377,7 @@ export default function SessionsTable({
                     >
                       <Trash2 />
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               );
             }
@@ -388,18 +387,18 @@ export default function SessionsTable({
 
       {sessions.length ===
         0 && (
-        <div className="no-data">
-          <h3>
-            No sessions
-            found
-          </h3>
-          <p>
-            Try changing
-            the search or
-            status filter.
-          </p>
-        </div>
-      )}
+          <div className="no-data">
+            <h3>
+              No sessions
+              found
+            </h3>
+            <p>
+              Try changing
+              the search or
+              status filter.
+            </p>
+          </div>
+        )}
     </div>
   );
 }

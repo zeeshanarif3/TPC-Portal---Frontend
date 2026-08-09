@@ -3,7 +3,7 @@ import StudentsTable from "./components/StudentsTable";
 import NewStudentPage from "./components/NewStudentPage";
 import UpdateStudentPage from "./components/UpdateStudentPage";
 import CSVScheduleUpload from "./components/CSVScheduleUpload";
-import { useDashboard } from "../../../hooks/useDashboard";
+import { useModer } from "../../../hooks/useModer";
 import "./students.css";
 
 export default function StudentsPage({ token }) {
@@ -26,7 +26,7 @@ export default function StudentsPage({ token }) {
     updateStudent,
     deleteStudent,
     refreshStudents,
-  } = useDashboard(token);
+  } = useModer(token);
 
 
   const filteredStudents = useMemo(() => {
@@ -110,30 +110,30 @@ export default function StudentsPage({ token }) {
   }
 
 
-  if (showNewStudent) {
-    return (
-      <NewStudentPage
-        token={token}
-        onBack={() => setShowNewStudent(false)}
-        createStudent={createStudent}
-        courses={AllCourses}
-        setShowCSVScheduleUpload={setShowCSVScheduleUpload}
-        setShowNewStudent={setShowNewStudent}
-      />
-    );
-  }
+  // if (showNewStudent) {
+  //   return (
+  //     <NewStudentPage
+  //       token={token}
+  //       onBack={() => setShowNewStudent(false)}
+  //       createStudent={createStudent}
+  //       courses={AllCourses}
+  //       setShowCSVScheduleUpload={setShowCSVScheduleUpload}
+  //       setShowNewStudent={setShowNewStudent}
+  //     />
+  //   );
+  // }
 
-  if (showUpdateStudent) {
-    return (
-      <UpdateStudentPage
-        token={token}
-        onBack={() => setShowUpdateStudent(false)}
-        student={selectedStudentData}
-        updateStudent={updateStudent}
-        courses={AllCourses}
-      />
-    );
-  }
+  // if (showUpdateStudent) {
+  //   return (
+  //     <UpdateStudentPage
+  //       token={token}
+  //       onBack={() => setShowUpdateStudent(false)}
+  //       student={selectedStudentData}
+  //       updateStudent={updateStudent}
+  //       courses={AllCourses}
+  //     />
+  //   );
+  // }
 
 
 
@@ -155,12 +155,12 @@ export default function StudentsPage({ token }) {
             Refresh
           </button> */}
 
-          <button
+          {/* <button
             className="btn-add-student"
             onClick={() => setShowNewStudent(true)}
           >
             + Add Student
-          </button>
+          </button> */}
         </div>
       </div>
 
