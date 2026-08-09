@@ -32,7 +32,7 @@ const studentRoutes = require('./routes/students');
 const sessionRoutes = require('./routes/sessions');
 const contractRoutes = require('./routes/contracts');
 const scheduleRoutes = require('./routes/schedules');
-const attendanceRoutes = require('./routes/attendance');
+// const attendanceRoutes = require('./routes/attendance');
 const dashboardRoutes = require('./routes/dashboard');
 
 app.use('/api/auth', authRoutes);

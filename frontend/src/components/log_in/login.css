@@ -174,7 +174,7 @@ body {
 }
 
 /* animated border light */
-
+/* 
 .lp-card::before {
     content: "";
 
@@ -203,9 +203,9 @@ body {
     position: absolute;
     inset: 4px;
 
-    background: white;
+    background: var(--bg-primary);
     border-radius: 20px;
-}
+} */
 
 .lp-card > * {
     position: relative;
@@ -342,7 +342,7 @@ body {
     font-size: 25px;
 
     padding: 10px 0;
-
+    background: white;
     outline: none;
 
     transition:

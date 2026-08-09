@@ -1,5 +1,10 @@
 import Admin_portal from "./admin/Admin_portal";
 import Trainer_portal from "./Trainer/Trainer_portal";
+import Student_portal from "./student/Student_portal";
+import Moderator_portal from "./moderator/Moderator_portal";
+
+
+
 import LandingPage from "./login/LabdingPage";
 import { useState, useEffect } from 'react';
 import useLenis from "../hooks/useLenis";
@@ -109,14 +114,14 @@ function Main({t}) {   //comment this , its for debug purposes
                         />
                     )}
                     {((user.role === "moderator"))  && (
-                        <Trainer_portal
+                        <Moderator_portal
                             token={token}
                             user={user}
                             handleLogout={handleLogout}
                         />
                     )}
                     {((user.role === "student"))  && (
-                        <Trainer_portal
+                        <Student_portal
                             token={token}
                             user={user}
                             handleLogout={handleLogout}

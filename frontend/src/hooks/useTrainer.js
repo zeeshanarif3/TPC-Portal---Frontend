@@ -7,6 +7,64 @@ import {
     fetchStudentsByCourse,
     submitAttendance,
     fetchUpcomingClasses,
+    fetchCourses,
+
+
+
+
+
+
+    // ==========================
+    // Content Skeleton
+    // ==========================
+    createContentSkeleton,
+    fetchContentSkeletons,
+    fetchContentSkeletonById,
+    updateContentSkeleton,
+    deleteContentSkeleton,
+
+    // ==========================
+    // Content
+    // ==========================
+    createContent,
+    fetchContents,
+    fetchContentById,
+    updateContent,
+    deleteContent,
+    // downloadContent,
+    fetchProgramStructure,
+    handlePreviewFile,
+    handleDownloadFile,
+
+    // ==========================
+    // Assessments
+    // ==========================
+    createAssessment,
+    fetchAssessments,
+    fetchAssessmentById,
+    updateAssessment,
+    deleteAssessment,
+
+    // Assessment Submissions
+    submitAssessment,
+    fetchMyAssessmentSubmission,
+    fetchAssessmentSubmissions,
+
+    // ==========================
+    // Feedback
+    // ==========================
+    createFeedback,
+    fetchFeedback,
+    // fetchMyFeedback,
+    updateFeedback,
+    deleteFeedback,
+
+    // ==========================
+    // Performance
+    // ==========================
+    // fetchMyPerformance,
+    fetchStudentPerformance,
+
 } from "../services/dashboardapi";
 
 export function useTrainer(token) {
@@ -18,6 +76,31 @@ export function useTrainer(token) {
     const [AllUpcommingSlots, setAllUpcommingSlots] = useState([]);
     const [Allstudents, setAllstudents] = useState([]);
     const [error, setError] = useState(null);
+
+
+
+    
+    // ContentSkeletons
+    const [AllContentSkeletons, setAllContentSkeletons] = useState([]);
+
+    // courses
+    const [AllCourses, setAllCourses] = useState([]);
+
+    // Content
+    const [AllContents, setAllContents] = useState([]);
+    const [ProgramStructure, setProgramStructure] = useState([]);
+
+    // Assessments
+    const [AllAssessments, setAllAssessments] = useState([]);
+    const [AssessmentSubmissions, setAssessmentSubmissions] = useState([]);
+
+    // Feedback
+    const [AllFeedback, setAllFeedback] = useState([]); 
+    const [MyFeedback, setMyFeedback] = useState([]);
+
+    // performance
+    // const [MyPerformance, setMyPerformance] = useState(null);
+    const [StudentPerformance, setStudentPerformance] = useState(null);
 
     // Format Date -> YYYY-MM-DD
     const formatDate = useCallback((date) => {
@@ -116,6 +199,122 @@ export function useTrainer(token) {
         }
     }, [selectedcourse,token]);
 
+
+
+
+
+
+
+    const refreshContentSkeletons = useCallback(async (query = {}) => {
+        try {
+            const data = await fetchContentSkeletons(token, query);
+            setAllContentSkeletons(data?.data ?? []);
+        } catch (err) {
+            setError(err.message || "Failed to fetch content skeletons");
+        }
+    }, [token]);
+
+
+    const refreshContents = useCallback(async (query = {}) => {
+    try {
+        const [contents, structure] = await Promise.all([
+            fetchContents(token, query),
+            fetchProgramStructure(token),
+        ]);
+
+        setAllContents(contents?.data ?? []);
+        setProgramStructure(structure);
+        } catch (err) {
+            setError(err.message || "Failed to fetch content");
+        }
+    }, [token]);
+
+
+    const refreshAssessments = useCallback(async () => {
+    try {
+        const data = await fetchAssessments(token);
+        setAllAssessments(data);
+        } catch (err) {
+            setError(err.message || "Failed to fetch assessments");
+        }
+    }, [token]);
+
+
+
+    const getAssessmentSubmissions = async (assessmentId) => {
+        try {
+            const res = await fetchAssessmentSubmissions(assessmentId, token);
+            setAssessmentSubmissions(res.data || []);
+            return res.data || [];
+        } catch (err) {
+            console.error(err);
+            setAssessmentSubmissions([]);
+            throw err;
+        }
+    };
+
+
+    const refreshFeedback = useCallback(async () => {
+    try {
+        const [all, mine] = await Promise.all([
+            fetchFeedback(token),
+            // fetchMyFeedback(token).catch(() => null),
+        ]);
+
+        setAllFeedback(all);
+        // if (mine) setMyFeedback(mine);
+        } catch (err) {
+            setError(err.message || "Failed to fetch feedback");
+        }
+    }, [token]);
+
+
+    // const refreshPerformance = useCallback(async () => {
+    //     try {
+    //         const data = await fetchMyPerformance(token);
+    //         setMyPerformance(data);
+    //     } catch {
+    //         // Ignore for non-student users
+    //     }
+    // }, [token]);
+    const getStuPerformance = async (stuId) => {
+        try {
+            const res = await fetchStudentPerformance(stuId, token);
+
+            setStudentPerformance(res.data || {});
+        } catch (err) {
+            console.error(err);
+            setStudentPerformance({});
+            throw err;
+        }
+    };
+
+
+
+    const refreshCourses = useCallback(async () => {
+        // if (USE_MOCK) return;
+        try {
+            const data = await fetchCourses(token);
+            setAllCourses(data);
+        } catch (err) {
+            setError(err.message || 'Failed to fetch courses');
+        }
+    }, [token]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // -------------------- Update Slot --------------------
     const updateSlot = useCallback(
         async (...args) => {
@@ -125,6 +324,7 @@ export function useTrainer(token) {
                 // Refresh slots after successful update
                 await refreshSchedules();
                 await refreshUpcommingSchedules();
+                
 
                 return result;
             } catch (err) {
@@ -139,12 +339,150 @@ export function useTrainer(token) {
     useEffect(() => {
         refreshSchedules();
         refreshUpcommingSchedules();
-    }, [refreshSchedules,refreshUpcommingSchedules]);
-
-    useEffect(() => {
+        refreshContentSkeletons();
+        refreshContents();
+        refreshAssessments();
+        refreshFeedback();
         refreshStudents();
         refreshStudentsbycoll();
-    }, [refreshStudents,refreshStudentsbycoll]);
+        refreshCourses();
+        
+    }, [refreshSchedules,refreshUpcommingSchedules,refreshContentSkeletons,refreshContents,refreshAssessments,refreshFeedback , refreshStudents,refreshStudentsbycoll,refreshCourses]);
+
+
+    
+    const refresh = useCallback(async () => {
+        await Promise.all([
+            refreshSchedules(),
+            refreshUpcommingSchedules(),
+            refreshContentSkeletons(),
+            refreshContents(),
+            refreshAssessments(),
+            refreshFeedback(),
+            refreshStudents(),
+            refreshStudentsbycoll(),
+            refreshCourses(),
+            
+        ]);
+        await refreshAttendance();
+    }, [refreshSchedules,refreshUpcommingSchedules,refreshContentSkeletons,refreshContents,refreshAssessments,refreshFeedback , refreshStudents,refreshStudentsbycoll,refreshCourses]);
+
+
+
+
+
+
+
+// ContentSkeleton
+
+const handleCreateContentSkeleton = async (data) => {
+    const res = await createContentSkeleton(data, token);
+    await refreshContentSkeletons();
+    return res;
+};
+
+const handleUpdateContentSkeleton = async (id, data) => {
+    const res = await updateContentSkeleton(id, data, token);
+    await refreshContentSkeletons();
+    return res;
+};
+
+const handleDeleteContentSkeleton = async (id) => {
+    const res = await deleteContentSkeleton(id, token);
+    await refreshContentSkeletons();
+    return res;
+};
+
+
+// Content
+
+const handleCreateContent = async (data) => {
+    const res = await createContent(data, token);
+    await refreshContents();
+    return res;
+};
+
+const handleUpdateContent = async (id, data) => {
+    const res = await updateContent(id, data, token);
+    await refreshContents();
+    return res;
+};
+
+const handleDeleteContent = async (id) => {
+    const res = await deleteContent(id, token);
+    await refreshContents();
+    return res;
+};
+
+
+
+
+
+// assessments
+const handleCreateAssessment = async (data) => {
+    const res = await createAssessment(data, token);
+    await refreshAssessments();
+    return res;
+};
+
+const handleUpdateAssessment = async (id, data) => {
+    const res = await updateAssessment(id, data, token);
+    await refreshAssessments();
+    return res;
+};
+
+const handleDeleteAssessment = async (id) => {
+    const res = await deleteAssessment(id, token);
+    await refreshAssessments();
+    return res;
+};
+
+
+
+// Feedback
+const handleCreateFeedback = async (data) => {
+    const res = await createFeedback(data, token);
+    await refreshFeedback();
+    return res;
+};
+
+const handleUpdateFeedback = async (id, data) => {
+    const res = await updateFeedback(id, data, token);
+    await refreshFeedback();
+    return res;
+};
+
+const handleDeleteFeedback = async (id) => {
+    const res = await deleteFeedback(id, token);
+    await refreshFeedback();
+    return res;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return {
         // Data
@@ -155,6 +493,7 @@ export function useTrainer(token) {
         setselectedcourse,
         selectedcourse,
         error,
+        AllCourses,
 
         // Date
         selectedDate,
@@ -167,6 +506,49 @@ export function useTrainer(token) {
         refreshStudentsbycoll,
         updateTopicAndFeedback: updateSlot,
         submitAttendance: submitAttendanceWithRefresh,
+
+
+
+        
+
+        // ContentSkeleton
+        createContentSkeleton: handleCreateContentSkeleton,
+        updateContentSkeleton: handleUpdateContentSkeleton,
+        deleteContentSkeleton: handleDeleteContentSkeleton,
+        AllContentSkeletons,
+
+        // Content
+        AllContents,
+        ProgramStructure,
+        createContent: handleCreateContent,
+        updateContent: handleUpdateContent,
+        deleteContent: handleDeleteContent,
+        downloadContent:handleDownloadFile,
+        previewContent:handlePreviewFile,
+
+
+        // Assessments,
+        AllAssessments,
+        AssessmentSubmissions,
+        getAssessmentSubmissions,
+        createAssessment: handleCreateAssessment,
+        updateAssessment: handleUpdateAssessment,
+        deleteAssessment :handleDeleteAssessment,
+
+
+        // Feedback
+        AllFeedback,
+        MyFeedback,
+        createFeedback: handleCreateFeedback,
+        updateFeedback: handleUpdateFeedback,
+        deleteFeedback: handleDeleteFeedback,
+
+
+
+        // performance
+        StudentPerformance,
+        getStuPerformance,
+        refresh
     };
 }
 

@@ -1,5 +1,5 @@
 .subject-distribution {
-    max-width: 30vw; 
+    /* max-width: 30vw;  */
     min-width: 30vw; 
     height:stretch;
     width: stretch;
@@ -21,6 +21,8 @@
         transform .35s ease,
         box-shadow .35s ease,
         border-color .35s ease;
+
+    flex: 1;
 
 
 }

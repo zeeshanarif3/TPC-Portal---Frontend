@@ -167,6 +167,8 @@ exports.getAllSlots = async (req, res) => {
       .populate('courseId', 'courseCode')
       .populate('sessionId', 'startDate endDate');
 
+    // console.log(slots)
+
     res.status(200).json(slots);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -859,49 +861,165 @@ exports.getSubjectDistributionByCollege = async (req, res) => {
 };
 
 // Get attendance records for a college in a specific session
+// exports.getAttendanceByCollegeAndSession = async (req, res) => {
+//   try {
+//     const { collegeId, sessionId } = req.params;
+//     const userId = req.user.id;
+//     const userRole = req.user.role;
+
+//     if (!collegeId || !sessionId) {
+//       return res.status(400).json({ message: 'College ID and Session ID are required' });
+//     }
+
+//     // Verify college exists
+//     const college = await College.findById(collegeId);
+//     if (!college) {
+//       return res.status(404).json({ message: 'College not found' });
+//     }
+
+//     if (userRole === 'moderator') {
+//       const moderatorCollege = await College.findOne({ moderatorId: userId });
+//       if (!moderatorCollege) {
+//         return res.status(403).json({ message: 'You are not authorized to access any college' });
+//       }
+//       if (moderatorCollege._id.toString() !== collegeId) {
+//         return res.status(403).json({ message: 'You are not authorized to access this college' });
+//       }
+//     }
+
+//     // Verify session exists and belongs to the college
+//     const session = await Session.findById(sessionId);
+//     if (!session) {
+//       return res.status(404).json({ message: 'Session not found' });
+//     }
+//     if (session.collegeId.toString() !== collegeId) {
+//       return res.status(400).json({ message: 'Session does not belong to the specified college' });
+//     }
+
+//     // Fetch all slots where attendance was taken for this session
+//     const attendanceRecords = await Slot.find({ sessionId, attendanceTaken: true })
+//       .populate('courseId', 'courseCode')
+//       .populate('sessionId', 'startDate endDate')
+//       .populate('trainerId', 'name');
+
+//     res.status(200).json(attendanceRecords);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 exports.getAttendanceByCollegeAndSession = async (req, res) => {
   try {
-    const { collegeId, sessionId } = req.params;
+    let { collegeId, sessionId } = req.params;
+
     const userId = req.user.id;
     const userRole = req.user.role;
 
-    if (!collegeId || !sessionId) {
-      return res.status(400).json({ message: 'College ID and Session ID are required' });
+    if (!sessionId) {
+      return res.status(400).json({
+        message: "Session ID is required",
+      });
     }
 
-    // Verify college exists
-    const college = await College.findById(collegeId);
-    if (!college) {
-      return res.status(404).json({ message: 'College not found' });
-    }
+    /*
+     * ============================================================
+     * MODERATOR
+     * Automatically use the college assigned to the moderator
+     * ============================================================
+     */
+    if (userRole === "moderator") {
+      const moderatorCollege = await College.findOne({
+        moderatorId: userId,
+      });
 
-    if (userRole === 'moderator') {
-      const moderatorCollege = await College.findOne({ moderatorId: userId });
       if (!moderatorCollege) {
-        return res.status(403).json({ message: 'You are not authorized to access any college' });
+        return res.status(403).json({
+          message: "You are not assigned to any college",
+        });
       }
-      if (moderatorCollege._id.toString() !== collegeId) {
-        return res.status(403).json({ message: 'You are not authorized to access this college' });
-      }
+
+      // IMPORTANT:
+      // Ignore the collegeId coming from frontend
+      collegeId = moderatorCollege._id.toString();
     }
 
-    // Verify session exists and belongs to the college
+    /*
+     * ============================================================
+     * OTHER ROLES
+     * Must provide collegeId
+     * ============================================================
+     */
+    if (!collegeId) {
+      return res.status(400).json({
+        message: "College ID is required",
+      });
+    }
+
+    /*
+     * ============================================================
+     * VERIFY COLLEGE
+     * ============================================================
+     */
+    const college = await College.findById(collegeId);
+
+    if (!college) {
+      return res.status(404).json({
+        message: "College not found",
+      });
+    }
+
+    /*
+     * ============================================================
+     * VERIFY SESSION
+     * ============================================================
+     */
     const session = await Session.findById(sessionId);
+
     if (!session) {
-      return res.status(404).json({ message: 'Session not found' });
-    }
-    if (session.collegeId.toString() !== collegeId) {
-      return res.status(400).json({ message: 'Session does not belong to the specified college' });
+      return res.status(404).json({
+        message: "Session not found",
+      });
     }
 
-    // Fetch all slots where attendance was taken for this session
-    const attendanceRecords = await Slot.find({ sessionId, attendanceTaken: true })
-      .populate('courseId', 'courseCode')
-      .populate('sessionId', 'startDate endDate')
-      .populate('trainerId', 'name');
+    /*
+     * Make sure the session belongs to the selected college
+     */
+    if (session.collegeId.toString() !== collegeId.toString()) {
+      return res.status(400).json({
+        message: "Session does not belong to this college",
+      });
+    }
 
-    res.status(200).json(attendanceRecords);
+    /*
+     * ============================================================
+     * FETCH ATTENDANCE
+     * ============================================================
+     */
+    const attendanceRecords = await Slot.find({
+      sessionId,
+      attendanceTaken: true,
+    })
+      .populate("courseId", "courseCode")
+      .populate("sessionId", "startDate endDate")
+      .populate("trainerId", "name");
+
+    return res.status(200).json({
+      college: {
+        _id: college._id,
+        name: college.name,
+      },
+      session: {
+        _id: session._id,
+        startDate: session.startDate,
+        endDate: session.endDate,
+      },
+      attendance: attendanceRecords,
+    });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("getAttendanceByCollegeAndSession:", error);
+
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 };

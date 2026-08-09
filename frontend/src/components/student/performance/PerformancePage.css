@@ -1,0 +1,853 @@
+/* ==========================================================================
+PerformancePage — dashboard-matching layout
+========================================================================== */
+
+.performance-page {
+    height: stretch;
+    width: stretch;
+    /* min-height: 100vh; */
+    /* padding: 2.5rem 2.5rem; */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: auto;
+    border-radius: 18px;
+
+    color: var(--text-primary);
+    /* box-shadow:
+        0 1px 2px rgba(0, 0, 0, .04),
+        0 8px 24px rgba(0, 0, 0, .05);
+ */
+
+
+
+
+
+
+
+
+    --shadow:
+        0 2px 4px rgba(0, 0, 0, .03),
+        0 20px 40px rgba(0, 0, 0, .04);
+
+
+    --shadow-hover:
+        0 12px 30px rgba(0, 0, 0, .06),
+        0 40px 80px rgba(0, 0, 0, .08);
+
+    --border: var(--border-color);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
+
+
+
+
+}
+
+.performance-page * {
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+Loading
+========================================================================== */
+
+.performance-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 60vh;
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.loading-ring {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid rgba(0, 0, 0, 0.08);
+    border-top-color: var(--gold);
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+Hero
+========================================================================== */
+
+.performance-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+
+
+    padding: 1rem;
+    border-radius: 18px;
+
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+
+
+}
+
+.hero-eyebrow {
+    display: inline-block;
+    margin-bottom: 10px;
+
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+
+
+}
+
+.performance-hero h1 {
+    margin: 0 0 8px;
+
+
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+
+
+}
+
+.performance-hero p {
+    margin: 0;
+    max-width: 50ch;
+
+
+    color: var(--text-secondary);
+    font-size: 14.5px;
+    line-height: 1.55;
+
+
+}
+
+.hero-grade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+
+    min-width: 110px;
+    padding: 1rem;
+
+    border-radius: 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--accent);
+    box-shadow: var(--shadow);
+
+
+}
+
+.hero-grade-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.hero-grade-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+KPI cards
+========================================================================== */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.kpi-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+
+    padding: 1rem;
+    border-radius: 16px;
+
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+
+
+}
+
+.kpi-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+}
+
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    background: var(--bg-primary);
+}
+
+.kpi-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    border-radius: 10px;
+    font-size: 15px;
+    margin-bottom: 6px;
+    background: rgba(0, 0, 0, 0.03);
+
+
+}
+
+.kpi-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.kpi-value {
+    font-size: 26px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.kpi-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.kpi-card.accent-blue::before {
+    background: var(--blue);
+}
+
+.kpi-card.accent-gold::before {
+    background: var(--gold);
+}
+
+.kpi-card.accent-excellent::before {
+    background: var(--good);
+}
+
+.kpi-card.accent-good::before {
+    background: var(--blue);
+}
+
+.kpi-card.accent-fair::before {
+    background: var(--gold);
+}
+
+.kpi-card.accent-risk::before {
+    background: var(--risk);
+}
+
+.kpi-icon.accent-blue {
+    color: var(--blue);
+    background: var(--blue-soft);
+}
+
+.kpi-icon.accent-gold {
+    color: var(--gold);
+    background: var(--gold-soft);
+}
+
+.kpi-icon.accent-excellent {
+    color: var(--good);
+    background: var(--good-soft);
+}
+
+.kpi-icon.accent-good {
+    color: var(--blue);
+    background: var(--blue-soft);
+}
+
+.kpi-icon.accent-fair {
+    color: var(--gold);
+    background: var(--gold-soft);
+}
+
+.kpi-icon.accent-risk {
+    color: var(--risk);
+    background: var(--risk-soft);
+}
+
+.kpi-subtitle.tone-excellent {
+    color: var(--good);
+}
+
+.kpi-subtitle.tone-good {
+    color: var(--blue);
+}
+
+.kpi-subtitle.tone-fair {
+    color: var(--gold);
+}
+
+.kpi-subtitle.tone-risk {
+    color: var(--risk);
+}
+
+/* ==========================================================================
+Sections
+========================================================================== */
+
+.performance-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 1rem;
+    border-radius: 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    /* box-shadow: var(--shadow); */
+    /* overflow: hidden; */
+    /* transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; */
+}
+
+.section-header h2 {
+    margin: 0 0 4px;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.section-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+Attendance
+========================================================================== */
+
+.attendance-panel {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+
+
+    padding: 1rem;
+    border-radius: 18px;
+
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+
+
+}
+
+.attendance-ring-wrap {
+    flex-shrink: 0;
+}
+
+.attendance-ring {
+    --ring-size: 152px;
+    width: var(--ring-size);
+    height: var(--ring-size);
+    border-radius: 50%;
+
+
+    background: conic-gradient(var(--gold) calc(var(--ring-value) * 1%),
+            rgba(0, 0, 0, 0.06) 0);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+
+
+}
+
+.attendance-ring-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+
+
+    background: var(--bg-primary);
+    border: 1px solid var(--accent);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+
+
+}
+
+.ring-value {
+    font-size: 26px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.ring-label {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+}
+
+.performance-attendance-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.attendance-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.attendance-stat>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.attendance-stat-value {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.attendance-stat-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dot-good {
+    background: var(--good);
+}
+
+.dot-risk {
+    background: var(--risk);
+}
+
+.dot-excellent {
+    background: var(--good);
+}
+
+.dot-fair {
+    background: var(--gold);
+}
+
+/* ==========================================================================
+Assessments
+========================================================================== */
+
+.assessment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.assessment-card {
+    padding: 1rem;
+    border-radius: 16px;
+
+
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+
+
+}
+
+.assessment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    background: var(--bg-primary);
+}
+
+.assessment-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.assessment-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.score-pill {
+    flex-shrink: 0;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+}
+
+.score-pill.tone-gold {
+    background: var(--gold-soft);
+    color: var(--gold);
+}
+
+.score-pill.tone-good {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.score-pill.tone-fair {
+    background: var(--gold-soft);
+    color: var(--gold);
+}
+
+.score-pill.tone-risk {
+    background: var(--risk-soft);
+    color: var(--risk);
+}
+
+.assessment-bar-track {
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.assessment-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+}
+
+.assessment-bar-fill.tone-gold {
+    background: var(--gold);
+}
+
+.assessment-bar-fill.tone-good {
+    background: var(--blue);
+}
+
+.assessment-bar-fill.tone-fair {
+    background: var(--gold);
+}
+
+.assessment-bar-fill.tone-risk {
+    background: var(--risk);
+}
+
+.assessment-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+Feedback
+========================================================================== */
+
+.feedback-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.feedback-card {
+    display: flex;
+    gap: 16px;
+
+
+    padding: 1rem;
+    border-radius: 16px;
+
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--gold);
+    box-shadow: var(--shadow);
+
+
+}
+
+.feedback-avatar {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+
+
+    background: var(--gold-soft);
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.feedback-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.feedback-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.feedback-header strong {
+    font-size: 14.5px;
+}
+
+.feedback-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.feedback-body p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+Empty states
+========================================================================== */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+
+    padding: 1rem;
+    border-radius: 16px;
+
+    background: var(--bg-primary);
+    border: 1px dashed var(--border-color);
+    text-align: center;
+
+
+}
+
+.empty-icon {
+    font-size: 26px;
+    margin-bottom: 4px;
+}
+
+.empty-state strong {
+    font-size: 14.5px;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+    max-width: 32ch;
+}
+
+/* ==========================================================================
+Premium scrollbar
+========================================================================== */
+
+/* ::-webkit-scrollbar {
+width: 10px;
+}
+
+::-webkit-scrollbar-track {
+background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+background: rgba(0, 0, 0, 0.15);
+border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: rgba(0, 0, 0, 0.25);
+} */
+
+/* ==========================================================================
+Responsive
+========================================================================== */
+
+/* ---------- Large Tablets ---------- */
+@media (max-width: 1200px) {
+    .performance-page {
+        padding: 20px;
+        gap: 1rem;
+    }
+
+
+    .attendance-panel {
+        gap: 2rem;
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+}
+
+/* ---------- Tablets ---------- */
+@media (max-width: 992px) {
+    .performance-page {
+        padding: 16px;
+    }
+
+
+    .performance-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    .hero-grade {
+        align-self: flex-start;
+    }
+
+    .attendance-panel {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .performance-attendance-stats {
+        width: 100%;
+    }
+
+    .assessment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 768px) {
+    .performance-page {
+        padding: 12px;
+        gap: 12px;
+    }
+
+
+    .performance-hero,
+    .attendance-panel,
+    .assessment-card,
+    .feedback-card,
+    .kpi-card,
+    .empty-state {
+        width: 100%;
+        border-radius: 14px;
+    }
+
+    .performance-hero {
+        padding: 22px;
+    }
+
+    .attendance-panel {
+        padding: 22px;
+    }
+
+    .assessment-grid,
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .attendance-ring {
+        --ring-size: 130px;
+    }
+
+
+}
+
+/* ---------- Small Phones ---------- */
+@media (max-width: 480px) {
+    .performance-page {
+        padding: 10px;
+        gap: 10px;
+    }
+
+
+    .performance-hero,
+    .attendance-panel,
+    .assessment-card,
+    .feedback-card,
+    .kpi-card {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .hero-grade-value {
+        font-size: 26px;
+    }
+
+    .kpi-value {
+        font-size: 22px;
+    }
+
+    .attendance-ring {
+        --ring-size: 115px;
+    }
+
+    .ring-value {
+        font-size: 22px;
+    }
+
+
+}

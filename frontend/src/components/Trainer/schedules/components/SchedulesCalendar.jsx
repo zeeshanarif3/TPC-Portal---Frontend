@@ -13,6 +13,7 @@ export default function SchedulesCalendar({
   setshowAttendanceModal,
   onDelete,
   onRefresh,
+  setselectedcourse,
 }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [hoveredSlot, setHoveredSlot] = useState(null);
@@ -292,6 +293,7 @@ export default function SchedulesCalendar({
                             title="Set Attendance"
                             disabled={schedule.isCancelled}
                             onClick={() => {
+                              setselectedcourse(schedule.originalSchedule.course._id);
                               setTopicFeedbackData(schedule.originalSchedule);
                               setshowAttendanceModal(true);
                             }}

@@ -11,7 +11,7 @@ const {
 } = require('../controllers/courseController');
 
 // Middleware for admin and moderator
-const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
+const adminModeratorMiddleware = authorizeRoles('admin', 'moderator','trainer');
 
 // Admin Routes for Courses
 router.post('/', verifyToken, adminModeratorMiddleware, createCourse);

@@ -214,6 +214,7 @@ export default function AttendanceWorkspace({
 
   return (
     <div className="attendance-workspace-overlay" onClick={onBack}>
+      {/* <pre>{JSON.stringify(students, null, 2)}</pre> */}
       <div
         className="attendance-workspace"
         onClick={(e) => e.stopPropagation()}

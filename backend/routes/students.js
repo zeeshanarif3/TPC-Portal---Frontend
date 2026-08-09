@@ -8,7 +8,8 @@ const {
   getStudentById,
   updateStudent,
   deleteStudent,
-  getStudentByCourse
+  getStudentByCourse,
+  getMyAttendance
 } = require('../controllers/studentController');
 
 // Middleware for admin and moderator
@@ -19,6 +20,9 @@ const getStudentsMiddleware = authorizeRoles('admin', 'moderator', 'trainer');
 router.post('/', verifyToken, adminModeratorMiddleware, createStudent);
 router.get('/', verifyToken, getStudentsMiddleware, getAllStudents);
 router.get('/course/:courseId', verifyToken, getStudentsMiddleware, getStudentByCourse);
+// Student attendance route (must be before /:id to avoid collision)
+router.get('/my/attendance', verifyToken, authorizeRoles('student'), getMyAttendance);
+
 router.get('/:id', verifyToken, adminModeratorMiddleware, getStudentById);
 router.put('/:id', verifyToken, adminModeratorMiddleware, updateStudent);
 router.delete('/:id', verifyToken, adminModeratorMiddleware, deleteStudent);

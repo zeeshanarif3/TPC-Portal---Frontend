@@ -16,10 +16,10 @@ PAGE
     /* background: var(--bg-primary); */
     background: var(--bg-secondary);
     color:var(--text-primary);
-    box-shadow:
+    /* box-shadow:
         0 1px 2px rgba(0, 0, 0, .04),
         0 8px 24px rgba(0, 0, 0, .05);
-
+  */
 
 
 

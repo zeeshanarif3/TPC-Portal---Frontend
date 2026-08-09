@@ -115,8 +115,10 @@ import {
     fetchContentById,
     updateContent,
     deleteContent,
-    downloadContent,
+    // downloadContent,
     fetchProgramStructure,
+    handlePreviewFile,
+    handleDownloadFile,
 
     // ==========================
     // Assessments
@@ -137,17 +139,15 @@ import {
     // ==========================
     createFeedback,
     fetchFeedback,
-    fetchMyFeedback,
+    // fetchMyFeedback,
     updateFeedback,
     deleteFeedback,
 
     // ==========================
     // Performance
     // ==========================
-    fetchMyPerformance,
+    // fetchMyPerformance,
     fetchStudentPerformance,
-
-
 
 
 
@@ -155,61 +155,61 @@ import {
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
-const USE_MOCK = false;
+// const USE_MOCK = false;
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// // ─── Mock data ────────────────────────────────────────────────────────────────
 
-const MOCK_COLLEGES = [
-    { id: '1', label: 'AUP' },
-    { id: 'thapar', label: 'Thapar' },
-    { id: 'nit', label: 'NIT Jalandhar' },
-];
+// const MOCK_COLLEGES = [
+//     { id: '1', label: 'AUP' },
+//     { id: 'thapar', label: 'Thapar' },
+//     { id: 'nit', label: 'NIT Jalandhar' },
+// ];
 
-const MOCK_STATS = {
-    totalTrainers: 24,
-    activeTrainers: 24,
-    totalColleges: 3,
-    activeSessions: 14,
-    sessionsStartingThisWeek: 3,
-};
+// const MOCK_STATS = {
+//     totalTrainers: 24,
+//     activeTrainers: 24,
+//     totalColleges: 3,
+//     activeSessions: 14,
+//     sessionsStartingThisWeek: 3,
+// };
 
-const MOCK_TRAINERS = [
-    { id: 1, name: 'Rahul Kumar', subject: 'Data Science', contract: 'C-001', sessions: 12, status: 'Active' },
-    { id: 2, name: 'Priya Sharma', subject: 'Web Dev', contract: 'C-002', sessions: 9, status: 'Active' },
-    { id: 3, name: 'Arjun Mehta', subject: 'ML/AI', contract: 'C-003', sessions: 7, status: 'Pending' },
-    { id: 4, name: 'Neha Patel', subject: 'UI/UX', contract: 'C-004', sessions: 5, status: 'Active' },
-];
+// const MOCK_TRAINERS = [
+//     { id: 1, name: 'Rahul Kumar', subject: 'Data Science', contract: 'C-001', sessions: 12, status: 'Active' },
+//     { id: 2, name: 'Priya Sharma', subject: 'Web Dev', contract: 'C-002', sessions: 9, status: 'Active' },
+//     { id: 3, name: 'Arjun Mehta', subject: 'ML/AI', contract: 'C-003', sessions: 7, status: 'Pending' },
+//     { id: 4, name: 'Neha Patel', subject: 'UI/UX', contract: 'C-004', sessions: 5, status: 'Active' },
+// ];
 
-const MOCK_SCHEDULE = [
-    { id: 1, trainer: 'Rahul Kumar', course: 'DS-101', day: 'Mon', time: '09:00–11:00', status: 'Confirmed' },
-    { id: 2, trainer: 'Priya Sharma', course: 'WD-204', day: 'Mon', time: '11:30–13:30', status: 'Confirmed' },
-    { id: 3, trainer: 'Arjun Mehta', course: 'ML-301', day: 'Tue', time: '09:00–12:00', status: 'Pending' },
-    { id: 4, trainer: 'Neha Patel', course: 'UX-102', day: 'Wed', time: '14:00–16:00', status: 'Confirmed' },
-];
+// const MOCK_SCHEDULE = [
+//     { id: 1, trainer: 'Rahul Kumar', course: 'DS-101', day: 'Mon', time: '09:00–11:00', status: 'Confirmed' },
+//     { id: 2, trainer: 'Priya Sharma', course: 'WD-204', day: 'Mon', time: '11:30–13:30', status: 'Confirmed' },
+//     { id: 3, trainer: 'Arjun Mehta', course: 'ML-301', day: 'Tue', time: '09:00–12:00', status: 'Pending' },
+//     { id: 4, trainer: 'Neha Patel', course: 'UX-102', day: 'Wed', time: '14:00–16:00', status: 'Confirmed' },
+// ];
 
-const MOCK_ATTENDANCE = [
-    { day: 'Mon', value: 60 },
-    { day: 'Tue', value: 80 },
-    { day: 'Wed', value: 55 },
-    { day: 'Thu', value: 90 },
-    { day: 'Fri', value: 70 },
-    { day: 'Sat', value: 40 },
-    { day: 'Sun', value: 30 },
-];
+// const MOCK_ATTENDANCE = [
+//     { day: 'Mon', value: 60 },
+//     { day: 'Tue', value: 80 },
+//     { day: 'Wed', value: 55 },
+//     { day: 'Thu', value: 90 },
+//     { day: 'Fri', value: 70 },
+//     { day: 'Sat', value: 40 },
+//     { day: 'Sun', value: 30 },
+// ];
 
-const MOCK_COURSE_DISTRIBUTION = [
-    { subject: 'Data Science', count: 8, color: '#6C8EF5' },
-    { subject: 'Web Dev', count: 5, color: '#4CD9A0' },
-    { subject: 'ML/AI', count: 4, color: '#F5A623' },
-    { subject: 'UI/UX', count: 3, color: '#A78BFA' },
-    { subject: 'DevOps', count: 2, color: '#F97316' },
-];
+// const MOCK_COURSE_DISTRIBUTION = [
+//     { subject: 'Data Science', count: 8, color: '#6C8EF5' },
+//     { subject: 'Web Dev', count: 5, color: '#4CD9A0' },
+//     { subject: 'ML/AI', count: 4, color: '#F5A623' },
+//     { subject: 'UI/UX', count: 3, color: '#A78BFA' },
+//     { subject: 'DevOps', count: 2, color: '#F97316' },
+// ];
 
-const MOCK_CONTRACT_EXPIRY = [
-    { id: 1, name: 'Arjun Mehta', expiresLabel: 'Expires Jul 15', daysLeft: 12, urgency: 'high' },
-    { id: 2, name: 'Sana Iqbal', expiresLabel: 'Expires Jul 22', daysLeft: 19, urgency: 'medium' },
-    { id: 3, name: 'Dev Anand', expiresLabel: 'Expires Aug 1', daysLeft: 29, urgency: 'low' },
-];
+// const MOCK_CONTRACT_EXPIRY = [
+//     { id: 1, name: 'Arjun Mehta', expiresLabel: 'Expires Jul 15', daysLeft: 12, urgency: 'high' },
+//     { id: 2, name: 'Sana Iqbal', expiresLabel: 'Expires Jul 22', daysLeft: 19, urgency: 'medium' },
+//     { id: 3, name: 'Dev Anand', expiresLabel: 'Expires Aug 1', daysLeft: 29, urgency: 'low' },
+// ];
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
@@ -218,11 +218,11 @@ export function useDashboard(token) {
     const [colleges, setColleges] = useState([]);
     const [stats, setStats] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [trainers, setTrainers] = useState([]);
-    const [schedule, setSchedule] = useState([]);
-    const [attendance, setAttendance] = useState([]);
-    const [courseDist, setCourseDist] = useState([]);
-    const [contractExpiry, setContractExpiry] = useState([]);
+    // const [trainers, setTrainers] = useState([]);
+    // const [schedule, setSchedule] = useState([]);
+    // const [attendance, setAttendance] = useState([]);
+    // const [courseDist, setCourseDist] = useState([]);
+    // const [contractExpiry, setContractExpiry] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -264,6 +264,23 @@ export function useDashboard(token) {
     
     const [AllUsers, setAllUsers] = useState([]);
     
+    // ContentSkeletons
+    const [AllContentSkeletons, setAllContentSkeletons] = useState([]);
+
+
+    // Content
+    const [AllContents, setAllContents] = useState([]);
+    const [ProgramStructure, setProgramStructure] = useState([]);
+
+    // Assessments
+    const [AllAssessments, setAllAssessments] = useState([]);
+    const [AssessmentSubmissions, setAssessmentSubmissions] = useState([]);
+    // Feedback
+    const [AllFeedback, setAllFeedback] = useState([]); 
+    const [MyFeedback, setMyFeedback] = useState([]);
+
+    // performance
+    const [StudentPerformance, setStudentPerformance] = useState(null);
 
 
     // ── Load colleges once on mount ────────────────────────────────────────
@@ -280,15 +297,15 @@ export function useDashboard(token) {
     // }, [token]);
 
 useEffect(() => {
-    if (USE_MOCK) {
-        setColleges(MOCK_COLLEGES);
+    // if (USE_MOCK) {
+    //     setColleges(MOCK_COLLEGES);
 
-        if (MOCK_COLLEGES.length > 0) {
-            setSelectedCollege(MOCK_COLLEGES[0]._id);
-        }
+    //     if (MOCK_COLLEGES.length > 0) {
+    //         setSelectedCollege(MOCK_COLLEGES[0]._id);
+    //     }
 
-        return;
-    }
+    //     return;
+    // }
 
     fetchColleges(token)
         .then((data) => {
@@ -304,10 +321,10 @@ useEffect(() => {
     // ── Feature loaders ─────────────────────────────────────────────────────
 
     const refreshDashboard = useCallback(async () => {
-        if (USE_MOCK) {
-            setStats(MOCK_STATS);
-            return;
-        }
+        // if (USE_MOCK) {
+        //     setStats(MOCK_STATS);
+        //     return;
+        // }
         try {
             const data = await fetchDashboardStats(selectedCollege, token);
             const chart = await fetchAttendanceChart(selectedCollege, token);
@@ -341,10 +358,10 @@ useEffect(() => {
 
 
     const refreshSlots = useCallback(async () => {
-        if (USE_MOCK) {
-            setAllSlots(MOCK_SCHEDULE);
-            return;
-        }
+        // if (USE_MOCK) {
+        //     setAllSlots(MOCK_SCHEDULE);
+        //     return;
+        // }
 
         try {
             const [upcoming, all] = await Promise.all([
@@ -365,10 +382,10 @@ useEffect(() => {
 
 
     const refreshContracts = useCallback(async () => {
-        if (USE_MOCK) {
-            setContractExpiry(MOCK_CONTRACT_EXPIRY);
-            return;
-        }
+        // if (USE_MOCK) {
+        //     setContractExpiry(MOCK_CONTRACT_EXPIRY);
+        //     return;
+        // }
         try {
             const [all, expiring] = await Promise.all([
                 fetchContracts(token),
@@ -382,7 +399,7 @@ useEffect(() => {
     }, [selectedCollege, token]);
 
     const refreshStudents = useCallback(async () => {
-        if (USE_MOCK) return;
+        // if (USE_MOCK) return;
         try {
             const data = await fetchStudents(token);
             setAllstudents(data);
@@ -392,7 +409,7 @@ useEffect(() => {
     }, [token]);
 
     const refreshCourses = useCallback(async () => {
-        if (USE_MOCK) return;
+        // if (USE_MOCK) return;
         try {
             const data = await fetchCourses(token);
             setAllCourses(data);
@@ -402,10 +419,10 @@ useEffect(() => {
     }, [token]);
 
     const refreshTrainers = useCallback(async () => {
-        if (USE_MOCK) {
-            setTrainers(MOCK_TRAINERS);
-            return;
-        }
+        // if (USE_MOCK) {
+        //     setTrainers(MOCK_TRAINERS);
+        //     return;
+        // }
         try {
             const [all, byCollege] = await Promise.all([
                 fetchTrainers(token),
@@ -430,10 +447,10 @@ useEffect(() => {
     }, [token]);
 
     const refreshModerators = useCallback(async () => {
-        if (USE_MOCK) {
-            setAllModerators(MOCK_TRAINERS);
-            return;
-        }
+        // if (USE_MOCK) {
+        //     setAllModerators(MOCK_TRAINERS);
+        //     return;
+        // }
         try {
             const [all] = await Promise.all([
                 getAllModerators(token),
@@ -447,7 +464,7 @@ useEffect(() => {
 
     // Loads sessions for the college and auto-selects the first one
     const refreshSessions = useCallback(async () => {
-        if (USE_MOCK) return;
+        // if (USE_MOCK) return;
         try {
             const sessions = await fetchSessions(token);
             setAllSessions(sessions);
@@ -465,11 +482,11 @@ useEffect(() => {
 
     // Only runs once a valid session exists
     const refreshAttendance = useCallback(async () => {
-        if (USE_MOCK) {
-            setAttendance(MOCK_ATTENDANCE);
-            setCourseDist(MOCK_COURSE_DISTRIBUTION);
-            return;
-        }
+        // if (USE_MOCK) {
+        //     setAttendance(MOCK_ATTENDANCE);
+        //     setCourseDist(MOCK_COURSE_DISTRIBUTION);
+        //     return;
+        // }
         if (!selectedCollege || !CurrentSession) return;
         try {
             const [ byCollegeAndSession] = await Promise.all([
@@ -481,6 +498,92 @@ useEffect(() => {
             setError(err.message || 'Failed to fetch attendance');
         }
     }, [CurrentSession, token]);
+
+
+    const refreshContentSkeletons = useCallback(async (query = {}) => {
+        try {
+            const data = await fetchContentSkeletons(token, query);
+            setAllContentSkeletons(data?.data ?? []);
+        } catch (err) {
+            setError(err.message || "Failed to fetch content skeletons");
+        }
+    }, [token]);
+
+
+    const refreshContents = useCallback(async (query = {}) => {
+    try {
+        const [contents, structure] = await Promise.all([
+            fetchContents(token, query),
+            fetchProgramStructure(token),
+        ]);
+
+        setAllContents(contents?.data ?? []);
+        setProgramStructure(structure);
+        } catch (err) {
+            setError(err.message || "Failed to fetch content");
+        }
+    }, [token]);
+
+
+    const refreshAssessments = useCallback(async () => {
+    try {
+        const data = await fetchAssessments(token);
+        setAllAssessments(data);
+        } catch (err) {
+            setError(err.message || "Failed to fetch assessments");
+        }
+    }, [token]);
+
+
+    const getAssessmentSubmissions = async (assessmentId) => {
+        try {
+            const res = await fetchAssessmentSubmissions(assessmentId, token);
+            setAssessmentSubmissions(res.data || []);
+            return res.data || [];
+        } catch (err) {
+            console.error(err);
+            setAssessmentSubmissions([]);
+            throw err;
+        }
+    };
+
+    const refreshFeedback = useCallback(async () => {
+    try {
+        const [all, mine] = await Promise.all([
+            fetchFeedback(token),
+            // fetchMyFeedback(token).catch(() => null),
+        ]);
+
+        setAllFeedback(all);
+        // if (mine) setMyFeedback(mine);
+        } catch (err) {
+            setError(err.message || "Failed to fetch feedback");
+        }
+    }, [token]);
+
+
+    // const refreshPerformance = useCallback(async () => {
+    //     try {
+    //         const data = await fetchStudentPerformance(token);
+    //         setStudentPerformance(data);
+    //     } catch {
+    //         // Ignore for non-student users
+    //     }
+    // }, [token]);
+
+
+    const getStuPerformance = async (stuId) => {
+        try {
+            const res = await fetchStudentPerformance(stuId, token);
+
+            setStudentPerformance(res.data || {});
+        } catch (err) {
+            console.error(err);
+            setStudentPerformance({});
+            throw err;
+        }
+    };
+
 
     // ── Effect: college changes ─────────────────────────────────────────────
     // Loads everything that only depends on the college, then resolves session
@@ -494,15 +597,15 @@ useEffect(() => {
             setLoading(true);
             setError(null);
             try {
-                if (USE_MOCK) {
-                    await new Promise(r => setTimeout(r, 300));
-                    if (cancelled) return;
-                    setStats(MOCK_STATS);
-                    setTrainers(MOCK_TRAINERS);
-                    setSchedule(MOCK_SCHEDULE);
-                    setCourseDist(MOCK_COURSE_DISTRIBUTION);
-                    setContractExpiry(MOCK_CONTRACT_EXPIRY);
-                } else {
+                // if (USE_MOCK) {
+                //     await new Promise(r => setTimeout(r, 300));
+                //     if (cancelled) return;
+                //     setStats(MOCK_STATS);
+                //     setTrainers(MOCK_TRAINERS);
+                //     setSchedule(MOCK_SCHEDULE);
+                //     setCourseDist(MOCK_COURSE_DISTRIBUTION);
+                //     setContractExpiry(MOCK_CONTRACT_EXPIRY);
+                // } else {
                     await Promise.all([
                         refreshDashboard(),
                         // // refreshSchedules()
@@ -514,16 +617,22 @@ useEffect(() => {
                         refreshAllUsers(),
                         refreshSessions(),
                         refreshModerators(),
+                        refreshContentSkeletons(),
+                        refreshContents(),
+                        refreshAssessments(),
+                        refreshFeedback(),
+                        // refreshPerformance(),
                     ]);
+                    // }
+                } finally {
+                    if (!cancelled) setLoading(false);
                 }
-            } finally {
-                if (!cancelled) setLoading(false);
-            }
         })();
-
+        
         return () => { cancelled = true; };
-    // }, [selectedCollege, refreshDashboard, refreshSchedules,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions]);
-    }, [selectedCollege, refreshDashboard,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers ,refreshAllUsers, refreshModerators, refreshSessions]);
+        // }, [selectedCollege, refreshDashboard, refreshSchedules,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions]);
+    }, [refreshDashboard, refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshAllUsers , refreshModerators, refreshContentSkeletons, refreshSessions, refreshAttendance ,refreshContents ,refreshAssessments , refreshFeedback ]);
+    // }, [selectedCollege, refreshDashboard,refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers ,refreshAllUsers, refreshModerators, refreshSessions , refreshContentSkeletons ,refreshContents,refreshAssessments ,refreshFeedback ,refreshPerformance]);
 
     // ── Effect: session changes ─────────────────────────────────────────────
     // Only reloads attendance-related data, never runs without a valid session
@@ -531,14 +640,14 @@ useEffect(() => {
     useEffect(() => {
         refreshAttendance();
     }, [refreshAttendance]);
+    
 
 
 
 
 
 
-
-
+    
 
 
 
@@ -558,10 +667,16 @@ useEffect(() => {
             refreshAllUsers(),
             refreshModerators(),
             refreshSessions(),
+            refreshContentSkeletons(),
+            refreshContents(),
+            refreshAssessments(),
+            refreshFeedback(),
+            // refreshPerformance(),
         ]);
         await refreshAttendance();
     // }, [refreshDashboard, refreshSchedules, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshModerators, refreshSessions, refreshAttendance]);
-    }, [refreshDashboard, refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshAllUsers , refreshModerators, refreshSessions, refreshAttendance]);
+    // }, [refreshDashboard, refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshAllUsers , refreshModerators, refreshContentSkeletons, refreshSessions, refreshAttendance ,refreshContents ,refreshAssessments , refreshFeedback , refreshPerformance]);
+    }, [refreshDashboard, refreshSlots, refreshContracts, refreshStudents, refreshCourses, refreshTrainers , refreshAllUsers , refreshModerators, refreshContentSkeletons, refreshSessions, refreshAttendance ,refreshContents ,refreshAssessments , refreshFeedback ]);
 
 
 
@@ -599,47 +714,6 @@ const handleDeleteCollege = async (id) => {
     await refresh();
 };
 
-
-
-
-// // Attendance
-
-// const handleCreateAttendance = async (data) => {
-//     const res = await createAttendance(data, token);
-//     await refreshAttendance();
-//     return res;
-// };
-
-
-// const handleUpdateAttendance = async (data) => {
-//     const res = await updateAttendance(data, token);
-//     await refreshAttendance();
-//     return res;
-// };
-
-
-
-
-// // Schedule
-
-// const handleCreateSchedule = async (data) => {
-//     const res = await createSchedule(data, token);
-//     await refresh();
-//     return res;
-// };
-
-
-// const handleUpdateSchedule = async (id, data) => {
-//     const res = await updateSchedule(id, data, token);
-//     await refresh();
-//     return res;
-// };
-
-
-// const handleDeleteSchedule = async (id) => {
-//     await deleteSchedule(id, token);
-//     await refresh();
-// };
 
 // Slots
 
@@ -841,10 +915,90 @@ const handleDeleteModerator = async (id) => {
 };
 
 
+// ContentSkeleton
+
+const handleCreateContentSkeleton = async (data) => {
+    const res = await createContentSkeleton(data, token);
+    await refreshContentSkeletons();
+    return res;
+};
+
+const handleUpdateContentSkeleton = async (id, data) => {
+    const res = await updateContentSkeleton(id, data, token);
+    await refreshContentSkeletons();
+    return res;
+};
+
+const handleDeleteContentSkeleton = async (id) => {
+    const res = await deleteContentSkeleton(id, token);
+    await refreshContentSkeletons();
+    return res;
+};
+
+
+// Content
+
+const handleCreateContent = async (data) => {
+    const res = await createContent(data, token);
+    await refreshContents();
+    return res;
+};
+
+const handleUpdateContent = async (id, data) => {
+    const res = await updateContent(id, data, token);
+    await refreshContents();
+    return res;
+};
+
+const handleDeleteContent = async (id) => {
+    const res = await deleteContent(id, token);
+    await refreshContents();
+    return res;
+};
 
 
 
 
+
+// assessments
+const handleCreateAssessment = async (data) => {
+    const res = await createAssessment(data, token);
+    await refreshAssessments();
+    return res;
+};
+
+const handleUpdateAssessment = async (id, data) => {
+    const res = await updateAssessment(id, data, token);
+    await refreshAssessments();
+    return res;
+};
+
+const handleDeleteAssessment = async (id) => {
+    const res = await deleteAssessment(id, token);
+    await refreshAssessments();
+    return res;
+};
+
+
+
+// Feedback
+const handleCreateFeedback = async (data) => {
+    const res = await createFeedback(data, token);
+    await refreshFeedback();
+    return res;
+};
+
+const handleUpdateFeedback = async (id, data) => {
+    const res = await updateFeedback(id, data, token);
+    await refreshFeedback();
+    return res;
+};
+
+const handleDeleteFeedback = async (id) => {
+    const res = await deleteFeedback(id, token);
+    await refreshFeedback();
+    return res;
+};
 
 
 
@@ -962,7 +1116,49 @@ const handleDeleteModerator = async (id) => {
         createModerator: handleCreateModerator,
         updateModerator: handleUpdateModerator,
         deleteModerator: handleDeleteModerator,
-        
+
+
+
+        // ContentSkeleton
+        createContentSkeleton: handleCreateContentSkeleton,
+        updateContentSkeleton: handleUpdateContentSkeleton,
+        deleteContentSkeleton: handleDeleteContentSkeleton,
+        AllContentSkeletons,
+
+        // Content
+        AllContents,
+        ProgramStructure,
+        createContent: handleCreateContent,
+        updateContent: handleUpdateContent,
+        deleteContent: handleDeleteContent,
+        downloadContent:handleDownloadFile,
+        previewContent:handlePreviewFile,
+
+
+        // Assessments,
+        AllAssessments,
+        AssessmentSubmissions,
+        getAssessmentSubmissions,
+        createAssessment: handleCreateAssessment,
+        updateAssessment: handleUpdateAssessment,
+        deleteAssessment :handleDeleteAssessment,
+
+
+        // Feedback
+        AllFeedback,
+        MyFeedback,
+        createFeedback: handleCreateFeedback,
+        updateFeedback: handleUpdateFeedback,
+        deleteFeedback: handleDeleteFeedback,
+
+
+
+        // performance
+        StudentPerformance,
+        getStuPerformance,
+
+
+
         AllUsers,
 
         refresh,

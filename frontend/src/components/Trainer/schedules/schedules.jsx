@@ -223,6 +223,8 @@ export default function SchedulesPage({ token }) {
 
       <div className="Schedulees-header">
       {/* <pre>{JSON.stringify(selectedcourse, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(studentsbycoll, null, 2)}</pre> */}
+
         <div>
           <h1>Schedules</h1>
           <p>Timetables and slot management</p>
@@ -350,6 +352,7 @@ export default function SchedulesPage({ token }) {
         setTopicFeedbackData={setTopicFeedbackData}
         setShowTopicFeedbackModal={setShowTopicFeedbackModal}
         setshowAttendanceModal={setshowAttendanceModal}
+        setselectedcourse={setselectedcourse}
         />
       )}
     </div>

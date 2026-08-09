@@ -6,7 +6,7 @@
    /* max-height: 20vh; */
     /* min-width: 30vw; */
     height:stretch;
-    width: stretch;
+    /* width: stretch; */
     /* min-height: 100vh; */
     padding: 1.2rem 1.2rem;
     display: flex;
@@ -25,6 +25,8 @@
         transform .35s ease,
         box-shadow .35s ease,
         border-color .35s ease;
+
+    flex: 1;
 
 
 }

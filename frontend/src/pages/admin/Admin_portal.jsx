@@ -15,6 +15,11 @@ import AttendancePage from "../../components/admin/attendance/attendance";
 import ModeratorPage from "../../components/admin/moderator/moderator";
 import CoursesPage from "../../components/admin/course/course";
 import StudentsPage from "../../components/admin/students/students"
+import Content from "../../components/admin/Content/content"
+import Assessment from "../../components/admin/assessment/assessment"
+import Newfeedback from "../../components/admin/feedback/components/newfeedback"
+import FeedbackList from "../../components/admin/feedback/feedback"
+import StudentPerformance from "../../components/admin/StudentPerformance/StudentPerformance"
 
 function Admin_portal({ token, user, handleLogout }) {
 
@@ -44,7 +49,10 @@ function Admin_portal({ token, user, handleLogout }) {
                     {page === "moderator" && <ModeratorPage token={token} />}
                     {page === "course" && <CoursesPage token={token} />}
                     {page === "students" && <StudentsPage token={token} />}
-
+                    {page === "content" && <Content token={token} />}
+                    {page === "assessment" && <Assessment token={token} />}
+                    {page === "feedback" && <FeedbackList token={token} />}
+                    {page === "performance" && <StudentPerformance token={token} />}
                 </div>
 
                 

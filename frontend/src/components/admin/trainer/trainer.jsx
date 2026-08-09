@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import TrainersTable from './components/TrainersTable';
-import useTrainers from './hooks/usetrainer';
+// import useTrainer from './hooks/usetrainer';
 import { useDashboard } from "../../../hooks/useDashboard";
 
 import NewTrainerPage from './components/NewtrainerPage';

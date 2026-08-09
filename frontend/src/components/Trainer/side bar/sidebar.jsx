@@ -3,6 +3,7 @@ import "./sidebar.css";
 import UserInfo from "./component/userinfo";
 import { ThemeContext } from "../../../theme/ThemeContext";
 import { useContext } from "react";
+import tpcLogo from '/logo.png';
 import {
     LayoutDashboard,
     Building2,
@@ -16,28 +17,26 @@ import {
     ChevronRight,
     ChevronsLeft,
     ChevronsRight,
+    FileText,
 } from "lucide-react";
 
 const NAV_ITEMS = [
-    // { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    // { key: "college", label: "College", icon: Building2 },
-    // { key: "trainer", label: "Trainer", icon: GraduationCap },
-    // { key: "moderator", label: "Moderator", icon: ShieldCheck },
-    // { key: "contracts", label: "Contracts", icon: FileSignature },
-    // { key: "sessions", label: "Sessions", icon: Presentation },
+
     { key: "schedule", label: "Schedule", icon: CalendarDays },
-    // { key: "attendance", label: "Attendance", icon: ClipboardCheck },
-    // { key: "course", label: "Course", icon: BookOpen },
-    //   {
-    //     key: "",
-    //     label: "",
-    //     icon: ,
-    //     children: [
-    //       { key: "attendance-students", label: "Students" },
-    //       { key: "attendance-trainers", label: "Trainers" },
-    //       { key: "attendance-reports", label: "Reports" },
-    //     ],
-    //   },
+    // { key: "content", label: "Content", icon: BookOpen },
+    // { key: "assessment", label: "Assessment", icon: FileText },
+    {
+        key: "modules",
+        label: "Modules",
+        icon: FileText,
+        children: [
+            { key: "content", label: "Content", icon: BookOpen },
+            { key: "assessment", label: "Assessment", icon: FileText },
+            { key: "feedback", label: "Feedback", icon: FileText },
+            { key: "StudentPerformance", label: "Performance", icon: FileText },
+        ],
+    },
+
 ];
 
 export default function Sidebar({
@@ -74,11 +73,12 @@ export default function Sidebar({
             <div className="sb_cont">
 
                 <div className="sb__brand">
-                    <div className="sb__brand-mark">IC</div>
+                    {/* <div className="sb__brand-mark">IC</div> */}
+                    <img src={tpcLogo} alt="TPC Logo" className="brand-mark" />
                     {!collapsed && (
                         <div className="sb__brand-text">
-                            <span className="sb__brand-line">ICON /</span>
-                            <span className="sb__brand-line">COMPANY</span>
+                            <span className="sb__brand-line">TPC Global</span>
+                            {/* <span className="sb__brand-line">COMPANY</span> */}
                         </div>
                     )}
                 </div>
@@ -156,7 +156,7 @@ export default function Sidebar({
                     className={`theme-toggle ${theme === "dark" ? "dark" : ""} ${collapsed ? "" : "horizontal"
                         }`}
                     // onClick={toggleTheme}
-onClick={(e) => toggleTheme(e)}
+                    onClick={(e) => toggleTheme(e)}
                 >
                     <span className="theme-thumb">
                         {theme === "dark" ? "🌙" : "☀️"}

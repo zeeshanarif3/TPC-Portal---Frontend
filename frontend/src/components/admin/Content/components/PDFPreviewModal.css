@@ -1,0 +1,307 @@
+/* ===========================
+   BACKDROP
+=========================== */
+
+.pdf-backdrop{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:var(--bg-primary);
+    backdrop-filter:blur(10px);
+
+    animation:pdfFade .18s ease;
+}
+
+@keyframes pdfFade{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+/* ===========================
+   MODAL
+=========================== */
+
+.pdf-modal{
+
+    width:min(95vw,1400px);
+    height:92vh;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    background:var(--bg-primary);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    /* box-shadow:
+        0 30px 70px rgba(0,0,0,.55); */
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.pdf-header{
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    background:#121d2d;
+}
+
+.pdf-title{
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+
+    text-overflow:ellipsis;
+}
+
+.pdf-actions{
+
+    display:flex;
+    gap:10px;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.pdf-btn{
+
+    width:40px;
+    height:40px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    border:none;
+
+    border-radius:10px;
+
+    color:#fff;
+
+    background:#1d2a40;
+
+    transition:.18s;
+}
+
+.pdf-btn:hover{
+
+    background:#2d3e5c;
+
+    transform:translateY(-2px);
+}
+
+.pdf-btn:disabled{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+.pdf-btn.danger:hover{
+
+    background:#cc3d3d;
+}
+
+/* ===========================
+   PDF AREA
+=========================== */
+
+.pdf-viewer{
+
+    flex:1;
+
+    overflow:auto;
+
+    padding:30px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    background:#1b2433;
+}
+
+/* page shadow */
+
+.react-pdf__Page{
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.45);
+
+    margin-bottom:30px;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+.pdf-footer{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:16px 22px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    background:#121d2d;
+}
+
+.page-counter{
+
+    color:#d6d9df;
+
+    font-size:14px;
+
+    min-width:120px;
+
+    text-align:center;
+}
+
+.zoom-text{
+
+    color:#fff;
+
+    font-weight:600;
+
+    width:55px;
+
+    text-align:center;
+}
+
+.pdf-spacer{
+
+    flex:1;
+}
+
+/* ===========================
+   LOADING
+=========================== */
+
+.pdf-loading{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:18px;
+
+    color:#fff;
+
+    height:65vh;
+}
+
+.spin{
+
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ===========================
+   SCROLLBAR
+=========================== */
+
+.pdf-viewer::-webkit-scrollbar{
+
+    width:10px;
+}
+
+.pdf-viewer::-webkit-scrollbar-thumb{
+
+    background:#47546d;
+
+    border-radius:20px;
+}
+
+.pdf-viewer::-webkit-scrollbar-track{
+
+    background:transparent;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:900px){
+
+    .pdf-modal{
+
+        width:100vw;
+        height:100vh;
+
+        border-radius:0;
+    }
+
+    .pdf-header{
+
+        padding:14px;
+    }
+
+    .pdf-footer{
+
+        padding:12px;
+    }
+
+    .pdf-viewer{
+
+        padding:12px;
+    }
+
+    .page-counter{
+
+        min-width:auto;
+    }
+
+}

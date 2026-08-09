@@ -33,6 +33,12 @@ const contractRoutes = require('./routes/contracts');
 const slotRoutes = require('./routes/slots');
 const dashboardRoutes = require('./routes/dashboard');
 const moderatorRoutes = require('./routes/moderators');
+const contentRoutes = require('./routes/content');
+const assessmentRoutes = require('./routes/assessments');
+// const attendanceRoutes = require('./routes/attendance');
+const feedbackRoutes = require('./routes/feedback');
+const performanceRoutes = require('./routes/performance');
+const path = require('path');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
@@ -45,6 +51,14 @@ app.use('/api/contracts', contractRoutes);
 app.use('/api/slots', slotRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/moderators', moderatorRoutes);
+app.use('/api/content', contentRoutes);
+app.use('/api/assessments', assessmentRoutes);
+// app.use('/api/attendance', attendanceRoutes);
+app.use('/api/feedback', feedbackRoutes);
+app.use('/api/performance', performanceRoutes);
+
+// Static uploads folder
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Test route
 app.get('/', (req, res) => {

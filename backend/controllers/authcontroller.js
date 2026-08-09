@@ -94,5 +94,63 @@ const getUsersForAdmin = async (req, res) => {
   }
 };
 
-module.exports = { login, updateUserActiveStatus, getUsersForAdmin };
+// Admin API to create another admin account
+const createAdmin = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Validate fields
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "Name, email, and password are required" });
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: "Please provide a valid email address" });
+  }
+
+  // Password length validation
+  if (password.length < 6) {
+    return res.status(400).json({ message: "Password must be at least 6 characters long" });
+  }
+
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User with this email already exists" });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create user with role admin
+    const newAdmin = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: 'admin',
+      active: true
+    });
+
+    await newAdmin.save();
+
+    res.status(201).json({
+      message: "Admin account created successfully",
+      user: {
+        id: newAdmin._id,
+        name: newAdmin.name,
+        email: newAdmin.email,
+        role: newAdmin.role,
+        active: newAdmin.active
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message || "Server error" });
+  }
+};
+
+module.exports = { login, updateUserActiveStatus, getUsersForAdmin, createAdmin };
+
 

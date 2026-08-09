@@ -14,7 +14,7 @@ exports.getDashboardStats = async (req, res) => {
     const userId = req.user.id;
     const userRole = req.user.role;
     // let collegeId = req.query.collegeId;
-    const {college: collegeId} = req.query;
+    let {college: collegeId} = req.query;
 
     // If moderator, they can only access their own college
     if (userRole === 'moderator') {

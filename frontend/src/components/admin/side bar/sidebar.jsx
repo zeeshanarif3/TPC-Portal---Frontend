@@ -20,29 +20,52 @@ import {
     ChevronsLeft,
     ChevronsRight,
     Users,
+    FileText,
 } from "lucide-react";
 
 const NAV_ITEMS = [
     { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { key: "college", label: "College", icon: Building2 },
-    { key: "trainer", label: "Trainer", icon: GraduationCap },
-    { key: "moderator", label: "Moderator", icon: ShieldCheck },
-    { key: "contracts", label: "Contracts", icon: FileSignature },
     { key: "sessions", label: "Sessions", icon: Presentation },
-    { key: "schedule", label: "Schedule", icon: CalendarDays },
-    { key: "attendance", label: "Attendance", icon: ClipboardCheck },
     { key: "course", label: "Course", icon: BookOpen },
-    { key: "students", label: "Students", icon: Users },
-    //   {
-    //     key: "",
-    //     label: "",
-    //     icon: ,
-    //     children: [
-    //       { key: "attendance-students", label: "Students" },
-    //       { key: "attendance-trainers", label: "Trainers" },
-    //       { key: "attendance-reports", label: "Reports" },
-    //     ],
-    //   },
+    // { key: "trainer", label: "Trainer", icon: GraduationCap },
+    // { key: "moderator", label: "Moderator", icon: ShieldCheck },
+    { key: "contracts", label: "Contracts", icon: FileSignature },
+    // { key: "schedule", label: "Schedule", icon: CalendarDays },
+    // { key: "attendance", label: "Attendance", icon: ClipboardCheck },
+    // { key: "students", label: "Students", icon: Users },
+    // { key: "content", label: "Content", icon: BookOpen },
+    // { key: "assessment", label: "Assessment", icon: FileText },
+    {
+        key: "clsses",
+        label: "Classes",
+        icon: FileText,
+        children: [
+            { key: "schedule", label: "Schedule", icon: CalendarDays },
+            { key: "attendance", label: "Attendance", icon: ClipboardCheck },
+        ],
+      },
+    {
+        key: "users",
+        label: "Users",
+        icon: GraduationCap,
+        children: [
+           { key: "trainer", label: "Trainer", icon: GraduationCap },
+           { key: "moderator", label: "Moderator", icon: ShieldCheck },
+          { key: "students", label: "Students", icon: Users },
+        ],
+      },
+    {
+        key: "modules",
+        label: "Modules",
+        icon: FileText,
+        children: [
+            { key: "content", label: "Content", icon: BookOpen },
+            { key: "assessment", label: "Assessment", icon: FileText },
+            { key: "feedback", label: "Feedback", icon: FileText },
+            { key: "performance", label: "Performance", icon: FileText },
+        ],
+      },
 ];
 
 
