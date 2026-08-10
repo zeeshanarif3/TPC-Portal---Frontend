@@ -484,6 +484,27 @@ export async function fetchSlots(params = {}, token) {
   return handleResponse(res, "Failed to fetch slots");
 }
 
+// export async function fetchStudentUpcomingClasses(token) {
+//   const url = `${BASE_URL}/students/student-upcoming-classes`;
+
+//   const res = await fetch(url, {
+//     headers: getHeaders(token),
+//   });
+
+//   return handleResponse(res, "Failed to fetch upcoming classes");
+// }
+
+export async function fetchStudentUpcomingClasses(token) {
+  const url = `${BASE_URL}/slots/student-upcoming-classes`;
+
+  const res = await fetch(url, {
+    headers: getHeaders(token),
+  });
+
+  return handleResponse(res, "Failed to fetch upcoming classes");
+}
+
+
 export async function fetchSlotById(id, token) {
   const res = await fetch(`${BASE_URL}/slots/${id}`, {
     headers: getHeaders(token),

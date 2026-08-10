@@ -20,7 +20,7 @@ function Debug() {
     //     AllContents,
     //     ProgramStructure,
     // } = useStu(token);
-    const {
+    // const {
     //     colleges,
 
 
@@ -33,10 +33,10 @@ function Debug() {
     //     Analytics,
     //     AttendanceChart,
     //     SubjectDistributionAttendance,
-        AttendanceByCollegeAndSession,
+        // AttendanceByCollegeAndSession,
 
     //     // slots
-        AllSlots,
+        // AllSlots,
     //     UpcomingSlotsByColl,
 
     //     fetchSlotById,
@@ -52,23 +52,23 @@ function Debug() {
 
 
     //     // sessions
-        AllSessions,
+        // AllSessions,
     //     setCurrentSession,
     //     CurrentSession,
 
     //     // students
-        Allstudents,
+        // Allstudents,
 
     //     fetchStudentsByCourse,
 
     //     // courses
-        AllCourses,
+        // AllCourses,
     //     fetchCourseById,
 
-        AllContentSkeletons,
+        // AllContentSkeletons,
 
     //     // Content
-        AllContents,
+        // AllContents,
     //     ProgramStructure,
 
     //     previewContent,
@@ -89,7 +89,7 @@ function Debug() {
     //     getStuPerformance,    
     
     
-    } = useModer(token);
+    // } = useModer(token);
     
     
     // const {
@@ -293,17 +293,17 @@ function Debug() {
                 <br />                
                 <br />
                 <br /> */}
-                AllContents :
+                {/* AllContents :
                 
                  <pre>{JSON.stringify(AllContents, null, 2)}</pre> 
-                <br />
-                <br /> 
+                <br /> */}
+                {/* <br /> 
                 <br /> 
                 AttendanceByCollegeAndSession :
                 
                  <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> 
                 <br />
-                <br />
+                <br /> */}
                 {/* <br /> 
                 AllSlots :
                 

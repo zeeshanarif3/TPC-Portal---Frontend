@@ -1,5 +1,5 @@
 // useDashboard.js
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback ,setError} from "react";
 import {
     fetchMyPerformance,
     submitAssessment,
@@ -8,6 +8,7 @@ import {
     fetchContents,
     fetchProgramStructure,
     handlePreviewFile,
+    fetchStudentUpcomingClasses,
 
 } from "../services/dashboardapi";
 
@@ -20,6 +21,9 @@ export function useStu(token) {
     // Content
     const [AllContents, setAllContents] = useState([]);
     const [ProgramStructure, setProgramStructure] = useState([]);
+    //slots
+    const [AllSlots, setAllSlots] = useState([]);
+
 
     const fetchMyPerformanceData = useCallback(async () => {
         try {
@@ -68,6 +72,17 @@ export function useStu(token) {
     }, [token]);
 
 
+    const refreshUpcomingClasses = useCallback(async () => {
+    try {
+        const classes = await fetchStudentUpcomingClasses(token);
+
+        setAllSlots(classes);
+    } catch (err) {
+        setError(err.message || "Failed to fetch upcoming classes");
+    }
+}, [token]);
+
+
 
     // -------------------- Initial Load  --------------------
     useEffect(() => {
@@ -75,7 +90,8 @@ export function useStu(token) {
         refreshAssessments();
         refreshContents();
         refreshContentSkeletons();
-    }, [fetchMyPerformanceData, refreshAssessments, refreshContents, refreshContentSkeletons]);
+        refreshUpcomingClasses();
+    }, [fetchMyPerformanceData, refreshAssessments, refreshContents, refreshContentSkeletons,refreshUpcomingClasses]);
 
 
 
@@ -95,6 +111,7 @@ export function useStu(token) {
 
         previewContent:handlePreviewFile,
 
+        AllSlots,
     };
 }
 

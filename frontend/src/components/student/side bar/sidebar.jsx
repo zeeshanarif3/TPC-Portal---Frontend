@@ -26,6 +26,7 @@ const NAV_ITEMS = [
     // { key: "moderator", label: "Moderator", icon: ShieldCheck },
     // { key: "contracts", label: "Contracts", icon: FileSignature },
     // { key: "sessions", label: "Sessions", icon: Presentation },
+    { key: "schedule", label: "Schedule", icon: CalendarDays },
     { key: "performance", label: "Performance", icon: ShieldCheck },
     { key: "assessment", label: "Assessment", icon: ClipboardCheck },
     { key: "content", label: "Content", icon: ClipboardCheck },

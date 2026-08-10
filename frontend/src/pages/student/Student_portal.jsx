@@ -11,6 +11,7 @@ import Sidebar from "../../components/student/side bar/sidebar";
 import PerformancePage from "../../components/student/performance/PerformancePage";
 import StudentAssessment from "../../components/student/assessment/assessment";
 import Content from "../../components/student/Content/content";
+import SchedulesPage from "../../components/student/schedules/schedules";
 
 
 function Student_portal({ token, user, handleLogout }) {
@@ -40,6 +41,7 @@ function Student_portal({ token, user, handleLogout }) {
                     {/* {page === "attendance" && <AttendancePage token={token} />} */}
                     {/* {page === "moderator" && <ModeratorPage token={token} />}
                     {page === "course" && <CoursesPage token={token} />} */}
+                     {page === "schedule" && <SchedulesPage token={token} />} 
                      {page === "performance" && <PerformancePage token={token} />} 
                      {page === "assessment" && <StudentAssessment token={token} />} 
                      {page === "content" && <Content token={token} />} 

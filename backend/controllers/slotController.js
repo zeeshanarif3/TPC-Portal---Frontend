@@ -5,6 +5,9 @@ const College = require('../models/College');
 const Trainer = require('../models/Trainer');
 const Contract = require('../models/Contract');
 const Student = require('../models/Student');
+const getLoggedInStudent = async (userId) => {
+  return await Student.findOne({ userId });
+}
 
 // Helper to validate relationship between Course and Session
 const validateCourseSessionRelationship = (course, session) => {
@@ -603,6 +606,58 @@ exports.getUpcomingClasses = async (req, res) => {
   }
 };
 
+
+// Get upcoming classes for a student (based on their enrolled course)
+exports.getUpcomingStudentClasses = async (req, res) => {
+  try {
+    const student = await getLoggedInStudent(req.user.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student profile not found for this user' });
+    }
+
+    const today = new Date();
+    // today.setHours(0, 0, 0, 0);
+
+    const slots = await Slot.find({
+      courseId: student.courseId,
+      date: { $gte: today }
+    })
+      .populate('courseId', 'courseCode')
+      .populate('sessionId', 'startDate endDate')
+      .populate('trainerId', 'name speciality');
+
+    const upcomingClasses = slots.map(slot => ({
+      _id: slot._id,
+      course: slot.courseId ? {
+        _id: slot.courseId._id,
+        courseCode: slot.courseId.courseCode
+      } : null,
+      session: slot.sessionId ? {
+        _id: slot.sessionId._id,
+        startDate: slot.sessionId.startDate,
+        endDate: slot.sessionId.endDate
+      } : null,
+      date: slot.date,
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+      trainer: slot.trainerId ? {
+        _id: slot.trainerId._id,
+        name: slot.trainerId.name,
+        speciality: slot.trainerId.speciality
+      } : null,
+      roomNo: slot.roomNo,
+      topic: slot.topic,
+      status: slot.status,
+      attendanceTaken: slot.attendanceTaken,
+      headCount: slot.headCount,
+      feedback: slot.feedback
+    }));
+
+    res.status(200).json(upcomingClasses);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 // Submit attendance for a slot by ID (handles initial submission and updates)
 exports.submitAttendance = async (req, res) => {
   try {

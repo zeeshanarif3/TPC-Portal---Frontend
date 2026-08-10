@@ -12,6 +12,7 @@ const {
   appendSlotsViaCSV,
   updateTopicAndFeedback,
   getUpcomingClasses,
+  getUpcomingStudentClasses,
   submitAttendance,
   getAttendanceById,
   getAnalytics,
@@ -23,7 +24,8 @@ const {
 
 // Middlewares
 const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
-const getScheduleMiddleware = authorizeRoles('admin', 'moderator', 'trainer');
+const studentMiddleware = authorizeRoles('student');
+const getScheduleMiddleware = authorizeRoles('admin', 'moderator', 'trainer','student');
 const editTopicFeedbackMiddleware = authorizeRoles('admin', 'moderator', 'trainer');
 const trainerMiddleware = authorizeRoles('trainer');
 const moderatorMiddleware = authorizeRoles('moderator');
@@ -55,8 +57,10 @@ const moderatorMiddleware = authorizeRoles('moderator');
 // router.get('/college/:collegeId/session/:sessionId', verifyToken, adminModeratorMiddleware, getAttendanceByCollegeAndSession);
 
 // Standard Scheduling / Slot Routes
+router.get('/student-upcoming-classes', verifyToken, studentMiddleware, getUpcomingStudentClasses);
 router.get('/upcoming', verifyToken, adminModeratorMiddleware, getUpcomingSlotsByCollege);
 router.get('/upcoming-classes', verifyToken, trainerMiddleware, getUpcomingClasses);
+// router.get('/student-upcoming-classes', verifyToken, getScheduleMiddleware, getUpcomingStudentClasses);
 router.get('/analytics', verifyToken, moderatorMiddleware, getAnalytics);
 router.get('/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
 router.get('/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
@@ -65,7 +69,7 @@ router.get('/college/:collegeId/session/:sessionId', verifyToken, adminModerator
 router.get("/session/:sessionId/attendance",verifyToken ,adminModeratorMiddleware,getModeratorAttendanceBySession);
 router.post('/', verifyToken, adminModeratorMiddleware, createSlot);
 router.post('/append-slots-csv', verifyToken, adminModeratorMiddleware, appendSlotsViaCSV);
-router.get('/', verifyToken, getAllSlots);
+router.get('/', verifyToken,adminModeratorMiddleware, getAllSlots);
 
 
 // Dynamic routes LAST
