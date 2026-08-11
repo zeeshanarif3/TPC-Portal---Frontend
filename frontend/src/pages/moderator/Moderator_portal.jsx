@@ -22,7 +22,7 @@ import StudentPerformance from "../../components/moderator/StudentPerformance/St
 
 function Moderator_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("dashboard"); //Default
+    const [page, setPage] = useState("schedule"); //Default
     // const [page, setPage] = useState("sessions"); //Default
 
 
@@ -41,8 +41,8 @@ function Moderator_portal({ token, user, handleLogout }) {
                     {/* {/* {page === "dashboard" && <DashboardPage token={token} />}     */}
 
                     {/* {page === "trainer" && <TrainersPage token={token} />} */}
-                    {page === "sessions" && <SessionsPage token={token} />}       
                     {page === "schedule" && <SchedulesPage token={token} />}
+                    {page === "sessions" && <SessionsPage token={token} />}       
                     {page === "attendance" && <AttendancePage token={token} />}
                     {page === "course" && <CoursesPage token={token} />}         
                     {page === "students" && <StudentsPage token={token} />}

@@ -23,6 +23,26 @@ import {
     FileText,
 } from "lucide-react";
 const NAV_ITEMS = [
+    {
+        key: "clsses",
+        label: "Classes",
+        icon: FileText,
+        children: [
+            { key: "schedule", label: "Schedule", icon: CalendarDays },
+            { key: "attendance", label: "Attendance", icon: ClipboardCheck },
+        ],
+    },
+    {
+        key: "modules",
+        label: "Modules",
+        icon: FileText,
+        children: [
+            { key: "content", label: "Content", icon: BookOpen },
+            { key: "assessment", label: "Assessment", icon: FileText },
+            { key: "feedback", label: "Feedback", icon: FileText },
+            { key: "performance", label: "Performance", icon: FileText },
+        ],
+    },
     // { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     // { key: "college", label: "College", icon: Building2 },
     { key: "sessions", label: "Sessions", icon: Presentation },
@@ -36,26 +56,6 @@ const NAV_ITEMS = [
     // { key: "content", label: "Content", icon: BookOpen },
     // { key: "assessment", label: "Assessment", icon: FileText },
     { key: "students", label: "Students", icon: Users },
-    {
-        key: "clsses",
-        label: "Classes",
-        icon: FileText,
-        children: [
-            { key: "schedule", label: "Schedule", icon: CalendarDays },
-            { key: "attendance", label: "Attendance", icon: ClipboardCheck },
-        ],
-      },
-    {
-        key: "modules",
-        label: "Modules",
-        icon: FileText,
-        children: [
-            { key: "content", label: "Content", icon: BookOpen },
-            { key: "assessment", label: "Assessment", icon: FileText },
-            { key: "feedback", label: "Feedback", icon: FileText },
-            { key: "performance", label: "Performance", icon: FileText },
-        ],
-      },
 ];
 
 

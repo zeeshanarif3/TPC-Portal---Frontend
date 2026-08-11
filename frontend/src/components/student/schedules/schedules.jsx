@@ -380,12 +380,12 @@ export default function SchedulesPage({ token }) {
             </div>
 
           </div>
-          <button
+          {/* <button
             className="btn-export-csv"
             onClick={() => handleExportCSV(filteredSchedules)}
           >
             Export CSV
-          </button>
+          </button> */}
         </div>
 
         <div className="students-results">

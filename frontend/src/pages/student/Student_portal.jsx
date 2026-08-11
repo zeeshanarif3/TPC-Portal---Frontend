@@ -16,7 +16,7 @@ import SchedulesPage from "../../components/student/schedules/schedules";
 
 function Student_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("performance"); //Default
+    const [page, setPage] = useState("schedule"); //Default
 
 
 
