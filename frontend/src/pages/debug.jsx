@@ -92,7 +92,7 @@ function Debug() {
     // } = useModer(token);
     
     
-    // const {
+    const {
         //     // AllSchedules,
         //     AllSlots,
         //     Allstudents,
@@ -118,7 +118,7 @@ function Debug() {
 
     //     upcomingClasses,
     //     AttendanceChart,
-    //     SubjectDistributionAttendance,
+        SubjectDistributionAttendance,
         // AttendanceByCollegeAndSession,
 
 
@@ -135,7 +135,7 @@ function Debug() {
 
     //     //sessions
 
-    //     AllSessions,
+        AllSessions,
 
 
     //     //students
@@ -147,7 +147,7 @@ function Debug() {
         // AllCourses,
         
         //     //Trainers
-        //     AllTrainers,
+            AllTrainers,
         //     TrainersByColl,
         
         //     //Moderator
@@ -155,12 +155,12 @@ function Debug() {
         
         //      AllUsers,
         
-        // AllSlots,
+        AllSlots,
 
-        // AllContentSkeletons,
+        AllContentSkeletons,
 
         // // Content
-        // AllContents,
+        AllContents,
         // ProgramStructure,
 
         // // Assessments,
@@ -173,7 +173,7 @@ function Debug() {
         // // performance
         // StudentPerformance,
 
-    // } = useDashboard(token);
+    } = useDashboard(token);
 
 
 
@@ -280,7 +280,7 @@ function Debug() {
                 <br />
                 <br /> */}
                 <br /> 
-                {/* AllSessions :
+                AllSessions :
                 
                  <pre>{JSON.stringify(AllSessions, null, 2)}</pre> 
                 <br />
@@ -292,11 +292,11 @@ function Debug() {
                  <pre>{JSON.stringify(AllContentSkeletons, null, 2)}</pre> 
                 <br />                
                 <br />
-                <br /> */}
-                {/* AllContents :
+                <br />
+                AllContents :
                 
                  <pre>{JSON.stringify(AllContents, null, 2)}</pre> 
-                <br /> */}
+                <br />
                 {/* <br /> 
                 <br /> 
                 AttendanceByCollegeAndSession :
@@ -304,12 +304,12 @@ function Debug() {
                  <pre>{JSON.stringify(AttendanceByCollegeAndSession, null, 2)}</pre> 
                 <br />
                 <br /> */}
-                {/* <br /> 
+                <br /> 
                 AllSlots :
                 
                  <pre>{JSON.stringify(AllSlots, null, 2)}</pre> 
                  {console.log(AllSlots)}
-                <br /> */}
+                <br />
                 <br />
                 {/* <br /> 
                 UpcomingSlotsByColl :
@@ -392,8 +392,8 @@ function Debug() {
                 <br />
                 <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-{/* 
-                 <br />
+
+                 {/* <br />
                     attendance
                 <br />
                 <br />
@@ -410,13 +410,13 @@ function Debug() {
                  <pre>{JSON.stringify(AttendanceChart, null, 2)}</pre> 
                 <br />
                 <br />
-                <br />
+                <br /> */}
                 SubjectDistributionAttendance :
                 
                  <pre>{JSON.stringify(SubjectDistributionAttendance, null, 2)}</pre> 
                 <br />
                 <br />
-                <br /> */}
+                <br />
                 {/* AllUsers :
                 
                  <pre>{JSON.stringify(AllUsers, null, 2)}</pre> 
@@ -697,7 +697,7 @@ function Debug() {
 
                 <br /> */}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////??
-                {/* <br />
+                <br />
 
                     Trainers
                 <br />
@@ -709,18 +709,18 @@ function Debug() {
                  <pre>{JSON.stringify(AllTrainers, null, 2)}</pre>   
                  <br />
 
-                <br />
+                {/* <br />
                 <br />
                 TrainersByColl :
                 
                  <pre>{JSON.stringify(TrainersByColl, null, 2)}</pre>   
                  <br />
 
-                <br />
+                <br /> */}
 
 
 
- */}
+
             </div>
 
 

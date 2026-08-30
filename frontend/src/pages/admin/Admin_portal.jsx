@@ -20,6 +20,7 @@ import Assessment from "../../components/admin/assessment/assessment"
 import Newfeedback from "../../components/admin/feedback/components/newfeedback"
 import FeedbackList from "../../components/admin/feedback/feedback"
 import StudentPerformance from "../../components/admin/StudentPerformance/StudentPerformance"
+import Program from "../../components/admin/Program/program"
 
 function Admin_portal({ token, user, handleLogout }) {
 
@@ -53,6 +54,7 @@ function Admin_portal({ token, user, handleLogout }) {
                     {page === "assessment" && <Assessment token={token} />}
                     {page === "feedback" && <FeedbackList token={token} />}
                     {page === "performance" && <StudentPerformance token={token} />}
+                    {page === "program" && <Program token={token} />}
                 </div>
 
                 

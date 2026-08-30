@@ -25,6 +25,7 @@ import {
 
 const NAV_ITEMS = [
     { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { key: "program", label: "Overview", icon: LayoutDashboard },
     { key: "college", label: "College", icon: Building2 },
     { key: "sessions", label: "Sessions", icon: Presentation },
     { key: "course", label: "Course", icon: BookOpen },

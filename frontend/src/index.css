@@ -11,20 +11,19 @@ html {
 
 
 
-
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--text-secondary);
+    background: var(--border-color);
     border-radius: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    display: none;
-    background: #222;
+    display: block;
+    background: var(--card-bg);
 }
 
 
@@ -93,6 +92,8 @@ html {
   /* --accent: #f1af07; */
   /* --accent: #16a34a; */
   --accent: hsl(120, 72%, 44%);
+  /* --accent: #f87316; */
+  /* --accent: hsl; */
   /* --bg-schedule-complete:#d4edda; */
   --bg-schedule-complete:hsl(139, 40%, 78%);
   /* --bg-schedule-cancelled:#721c24; */

@@ -1,0 +1,154 @@
+.session-card {
+  width: 100%;
+  max-width: 650px;
+  padding: 24px;
+
+  background: var(--card-bg, #ffffff);
+  /* border: 1px solid var(--border-color, #e5e7eb); */
+  border-radius: 18px;
+
+  /* box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06); */
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.session-card:hover {
+  transform: translateY(-3px);
+  /* box-shadow: 0 12px 30px rgba(0, 0, 0, 0.09); */
+}
+
+/* Header */
+
+.session-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* border: 2px solid var(--border-color); */
+  gap: 20px;
+}
+
+.session-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+}
+
+.session-college {
+  font-size: 14px;
+  font-weight: 600;
+  color:var(--text-secondary);
+  text-align: right;
+}
+
+/* Courses */
+
+.session-courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.course-badge {
+  padding: 6px 10px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+
+  border-radius: 7px;
+}
+
+/* Dates */
+
+.session-dates {
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.session-date {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.session-date.end {
+  text-align: right;
+}
+
+.date-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+
+.date-value {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Connecting line */
+
+.date-line {
+  flex: 1;
+  margin: 0 18px;
+}
+
+.date-line span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--border-color);
+  position: relative;
+  top: 8px;
+}
+
+.date-line span::after {
+  content: "";
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: var(--border-color);
+  border-radius: 50%;
+}
+
+
+
+
+
+
+
+.session-card {
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  transition: 
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.session-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Selected session */
+.session-card.selected {
+  border: 2px solid var(--accent);
+  /* box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); */
+  transform: translateY(-2px);
+}
