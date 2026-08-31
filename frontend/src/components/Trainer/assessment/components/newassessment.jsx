@@ -65,6 +65,8 @@ export default function NewAssessment({
     AllCourses = [],
     AllContentSkeletons = [],
     createAssessment,
+    setshowNewcsvAssessment,
+    setshowNewAssessment,
 }) {
     const [form, setForm] = useState(EMPTY_ASSESSMENT);
     const [saving, setSaving] = useState(false);
@@ -293,10 +295,21 @@ export default function NewAssessment({
                         </p>
                     </div>
 
-                    <div className="am-header-badge">
+                    <button
+                        className="new-assessment-btn"
+                        onClick={() => {
+                            setshowNewcsvAssessment(true);
+                            setshowNewAssessment(false);
+                        }}
+
+                    >
+                        + USE CSV
+                    </button>
+                    {/* <div className="am-header-badge">
                         <span>{totalQuestions}</span>
                         <small>Questions</small>
-                    </div>
+                    </div> */}
+
                 </div>
 
                 <div className="am-layout">
@@ -493,7 +506,7 @@ export default function NewAssessment({
                     </aside>
                 </div>
             </div>
-        </div>
+        </div >
     );
 
 

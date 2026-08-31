@@ -97,6 +97,7 @@
   max-height: 100%;
   /* padding: 20px 0; */
   flex: 1.5;
+  min-height: 30%;
 }
 
 

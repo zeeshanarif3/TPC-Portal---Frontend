@@ -143,22 +143,22 @@ export default function CoursesPage({ token }) {
       </div>
 
       <div className="students-stats">
-        <div className="stat-card">
+        <div className="course-stat-card">
           <span>Total Courses</span>
           <h2>{totalCourses}</h2>
         </div>
 
-        <div className="stat-card">
+        <div className="course-stat-card">
           <span>Filtered</span>
           <h2>{filteredCount}</h2>
         </div>
 
-        <div className="stat-card">
+        <div className="course-stat-card">
           <span>Colleges</span>
           <h2>{totalColleges}</h2>
         </div>
 
-        <div className="stat-card">
+        <div className="course-stat-card">
           <span>Added Last 30 Days</span>
           <h2>{recentlyAdded}</h2>
         </div>

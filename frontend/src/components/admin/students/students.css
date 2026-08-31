@@ -359,7 +359,7 @@ STATS
     gap:18px;
 }
 
-.stat-card{
+.stu-stat-card{
     background:var(--bg-primary);
     border-radius:18px;
     padding:22px;
@@ -368,19 +368,19 @@ STATS
     transition:.25s;
 }
 
-.stat-card:hover{
+.stu-stat-card:hover{
     transform:translateY(-4px);
     box-shadow:var(--shadow-hover);
 }
 
-.stat-card span{
+.stu-stat-card span{
     display:block;
     font-size:.85rem;
     color:var(--text-secondary);
     margin-bottom:10px;
 }
 
-.stat-card h2{
+.stu-stat-card h2{
     margin:0;
     font-size:2rem;
     font-weight:700;

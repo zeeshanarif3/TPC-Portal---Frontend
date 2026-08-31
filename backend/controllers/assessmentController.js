@@ -392,9 +392,9 @@ exports.deleteAssessment = async (req, res, next) => {
     }
 
     // Role verification
-    if (userRole === 'trainer' && assessment.createdBy.toString() !== req.user.id) {
-      return res.status(403).json({ success: false, message: 'Forbidden: You can only delete your own assessments' });
-    }
+    // if (userRole === 'trainer' && assessment.createdBy.toString() !== req.user.id) {
+    //   return res.status(403).json({ success: false, message: 'Forbidden: You can only delete your own assessments' });
+    // }
 
     // Cascade delete submissions
     await AssessmentSubmission.deleteMany({ assessmentId: id });

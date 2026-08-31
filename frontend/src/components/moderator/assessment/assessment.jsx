@@ -197,22 +197,22 @@ export default function Assessment({ token }) {
             </div>
 
             <div className="assessment-stats">
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Total</span>
                     <h2>{total}</h2>
                 </div>
 
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Published</span>
                     <h2>{published}</h2>
                 </div>
 
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Draft</span>
                     <h2>{drafts}</h2>
                 </div>
 
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Submissions</span>
                     <h2>{submissions}</h2>
                 </div>

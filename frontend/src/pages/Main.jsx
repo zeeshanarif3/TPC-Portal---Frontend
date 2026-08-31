@@ -12,8 +12,8 @@ import useLenis from "../hooks/useLenis";
 import './Main.css'
 import Anim from "../anim/anim";
 
-function Main() {
-// function Main({t}) {   //comment this , its for debug purposes
+// function Main() {
+function Main({t}) {   //comment this , its for debug purposes
     
     ////////// for smooth scrolling , for future components, currently not used ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -28,7 +28,7 @@ function Main() {
     const [user, setUser] = useState(null); // {name, email, role}
     const [ready, setReady] = useState(false);
     
-    // t(token) //comment this , its for debug purposes
+    t(token) //comment this , its for debug purposes
 
     // main func states
     const handleLogout = () => {

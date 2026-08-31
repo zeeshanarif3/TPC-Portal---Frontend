@@ -1,0 +1,4 @@
+title,programId,skeletonId,durationMinutes,scheduledDate,deadline,status,questionText,option1,option2,option3,option4,correctOptionIndex,marks
+Java Quiz,BTECH SAMPLE -2027,6a7376652b4718dcc2a22ccd,30,2026-09-05,2026-09-30,published,What is Java?,Programming Language,Database,Operating System,Compiler,0,2
+Java Quiz,BTECH SAMPLE -2027,6a7376652b4718dcc2a22ccd,30,2026-09-05,2026-09-30,published,Which keyword creates a class?,class,Class,new,object,0,1
+Java Quiz,BTECH SAMPLE -2027,6a7376652b4718dcc2a22ccd,30,2026-09-05,2026-09-30,published,Which is not a primitive type?,int,float,String,double,2,1

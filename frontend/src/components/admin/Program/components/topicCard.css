@@ -6,6 +6,7 @@
     border-radius: 16px;
     background: var(--card-bg, #ffffff);
     border: 1px solid var(--border-color, #e5e7eb);
+    min-height: 25%;
 }
 
 .contentTimelineHeader {

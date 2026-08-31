@@ -351,7 +351,7 @@ STATS
     gap: 18px;
 }
 
-.stat-card {
+.course-stat-card {
     background: var(--bg-primary);
     border-radius: 18px;
     padding: 20px 22px;
@@ -364,12 +364,12 @@ STATS
     transition: .25s ease;
 }
 
-.stat-card:hover {
+.course-stat-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
-.stat-card span {
+.course-stat-card span {
     color: var(--text-secondary);
     font-size: .82rem;
     font-weight: 600;
@@ -377,7 +377,7 @@ STATS
     letter-spacing: .05em;
 }
 
-.stat-card h2 {
+.course-stat-card h2 {
     margin: 0;
     color: var(--text-primary);
     font-size: 2rem;

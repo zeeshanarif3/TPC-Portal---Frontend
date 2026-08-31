@@ -1,0 +1,457 @@
+/* =========================================================
+   CSV ASSESSMENT UPLOAD
+   ========================================================= */
+
+.csv-assessment-upload-page {
+
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+
+    --shadow-sm:
+        0 2px 8px rgba(0, 0, 0, .05);
+
+    --shadow-md:
+        0 10px 30px rgba(0, 0, 0, .08);
+
+    --shadow-lg:
+        0 20px 45px rgba(0, 0, 0, .10);
+
+    --ease:
+        cubic-bezier(.4, 0, .2, 1);
+
+    width: 100%;
+    min-height: 100%;
+
+    padding: 20px;
+
+    background: var(--bg-primary);
+
+    color: var(--text-primary);
+
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+
+    transition: .3s;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.csv-assessment-upload-page .back-btn {
+
+    align-self: flex-start;
+
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+
+    padding: 10px 18px;
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 10px;
+
+    background: var(--card-bg);
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, .06);
+
+    transition:
+        background .2s var(--ease),
+        color .2s var(--ease),
+        transform .2s var(--ease),
+        box-shadow .2s var(--ease);
+}
+
+.csv-assessment-upload-page .back-btn:hover {
+
+    color: var(--text-primary);
+
+    background: var(--bg-secondary);
+
+    transform: translateX(-4px);
+
+    /* box-shadow:
+        0 7px 18px rgba(0, 0, 0, .08); */
+}
+
+
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
+
+.csv-assessment-upload-page h2 {
+
+    margin: 4px 0 4px;
+
+    font-size: 24px;
+
+    font-weight: 750;
+
+    letter-spacing: -.025em;
+
+    color: var(--text-primary);
+}
+
+
+/* =========================================================
+   STATUS BANNERS
+   ========================================================= */
+
+.csv-assessment-upload-page .error,
+.csv-assessment-upload-page .success {
+
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: .6rem;
+
+    padding: .8rem 1rem;
+
+    border-radius: 12px;
+
+    border: 1px solid;
+
+    font-size: .85rem;
+
+    font-weight: 600;
+
+    line-height: 1.45;
+
+    animation:
+        csv-assessment-banner-in
+        .22s var(--ease);
+}
+
+.csv-assessment-upload-page .error {
+
+    background:
+        color-mix(
+            in srgb,
+            var(--accent) 8%,
+            var(--bg-primary)
+        );
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--accent) 30%,
+            var(--border-color)
+        );
+
+    color: var(--accent);
+}
+
+.csv-assessment-upload-page .error::before {
+
+    content: "⚠";
+
+    flex-shrink: 0;
+}
+
+.csv-assessment-upload-page .success {
+
+    background:
+        color-mix(
+            in srgb,
+            var(--accent) 10%,
+            var(--bg-primary)
+        );
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--accent) 30%,
+            var(--border-color)
+        );
+
+    color: var(--accent);
+}
+
+.csv-assessment-upload-page .success::before {
+
+    content: "✓";
+
+    flex-shrink: 0;
+
+    font-weight: 800;
+}
+
+@keyframes csv-assessment-banner-in {
+
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   UPLOAD BOX
+   ========================================================= */
+
+.csv-assessment-upload-page .upload-box {
+
+    width: 100%;
+
+    min-height: 280px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 1.1rem;
+
+    padding: 2.5rem 1.5rem;
+
+    border:
+        1.5px dashed
+        var(--border-color);
+
+    border-radius: var(--radius-lg);
+
+    background: var(--card-bg);
+
+    text-align: center;
+
+    transition:
+        border-color .2s var(--ease),
+        background .2s var(--ease),
+        box-shadow .2s var(--ease);
+}
+
+.csv-assessment-upload-page .upload-box:hover,
+.csv-assessment-upload-page .upload-box:focus-within {
+
+    border-color: var(--accent);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--accent) 3%,
+            var(--card-bg)
+        );
+
+    box-shadow:
+        var(--shadow-md);
+}
+
+
+/* =========================================================
+   FILE INPUT
+   ========================================================= */
+
+.csv-assessment-upload-page
+.upload-box input[type="file"] {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: .65rem;
+
+    border:
+        1px solid
+        var(--border-color);
+
+    border-radius: 10px;
+
+    background: var(--bg-primary);
+
+    color: var(--text-secondary);
+
+    font-size: .82rem;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.csv-assessment-upload-page
+.upload-box input[type="file"]:hover {
+
+    border-color: var(--accent);
+}
+
+
+/* =========================================================
+   FILE SELECT BUTTON
+   ========================================================= */
+
+.csv-assessment-upload-page
+.upload-box
+input[type="file"]::file-selector-button {
+
+    margin-right: .75rem;
+
+    padding: .48rem .9rem;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--accent);
+
+    color: #fff;
+
+    font-size: .78rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s var(--ease),
+        opacity .18s var(--ease);
+}
+
+.csv-assessment-upload-page
+.upload-box
+input[type="file"]::file-selector-button:hover {
+
+    opacity: .9;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   READ CSV BUTTON
+   ========================================================= */
+
+.csv-assessment-upload-page
+.upload-box button {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: .7rem 1.7rem;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent) 0%,
+            color-mix(
+                in srgb,
+                var(--accent) 55%,
+                var(--bg-primary)
+            ) 100%
+        );
+
+    color: #fff;
+
+    font-size: .85rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    /* box-shadow:
+        var(--shadow-sm); */
+
+    transition:
+        transform .18s var(--ease),
+        box-shadow .18s var(--ease),
+        opacity .18s var(--ease);
+}
+
+.csv-assessment-upload-page
+.upload-box button:hover {
+
+    transform: translateY(-2px);
+
+    /* box-shadow:
+        var(--shadow-md); */
+}
+
+.csv-assessment-upload-page
+.upload-box button:active {
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .csv-assessment-upload-page {
+
+        padding: 16px;
+
+    }
+
+    .csv-assessment-upload-page h2 {
+
+        font-size: 21px;
+
+    }
+
+    .csv-assessment-upload-page .upload-box {
+
+        min-height: 230px;
+
+        padding: 2rem 1rem;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .csv-assessment-upload-page {
+
+        padding: 12px;
+
+    }
+
+    .csv-assessment-upload-page
+    .upload-box input[type="file"] {
+
+        font-size: .74rem;
+
+    }
+
+    .csv-assessment-upload-page
+    .upload-box {
+
+        padding: 1.5rem .8rem;
+
+    }
+
+}

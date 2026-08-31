@@ -166,22 +166,22 @@ export default function StudentsPage({ token }) {
 
       {/* Stats */}
       <div className="students-stats">
-        <div className="stat-card">
+        <div className="stu-stat-card">
           <span>Total Students</span>
           <h2>{Allstudents.length}</h2>
         </div>
 
-        <div className="stat-card">
+        <div className="stu-stat-card">
           <span>Assigned</span>
           <h2>{assignedStudents}</h2>
         </div>
 
-        <div className="stat-card">
+        <div className="stu-stat-card">
           <span>Unassigned</span>
           <h2>{unassignedStudents}</h2>
         </div>
 
-        <div className="stat-card">
+        <div className="stu-stat-card">
           <span>Courses</span>
           <h2>{AllCourses.length}</h2>
         </div>

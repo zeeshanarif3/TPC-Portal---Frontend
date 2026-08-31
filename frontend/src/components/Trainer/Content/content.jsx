@@ -21,6 +21,7 @@ import {
     FileText,
     Video,
     File,
+    Copy,
 } from "lucide-react";
 
 
@@ -725,7 +726,7 @@ export default function Content({ token }) {
                                     {/* =====================================================
                             TITLE
                         ====================================================== */}
-                                    <div className="skeleton-card-title-section">
+                                    {/* <div className="skeleton-card-title-section">
 
                                         <h3>
                                             {skeleton.title}
@@ -736,8 +737,32 @@ export default function Content({ token }) {
                                                 "No topic specified"}
                                         </p>
 
-                                    </div>
+                                    </div> */}
+<div className="skeleton-card-title-section">
 
+    <div className="skeleton-title-row">
+        <h3>
+            {skeleton.title}
+        </h3>
+
+        <button
+            type="button"
+            className="copy-skeleton-id"
+            onClick={() => {
+                navigator.clipboard.writeText(skeleton._id);
+            }}
+            title="Copy skeleton ID"
+        >
+            <Copy size={14} />
+        </button>
+    </div>
+
+    <p>
+        {skeleton.metadata?.topic ||
+            "No topic specified"}
+    </p>
+
+</div>
                                     {/* =====================================================
                             PROGRAM
                         ====================================================== */}

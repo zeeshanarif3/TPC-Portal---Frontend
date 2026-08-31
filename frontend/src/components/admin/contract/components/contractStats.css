@@ -30,7 +30,7 @@
                 STAT CARD
 ========================================== */
 
-.stat-card {
+.contract-stat-card {
     position: relative;
     width: stretch;
 
@@ -53,7 +53,7 @@
         box-shadow .22s var(--ease);
 }
 
-.stat-card:hover {
+.contract-stat-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }

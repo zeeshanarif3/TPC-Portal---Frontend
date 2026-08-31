@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import NewAssessment from "./components/newassessment";
+import CSVAssessmentUpload from "./components/CSVAssessmentUpload";
 import UpdateAssessment from "./components/updateAssessment";
 import { useDashboard } from "../../../hooks/useDashboard";
 
@@ -21,6 +22,7 @@ export default function Assessment({ token }) {
     } = useDashboard(token);
 
     const [showNewAssessment, setshowNewAssessment] = useState(false);
+    const [showNewcsvAssessment, setshowNewcsvAssessment] = useState(false);
     const [editingAssessment, setEditingAssessment] = useState(null);
     const [selectedAssessment, setSelectedAssessment] = useState(null);
     const [loadingResults, setLoadingResults] = useState(false);
@@ -162,9 +164,25 @@ export default function Assessment({ token }) {
                 AllCourses={AllCourses}
                 AllContentSkeletons={AllContentSkeletons}
                 createAssessment={createAssessment}
+                setshowNewcsvAssessment={setshowNewcsvAssessment}
+                setshowNewAssessment={setshowNewAssessment}
             />
         );
     }
+    if (showNewcsvAssessment) {
+        return (
+            <CSVAssessmentUpload
+                token={token}
+                // mode="create"
+                onBack={() => setshowNewcsvAssessment(false)}
+                AllCourses={AllCourses}
+                AllContentSkeletons={AllContentSkeletons}
+                createAssessment={createAssessment}
+            />
+        );
+    }
+
+
 
     if (editingAssessment) {
         return (
@@ -197,22 +215,22 @@ export default function Assessment({ token }) {
             </div>
 
             <div className="assessment-stats">
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Total</span>
                     <h2>{total}</h2>
                 </div>
 
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Published</span>
                     <h2>{published}</h2>
                 </div>
 
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Draft</span>
                     <h2>{drafts}</h2>
                 </div>
 
-                <div className="assesment-stat-card">
+                <div className="assessment-stat-card">
                     <span>Submissions</span>
                     <h2>{submissions}</h2>
                 </div>

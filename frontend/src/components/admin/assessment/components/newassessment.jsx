@@ -65,6 +65,8 @@ export default function NewAssessment({
     AllCourses = [],
     AllContentSkeletons = [],
     createAssessment,
+    setshowNewcsvAssessment,
+    setshowNewAssessment,
 }) {
     const [form, setForm] = useState(EMPTY_ASSESSMENT);
     const [saving, setSaving] = useState(false);
@@ -292,11 +294,20 @@ export default function NewAssessment({
                             Build a complete assessment with questions, correct answers, marks, and scheduling.
                         </p>
                     </div>
+                                        <button
+                        className="new-assessment-btn"
+                        onClick={() => {
+                            setshowNewcsvAssessment(true);
+                            setshowNewAssessment(false);
+                        }}
 
-                    <div className="am-header-badge">
+                    >
+                        + USE CSV
+                    </button>
+                    {/* <div className="am-header-badge">
                         <span>{totalQuestions}</span>
                         <small>Questions</small>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="am-layout">
