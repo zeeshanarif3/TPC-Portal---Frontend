@@ -248,12 +248,12 @@ export default function Assessment({ token }) {
                     return (
                         <div className="assessment-card" key={assessment._id}>
                             <div className="assessment-card-header">
-                                <div>
+                                {/* <div> */}
                                     <h3>{assessment.title}</h3>
                                     <span className={`status ${assessment.status}`}>
                                         {assessment.status}
                                     </span>
-                                </div>
+                                {/* </div> */}
                             </div>
 
                             <div className="assessment-meta">
