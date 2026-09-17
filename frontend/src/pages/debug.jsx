@@ -308,7 +308,7 @@ function Debug() {
                 AllSlots :
                 
                  <pre>{JSON.stringify(AllSlots, null, 2)}</pre> 
-                 {console.log(AllSlots)}
+                 {/* {console.log(AllSlots)} */}
                 <br />
                 <br />
                 {/* <br /> 

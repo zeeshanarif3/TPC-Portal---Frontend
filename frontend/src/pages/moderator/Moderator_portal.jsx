@@ -19,10 +19,11 @@ import Content from "../../components/moderator/Content/content"
 import Assessment from "../../components/moderator/assessment/assessment"
 import FeedbackList from "../../components/moderator/feedback/feedback"
 import StudentPerformance from "../../components/moderator/StudentPerformance/StudentPerformance"
+import ModeratorDashboardMetrics from "../../components/moderator/dashboard/Moderatordashboardmetrics"
 
 function Moderator_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("schedule"); //Default
+    const [page, setPage] = useState("dashboard"); //Default
     // const [page, setPage] = useState("sessions"); //Default
 
 
@@ -41,6 +42,7 @@ function Moderator_portal({ token, user, handleLogout }) {
                     {/* {/* {page === "dashboard" && <DashboardPage token={token} />}     */}
 
                     {/* {page === "trainer" && <TrainersPage token={token} />} */}
+                    {page === "dashboard" && <ModeratorDashboardMetrics token={token} />}
                     {page === "schedule" && <SchedulesPage token={token} />}
                     {page === "sessions" && <SessionsPage token={token} />}       
                     {page === "attendance" && <AttendancePage token={token} />}

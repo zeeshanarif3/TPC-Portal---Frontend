@@ -12,11 +12,12 @@ import PerformancePage from "../../components/student/performance/PerformancePag
 import StudentAssessment from "../../components/student/assessment/assessment";
 import Content from "../../components/student/Content/content";
 import SchedulesPage from "../../components/student/schedules/schedules";
+import StudentDashboardMetrics from "../../components/student/dashboard/Studentdashboardmetrics";
 
 
 function Student_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("schedule"); //Default
+    const [page, setPage] = useState("dashboard"); //Default
 
 
 
@@ -41,6 +42,7 @@ function Student_portal({ token, user, handleLogout }) {
                     {/* {page === "attendance" && <AttendancePage token={token} />} */}
                     {/* {page === "moderator" && <ModeratorPage token={token} />}
                     {page === "course" && <CoursesPage token={token} />} */}
+                     {page === "dashboard" && <StudentDashboardMetrics token={token} />} 
                      {page === "schedule" && <SchedulesPage token={token} />} 
                      {page === "performance" && <PerformancePage token={token} />} 
                      {page === "assessment" && <StudentAssessment token={token} />} 

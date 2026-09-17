@@ -81,7 +81,7 @@ function Main({t}) {   //comment this , its for debug purposes
     }, []);
 
     useEffect(() => {
-        console.log("animDone =", animDone);
+        // console.log("animDone =", animDone);
     }, [animDone]);
 
 

@@ -134,7 +134,7 @@ export default function NewSchedulePage({
                     topic: item.topic
                 };
 
-                console.log("CREATE SCHEDULE:", payload);
+                // console.log("CREATE SCHEDULE:", payload);
 
                 return createSchedule(payload, token);
             });

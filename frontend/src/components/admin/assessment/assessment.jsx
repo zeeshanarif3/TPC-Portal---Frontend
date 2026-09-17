@@ -95,6 +95,7 @@ export default function Assessment({ token }) {
     if (selectedAssessment) {
         return (
             <div className="assessment-page">
+                {/* <pre>{JSON.stringify(AssessmentSubmissions, null, 2)}</pre> */}
                 <div className="assessment-header">
                     <div>
                         <h1>{selectedAssessment.title}</h1>

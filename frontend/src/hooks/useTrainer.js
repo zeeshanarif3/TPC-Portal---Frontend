@@ -7,6 +7,7 @@ import {
     fetchStudentsByCourse,
     submitAttendance,
     fetchUpcomingClasses,
+    fetchTrainerClasses,
     fetchCourses,
 
 
@@ -128,16 +129,11 @@ export function useTrainer(token) {
     // }, [selectedDate, token, formatDate]);
     const refreshSchedules = useCallback(async () => {
     try {
-        const formattedDate = formatDate(selectedDate);
-
-        const all = await fetchSlots(
-            {
-                date: formattedDate,
-            },
-            token
+        const allSchedules = await fetchTrainerClasses(
+                token
         );
 
-        setAllSlots(all);
+        setAllSlots(allSchedules);
 
         // Select the first course from the fetched slots
         if (!selectedcourse && all.length > 0) {
@@ -154,6 +150,7 @@ export function useTrainer(token) {
             const UpcommingSchedules = await fetchUpcomingClasses(
                 token
             );
+
 
             setAllUpcommingSlots(UpcommingSchedules);
         } catch (err) {

@@ -39,7 +39,7 @@ export default function SubjectDistribution({ data }) {
 
   return (
     <div className="subject-distribution no-scrollbar">
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(chartData, null, 2)}</pre> */}
       <div className="subject-distribution__header">
         <h3 className="subject-distribution__title">
           Subject Distribution
@@ -52,6 +52,7 @@ export default function SubjectDistribution({ data }) {
 
       <div className="subject-distribution__chart">
         <ResponsiveContainer width="100%" height={250}>
+
           <PieChart>
 <Pie
   data={chartData}

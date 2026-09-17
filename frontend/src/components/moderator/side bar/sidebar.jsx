@@ -23,6 +23,7 @@ import {
     FileText,
 } from "lucide-react";
 const NAV_ITEMS = [
+    { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     {
         key: "clsses",
         label: "Classes",

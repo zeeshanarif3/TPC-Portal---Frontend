@@ -10,7 +10,8 @@ import "./schedules.css";
 
 export default function SchedulesPage({ token }) {
   const {
-    AllUpcommingSlots = [],
+    AllSlots = [],
+    // AllUpcommingSlots = [],
     updateTopicAndFeedback,
     submitAttendance,
     selectedDate,
@@ -18,7 +19,10 @@ export default function SchedulesPage({ token }) {
     setselectedcourse,
     selectedcourse,
     studentsbycoll,
+    // AllSlots,
   } = useTrainer(token);
+
+  const AllUpcommingSlots = AllSlots; 
 
 
 
@@ -222,7 +226,7 @@ export default function SchedulesPage({ token }) {
 
 
       <div className="Schedulees-header">
-      {/* <pre>{JSON.stringify(selectedcourse, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(AllUpcommingSlots, null, 2)}</pre> */}
       {/* <pre>{JSON.stringify(studentsbycoll, null, 2)}</pre> */}
 
         <div>

@@ -13,12 +13,13 @@ import Content from "../../components/Trainer/Content/content"
 import Assessment from "../../components/Trainer/assessment/assessment"
 import FeedbackList from "../../components/Trainer/feedback/feedback"
 import StudentPerformancePage from "../../components/Trainer/StudentPerformance/StudentPerformance"
+import TrainerDashboardMetrics from "../../components/Trainer/dashboard/Trainerdashboardmetrics"
 
 
 
 function Trainer_portal({ token, user, handleLogout }) {
 
-    const [page, setPage] = useState("schedule"); //Default
+    const [page, setPage] = useState("dashboard"); //Default
     // const [page, setPage] = useState("sessions"); //Default
 
 
@@ -33,6 +34,7 @@ function Trainer_portal({ token, user, handleLogout }) {
                 />
                 <div className="app-content">
                 
+                    {page === "dashboard" && <TrainerDashboardMetrics token={token} />}
                     {page === "schedule" && <SchedulesPage token={token} />}
                     {page === "content" && <Content token={token} />}
                     {page === "assessment" && <Assessment token={token} />}

@@ -22,6 +22,7 @@ import {
 
 const NAV_ITEMS = [
 
+    { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { key: "schedule", label: "Schedule", icon: CalendarDays },
     // { key: "content", label: "Content", icon: BookOpen },
     // { key: "assessment", label: "Assessment", icon: FileText },

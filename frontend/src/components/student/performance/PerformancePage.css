@@ -1,47 +1,19 @@
 /* ==========================================================================
-PerformancePage — dashboard-matching layout
-========================================================================== */
+   PerformancePage — dashboard-matching layout (consolidated)
+   ========================================================================== */
 
 .performance-page {
     height: stretch;
     width: stretch;
-    /* min-height: 100vh; */
-    /* padding: 2.5rem 2.5rem; */
     display: flex;
     flex-direction: column;
     gap: 1rem;
     overflow: auto;
     border-radius: 18px;
-
     color: var(--text-primary);
-    /* box-shadow:
-        0 1px 2px rgba(0, 0, 0, .04),
-        0 8px 24px rgba(0, 0, 0, .05);
- */
 
-
-
-
-
-
-
-
-    --shadow:
-        0 2px 4px rgba(0, 0, 0, .03),
-        0 20px 40px rgba(0, 0, 0, .04);
-
-
-    --shadow-hover:
-        0 12px 30px rgba(0, 0, 0, .06),
-        0 40px 80px rgba(0, 0, 0, .08);
-
-    --border: var(--border-color);
-    --text: var(--text-primary);
-    --muted: var(--text-secondary);
-
-
-
-
+    --shadow: 0 2px 4px rgba(0, 0, 0, .03), 0 20px 40px rgba(0, 0, 0, .04);
+    --shadow-hover: 0 12px 30px rgba(0, 0, 0, .06), 0 40px 80px rgba(0, 0, 0, .08);
 }
 
 .performance-page * {
@@ -49,38 +21,36 @@ PerformancePage — dashboard-matching layout
 }
 
 /* ==========================================================================
-Loading
-========================================================================== */
+   Loading
+   ========================================================================== */
 
 .performance-loading {
     display: flex;
+    min-height: 60vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    min-height: 60vh;
+    gap: 15px;
     color: var(--text-secondary);
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .loading-ring {
     width: 36px;
     height: 36px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent);
     border-radius: 50%;
-    border: 3px solid rgba(0, 0, 0, 0.08);
-    border-top-color: var(--gold);
-    animation: spin 0.9s linear infinite;
+    animation: performance-spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+@keyframes performance-spin {
+    to { transform: rotate(360deg); }
 }
 
 /* ==========================================================================
-Hero
-========================================================================== */
+   Hero
+   ========================================================================== */
 
 .performance-hero {
     display: flex;
@@ -88,53 +58,41 @@ Hero
     justify-content: space-between;
     gap: 24px;
     flex-wrap: wrap;
-
-
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 18px;
-
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow);
+}
 
-
+.hero-copy {
+    min-width: 0;
 }
 
 .hero-eyebrow {
     display: inline-block;
-    margin-bottom: 10px;
-
-
+    margin-bottom: 8px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--gold);
-
-
+    color: var(--accent);
 }
 
 .performance-hero h1 {
     margin: 0 0 8px;
-
-
     font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.1;
     font-weight: 700;
     letter-spacing: -0.01em;
-
-
 }
 
 .performance-hero p {
     margin: 0;
     max-width: 50ch;
-
-
-    color: var(--text-secondary);
     font-size: 14.5px;
     line-height: 1.55;
-
-
+    color: var(--text-secondary);
 }
 
 .hero-grade {
@@ -142,41 +100,40 @@ Hero
     flex-direction: column;
     align-items: center;
     gap: 4px;
-
-
-    min-width: 110px;
-    padding: 1rem;
-
+    min-width: 130px;
+    padding: 1rem 1.25rem;
     border-radius: 16px;
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border: 1px solid var(--accent);
     box-shadow: var(--shadow);
-
-
+    text-align: center;
 }
 
 .hero-grade-label {
     font-size: 11px;
+    font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
 
 .hero-grade-value {
-    font-size: 30px;
+    font-size: 34px;
+    line-height: 1;
     font-weight: 800;
-    color: var(--gold);
+    color: var(--accent);
     font-variant-numeric: tabular-nums;
 }
 
 /* ==========================================================================
-KPI cards
-========================================================================== */
+   KPI cards
+   ========================================================================== */
 
 .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 4px;
 }
 
 .kpi-card {
@@ -184,27 +141,20 @@ KPI cards
     display: flex;
     flex-direction: column;
     gap: 6px;
-
-
-    padding: 1rem;
+    min-width: 0;
+    padding: 18px;
     border-radius: 16px;
-
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow);
-
     overflow: hidden;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-
-
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .kpi-card::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 3px;
     background: var(--accent);
 }
@@ -212,164 +162,145 @@ KPI cards
 .kpi-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
-    background: var(--bg-primary);
 }
 
 .kpi-icon {
-    width: 34px;
-    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-
-    border-radius: 10px;
-    font-size: 15px;
+    width: 38px;
+    height: 38px;
     margin-bottom: 6px;
-    background: rgba(0, 0, 0, 0.03);
-
-
+    border-radius: 11px;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .kpi-label {
     font-size: 12.5px;
-    color: var(--text-secondary);
     font-weight: 500;
+    color: var(--text-secondary);
 }
 
 .kpi-value {
     font-size: 26px;
+    line-height: 1.1;
     font-weight: 700;
+    letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
 }
 
 .kpi-subtitle {
+    margin-top: 2px;
     font-size: 12px;
     color: var(--text-secondary);
 }
 
-.kpi-card.accent-blue::before {
-    background: var(--blue);
-}
+/* status accents — single source of truth, all token-based */
+.kpi-card.accent-blue::before      { background: var(--blue); }
+.kpi-card.accent-gold::before      { background: var(--gold); }
+.kpi-card.accent-excellent::before,
+.kpi-card.accent-good::before      { background: var(--good); }
+.kpi-card.accent-fair::before      { background: var(--gold); }
+.kpi-card.accent-risk::before      { background: var(--risk); }
 
-.kpi-card.accent-gold::before {
-    background: var(--gold);
-}
+.kpi-icon.accent-blue               { color: var(--blue); background: var(--blue-soft); }
+.kpi-icon.accent-gold               { color: var(--gold); background: var(--gold-soft); }
+.kpi-icon.accent-excellent,
+.kpi-icon.accent-good               { color: var(--good); background: var(--good-soft); }
+.kpi-icon.accent-fair               { color: var(--gold); background: var(--gold-soft); }
+.kpi-icon.accent-risk               { color: var(--risk); background: var(--risk-soft); }
 
-.kpi-card.accent-excellent::before {
-    background: var(--good);
-}
-
-.kpi-card.accent-good::before {
-    background: var(--blue);
-}
-
-.kpi-card.accent-fair::before {
-    background: var(--gold);
-}
-
-.kpi-card.accent-risk::before {
-    background: var(--risk);
-}
-
-.kpi-icon.accent-blue {
-    color: var(--blue);
-    background: var(--blue-soft);
-}
-
-.kpi-icon.accent-gold {
-    color: var(--gold);
-    background: var(--gold-soft);
-}
-
-.kpi-icon.accent-excellent {
-    color: var(--good);
-    background: var(--good-soft);
-}
-
-.kpi-icon.accent-good {
-    color: var(--blue);
-    background: var(--blue-soft);
-}
-
-.kpi-icon.accent-fair {
-    color: var(--gold);
-    background: var(--gold-soft);
-}
-
-.kpi-icon.accent-risk {
-    color: var(--risk);
-    background: var(--risk-soft);
-}
-
-.kpi-subtitle.tone-excellent {
-    color: var(--good);
-}
-
-.kpi-subtitle.tone-good {
-    color: var(--blue);
-}
-
-.kpi-subtitle.tone-fair {
-    color: var(--gold);
-}
-
-.kpi-subtitle.tone-risk {
-    color: var(--risk);
-}
+.kpi-subtitle.tone-excellent,
+.kpi-subtitle.tone-good  { color: var(--good); }
+.kpi-subtitle.tone-fair  { color: var(--gold); }
+.kpi-subtitle.tone-risk  { color: var(--risk); }
 
 /* ==========================================================================
-Sections
-========================================================================== */
+   Common section shell
+   ========================================================================== */
 
-.performance-section {
-    position: relative;
+.dashboard-grid {
+    /* display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px; */
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 1rem;
-    border-radius: 16px;
-    background: var(--bg-primary);
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+}
+
+.dashboard-card,
+.performance-section {
+    min-width: 0;
+    padding: 1.25rem;
+    border-radius: 18px;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
-    /* box-shadow: var(--shadow); */
-    /* overflow: hidden; */
-    /* transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; */
+    box-shadow: var(--shadow);
+    flex:1 ;
+    height: 100%;
+}
+.performance-section {
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    gap: 1rem;
+
+}
+
+.performance-chart-card {
+    margin-bottom: 4px;
 }
 
 .section-header h2 {
     margin: 0 0 4px;
     font-size: 19px;
+    line-height: 1.3;
     font-weight: 700;
+    letter-spacing: -0.015em;
 }
 
 .section-header p {
     margin: 0;
-    color: var(--text-secondary);
     font-size: 13.5px;
     line-height: 1.5;
+    color: var(--text-secondary);
 }
 
 /* ==========================================================================
-Attendance
-========================================================================== */
+   Attendance
+   ========================================================================== */
 
 .attendance-panel {
     display: flex;
     align-items: center;
     gap: 40px;
     flex-wrap: wrap;
-
-
-    padding: 1rem;
-    border-radius: 18px;
-
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow);
-
-
+    width: 100%;
+    min-height: 220px;
 }
 
+/* Recharts donut variant */
+.attendance-chart-wrap {
+    width: 220px;
+    height: 220px;
+    flex-shrink: 0;
+}
+
+.attendance-chart-value {
+    font-size: 30px;
+    font-weight: 700;
+    fill: var(--text-primary);
+}
+
+.attendance-chart-label {
+    font-size: 12px;
+    font-weight: 500;
+    fill: var(--text-secondary);
+}
+
+/* CSS conic-gradient ring variant */
 .attendance-ring-wrap {
     flex-shrink: 0;
 }
@@ -379,35 +310,24 @@ Attendance
     width: var(--ring-size);
     height: var(--ring-size);
     border-radius: 50%;
-
-
-    background: conic-gradient(var(--gold) calc(var(--ring-value) * 1%),
-            rgba(0, 0, 0, 0.06) 0);
-
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
-
-
+    background: conic-gradient(var(--accent) calc(var(--ring-value) * 1%), var(--bg-secondary) 0);
 }
 
 .attendance-ring-inner {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-
-
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border: 1px solid var(--accent);
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2px;
-
-
 }
 
 .ring-value {
@@ -424,7 +344,7 @@ Attendance
 .performance-attendance-stats {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
     flex: 1;
     min-width: 200px;
 }
@@ -432,20 +352,22 @@ Attendance
 .attendance-stat {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
 }
 
-.attendance-stat>div {
+.attendance-stat > div {
     display: flex;
     flex-direction: column;
 }
 
 .attendance-stat-value {
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 700;
+    color: var(--text-primary);
 }
 
 .attendance-stat-label {
+    margin-top: 2px;
     font-size: 12.5px;
     color: var(--text-secondary);
 }
@@ -457,25 +379,97 @@ Attendance
     flex-shrink: 0;
 }
 
-.dot-good {
-    background: var(--good);
+.dot-good,
+.dot-excellent { background: var(--good); }
+.dot-fair       { background: var(--gold); }
+.dot-risk       { background: var(--risk); }
+
+/* ==========================================================================
+   Mini attendance cards
+   ========================================================================== */
+
+.mini-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
 }
 
-.dot-risk {
-    background: var(--risk);
+.mini-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+    padding: 16px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    background: var(--card-bg);
 }
 
-.dot-excellent {
-    background: var(--good);
+.mini-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: var(--bg-secondary);
+    font-size: 16px;
+    font-weight: 700;
 }
 
-.dot-fair {
-    background: var(--gold);
+.mini-stat-card div {
+    min-width: 0;
+}
+
+.mini-stat-card div span {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.mini-stat-card div strong {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
 }
 
 /* ==========================================================================
-Assessments
-========================================================================== */
+   Assessment summary
+   ========================================================================== */
+
+.summary-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.summary-stat {
+    padding: 17px;
+    border-radius: 14px;
+    background: var(--bg-secondary);
+}
+
+.summary-stat span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.summary-stat strong {
+    display: block;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   Assessment details
+   ========================================================================== */
 
 .assessment-grid {
     display: grid;
@@ -484,27 +478,21 @@ Assessments
 }
 
 .assessment-card {
-    padding: 1rem;
+    min-width: 0;
+    padding: 18px;
     border-radius: 16px;
-
-
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow);
-
     display: flex;
     flex-direction: column;
     gap: 12px;
-
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-
-
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .assessment-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
-    background: var(--bg-primary);
 }
 
 .assessment-card-top {
@@ -515,79 +503,112 @@ Assessments
 }
 
 .assessment-title {
+    min-width: 0;
+    overflow: hidden;
     font-size: 14.5px;
     font-weight: 600;
     line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
+/* fixed: was accidentally `padding: 1rem`, which blew the pill shape up */
 .score-pill {
     flex-shrink: 0;
+    padding: 5px 10px;
+    border-radius: 999px;
     font-size: 12.5px;
     font-weight: 700;
-    padding: 1rem;
-    border-radius: 999px;
     font-variant-numeric: tabular-nums;
 }
 
-.score-pill.tone-gold {
-    background: var(--gold-soft);
-    color: var(--gold);
-}
-
-.score-pill.tone-good {
-    background: var(--blue-soft);
-    color: var(--blue);
-}
-
-.score-pill.tone-fair {
-    background: var(--gold-soft);
-    color: var(--gold);
-}
-
-.score-pill.tone-risk {
-    background: var(--risk-soft);
-    color: var(--risk);
-}
+.score-pill.tone-gold { color: var(--gold); background: var(--gold-soft); }
+.score-pill.tone-good { color: var(--blue); background: var(--blue-soft); }
+.score-pill.tone-fair { color: var(--gold); background: var(--gold-soft); }
+.score-pill.tone-risk { color: var(--risk); background: var(--risk-soft); }
 
 .assessment-bar-track {
+    width: 100%;
     height: 6px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.06);
     overflow: hidden;
+    border-radius: 999px;
+    background: var(--text-primary);
 }
 
 .assessment-bar-fill {
     height: 100%;
-    border-radius: 999px;
+    border-radius: inherit;
+    background: var(--accent);
 }
 
-.assessment-bar-fill.tone-gold {
-    background: var(--gold);
-}
-
-.assessment-bar-fill.tone-good {
-    background: var(--blue);
-}
-
-.assessment-bar-fill.tone-fair {
-    background: var(--gold);
-}
-
-.assessment-bar-fill.tone-risk {
-    background: var(--risk);
-}
+.assessment-bar-fill.tone-gold { background: var(--gold); }
+.assessment-bar-fill.tone-good { background: var(--blue); }
+.assessment-bar-fill.tone-fair { background: var(--gold); }
+.assessment-bar-fill.tone-risk { background: var(--risk); }
 
 .assessment-card-bottom {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: 10px;
     font-size: 12.5px;
     color: var(--text-secondary);
     font-variant-numeric: tabular-nums;
 }
 
+.score-badge strong {
+    color: var(--text-primary);
+}
+
 /* ==========================================================================
-Feedback
-========================================================================== */
+   Feedback
+   ========================================================================== */
+
+.feedback-big-rating {
+    display: flex;
+    min-height: 180px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    text-align: center;
+}
+
+.feedback-rating-number {
+    font-size: 52px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.feedback-stars {
+    font-size: 20px;
+    letter-spacing: 3px;
+}
+
+.feedback-big-rating > span:last-child {
+    margin-top: 4px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.feedback-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
+}
+
+.feedback-total strong {
+    font-size: 22px;
+}
+
+.feedback-total span {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
 
 .feedback-timeline {
     display: flex;
@@ -598,43 +619,34 @@ Feedback
 .feedback-card {
     display: flex;
     gap: 16px;
-
-
     padding: 1rem;
     border-radius: 16px;
-
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-left: 3px solid var(--gold);
+    border-left: 3px solid var(--accent);
     box-shadow: var(--shadow);
-
-
 }
 
 .feedback-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
-    width: 38px;
-    height: 38px;
     border-radius: 50%;
-
-
     background: var(--gold-soft);
     color: var(--gold);
     font-size: 13px;
     font-weight: 700;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-
 }
 
 .feedback-body {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    min-width: 0;
 }
 
 .feedback-header {
@@ -649,43 +661,57 @@ Feedback
     font-size: 14.5px;
 }
 
+.feedback-class {
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
 .feedback-date {
     font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.feedback-rating {
+    margin-top: 9px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.feedback-rating span {
+    margin-left: 3px;
+    font-size: 11px;
+    letter-spacing: 0;
     color: var(--text-secondary);
 }
 
 .feedback-body p {
     margin: 0;
     font-size: 13.5px;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--text-secondary);
 }
 
 /* ==========================================================================
-Empty states
-========================================================================== */
+   Empty state
+   ========================================================================== */
 
 .empty-state {
     display: flex;
+    min-height: 180px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
-
-
-    padding: 1rem;
-    border-radius: 16px;
-
-    background: var(--bg-primary);
-    border: 1px dashed var(--border-color);
+    padding: 1.5rem;
     text-align: center;
-
-
+    border: 1px dashed var(--border-color);
+    border-radius: 15px;
 }
 
 .empty-icon {
-    font-size: 26px;
     margin-bottom: 4px;
+    font-size: 28px;
 }
 
 .empty-state strong {
@@ -693,98 +719,62 @@ Empty states
 }
 
 .empty-state p {
+    max-width: 32ch;
     margin: 0;
     font-size: 13px;
+    line-height: 1.5;
     color: var(--text-secondary);
-    max-width: 32ch;
 }
 
 /* ==========================================================================
-Premium scrollbar
-========================================================================== */
+   Recharts
+   ========================================================================== */
 
-/* ::-webkit-scrollbar {
-width: 10px;
+.dashboard-card .recharts-responsive-container {
+    min-width: 0;
 }
 
-::-webkit-scrollbar-track {
-background: transparent;
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    opacity: 0.45;
+
 }
 
-::-webkit-scrollbar-thumb {
-background: rgba(0, 0, 0, 0.15);
-border-radius: 999px;
+.recharts-text {
+    font-size: 11px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-background: rgba(0, 0, 0, 0.25);
-} */
+.recharts-tooltip-wrapper {
+    outline: none;
+}
 
 /* ==========================================================================
-Responsive
-========================================================================== */
+   Responsive
+   ========================================================================== */
 
-/* ---------- Large Tablets ---------- */
-@media (max-width: 1200px) {
-    .performance-page {
-        padding: 20px;
-        gap: 1rem;
-    }
-
-
-    .attendance-panel {
-        gap: 2rem;
-    }
-
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-
-}
-
-/* ---------- Tablets ---------- */
 @media (max-width: 992px) {
-    .performance-page {
-        padding: 16px;
-    }
-
+    .performance-page { padding: 16px; }
 
     .performance-hero {
         flex-direction: column;
         align-items: flex-start;
-        justify-content: flex-start;
         gap: 1rem;
     }
 
-    .hero-grade {
-        align-self: flex-start;
-    }
+    .hero-grade { align-self: flex-start; }
+
+    .dashboard-grid { grid-template-columns: 1fr; }
 
     .attendance-panel {
         flex-direction: column;
-        align-items: center;
         text-align: center;
     }
 
-    .performance-attendance-stats {
-        width: 100%;
-    }
-
-    .assessment-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-
+    .performance-attendance-stats { width: 100%; }
 }
 
-/* ---------- Phones ---------- */
 @media (max-width: 768px) {
-    .performance-page {
-        padding: 12px;
-        gap: 12px;
-    }
-
+    .performance-page { padding: 12px; gap: 12px; }
 
     .performance-hero,
     .attendance-panel,
@@ -792,37 +782,20 @@ Responsive
     .feedback-card,
     .kpi-card,
     .empty-state {
-        width: 100%;
         border-radius: 14px;
     }
 
-    .performance-hero {
-        padding: 22px;
-    }
+    .attendance-ring { --ring-size: 130px; }
+    .attendance-chart-wrap { width: 190px; height: 190px; }
 
-    .attendance-panel {
-        padding: 22px;
-    }
+    .mini-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .summary-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-    .assessment-grid,
-    .kpi-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .attendance-ring {
-        --ring-size: 130px;
-    }
-
-
+    .feedback-header { flex-direction: column; gap: 5px; }
 }
 
-/* ---------- Small Phones ---------- */
 @media (max-width: 480px) {
-    .performance-page {
-        padding: 10px;
-        gap: 10px;
-    }
-
+    .performance-page { padding: 10px; gap: 10px; }
 
     .performance-hero,
     .attendance-panel,
@@ -830,24 +803,13 @@ Responsive
     .feedback-card,
     .kpi-card {
         padding: 14px;
-        border-radius: 12px;
     }
 
-    .hero-grade-value {
-        font-size: 26px;
-    }
+    .hero-grade-value { font-size: 26px; }
+    .kpi-value { font-size: 22px; }
+    .attendance-ring { --ring-size: 115px; }
+    .ring-value { font-size: 22px; }
 
-    .kpi-value {
-        font-size: 22px;
-    }
-
-    .attendance-ring {
-        --ring-size: 115px;
-    }
-
-    .ring-value {
-        font-size: 22px;
-    }
-
-
+    .mini-stat-grid { grid-template-columns: 1fr; }
+    .summary-stat-grid { grid-template-columns: 1fr; }
 }

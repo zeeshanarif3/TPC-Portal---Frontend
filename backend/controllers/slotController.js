@@ -266,6 +266,72 @@ exports.updateSlot = async (req, res) => {
   }
 };
 
+
+
+
+
+// Update attendance for a slot
+exports.updateAttendance = async (req, res) => {
+  try {
+    const { presentStudents, headCount, attendanceTaken, feedback } = req.body;
+
+    const slot = await Slot.findById(req.params.id);
+
+    if (!slot) {
+      return res.status(404).json({
+        message: 'Slot not found'
+      });
+    }
+
+    // Update only attendance-related fields
+    if (presentStudents !== undefined) {
+      slot.presentStudents = presentStudents;
+    }
+
+    if (headCount !== undefined) {
+      slot.headCount = headCount;
+    }
+
+    if (attendanceTaken !== undefined) {
+      slot.attendanceTaken = attendanceTaken;
+    }
+
+    if (feedback !== undefined) {
+      slot.feedback = feedback;
+    }
+
+    await slot.save();
+
+    await slot.populate([
+      { path: 'courseId', select: 'courseCode' },
+      { path: 'sessionId', select: 'startDate endDate' },
+      { path: 'trainerId', select: 'name email' }
+    ]);
+
+    res.status(200).json({
+      message: 'Attendance updated successfully',
+      slot
+    });
+
+  } catch (error) {
+    console.error('Update attendance error:', error);
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
 // Delete slot by ID
 exports.deleteSlot = async (req, res) => {
   try {
@@ -541,7 +607,76 @@ exports.updateTopicAndFeedback = async (req, res) => {
 // ==========================================
 // ATTENDANCE OPERATIONS
 // ==========================================
+// Get all classes for a trainer (based on active contracts)
+exports.getAllTrainerClasses = async (req, res) => {
+  try {
+    const trainer = await getLoggedInTrainer(req.user.id);
 
+    if (!trainer) {
+      return res.status(404).json({
+        message: 'Trainer profile not found for this user'
+      });
+    }
+
+    // Find active contracts for the trainer
+    const activeContracts = await Contract.find({
+      trainerId: trainer._id,
+      status: 'active'
+    }).populate('sessionId');
+
+    if (!activeContracts || activeContracts.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    // Get session IDs from active contracts
+    const sessionIds = activeContracts
+      .filter(contract => contract.sessionId)
+      .map(contract => contract.sessionId._id);
+
+    // Find ALL slots for these sessions where this trainer is assigned
+    const slots = await Slot.find({
+      sessionId: { $in: sessionIds },
+      trainerId: trainer._id
+    })
+      .populate('courseId', 'courseCode')
+      .populate('sessionId', 'startDate endDate');
+
+    // Format for response payload compatibility
+    const allClasses = slots.map(slot => ({
+      _id: slot._id,
+
+      course: slot.courseId ? {
+        _id: slot.courseId._id,
+        courseCode: slot.courseId.courseCode
+      } : null,
+
+      session: slot.sessionId ? {
+        _id: slot.sessionId._id,
+        startDate: slot.sessionId.startDate,
+        endDate: slot.sessionId.endDate
+      } : null,
+
+      date: slot.date,
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+      trainerId: slot.trainerId,
+      roomNo: slot.roomNo,
+      topic: slot.topic,
+      status: slot.status,
+      attendanceTaken: slot.attendanceTaken,
+      presentStudents: slot.presentStudents,
+      headCount: slot.headCount,
+      feedback: slot.feedback
+    }));
+
+    res.status(200).json(allClasses);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
 // Get upcoming classes for a trainer (based on active contracts)
 exports.getUpcomingClasses = async (req, res) => {
   try {

@@ -18,7 +18,7 @@ import {
     // fetchSubjectDistribution,
     // fetchAttendanceByCollegeAndSession,
     // createAttendance,
-    // updateAttendance,
+    updateAttendance,
 
     // schedules
     // fetchUpcomingSchedule,
@@ -1002,6 +1002,17 @@ const handleDeleteFeedback = async (id) => {
 
 
 
+
+
+const handleUpdateAttendance = async (slotId, attendanceData) => {
+
+    const res = await updateAttendance(slotId, attendanceData, token);
+    await refresh();
+    return res;
+
+};
+
+
     return {
         updateUserActiveStatus:handleupdateUserActiveStatus,
         selectedCollege,
@@ -1028,7 +1039,7 @@ const handleDeleteFeedback = async (id) => {
         SubjectDistributionAttendance,
         AttendanceByCollegeAndSession,
         // createAttendance: handleCreateAttendance,
-        // updateAttendance: handleUpdateAttendance,
+        updateAttendance: handleUpdateAttendance,
 
 
         // // schedule

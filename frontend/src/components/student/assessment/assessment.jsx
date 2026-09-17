@@ -420,6 +420,7 @@ export default function StudentAssessment({ token }) {
     if (!activeAssessment) {
         return (
             <div className="sa-page">
+                {/* <pre>{JSON.stringify(myPerformance, null, 2)}</pre> */}
                 <div className="sa-header">
                         <h1 className="sa-title">Assessments</h1>
                         <p className="sa-subtitle">

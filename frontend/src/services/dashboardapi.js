@@ -1,8 +1,7 @@
 // const BASE_URL = "http://localhost:5000/api";
 // temporary const
 // const BASE_URL = "https://spiritual-methodology-foster-unknown.trycloudflare.com/api";
-export const BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+export const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -462,7 +461,20 @@ export async function deleteModerator(id, token) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // slots
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export async function updateAttendance(slotId, attendanceData, token) {
+  const url = `${BASE_URL}/slots/${slotId}/updateAttendance`;
 
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      ...getHeaders(token),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(attendanceData),
+  });
+
+  return handleResponse(res, "Failed to update attendance");
+}
 export async function createSlot(data, token) {
   const res = await fetch(`${BASE_URL}/slots`, {
     method: "POST",
@@ -566,6 +578,14 @@ export async function fetchUpcomingClasses(token) {
   });
 
   return handleResponse(res, "Failed to fetch upcoming classes");
+}
+
+export async function fetchTrainerClasses(token) {
+  const res = await fetch(`${BASE_URL}/slots/trainer-classes`, {
+    headers: getHeaders(token),
+  });
+
+  return handleResponse(res, "Failed to fetch trainer classes");
 }
 
 export async function submitAttendance(id, data, token) {

@@ -63,7 +63,7 @@ export default function UpdateCollegePage({
                 location: college.location || "",
                 moderatorId: college.moderatorId?._id || "",
             });
-                console.log("Selected College data:", formData);
+                // console.log("Selected College data:", formData);
   }
 }, [college]);
 

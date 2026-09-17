@@ -1,0 +1,384 @@
+/* =========================================================
+   WEEKLY SLOTS
+========================================================= */
+
+.weeklySlots {
+    
+    /* width: 100%; */
+    flex:3 ;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.weeklySlotsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 20px 22px;
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+.weeklySlotsHeader h2 {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+
+    color: var(--text-primary);
+}
+
+.weeklySlotsHeader p {
+    margin: 5px 0 0;
+
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.weeklySlotsSummary {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.weeklySlotsSummary span:first-child {
+    font-weight: 650;
+    color: var(--text-primary);
+}
+
+.summaryDot {
+    opacity: 0.45;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.weeklySlotsBody {
+    padding: 6px 22px 12px;
+}
+
+
+/* =========================================================
+   DAY
+========================================================= */
+
+.weeklyDay {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+
+    min-height: 72px;
+
+    border-bottom: 1px solid
+        color-mix(
+            in srgb,
+            var(--border-color) 65%,
+            transparent
+        );
+}
+
+.weeklyDay:last-child {
+    border-bottom: none;
+}
+
+.weeklyDayHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+
+    padding-top: 18px;
+}
+
+.weeklyDayName {
+    font-size: 12px;
+    font-weight: 650;
+
+    color: var(--text-secondary);
+}
+
+.weeklyDayCount {
+    min-width: 18px;
+    height: 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+
+/* =========================================================
+   DAY SLOTS
+========================================================= */
+
+.weeklyDaySlots {
+    padding: 8px 0;
+    min-width: 0;
+}
+
+.weeklyNoSlots {
+    display: flex;
+    align-items: center;
+
+    height: 54px;
+
+    font-size: 12px;
+    color: var(--text-secondary);
+
+    opacity: 0.55;
+}
+
+
+/* =========================================================
+   SLOT
+========================================================= */
+
+.weeklySlot {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+
+    gap: 16px;
+
+    padding: 11px 13px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+
+    background: var(--bg-primary);
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.weeklySlot + .weeklySlot {
+    margin-top: 7px;
+}
+
+.weeklySlot:hover {
+    transform: translateY(-1px);
+    border-color: var(--text-secondary);
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.weeklySlotTime {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+}
+
+.weeklySlotTime strong {
+    font-size: 13px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+.weeklySlotTime span {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.weeklySlotContent {
+    min-width: 0;
+}
+
+.weeklySlotTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.weeklySlotTop h3 {
+    margin: 0;
+
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    color: var(--text-primary);
+}
+
+.weeklySlotMeta {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-top: 5px;
+
+    min-width: 0;
+
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.weeklySlotMeta span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.weeklySlotStatus {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 4px 8px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.status-completed {
+    background: color-mix(
+        in srgb,
+        var(--accent) 12%,
+        transparent
+    );
+
+    color: var(--accent);
+}
+
+.status-scheduled {
+    background: color-mix(
+        in srgb,
+        var(--text-primary) 7%,
+        transparent
+    );
+
+    color: var(--text-secondary);
+}
+
+.status-cancelled {
+    background: color-mix(
+        in srgb,
+        #e05252 10%,
+        transparent
+    );
+
+    color: #e05252;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.weeklySlotsFooter {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 13px 22px;
+
+    border-top: 1px solid var(--border-color);
+
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.weeklyLegendItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legendDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+
+    background: var(--text-secondary);
+}
+
+.legendDot.completed {
+    background: var(--accent);
+}
+
+.legendDot.scheduled {
+    opacity: 0.55;
+}
+
+.legendDot.cancelled {
+    background: #e05252;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .weeklySlotsHeader {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .weeklyDay {
+        grid-template-columns: 62px minmax(0, 1fr);
+    }
+
+    .weeklySlot {
+        grid-template-columns: 60px minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .weeklySlotTop {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .weeklySlotsFooter {
+        flex-wrap: wrap;
+    }
+}

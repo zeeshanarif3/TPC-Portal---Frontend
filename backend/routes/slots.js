@@ -19,16 +19,178 @@ const {
   getAttendanceChartByCollege,
   getSubjectDistributionByCollege,
   getAttendanceByCollegeAndSession,
-  getModeratorAttendanceBySession
+  getModeratorAttendanceBySession,
+  updateAttendance,
+  getAllTrainerClasses
 } = require('../controllers/slotController');
 
 // Middlewares
 const adminModeratorMiddleware = authorizeRoles('admin', 'moderator');
 const studentMiddleware = authorizeRoles('student');
-const getScheduleMiddleware = authorizeRoles('admin', 'moderator', 'trainer','student');
+const getScheduleMiddleware = authorizeRoles('admin', 'moderator', 'trainer', 'student');
 const editTopicFeedbackMiddleware = authorizeRoles('admin', 'moderator', 'trainer');
 const trainerMiddleware = authorizeRoles('trainer');
+const adminMiddleware = authorizeRoles('admin', 'trainer');
 const moderatorMiddleware = authorizeRoles('moderator');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Standard Scheduling / Slot Routes
+
+router.get(
+  '/student-upcoming-classes',
+  verifyToken,
+  studentMiddleware,
+  getUpcomingStudentClasses
+);
+
+router.get(
+  '/upcoming',
+  verifyToken,
+  adminModeratorMiddleware,
+  getUpcomingSlotsByCollege
+);
+
+router.get(
+  '/upcoming-classes',
+  verifyToken,
+  trainerMiddleware,
+  getUpcomingClasses
+);
+
+router.get(
+  '/trainer-classes',
+  verifyToken,
+  trainerMiddleware,
+  getAllTrainerClasses
+);
+
+router.get(
+  '/analytics',
+  verifyToken,
+  moderatorMiddleware,
+  getAnalytics
+);
+
+router.get(
+  '/chart',
+  verifyToken,
+  adminModeratorMiddleware,
+  getAttendanceChartByCollege
+);
+
+router.get(
+  '/distribution',
+  verifyToken,
+  adminModeratorMiddleware,
+  getSubjectDistributionByCollege
+);
+
+router.get(
+  '/college/:collegeId/session/:sessionId',
+  verifyToken,
+  adminModeratorMiddleware,
+  getAttendanceByCollegeAndSession
+);
+
+router.get(
+  '/session/:sessionId/attendance',
+  verifyToken,
+  adminModeratorMiddleware,
+  getModeratorAttendanceBySession
+);
+
+router.post(
+  '/',
+  verifyToken,
+  adminModeratorMiddleware,
+  createSlot
+);
+
+router.post(
+  '/append-slots-csv',
+  verifyToken,
+  adminModeratorMiddleware,
+  appendSlotsViaCSV
+);
+
+router.get(
+  '/',
+  verifyToken,
+  adminModeratorMiddleware,
+  getAllSlots
+);
+
+
+// Dynamic routes
+
+router.get(
+  '/:id',
+  verifyToken,
+  adminModeratorMiddleware,
+  getSlotById
+);
+
+router.put(
+  '/:id',
+  verifyToken,
+  adminModeratorMiddleware,
+  updateSlot
+);
+
+// Update existing attendance
+router.put(
+  '/:id/updateAttendance',
+  verifyToken,
+  adminMiddleware,
+  updateAttendance
+);
+
+// Submit attendance
+router.put(
+  '/:id/attendance',
+  verifyToken,
+  trainerMiddleware,
+  submitAttendance
+);
+
+router.put(
+  '/:id/topic-feedback',
+  verifyToken,
+  editTopicFeedbackMiddleware,
+  updateTopicAndFeedback
+);
+
+router.delete(
+  '/:id',
+  verifyToken,
+  adminModeratorMiddleware,
+  deleteSlot
+);
+
+router.get(
+  '/:id/attendance',
+  verifyToken,
+  adminModeratorMiddleware,
+  getAttendanceById
+);
+
+
+
+
+
+
 
 // // Standard Scheduling / Slot Routes
 // router.get('/upcoming', verifyToken, adminModeratorMiddleware, getUpcomingSlotsByCollege);
@@ -56,30 +218,48 @@ const moderatorMiddleware = authorizeRoles('moderator');
 // router.get('/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
 // router.get('/college/:collegeId/session/:sessionId', verifyToken, adminModeratorMiddleware, getAttendanceByCollegeAndSession);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Standard Scheduling / Slot Routes
-router.get('/student-upcoming-classes', verifyToken, studentMiddleware, getUpcomingStudentClasses);
-router.get('/upcoming', verifyToken, adminModeratorMiddleware, getUpcomingSlotsByCollege);
-router.get('/upcoming-classes', verifyToken, trainerMiddleware, getUpcomingClasses);
-// router.get('/student-upcoming-classes', verifyToken, getScheduleMiddleware, getUpcomingStudentClasses);
-router.get('/analytics', verifyToken, moderatorMiddleware, getAnalytics);
-router.get('/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
-router.get('/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
-router.get('/college/:collegeId/session/:sessionId', verifyToken, adminModeratorMiddleware, getAttendanceByCollegeAndSession);
+// router.get('/student-upcoming-classes', verifyToken, studentMiddleware, getUpcomingStudentClasses);
+// router.get('/upcoming', verifyToken, adminModeratorMiddleware, getUpcomingSlotsByCollege);
+// router.get('/upcoming-classes', verifyToken, trainerMiddleware, getUpcomingClasses);
+// // router.get('/student-upcoming-classes', verifyToken, getScheduleMiddleware, getUpcomingStudentClasses);
+// router.get('/analytics', verifyToken, moderatorMiddleware, getAnalytics);
+// router.get('/chart', verifyToken, adminModeratorMiddleware, getAttendanceChartByCollege);
+// router.get('/distribution', verifyToken, adminModeratorMiddleware, getSubjectDistributionByCollege);
+// router.get('/college/:collegeId/session/:sessionId', verifyToken, adminModeratorMiddleware, getAttendanceByCollegeAndSession);
 
-router.get("/session/:sessionId/attendance",verifyToken ,adminModeratorMiddleware,getModeratorAttendanceBySession);
-router.post('/', verifyToken, adminModeratorMiddleware, createSlot);
-router.post('/append-slots-csv', verifyToken, adminModeratorMiddleware, appendSlotsViaCSV);
-router.get('/', verifyToken,adminModeratorMiddleware, getAllSlots);
+// router.get("/session/:sessionId/attendance",verifyToken ,adminModeratorMiddleware,getModeratorAttendanceBySession);
+// router.post('/', verifyToken, adminModeratorMiddleware, createSlot);
+// router.post('/append-slots-csv', verifyToken, adminModeratorMiddleware, appendSlotsViaCSV);
+// router.get('/', verifyToken,adminModeratorMiddleware, getAllSlots);
 
 
-// Dynamic routes LAST
-router.get('/:id', verifyToken, adminModeratorMiddleware, getSlotById);
-router.put('/:id', verifyToken, adminModeratorMiddleware, updateSlot);
-router.put('/:id/topic-feedback', verifyToken, editTopicFeedbackMiddleware, updateTopicAndFeedback);
-router.delete('/:id', verifyToken, adminModeratorMiddleware, deleteSlot);
-router.put('/:id/attendance', verifyToken, trainerMiddleware, submitAttendance);
-router.patch('/:id/attendance', verifyToken, trainerMiddleware, submitAttendance);
-router.get('/:id/attendance', verifyToken, adminModeratorMiddleware, getAttendanceById);
+// // Dynamic routes LAST
+// router.get('/:id', verifyToken, adminModeratorMiddleware, getSlotById);
+// router.put('/:id', verifyToken, adminModeratorMiddleware, updateSlot);
+// router.put('/:id/topic-feedback', verifyToken, editTopicFeedbackMiddleware, updateTopicAndFeedback);
+// router.delete('/:id', verifyToken, adminModeratorMiddleware, deleteSlot);
+// router.put('/:id/updateAttendance', verifyToken, adminMiddleware, updateAttendance);
+// router.put('/:id/attendance', verifyToken, trainerMiddleware, submitAttendance);
+// router.patch('/:id/attendance', verifyToken, trainerMiddleware, submitAttendance);
+// router.get('/:id/attendance', verifyToken, adminModeratorMiddleware, getAttendanceById);
 
 
 module.exports = router;

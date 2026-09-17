@@ -10,6 +10,7 @@ const Contract = require('../models/Contract');
  * Returns statistics for a college
  */
 exports.getDashboardStats = async (req, res) => {
+
   try {
     const userId = req.user.id;
     const userRole = req.user.role;

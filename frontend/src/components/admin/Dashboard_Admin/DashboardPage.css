@@ -288,3 +288,233 @@ BOTTOM ROW
         padding: 14px 16px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.componentSlides {
+    position: relative;
+
+    width: 100%;
+    height: stretch;
+    min-height: 500px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+/* =========================================================
+   SLIDE CONTENT
+========================================================= */
+
+/* =========================================================
+   SLIDE CONTENT
+========================================================= */
+.slideContent {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+
+    overflow: hidden;
+    position: relative;
+
+    will-change: transform, opacity;
+}
+
+/* =========================================================
+   SMOOTH SLIDE
+========================================================= */
+
+.slideContent.slideNext {
+    animation: slideInNext 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slideContent.slidePrev {
+    animation: slideInPrev 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInNext {
+    0% {
+        opacity: 0;
+        transform: translate3d(22px, 0, 0);
+    }
+
+    35% {
+        opacity: 0.65;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes slideInPrev {
+    0% {
+        opacity: 0;
+        transform: translate3d(-22px, 0, 0);
+    }
+
+    35% {
+        opacity: 0.65;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.slideNavigation {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 14px;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   NAVIGATION BUTTONS
+========================================================= */
+
+.slideNavigation button {
+    pointer-events: auto;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--border-color) 70%,
+        transparent
+    );
+
+    border-radius: 50%;
+
+    background: color-mix(
+        in srgb,
+        var(--card-bg) 88%,
+        transparent
+    );
+
+    color: var(--text-primary);
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        opacity 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.slideNavigation button:hover:not(:disabled) {
+    transform: scale(1.08);
+
+    background: var(--card-bg);
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.13);
+}
+
+.slideNavigation button:active:not(:disabled) {
+    transform: scale(0.94);
+}
+
+.slideNavigation button:disabled {
+    opacity: 0.25;
+    cursor: default;
+}
+
+
+/* =========================================================
+   INDICATOR
+========================================================= */
+
+.slideIndicator {
+    position: absolute;
+
+    left: 50%;
+    bottom: 14px;
+
+    transform: translateX(-50%);
+
+    min-width: 52px;
+    padding: 5px 11px;
+
+    text-align: center;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--border-color) 65%,
+        transparent
+    );
+
+    border-radius: 999px;
+
+    background: color-mix(
+        in srgb,
+        var(--card-bg) 88%,
+        transparent
+    );
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.06);
+
+    pointer-events: none;
+}

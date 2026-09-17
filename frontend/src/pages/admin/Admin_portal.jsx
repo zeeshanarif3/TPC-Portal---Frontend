@@ -54,7 +54,7 @@ function Admin_portal({ token, user, handleLogout }) {
                     {page === "assessment" && <Assessment token={token} />}
                     {page === "feedback" && <FeedbackList token={token} />}
                     {page === "performance" && <StudentPerformance token={token} />}
-                    {page === "program" && <Program token={token} />}
+                    {/* {page === "program" && <Program token={token} />} */}
                 </div>
 
                 

@@ -147,7 +147,7 @@ export default function SchedulesTable({
                   disabled={schedule.isCancelled}
                     onClick={() => {
                       setselectedcourse(schedule.original.course._id);
-                      console.log(schedule.original.course._id);
+                      // console.log(schedule.original.course._id);
 
                       setTopicFeedbackData(schedule.original);
                       setshowAttendanceModal(true);

@@ -153,10 +153,10 @@ export default function CoursesPage({ token }) {
           <h2>{filteredCount}</h2>
         </div>
 
-        <div className="course-stat-card">
+        {/* <div className="course-stat-card">
           <span>Colleges</span>
           <h2>{totalColleges}</h2>
-        </div>
+        </div> */}
 
         <div className="course-stat-card">
           <span>Added Last 30 Days</span>
